@@ -1,0 +1,75 @@
+# General
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+bower_components/
+
+# Build directories
+dist/
+build/
+out/
+bin/
+obj/
+*.o
+*.a
+*.so
+*.dll
+*.exe
+
+# CMake and Makefiles
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# IDE and Editor settings
+.vscode/
+.idea/
+*.iml
+*.suo
+*.vcxproj*
+*.vcxproj.filters
+*.ncb
+*.user
+*.cache
+*.pdb
+
+# CLion specific
+cmake-build-*/
+
+# WebStorm specific
+*.idea/
+
+# JavaScript / Web Development
+.env
+*.env.*
+coverage/
+*.coverage
+*.code-coverage
+*.eslintcache
+*.stylelintcache
+
+# CSS preprocessors
+.sass-cache/
+*.css.map
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+*.old
+*.orig
+*.rej
+
+# Backup and system files
+*~
+*.swp
+*.swo
