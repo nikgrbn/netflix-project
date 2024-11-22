@@ -2,7 +2,7 @@
 
 #include "../inc/App.h"
 
-App::App(map<string, ICommand*> commands) : commands(std::move(commands)) {}
+App::App(IMenu* menu, map<string, ICommand*> commands) : menu(menu), commands(std::move(commands)) {}
 
 void App::run() {
     string task;
