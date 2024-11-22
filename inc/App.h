@@ -6,7 +6,11 @@
 #define NETFLIX_PROJECT_APP_H
 
 class App {
+private:
+    map<string, ICommand*> commands;
 public:
+    App(map<string, ICommand*> commands);
+
     void run();
 };
 
