@@ -1,5 +1,5 @@
 #include "../inc/App.h"
 
-void run() {
+void App::run() {
 
 }

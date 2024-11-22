@@ -5,9 +5,9 @@
 #ifndef NETFLIX_PROJECT_APP_H
 #define NETFLIX_PROJECT_APP_H
 
-
 class App {
-
+public:
+    void run();
 };
 
 
