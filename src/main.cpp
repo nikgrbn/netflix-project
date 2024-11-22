@@ -1,4 +1,11 @@
 #include "App.h"
+#include "HelloWorldCommand.h"
+#include "ICommand.h"
+
+#include <iostream>
+#include <map>
+
+using namespace std;
 
 int main() {
     map<string, ICommand*> commands;

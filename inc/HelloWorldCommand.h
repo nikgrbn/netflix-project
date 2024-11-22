@@ -5,6 +5,9 @@
 #ifndef NETFLIX_PROJECT_HELLOWORLDCOMMAND_H
 #define NETFLIX_PROJECT_HELLOWORLDCOMMAND_H
 
+#include "ICommand.h"
+#include <iostream>
+
 
 class HelloWorldCommand : public ICommand {
 public:
