@@ -15,6 +15,7 @@ add_executable(NetflixProject
         src/main.cpp
         src/App.cpp
         src/HelloWorldCommand.cpp
+        src/ConsoleMenu.cpp
 )
 
 # Link libraries if needed (none specified in the provided context)

@@ -4,11 +4,8 @@
 class IMenu
 {
 public:
-    virtual int nextCommend() = 0;
-
-
-   
-
+    virtual string nextCommand() = 0;
+    virtual ~IMenu() = default;
 };
 
 #endif //NETFLIX_PROJECT_IMENU_H
