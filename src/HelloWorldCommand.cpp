@@ -5,5 +5,9 @@
 #include "../inc/HelloWorldCommand.h"
 
 void HelloWorldCommand::execute() {
-    std::cout << "Hello, World!" << std::endl;
+    cout << "Hello, World!" << endl;
+}
+
+string HelloWorldCommand::info() {
+    return "Prints 'Hello, World!'";
 }
