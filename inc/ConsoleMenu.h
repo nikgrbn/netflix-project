@@ -2,9 +2,6 @@
 #define NETFLIX_PROJECT_CONSOLEMENU_H
 
 #include "IMenu.h"
-#include <iostream>
-
-using namespace std;
 
 class ConsoleMenu : public IMenu {
 

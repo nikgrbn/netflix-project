@@ -21,6 +21,7 @@ int main() {
     app.run(); // Start the application
 
     delete helloWorldCommand; // Free the memory
+    delete menu; // Free the memory
 
     return 0; // Exit the application
 }
