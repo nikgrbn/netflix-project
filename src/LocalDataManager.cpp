@@ -5,7 +5,7 @@
 #include "LocalDataManager.h"
 
 LocalDataManager::LocalDataManager() {
-    if (!filesystem::exists("data")) {
+    if (!filesystem::exists("data")) { // TODO remove hard coded path
         filesystem::create_directory("data");
     }
     if (!filesystem::exists(filePath)) {
