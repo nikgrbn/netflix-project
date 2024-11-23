@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Set the project name
-project(NetflixProject)
+project(Netflix_Project)
 
 # Specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -16,6 +16,8 @@ add_executable(NetflixProject
         src/App.cpp
         src/HelloWorldCommand.cpp
         src/ConsoleMenu.cpp
+        src/Movie.cpp
+        src/User.cpp
 )
 
 # Link libraries if needed (none specified in the provided context)
