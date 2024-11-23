@@ -10,8 +10,8 @@
 
 class IDataManager {
 public:
-    virtual void set(User& user) = 0;
-    virtual vector<User>& load() = 0;
+    virtual void set(User user) = 0;
+    virtual vector<User> load() = 0;
 };
 
 #endif //NETFLIX_PROJECT_IDATAMANAGER_H

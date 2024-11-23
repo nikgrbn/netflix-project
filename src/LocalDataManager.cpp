@@ -4,6 +4,16 @@
 
 #include "LocalDataManager.h"
 
+LocalDataManager::LocalDataManager() {
+    if (!filesystem::exists("data")) {
+        filesystem::create_directory("data");
+    }
+    if (!filesystem::exists(filePath)) {
+        ofstream file(filePath);
+        file.close();
+    }
+}
+
 void LocalDataManager::save(vector<User> &users) {
     ofstream file(filePath);
     if (!file.is_open()) {
@@ -12,14 +22,14 @@ void LocalDataManager::save(vector<User> &users) {
 
     for (auto& user : users) {
         file << user.getId();
-        for (auto& movie : user.getId()) {
-            file << " " << movie;
+        for (auto& movie : user.getMoviesWatched()) {
+            file << " " << movie.getId();
         }
         file << "\n"; // End line for each user
     }
 }
 
-vector<User>& LocalDataManager::load() {
+vector<User> LocalDataManager::load() {
     ifstream file(filePath);
     if (!file.is_open()) {
         throw std::runtime_error("Failed to open file for loading.");
@@ -47,7 +57,7 @@ vector<User>& LocalDataManager::load() {
 }
 
 
-void LocalDataManager::set(User& user) {
+void LocalDataManager::set(User user) {
     // Load all users from the file
     vector<User> users = load();
 

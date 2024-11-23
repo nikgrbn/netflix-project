@@ -9,17 +9,19 @@
 #include <sstream>
 #include <fstream>
 #include <algorithm>
+#include <filesystem>
 #include "IDataManager.h"
 
 using namespace std;
 
 class LocalDataManager : public IDataManager {
 private:
-    std::string filePath = "users.txt";
+    string filePath = "data/users.txt";
 public:
+    LocalDataManager();
     void save(vector<User>& users);
-    void set(User& user) override;
-    vector<User>& load() override;
+    void set(User user) override;
+    vector<User> load() override;
 };
 
 
