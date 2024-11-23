@@ -18,6 +18,9 @@ add_executable(NetflixProject
         src/ConsoleMenu.cpp
         src/Movie.cpp
         src/User.cpp
+        inc/IDataManager.h
+        src/LocalDataManager.cpp
+        inc/LocalDataManager.h
 )
 
 # Link libraries if needed (none specified in the provided context)

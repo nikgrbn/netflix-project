@@ -9,7 +9,7 @@ class Movie {
 private:
     string id;
 public:
-    Movie(string& id) : id(id) {};
+    Movie(string id) : id(id) {};
     string getId();
 };
 

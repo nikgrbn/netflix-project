@@ -16,9 +16,10 @@ private:
     string id;
     vector<Movie> movies_watched;
 public:
-    User(string& id, vector<Movie>& movies_watched) : id(id), movies_watched(movies_watched) {};
+    User(string id, vector<Movie> movies_watched) : id(id), movies_watched(movies_watched) {};
     string getId();
     vector<Movie> getMoviesWatched();
+    void setMoviesWatched(vector<Movie> movies_watched);
 };
 
 
