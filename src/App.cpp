@@ -7,8 +7,8 @@ App::App(IMenu* menu, map<string, ICommand*> commands) : menu(menu), commands(st
 void App::run() {
     string task;
     while (true) {
-        cin >> task;
-
+        string task = menu->nextCommand();
+        
         try {
             // Check if the key exists in the map
             if (commands.find(task) == commands.end()) {
