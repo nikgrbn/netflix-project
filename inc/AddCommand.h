@@ -6,14 +6,15 @@
 #define ADDCOMMAND_H
 
 #include <iostream>
+#include <vector>
+#include "ICommand.h"
 
 using namespace std;
 
-class AddCommand {
-  private:
-    string command;
+class AddCommand : public ICommand {
   public:
-    AddCommand(string command) : command(command) {}
+    string info() override;
+    void execute(vector<string> commands) override;
 };
 
 #endif //ADDCOMMAND_H

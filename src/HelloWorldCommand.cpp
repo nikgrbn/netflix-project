@@ -4,7 +4,7 @@
 
 #include "../inc/HelloWorldCommand.h"
 
-void HelloWorldCommand::execute() {
+void HelloWorldCommand::execute(vector<string> commands) {
     cout << "Hello, World!" << endl;
 }
 

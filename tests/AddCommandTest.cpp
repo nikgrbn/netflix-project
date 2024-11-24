@@ -1,8 +1,15 @@
 #include <gtest/gtest.h>
+#include <vector>
+#include "../inc/AddCommand.h"
 
-// A simple test case
-TEST(AddCommandTest, CheckEquality) {
-  // TODO: Add your test code here
-  // For example:
-  EXPECT_EQ(1, 1); // Test if 1 equals 1
+using namespace std;
+
+// Check illegal arguments
+TEST(AddCommandTest, CheckIllegalArguments) {
+  EXPECT_THROW(AddCommand(vector<string>{"add"}), std::invalid_argument);
+}
+
+// Check info method
+TEST(AddCommandTest, CheckInfo) {
+  ASSERT_EQ(AddCommand(vector<string>()).info(), "add [userid] [movieid1] [movieid2] …");
 }
