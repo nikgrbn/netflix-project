@@ -23,6 +23,7 @@ add_executable(NetflixProject
         src/Movie.cpp
         src/User.cpp
         src/LocalDataManager.cpp
+        src/AddCommand.cpp
 )
 
 # Link libraries if needed (none specified in the provided context)

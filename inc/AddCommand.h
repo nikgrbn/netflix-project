@@ -2,8 +2,8 @@
 // Created by nikita on 11/24/24.
 //
 
-#ifndef ADDCOMMAND_H
-#define ADDCOMMAND_H
+#ifndef NETFLIX_PROJECT_ADDCOMMAND_H
+#define NETFLIX_PROJECT_ADDCOMMAND_H
 
 #include <iostream>
 #include <vector>
@@ -17,4 +17,4 @@ class AddCommand : public ICommand {
     void execute(vector<string> commands) override;
 };
 
-#endif //ADDCOMMAND_H
+#endif //NETFLIX_PROJECT_ADDCOMMAND_H
