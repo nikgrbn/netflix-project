@@ -1,3 +1,5 @@
+#include <AddCommand.h>
+
 #include "App.h"
 #include "IMenu.h"
 #include "ConsoleMenu.h"
@@ -11,18 +13,21 @@
 using namespace std;
 
 int main() {
+    // Create an instance of LocalDataManager
+    IDataManager* dataManager = new LocalDataManager();
+
+    // Create a map of commands
     map<string, ICommand*> commands;
 
-    IDataManager* dataManager = new LocalDataManager();
-    User user1("1", vector<Movie> { Movie("11"), Movie("5"), Movie("100") });
-    User user2("2", vector<Movie> { Movie("123"), Movie("331") });
-    dataManager->set(user1);
-    dataManager->set(user2);
-
-    IMenu* menu = new ConsoleMenu();
-
+    // TODO: Remove
     ICommand* helloWorldCommand = new HelloWorldCommand();
     commands["saying-hi"] = helloWorldCommand;
+
+    ICommand* addCommand = new AddCommand(dataManager);
+    commands["add"] = addCommand;
+
+    // Create an instance of CLI menu
+    IMenu* menu = new ConsoleMenu();
 
     App app(menu, commands); // Create an instance of App
     app.run(); // Start the application
