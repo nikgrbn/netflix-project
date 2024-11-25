@@ -5,6 +5,10 @@ find_package(GTest REQUIRED)
 set(TEST_SOURCES
         MainTests.cpp
         AddCommandTest.cpp
+        ../src/AddCommand.cpp
+        ../src/LocalDataManager.cpp
+        ../src/User.cpp
+        ../src/Movie.cpp
 )
 
 # Add test executable

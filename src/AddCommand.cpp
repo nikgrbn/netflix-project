@@ -9,5 +9,6 @@ void AddCommand::execute(vector<string> commands) {
 }
 
 string AddCommand::info() {
+    // TODO: Implement the info method
     return "AddCommand information";
 }

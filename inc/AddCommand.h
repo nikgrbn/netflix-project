@@ -5,6 +5,7 @@
 #ifndef NETFLIX_PROJECT_ADDCOMMAND_H
 #define NETFLIX_PROJECT_ADDCOMMAND_H
 
+#include <IDataManager.h>
 #include <iostream>
 #include <vector>
 #include "ICommand.h"
@@ -12,7 +13,10 @@
 using namespace std;
 
 class AddCommand : public ICommand {
-  public:
+private:
+    IDataManager* dataManager;
+public:
+    AddCommand(IDataManager* dataManager) : dataManager(dataManager) {}
     string info() override;
     void execute(vector<string> commands) override;
 };
