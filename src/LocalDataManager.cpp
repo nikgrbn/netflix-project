@@ -68,7 +68,9 @@ void LocalDataManager::set(User user) {
 
     if (it != users.end()) {
         // User exists, update their movies
-        it->setMoviesWatched(user.getMoviesWatched());
+        for (auto& movie : user.getMoviesWatched()) {
+            it->addMovie(movie);
+        }
     } else {
         // User does not exist, add them
         users.push_back(user);

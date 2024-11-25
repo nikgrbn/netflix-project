@@ -10,6 +10,7 @@ private:
     string id;
 public:
     Movie(string id) : id(id) {};
+    bool operator==(const Movie& movie) const;
     string getId();
 };
 
