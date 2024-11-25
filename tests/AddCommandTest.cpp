@@ -61,9 +61,6 @@ TEST(AddCommandTest, CheckCorrectDataAddition) {
     {{"add", "10", "100", "102", "105", "106", "107", "109", "110", "116"}, "10 100 102 105 106 107 109 110 116"}
   };
 
-  // Read file
-  vector<string> fileLines = readFileLines(testFilePath);
-
   // Run through each test case in the vector
   for (const auto& testCase : testCases) {
     const vector<string>& command = testCase.first;
@@ -73,6 +70,7 @@ TEST(AddCommandTest, CheckCorrectDataAddition) {
     addCommand.execute(command);
 
     // Assert
+    vector<string> fileLines = readFileLines(testFilePath);     // Read file
     auto it = find(fileLines.begin(), fileLines.end(), expectedLine);
     EXPECT_NE(it, fileLines.end());
   }

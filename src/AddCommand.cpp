@@ -8,7 +8,14 @@ void AddCommand::execute(vector<string> commands) {
     if (commands.size() <= 2) { // Check if at least 3 arguments are provided
         throw invalid_argument("Invalid number of arguments");
     }
-    // TODO: Implement the execute method
+
+    // Parse arguments to User object
+    vector<Movie> movies;
+    for (auto it = commands.begin() + 2; it != commands.end(); ++it) {
+        movies.emplace_back(*it);
+    }
+    User user(commands[1], movies);
+    dataManager->set(user);
 }
 
 string AddCommand::info() {
