@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "Movie.h"
 
 using namespace std;
@@ -18,6 +19,7 @@ private:
 public:
     User(string id, vector<Movie> movies_watched) : id(id), movies_watched(movies_watched) {};
     string getId();
+    void addMovie(Movie movie);
     vector<Movie> getMoviesWatched();
     void setMoviesWatched(vector<Movie> movies_watched);
 };
