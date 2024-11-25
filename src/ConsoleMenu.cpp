@@ -2,7 +2,7 @@
 
 vector<string> ConsoleMenu::nextCommand() {
     string command;
-    cin >> command;
+    std::getline(std::cin, command);
 
     // Return the tokens of the command
     return splitString(command, ' ');
