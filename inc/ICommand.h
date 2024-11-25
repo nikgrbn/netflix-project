@@ -6,13 +6,14 @@
 #define NETFLIX_PROJECT_ICOMMAND_H
 
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
 class ICommand {
 public:
     virtual string info() = 0;
-    virtual void execute() = 0;
+    virtual void execute(vector<string> commands) = 0;
 };
 
 
