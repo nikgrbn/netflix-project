@@ -12,8 +12,14 @@ void AddCommand::execute(vector<string> commands) {
     // Parse arguments to User object
     vector<Movie> movies;
     for (auto it = commands.begin() + 2; it != commands.end(); ++it) {
-        movies.emplace_back(*it);
+        // Check if movie already in user's watched
+        if (find(movies.begin(), movies.end(),
+            *it) == movies.end()) {
+            // If not -> add it
+            movies.emplace_back(*it);
+            }
     }
+
     User user(commands[1], movies);
     dataManager->set(user);
 }
