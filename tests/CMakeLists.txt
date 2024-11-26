@@ -11,6 +11,7 @@ set(TEST_SOURCES
         ../src/LocalDataManager.cpp
         ../src/User.cpp
         ../src/Movie.cpp
+        ../src/RecommendCommand.cpp
 )
 
 # Add test executable
