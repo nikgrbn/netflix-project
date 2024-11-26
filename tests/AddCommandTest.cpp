@@ -1,4 +1,3 @@
-#include <HelloWorldCommand.h>
 #include <LocalDataManager.h>
 #include <gtest/gtest.h>
 #include <vector>
@@ -23,8 +22,7 @@ vector<string> readFileLines(const string& filePath) {
 // Use add command to add data to the file and check it
 TEST(AddCommandTest, CheckCorrectDataAddition) {
   string testFilePath = "data/users.txt";
-  LocalDataManager dataManager;
-  AddCommand addCommand(&dataManager);
+  AddCommand addCommand(dataManager);
 
   // Ensure the test file is clean
   ofstream clearFile(testFilePath, ofstream::trunc); // Clear the file
@@ -48,8 +46,7 @@ TEST(AddCommandTest, CheckCorrectDataAddition) {
 // Test adding a user that already exists and updating it movie list
 TEST(AddCommandTest, CheckAddOnExistingUser) {
   string testFilePath = "data/users.txt";
-  LocalDataManager dataManager;
-  AddCommand addCommand(&dataManager);
+  AddCommand addCommand(dataManager);
 
   // Ensure the test file is clean
   ofstream clearFile(testFilePath, ofstream::trunc); // Clear the file

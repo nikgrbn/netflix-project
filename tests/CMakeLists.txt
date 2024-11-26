@@ -5,6 +5,7 @@ find_package(GTest REQUIRED)
 set(TEST_SOURCES
         MainTests.cpp
         AddCommandTest.cpp
+        RecommendCommandTest.cpp
         TestVars.h
         ../src/AddCommand.cpp
         ../src/LocalDataManager.cpp
