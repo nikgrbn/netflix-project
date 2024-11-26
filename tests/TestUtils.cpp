@@ -1,7 +1,21 @@
-#include "TestVars.h"
+//
+// Created by nikita on 11/26/24.
+//
+
+#include "TestUtils.h"
+
+vector<string> TestUtils::readFileLines(const string& filePath) {
+    vector<string> lines;
+    ifstream file(filePath);
+    string line;
+    while (getline(file, line)) {
+        lines.push_back(line);
+    }
+    return lines;
+}
 
 // Test data copied from exercise document
-const vector<pair<vector<string>, string>> TestVars::testData = {
+const vector<pair<vector<string>, string>> TestUtils::testData = {
     {{"add", "1", "100", "101", "102", "103"}, "1 100 101 102 103"},
     {{"add", "2", "101", "102", "104", "105", "106"}, "2 101 102 104 105 106"},
     {{"add", "3", "100", "104", "105", "107", "108"}, "3 100 104 105 107 108"},

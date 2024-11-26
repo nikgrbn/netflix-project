@@ -1,19 +1,7 @@
 #include <gtest/gtest.h>
 #include "../inc/RecommendCommand.h"
 #include "../inc/LocalDataManager.h"
-#include "TestVars.cpp"
-
-// Helper function to read the contents of a file line by line
-// TODO: Move this to a common file
-vector<string> readFileLines(const string& filePath) {
-    vector<string> lines;
-    ifstream file(filePath);
-    string line;
-    while (getline(file, line)) {
-        lines.push_back(line);
-    }
-    return lines;
-}
+#include "TestUtils.h"
 
 TEST(RecommendCommandTest, CheckCorrectRecommendations) {
     IDataManager* dataManager = new LocalDataManager();
@@ -23,7 +11,7 @@ TEST(RecommendCommandTest, CheckCorrectRecommendations) {
     string testFilePath = "data/users.txt";
     ofstream outFile(testFilePath, ofstream::trunc); // Open in trunc mode to clear content
 
-    for (const auto& dataLine : TestVars::testData) {
+    for (const auto& dataLine : TestUtils::testData) {
         outFile << dataLine.second << endl; // Write data to a file
     }
     outFile.close();
@@ -35,7 +23,7 @@ TEST(RecommendCommandTest, CheckCorrectRecommendations) {
     cRecommend.execute(command);
 
     // Read the file and check if the expected line is present
-    vector<string> fileLines = readFileLines(testFilePath);
+    vector<string> fileLines = TestUtils::readFileLines(testFilePath);
     auto it = find(fileLines.begin(), fileLines.end(), expectedLine);
     EXPECT_EQ(*it, expectedLine);
 }
