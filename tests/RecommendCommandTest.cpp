@@ -20,12 +20,8 @@ TEST(RecommendCommandTest, CheckCorrectRecommendations) {
     vector<string> command = {"recommend", "1", "104"};
     string expectedLine = "105 106 111 110 112 113 107 108 109 114";
 
-    cRecommend.execute(command);
-
-    // Read the file and check if the expected line is present
-    vector<string> fileLines = TestUtils::readFileLines(testFilePath);
-    auto it = find(fileLines.begin(), fileLines.end(), expectedLine);
-    EXPECT_EQ(*it, expectedLine);
+    string res = cRecommend.execute(command);
+    EXPECT_EQ(res, expectedLine);
 }
 
 // Check illegal arguments
