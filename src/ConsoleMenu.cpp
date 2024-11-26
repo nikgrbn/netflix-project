@@ -31,3 +31,7 @@ vector<string> ConsoleMenu::splitString(string& input, char delimiter)
     // Return the vector of tokens
     return tokens;
 }
+
+void ConsoleMenu::print(string output) {
+    cout << output << endl;
+}

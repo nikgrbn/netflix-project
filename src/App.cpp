@@ -17,7 +17,7 @@ void App::run() {
             }
 
             string res = commands[args[0]]->execute(args);
-            if (!res.empty()) {
+            if (!res.empty()) { // Print execution result if not empty
                 menu->print(res);
             }
         } catch (const std::exception& e) {
