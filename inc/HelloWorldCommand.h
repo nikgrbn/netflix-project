@@ -10,7 +10,7 @@
 class HelloWorldCommand : public ICommand {
 public:
     string info() override;
-    void execute(vector<string> commands) override;
+    string execute(vector<string> commands) override;
 };
 
 

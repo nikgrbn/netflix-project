@@ -4,8 +4,9 @@
 
 #include "../inc/RecommendCommand.h"
 
-void RecommendCommand::execute(vector<string> commands) {
+string RecommendCommand::execute(vector<string> commands) {
   // TODO: Implement this method
+  return "TODO: Implement this method";
 }
 
 string RecommendCommand::info() {

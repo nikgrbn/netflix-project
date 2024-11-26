@@ -16,7 +16,10 @@ void App::run() {
                 throw std::runtime_error("Command not found");
             }
 
-            commands[args[0]]->execute(args);
+            string res = commands[args[0]]->execute(args);
+            if (!res.empty()) {
+                menu->print(res);
+            }
         } catch (const std::exception& e) {
             // Skip to the next iteration
         }
