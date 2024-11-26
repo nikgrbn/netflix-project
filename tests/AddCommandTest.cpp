@@ -1,12 +1,67 @@
-#include <HelloWorldCommand.h>
 #include <LocalDataManager.h>
 #include <gtest/gtest.h>
 #include <vector>
 #include "../inc/AddCommand.h"
+#include "TestUtils.cpp"
 
 using namespace std;
 
 IDataManager* dataManager = new LocalDataManager();
+
+// Use add command to add data to the file and check it
+TEST(AddCommandTest, CheckCorrectDataAddition) {
+  string testFilePath = "data/users.txt";
+  AddCommand addCommand(dataManager);
+
+  // Ensure the test file is clean
+  ofstream clearFile(testFilePath, ofstream::trunc); // Clear the file
+  clearFile.close();
+
+  // Run through each test case in the vector
+  for (const auto& testCase : TestUtils::testData) {
+    const vector<string>& command = testCase.first;
+    const string& expectedLine = testCase.second;
+
+    // Act
+    addCommand.execute(command);
+
+    // Assert
+    vector<string> fileLines = TestUtils::readFileLines(testFilePath);     // Read file
+    auto it = find(fileLines.begin(), fileLines.end(), expectedLine);
+    EXPECT_NE(it, fileLines.end());
+  }
+}
+
+// Test adding a user that already exists and updating it movie list
+TEST(AddCommandTest, CheckAddOnExistingUser) {
+  string testFilePath = "data/users.txt";
+  AddCommand addCommand(dataManager);
+
+  // Ensure the test file is clean
+  ofstream clearFile(testFilePath, ofstream::trunc); // Clear the file
+  clearFile.close();
+
+  vector<string> command1 = {"add", "10", "1", "1", "1", "1"};
+  string expectedLine1 = "10 1";
+
+  addCommand.execute(command1); // Add user
+
+  // Assert user been added correctly
+  vector<string> fileLines = TestUtils::readFileLines(testFilePath);     // Read file
+  auto it = find(fileLines.begin(), fileLines.end(), expectedLine1);
+  EXPECT_EQ(*it, expectedLine1);
+
+  // Add more movies to the user
+  vector<string> command2 = {"add", "10", "1", "10", "12", "2"};
+  string expectedLine2 = "10 1 10 12 2";
+
+  addCommand.execute(command2); // Add user
+
+  // Assert user been added correctly
+  fileLines = TestUtils::readFileLines(testFilePath);     // Read file
+  it = find(fileLines.begin(), fileLines.end(), expectedLine2);
+  EXPECT_EQ(*it, expectedLine2);
+}
 
 // Check illegal arguments
 TEST(AddCommandTest, CheckIllegalArguments) {
@@ -27,52 +82,4 @@ TEST(AddCommandTest, CheckInfo) {
   EXPECT_EQ(AddCommand(dataManager).info(), "add [userid] [movieid1] [movieid2] …");
 }
 
-// Helper function to read the contents of a file line by line
-vector<string> readFileLines(const string& filePath) {
-  vector<string> lines;
-  ifstream file(filePath);
-  string line;
-  while (getline(file, line)) {
-    lines.push_back(line);
-  }
-  return lines;
-}
-
-TEST(AddCommandTest, CheckCorrectDataAddition) {
-  string testFilePath = "data/users.txt";
-  LocalDataManager dataManager;
-  AddCommand addCommand(&dataManager);
-
-  // Ensure the test file is clean
-  ofstream clearFile(testFilePath, ofstream::trunc); // Clear the file
-  clearFile.close();
-
-  // Commands and expected lines
-  vector<pair<vector<string>, string>> testCases = {
-    {{"add", "1", "100", "101", "102", "103"}, "1 100 101 102 103"},
-    {{"add", "2", "101", "102", "104", "105", "106"}, "2 101 102 104 105 106"},
-    {{"add", "3", "100", "104", "105", "107", "108"}, "3 100 104 105 107 108"},
-    {{"add", "4", "100", "105", "106", "107", "109", "110"}, "4 100 105 106 107 109 110"},
-    {{"add", "5", "100", "103", "104", "108", "111"}, "5 100 103 104 108 111"},
-    {{"add", "6", "100", "103", "104", "110", "111", "112", "113"}, "6 100 103 104 110 111 112 113"},
-    {{"add", "7", "102", "105", "106", "107", "108", "109", "110"}, "7 102 105 106 107 108 109 110"},
-    {{"add", "8", "101", "104", "105", "106", "109", "111", "114"}, "8 101 104 105 106 109 111 114"},
-    {{"add", "9", "100", "103", "105", "107", "112", "113", "115"}, "9 100 103 105 107 112 113 115"},
-    {{"add", "10", "100", "102", "105", "106", "107", "109", "110", "116"}, "10 100 102 105 106 107 109 110 116"}
-  };
-
-  // Run through each test case in the vector
-  for (const auto& testCase : testCases) {
-    const vector<string>& command = testCase.first;
-    const string& expectedLine = testCase.second;
-
-    // Act
-    addCommand.execute(command);
-
-    // Assert
-    vector<string> fileLines = readFileLines(testFilePath);     // Read file
-    auto it = find(fileLines.begin(), fileLines.end(), expectedLine);
-    EXPECT_NE(it, fileLines.end());
-  }
-}
 

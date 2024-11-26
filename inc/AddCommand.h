@@ -18,7 +18,7 @@ private:
 public:
     AddCommand(IDataManager* dataManager) : dataManager(dataManager) {}
     string info() override;
-    void execute(vector<string> commands) override;
+    string execute(vector<string> commands) override;
 };
 
 #endif //NETFLIX_PROJECT_ADDCOMMAND_H

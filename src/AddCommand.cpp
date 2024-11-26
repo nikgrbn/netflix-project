@@ -4,7 +4,7 @@
 
 #include "../inc/AddCommand.h"
 
-void AddCommand::execute(vector<string> commands) {
+string AddCommand::execute(vector<string> commands) {
     if (commands.size() <= 2) { // Check if at least 3 arguments are provided
         throw invalid_argument("Invalid number of arguments");
     }
@@ -22,6 +22,8 @@ void AddCommand::execute(vector<string> commands) {
 
     User user(commands[1], movies);
     dataManager->set(user);
+
+    return "";
 }
 
 string AddCommand::info() {
