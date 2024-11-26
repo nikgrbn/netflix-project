@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Set the project name
-project(Netflix_Project)
+project(NetflixProject)
 
 # Enable testing support
 enable_testing()
@@ -24,6 +24,7 @@ add_executable(NetflixProject
         src/User.cpp
         src/LocalDataManager.cpp
         src/AddCommand.cpp
+        tests/AddCommandTest.cpp
 )
 
 # Link libraries if needed (none specified in the provided context)
