@@ -46,14 +46,14 @@ string RecommendCommand::execute(vector<string> commands) {
     return "TODO: Implement this method";
 }
 
-int RecommendCommand::getCommonFactor(User user1, User user2) {
+int RecommendCommand::getCommonFactor(User& user1, User& user2) {
     int count = 0;
-
-    // For each movie in user1's watched movies check if user2 has watched it too and increment count
-    for (const auto& userMovie : user1.getMoviesWatched()) {
-        if (std::find(user2.getMoviesWatched().begin(), user2.getMoviesWatched().end(), userMovie)
-                != user2.getMoviesWatched().end()) {
-            count++;
+    for (Movie userMovie1 : user1.getMoviesWatched()) {
+        for (Movie userMovie2 : user2.getMoviesWatched()) {
+            if (userMovie1.getId() == userMovie2.getId()) {
+                count++;
+                break;
+            }
         }
     }
 

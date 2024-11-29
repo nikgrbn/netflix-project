@@ -16,7 +16,7 @@
 class RecommendCommand : public ICommand {
 private:
     IDataManager* dataManager;
-    static int getCommonFactor(User user1, User user2);
+    static int getCommonFactor(User& user1, User& user2) ;
 public:
     RecommendCommand(IDataManager* dataManager) : dataManager(dataManager) {}
     string info() override;

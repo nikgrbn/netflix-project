@@ -1,5 +1,5 @@
 #include "../inc/AddCommand.h"
-
+#include "../inc/RecommendCommand.h"
 #include "../inc/App.h"
 #include "../inc/IMenu.h"
 #include "../inc/ConsoleMenu.h"
@@ -25,6 +25,9 @@ int main() {
 
     ICommand* addCommand = new AddCommand(dataManager);
     commands["add"] = addCommand;
+
+    ICommand* recommendCommand = new RecommendCommand(dataManager);
+    commands["recommend"] = recommendCommand;
 
     // Create an instance of CLI menu
     IMenu* menu = new ConsoleMenu();
