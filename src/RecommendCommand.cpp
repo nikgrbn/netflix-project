@@ -18,6 +18,7 @@ string RecommendCommand::execute(vector<string> commands) {
     // Load all users from data
     vector<User> users = dataManager->load();
 
+    // Map movie to relevance
     map<string, int> movieRelevance;
 
     // For each user in vector
@@ -36,14 +37,39 @@ string RecommendCommand::execute(vector<string> commands) {
 
             // For each movie in user's watched movies
             for_each(userMovies.begin(), userMovies.end(), [&](Movie& movie) {
+                // Skip the recommendation based movie
+                if (movie.getId() == mMovieID) {
+                    return;
+                }
+                // Skip the movie if it is already watched by the user
+                for (Movie mMovie : mUser.getMoviesWatched()) {
+                    if (movie.getId() == mMovie.getId()) {
+                        return;
+                    }
+                }
+
                 // Increment relevance by common factor
                 movieRelevance[movie.getId()] += commonFactor;
             });
         }
     });
 
+    // Convert map to vector of pairs
+    vector<pair<string, int>> movieVector(movieRelevance.begin(), movieRelevance.end());
 
-    return "TODO: Implement this method";
+    // Sort vector by the relevance
+    sort(movieVector.begin(), movieVector.end(),
+         [](const pair<string, int>& a, const pair<string, int>& b) {
+            return a.second > b.second;
+    });
+
+    // Create a string with movie ids
+    ostringstream result;
+    for (int i = 0; i < 10 && i < movieVector.size(); i++) {
+        result << movieVector[i].first << " ";
+    }
+
+    return result.str();
 }
 
 int RecommendCommand::getCommonFactor(User& user1, User& user2) {
