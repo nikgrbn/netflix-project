@@ -1,11 +1,11 @@
-#include <AddCommand.h>
+#include "../inc/AddCommand.h"
 
-#include "App.h"
-#include "IMenu.h"
-#include "ConsoleMenu.h"
-#include "HelloWorldCommand.h"
-#include "ICommand.h"
-#include "LocalDataManager.h"
+#include "../inc/App.h"
+#include "../inc/IMenu.h"
+#include "../inc/ConsoleMenu.h"
+#include "../inc/HelloWorldCommand.h"
+#include "../inc/ICommand.h"
+#include "../inc/LocalDataManager.h"
 
 #include <iostream>
 #include <map>

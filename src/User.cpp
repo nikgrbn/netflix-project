@@ -2,7 +2,7 @@
 // Created by Nikita on 11/23/2024.
 //
 
-#include "User.h"
+#include "../inc/User.h"
 
 
 string User::getId() {

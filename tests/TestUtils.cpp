@@ -3,6 +3,7 @@
 //
 
 #include "TestUtils.h"
+#include <gtest/gtest.h>
 
 vector<string> TestUtils::readFileLines(const string& filePath) {
     vector<string> lines;
@@ -26,4 +27,6 @@ const vector<pair<vector<string>, string>> TestUtils::testData = {
     {{"add", "8", "101", "104", "105", "106", "109", "111", "114"}, "8 101 104 105 106 109 111 114"},
     {{"add", "9", "100", "103", "105", "107", "112", "113", "115"}, "9 100 103 105 107 112 113 115"},
     {{"add", "10", "100", "102", "105", "106", "107", "109", "110", "116"}, "10 100 102 105 106 107 109 110 116"}
+
+    
 };
