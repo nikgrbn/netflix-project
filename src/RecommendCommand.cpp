@@ -13,44 +13,44 @@ string RecommendCommand::execute(vector<string> commands) {
     string mUserID = commands[1];
     string mMovieID = commands[2];
 
-    // Get our user
+    // Get our user data
     User mUser = dataManager->get(mUserID);
+    unordered_set<string> mUserWatched; // unordered_set for O(1) search complexity
+    for (Movie& movie : mUser.getMoviesWatched()) {
+        mUserWatched.insert(movie.getId());
+    }
+
     // Load all users from data
     vector<User> users = dataManager->load();
 
-    // Map movie to relevance
-    map<string, int> movieRelevance;
+    // Unordered map for movie relevance to reduce complexity
+    unordered_map<std::string, int> movieRelevance;
 
     // For each user in vector
     for_each(users.begin(), users.end(), [&](User& user) {
+        // Skip the current user
+        if (user.getId() == mUserID) return;
 
         // Get users' watched movies
         vector<Movie> userMovies = user.getMoviesWatched();
 
-        // If user is not the same as the one we are looking for and user has watched the movie
-        if (user.getId() != mUserID
-            && find_if(userMovies.begin(), userMovies.end(), [&](Movie &movie) {
+        // Check if user has watched the recommendation movie
+        if (find_if(userMovies.begin(), userMovies.end(), [&](Movie &movie) {
                 return movie.getId() == mMovieID; }) != userMovies.end())
         {
             // Calculate common factor with our user
-            int commonFactor = getCommonFactor(mUser, user);
+            int commonFactor = getCommonFactor(mUserWatched, userMovies);
 
-            // For each movie in user's watched movies
-            for_each(userMovies.begin(), userMovies.end(), [&](Movie& movie) {
-                // Skip the recommendation based movie
-                if (movie.getId() == mMovieID) {
-                    return;
-                }
-                // Skip the movie if it is already watched by the user
-                for (Movie mMovie : mUser.getMoviesWatched()) {
-                    if (movie.getId() == mMovie.getId()) {
-                        return;
-                    }
+            // Update movie relevance scores
+            for (Movie& movie : userMovies) {
+                // Skip the movie if it's the recommendation based movie or already watched by mUser
+                if (movie.getId() == mMovieID || mUserWatched.count(movie.getId())) {
+                    continue;
                 }
 
-                // Increment relevance by common factor
+                // Increment relevance by the common factor
                 movieRelevance[movie.getId()] += commonFactor;
-            });
+            }
         }
     });
 
@@ -60,6 +60,9 @@ string RecommendCommand::execute(vector<string> commands) {
     // Sort vector by the relevance
     sort(movieVector.begin(), movieVector.end(),
          [](const pair<string, int>& a, const pair<string, int>& b) {
+            if (a.second == b.second) { // If relevance is the same, sort by movie id
+                return a.first < b.first;
+            }
             return a.second > b.second;
     });
 
@@ -72,14 +75,13 @@ string RecommendCommand::execute(vector<string> commands) {
     return result.str();
 }
 
-int RecommendCommand::getCommonFactor(User& user1, User& user2) {
+int RecommendCommand::getCommonFactor(unordered_set<string> mUserMovies, vector<Movie> userMovies) {
     int count = 0;
-    for (Movie userMovie1 : user1.getMoviesWatched()) {
-        for (Movie userMovie2 : user2.getMoviesWatched()) {
-            if (userMovie1.getId() == userMovie2.getId()) {
-                count++;
-                break;
-            }
+
+    // Check each movie in users' watched movies against the set
+    for (Movie& movie : userMovies) {
+        if (mUserMovies.count(movie.getId())) { // Fast O(1) lookup
+            count++;
         }
     }
 
