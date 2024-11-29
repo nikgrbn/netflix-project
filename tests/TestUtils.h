@@ -15,7 +15,7 @@ using namespace std;
 class TestUtils {
 public:
     static const vector<pair<vector<string>, string>> testData;
-    static vector<string> readFileLines(const string& filePath);
+     static vector<string> readFileLines(const string& filePath);
 };
 
 

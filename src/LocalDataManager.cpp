@@ -2,7 +2,7 @@
 // Created by Nikita on 11/23/2024.
 //
 
-#include "LocalDataManager.h"
+#include "../inc/LocalDataManager.h"
 
 LocalDataManager::LocalDataManager() {
     if (!filesystem::exists("data")) { // TODO remove hard coded path
