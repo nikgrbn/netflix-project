@@ -5,12 +5,18 @@
 #ifndef RECOMMENDCOMMAND_H
 #define RECOMMENDCOMMAND_H
 
+#include <algorithm>
+#include <map>
 #include "ICommand.h"
 #include "IDataManager.h"
+#include "User.h"
+
+
 
 class RecommendCommand : public ICommand {
 private:
     IDataManager* dataManager;
+    static int getCommonFactor(User user1, User user2);
 public:
     RecommendCommand(IDataManager* dataManager) : dataManager(dataManager) {}
     string info() override;
