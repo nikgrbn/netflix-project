@@ -69,7 +69,10 @@ string RecommendCommand::execute(vector<string> commands) {
     // Create a string with movie ids
     ostringstream result;
     for (int i = 0; i < 10 && i < movieVector.size(); i++) {
-        result << movieVector[i].first << " ";
+        if (i > 0) {
+            result << " "; // Add space before every element except the first
+        }
+        result << movieVector[i].first;
     }
 
     return result.str();
