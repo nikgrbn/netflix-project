@@ -8,6 +8,6 @@ bool Movie::operator==(const Movie &movie) const {
     return this->id == movie.id;
 }
 
-string Movie::getId() {
+const UID &Movie::getId() const {
     return this->id;
 }

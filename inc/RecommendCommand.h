@@ -17,7 +17,7 @@
 class RecommendCommand : public ICommand {
 private:
     IDataManager* dataManager;
-    static int getCommonFactor(unordered_set<string> mUserMovies, vector<Movie> userMovies);
+    static int getCommonFactor(const unordered_set<string>& mUserMovies, const vector<Movie>& userMovies);
 public:
     RecommendCommand(IDataManager* dataManager) : dataManager(dataManager) {}
     string info() override;

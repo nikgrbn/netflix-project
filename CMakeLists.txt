@@ -25,6 +25,7 @@ add_executable(NetflixProject
         src/LocalDataManager.cpp
         src/AddCommand.cpp
         src/RecommendCommand.cpp
+        inc/Types.h
 )
 
 # Link libraries if needed (none specified in the provided context)

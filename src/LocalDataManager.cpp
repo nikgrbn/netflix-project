@@ -21,9 +21,9 @@ void LocalDataManager::save(vector<User> &users) {
     }
 
     for (auto& user : users) {
-        file << user.getId();
+        file << user.getId().toString();
         for (auto& movie : user.getMoviesWatched()) {
-            file << " " << movie.getId();
+            file << " " << movie.getId().toString();
         }
         file << "\n"; // End line for each user
     }
@@ -39,6 +39,10 @@ vector<User> LocalDataManager::load() {
     string line;
 
     while (getline(file, line)) {
+        if (line.empty()) {
+            continue;
+        }
+
         istringstream iss(line);
         string user_id;
         iss >> user_id;
@@ -47,10 +51,10 @@ vector<User> LocalDataManager::load() {
         string movie_id;
 
         while (iss >> movie_id) {
-            watched_movies.emplace_back(movie_id);
+            watched_movies.emplace_back(UID(movie_id));
         }
 
-        users.emplace_back(user_id, watched_movies);
+        users.emplace_back(UID(user_id), watched_movies);
     }
 
     return users;
@@ -62,7 +66,7 @@ void LocalDataManager::set(User user) {
     vector<User> users = load();
 
     // Check if the user already exists
-    auto it = find_if(users.begin(), users.end(), [&](User& u) { // TODO Refactor for readability
+    auto it = find_if(users.begin(), users.end(), [&](User& u) {
         return u.getId() == user.getId();
     });
 
@@ -80,13 +84,15 @@ void LocalDataManager::set(User user) {
     save(users);
 }
 
-User LocalDataManager::get(string id) {
+
+User LocalDataManager::get(const UID& id) {
     vector<User> users = load();
 
-    // Find user by id
-    auto it = find_if(users.begin(), users.end(), [&](User &user) {
+    // Find user by ID
+    auto it = find_if(users.begin(), users.end(), [&](const User& user) {
         return user.getId() == id;
     });
+
     if (it == users.end()) {
         throw invalid_argument("User not found");
     }

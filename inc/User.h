@@ -6,22 +6,27 @@
 #define NETFLIX_PROJECT_USER_H
 
 #include <iostream>
+#include <utility>
 #include <vector>
 #include <algorithm>
 #include "Movie.h"
+#include "Types.h"
 
 using namespace std;
 
 class User {
 private:
-    string id;
+    UID id;
     vector<Movie> movies_watched;
 public:
-    User(string id, vector<Movie> movies_watched) : id(id), movies_watched(movies_watched) {};
-    string getId();
+    User(UID id, vector<Movie> movies_watched) : id(id), movies_watched(std::move(movies_watched)) {};
+    const UID &getId() const;
+    bool operator==(const User& user) const;
+
     void addMovie(Movie movie);
     vector<Movie> getMoviesWatched();
     void setMoviesWatched(vector<Movie> movies_watched);
+
 };
 
 

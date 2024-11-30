@@ -1,7 +1,3 @@
-//
-// Created by nikita on 11/26/24.
-//
-
 #include "../inc/RecommendCommand.h"
 
 
@@ -10,14 +6,14 @@ string RecommendCommand::execute(vector<string> commands) {
         throw invalid_argument("Invalid number of arguments");
     }
 
-    string mUserID = commands[1];
-    string mMovieID = commands[2];
+    UID mUserID = UID(commands[1]);
+    UID mMovieID = UID(commands[2]);
 
     // Get our user data
     User mUser = dataManager->get(mUserID);
     unordered_set<string> mUserWatched; // unordered_set for O(1) search complexity
     for (Movie& movie : mUser.getMoviesWatched()) {
-        mUserWatched.insert(movie.getId());
+        mUserWatched.insert(movie.getId().toString());
     }
 
     // Load all users from data
@@ -44,12 +40,12 @@ string RecommendCommand::execute(vector<string> commands) {
             // Update movie relevance scores
             for (Movie& movie : userMovies) {
                 // Skip the movie if it's the recommendation based movie or already watched by mUser
-                if (movie.getId() == mMovieID || mUserWatched.count(movie.getId())) {
+                if (movie.getId() == mMovieID || mUserWatched.count(movie.getId().toString())) {
                     continue;
                 }
 
                 // Increment relevance by the common factor
-                movieRelevance[movie.getId()] += commonFactor;
+                movieRelevance[movie.getId().toString()] += commonFactor;
             }
         }
     });
@@ -78,12 +74,13 @@ string RecommendCommand::execute(vector<string> commands) {
     return result.str();
 }
 
-int RecommendCommand::getCommonFactor(unordered_set<string> mUserMovies, vector<Movie> userMovies) {
+int RecommendCommand::getCommonFactor(const unordered_set<string>& mUserMovies,
+                                      const vector<Movie>& userMovies) {
     int count = 0;
 
     // Check each movie in users' watched movies against the set
-    for (Movie& movie : userMovies) {
-        if (mUserMovies.count(movie.getId())) { // Fast O(1) lookup
+    for (const Movie& movie : userMovies) {
+        if (mUserMovies.count(movie.getId().toString())) { // Fast O(1) lookup
             count++;
         }
     }
