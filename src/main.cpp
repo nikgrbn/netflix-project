@@ -27,7 +27,11 @@ int main() {
     App app(menu, commands); // Create an instance of App
     app.run(); // Start the application
 
-    delete menu; // Free the memory
+    // Free the memory
+    delete dataManager;
+    delete addCommand;
+    delete recommendCommand;
+    delete menu;
 
     return 0; // Exit the application
 }
