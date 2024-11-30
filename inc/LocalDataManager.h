@@ -17,10 +17,11 @@ using namespace std;
 class LocalDataManager : public IDataManager {
 private:
     string filePath = "data/users.txt";
+    void save(vector<User>& users);
 public:
     LocalDataManager();
-    void save(vector<User>& users);
     void set(User user) override;
+    User get(string id) override;
     vector<User> load() override;
 };
 

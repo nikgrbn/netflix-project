@@ -5,12 +5,19 @@
 #ifndef RECOMMENDCOMMAND_H
 #define RECOMMENDCOMMAND_H
 
+#include <algorithm>
+#include <map>
+#include <sstream>
+#include <unordered_set>
+#include <unordered_map>
 #include "ICommand.h"
 #include "IDataManager.h"
+#include "User.h"
 
 class RecommendCommand : public ICommand {
 private:
     IDataManager* dataManager;
+    static int getCommonFactor(unordered_set<string> mUserMovies, vector<Movie> userMovies);
 public:
     RecommendCommand(IDataManager* dataManager) : dataManager(dataManager) {}
     string info() override;

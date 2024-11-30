@@ -11,6 +11,7 @@
 class IDataManager {
 public:
     virtual void set(User user) = 0;
+    virtual User get(string id) = 0;
     virtual vector<User> load() = 0;
 };
 

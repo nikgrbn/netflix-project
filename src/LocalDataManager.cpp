@@ -79,3 +79,17 @@ void LocalDataManager::set(User user) {
     // Save updated users back to the file
     save(users);
 }
+
+User LocalDataManager::get(string id) {
+    vector<User> users = load();
+
+    // Find user by id
+    auto it = find_if(users.begin(), users.end(), [&](User &user) {
+        return user.getId() == id;
+    });
+    if (it == users.end()) {
+        throw invalid_argument("User not found");
+    }
+
+    return *it;
+}
