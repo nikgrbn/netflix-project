@@ -14,7 +14,7 @@ vector<string> ConsoleMenu::splitString(string& input, char delimiter)
 {
     // Checks for tabs or other illegal whitespace characters
     for (char& ch : input) {
-        if (ch != ' ' && isspace(ch)) {
+        if (ch != delimiter && isspace(ch)) {
             throw runtime_error("Invalid whitespace character found.");
         }
     }
