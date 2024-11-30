@@ -18,7 +18,6 @@ add_subdirectory(tests)
 add_executable(NetflixProject
         src/main.cpp
         src/App.cpp
-        src/HelloWorldCommand.cpp
         src/ConsoleMenu.cpp
         src/Movie.cpp
         src/User.cpp
