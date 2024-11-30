@@ -14,12 +14,8 @@ int main() {
 
     // Create a map of commands
     map<string, ICommand*> commands;
-
-    ICommand* addCommand = new AddCommand(dataManager);
-    commands["add"] = addCommand;
-
-    ICommand* recommendCommand = new RecommendCommand(dataManager);
-    commands["recommend"] = recommendCommand;
+    commands["add"] = (ICommand*) new AddCommand(dataManager);
+    commands["recommend"] = (ICommand*) new RecommendCommand(dataManager);
 
     // Create an instance of CLI menu
     IMenu* menu = new ConsoleMenu();
@@ -29,9 +25,10 @@ int main() {
 
     // Free the memory
     delete dataManager;
-    delete addCommand;
-    delete recommendCommand;
+    for (const auto& command : commands) {
+        delete command.second;
+    }
     delete menu;
 
-    return 0; // Exit the application
+    return 0;
 }
