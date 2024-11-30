@@ -1,12 +1,8 @@
 #include "../inc/AddCommand.h"
 #include "../inc/RecommendCommand.h"
 #include "../inc/App.h"
-#include "../inc/IMenu.h"
 #include "../inc/ConsoleMenu.h"
-#include "../inc/HelloWorldCommand.h"
-#include "../inc/ICommand.h"
 #include "../inc/LocalDataManager.h"
-
 #include <iostream>
 #include <map>
 
@@ -18,16 +14,8 @@ int main() {
 
     // Create a map of commands
     map<string, ICommand*> commands;
-
-    // TODO: Remove
-    ICommand* helloWorldCommand = new HelloWorldCommand();
-    commands["saying-hi"] = helloWorldCommand;
-
-    ICommand* addCommand = new AddCommand(dataManager);
-    commands["add"] = addCommand;
-
-    ICommand* recommendCommand = new RecommendCommand(dataManager);
-    commands["recommend"] = recommendCommand;
+    commands["add"] = (ICommand*) new AddCommand(dataManager);
+    commands["recommend"] = (ICommand*) new RecommendCommand(dataManager);
 
     // Create an instance of CLI menu
     IMenu* menu = new ConsoleMenu();
@@ -35,8 +23,12 @@ int main() {
     App app(menu, commands); // Create an instance of App
     app.run(); // Start the application
 
-    delete helloWorldCommand; // Free the memory
-    delete menu; // Free the memory
+    // Free the memory
+    delete dataManager;
+    for (const auto& command : commands) {
+        delete command.second;
+    }
+    delete menu;
 
-    return 0; // Exit the application
+    return 0;
 }

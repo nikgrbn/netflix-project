@@ -1,7 +1,3 @@
-//
-// Created by nikita on 11/24/24.
-//
-
 #include "../inc/AddCommand.h"
 
 string AddCommand::execute(vector<string> commands) {
@@ -12,15 +8,18 @@ string AddCommand::execute(vector<string> commands) {
     // Parse arguments to User object
     vector<Movie> movies;
     for (auto it = commands.begin() + 2; it != commands.end(); ++it) {
+
+        // Create movie object
+        Movie movie((UID(*it)));
+
         // Check if movie already in user's watched
-        if (find(movies.begin(), movies.end(),
-            *it) == movies.end()) {
+        if (find(movies.begin(), movies.end(), movie) == movies.end()) {
             // If not -> add it
-            movies.emplace_back(*it);
+            movies.emplace_back(movie);
             }
     }
 
-    User user(commands[1], movies);
+    User user(UID(commands[1]), movies);
     dataManager->set(user);
 
     return "";

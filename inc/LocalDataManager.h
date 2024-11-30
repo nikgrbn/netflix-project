@@ -1,7 +1,3 @@
-//
-// Created by Nikita on 11/23/2024.
-//
-
 #ifndef NETFLIX_PROJECT_LOCALDATAMANAGER_H
 #define NETFLIX_PROJECT_LOCALDATAMANAGER_H
 
@@ -21,7 +17,7 @@ private:
 public:
     LocalDataManager();
     void set(User user) override;
-    User get(string id) override;
+    User get(const UID& id) override;
     vector<User> load() override;
 };
 

@@ -12,6 +12,13 @@ vector<string> ConsoleMenu::nextCommand() {
 // delimiter
 vector<string> ConsoleMenu::splitString(string& input, char delimiter)
 {
+    // Checks for tabs or other illegal whitespace characters
+    for (char& ch : input) {
+        if (ch != delimiter && isspace(ch)) {
+            throw runtime_error("Invalid whitespace character found.");
+        }
+    }
+
     // Creating an input string stream from the input string
     istringstream stream(input);
 
@@ -21,11 +28,11 @@ vector<string> ConsoleMenu::splitString(string& input, char delimiter)
     // Temporary string to store each token
     string token;
 
-    // Read tokens from the string stream separated by the
-    // delimiter
+    // Read tokens from the string stream separated by the delimiter
     while (getline(stream, token, delimiter)) {
-        // Add the token to the vector of tokens
-        tokens.push_back(token);
+        if (!token.empty()) {  // Ignore empty tokens caused by consecutive spaces
+            tokens.push_back(token);
+        }
     }
 
     // Return the vector of tokens

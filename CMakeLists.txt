@@ -18,13 +18,13 @@ add_subdirectory(tests)
 add_executable(NetflixProject
         src/main.cpp
         src/App.cpp
-        src/HelloWorldCommand.cpp
         src/ConsoleMenu.cpp
         src/Movie.cpp
         src/User.cpp
         src/LocalDataManager.cpp
         src/AddCommand.cpp
         src/RecommendCommand.cpp
+        inc/Types.h
 )
 
 # Link libraries if needed (none specified in the provided context)

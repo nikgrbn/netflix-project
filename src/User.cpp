@@ -1,12 +1,8 @@
-//
-// Created by Nikita on 11/23/2024.
-//
-
 #include "../inc/User.h"
 
 
-string User::getId() {
-    return this->id;
+bool User::operator==(const User &user) const {
+    return this->id == user.id;
 }
 
 void User::addMovie(Movie movie) {
@@ -24,4 +20,8 @@ vector<Movie> User::getMoviesWatched() {
 
 void User::setMoviesWatched(vector<Movie> movies_watched) {
     this->movies_watched = movies_watched;
+}
+
+const UID &User::getId() const {
+    return id;
 }

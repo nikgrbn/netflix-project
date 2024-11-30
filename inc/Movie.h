@@ -2,16 +2,17 @@
 #define NETFLIX_PROJECT_MOVIE_H
 
 #include <iostream>
+#include "Types.h"
 
 using namespace std;
 
 class Movie {
 private:
-    string id;
+    UID id;
 public:
-    Movie(string id) : id(id) {};
+    explicit Movie(UID id) : id(id) {};
+    const UID &getId() const;
     bool operator==(const Movie& movie) const;
-    string getId();
 };
 
 
