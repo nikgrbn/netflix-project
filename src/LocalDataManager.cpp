@@ -1,7 +1,3 @@
-//
-// Created by Nikita on 11/23/2024.
-//
-
 #include "../inc/LocalDataManager.h"
 
 LocalDataManager::LocalDataManager() {

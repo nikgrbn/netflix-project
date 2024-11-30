@@ -1,5 +1,5 @@
-#ifndef NETFLIXPROJECT_TYPES_H
-#define NETFLIXPROJECT_TYPES_H
+#ifndef NETFLIX_PROJECT_TYPES_H
+#define NETFLIX_PROJECT_TYPES_H
 
 #include <cstdint>
 #include <string>
@@ -22,4 +22,4 @@ struct UID {
     bool operator<(const UID& id) const { return value < id.value; }
 };
 
-#endif //NETFLIXPROJECT_TYPES_H
+#endif //NETFLIX_PROJECT_TYPES_H

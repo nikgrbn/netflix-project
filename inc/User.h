@@ -1,7 +1,3 @@
-//
-// Created by Nikita on 11/23/2024.
-//
-
 #ifndef NETFLIX_PROJECT_USER_H
 #define NETFLIX_PROJECT_USER_H
 

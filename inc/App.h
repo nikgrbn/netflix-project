@@ -1,7 +1,3 @@
-//
-// Created by Nikita on 11/22/2024.
-//
-
 #ifndef NETFLIX_PROJECT_APP_H
 #define NETFLIX_PROJECT_APP_H
 
@@ -20,7 +16,6 @@ private:
     IMenu* menu;
 public:
     App(IMenu* menu, map<string, ICommand*> commands);
-
     void run();
 };
 

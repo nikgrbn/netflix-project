@@ -1,7 +1,3 @@
-//
-// Created by nikita on 11/24/24.
-//
-
 #include "../inc/AddCommand.h"
 
 string AddCommand::execute(vector<string> commands) {

@@ -1,9 +1,5 @@
-//
-// Created by nikita on 11/26/24.
-//
-
-#ifndef RECOMMENDCOMMAND_H
-#define RECOMMENDCOMMAND_H
+#ifndef NETFLIX_PROJECT_RECOMMENDCOMMAND_H
+#define NETFLIX_PROJECT_RECOMMENDCOMMAND_H
 
 #include <algorithm>
 #include <map>
@@ -19,7 +15,7 @@ private:
     IDataManager* dataManager;
     static int getCommonFactor(const unordered_set<string>& mUserMovies, const vector<Movie>& userMovies);
 public:
-    RecommendCommand(IDataManager* dataManager) : dataManager(dataManager) {}
+    explicit RecommendCommand(IDataManager* dataManager) : dataManager(dataManager) {}
     string info() override;
     string execute(vector<string> commands) override;
 };
