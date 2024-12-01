@@ -1,10 +1,15 @@
+cmake_minimum_required(VERSION 3.10)
+
+# Set the project name
+project(NetflixProjectTests)
+
 # Locate Google Test
 find_package(GTest REQUIRED)
 
 # Test files
 set(TEST_SOURCES
         MainTests.cpp
-        TestUtils.h
+        TestUtils.cpp
         AddCommandTest.cpp
         RecommendCommandTest.cpp
         ../src/AddCommand.cpp

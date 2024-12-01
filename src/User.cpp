@@ -14,7 +14,7 @@ void User::addMovie(Movie movie) {
     }
 }
 
-vector<Movie> User::getMoviesWatched() {
+const vector<Movie> User::getMoviesWatched() const {
     return this->movies_watched;
 }
 

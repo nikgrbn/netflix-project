@@ -4,9 +4,19 @@ vector<string> ConsoleMenu::nextCommand() {
     string command;
     std::getline(std::cin, command);
 
-    // Return the tokens of the command
+    // Check if stdin is a terminal
+    // (HAPPENS IF --rm -it FLAGS AREN'T PASSED IN DOCKER run COMMAND)
+    if (!isatty(fileno(stdin))) {
+        // Non-interactive mode: simulate input or handle gracefully
+        std::cerr << "Non-interactive mode detected."
+                     "\nDid you pass --rm -it flags in the docker run command?"
+                     "\nExiting..." << std::endl;
+        exit(0);
+    }
+
     return splitString(command, ' ');
 }
+
 
 // Function to split a string into tokens based on a
 // delimiter
