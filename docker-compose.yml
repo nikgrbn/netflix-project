@@ -1,0 +1,24 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BUILD_CONTEXT: app
+    tty: true
+    stdin_open: true
+    init: true
+
+    working_dir: /usr/src/netflix-project/build
+    command: ./NetflixProject
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BUILD_CONTEXT: tests
+
+    working_dir: /usr/src/netflix-project/build
+    command: ./runTests
+

@@ -3,10 +3,7 @@ FROM gcc:latest
 # Install required tools and libraries
 RUN apt-get update && apt-get install -y \
     cmake \
-    libgtest-dev \
-    python3 \
-    build-essential \
-    && apt-get clean
+    libgtest-dev
 
 # Compile and install GTest
 RUN cd /usr/src/gtest && \
@@ -18,10 +15,19 @@ RUN cd /usr/src/gtest && \
 COPY . /usr/src/netflix-project
 WORKDIR /usr/src/netflix-project
 
-# Remove any pre-existing cache
-RUN rm -rf build CMakeCache.txt
+# Clean up unnecessary files
+RUN rm -rf build CMakeCache.txt CMakeFiles cmake_install.cmake Makefile
+
+# Create build directory
+RUN mkdir build
+WORKDIR /usr/src/netflix-project/build
 
 # Build project using CMake
-RUN cmake -Bbuild -H. && cmake --build build
+ARG BUILD_CONTEXT=app
+RUN if [ "$BUILD_CONTEXT" = "app" ]; then \
+        cmake .. && make; \
+    elif [ "$BUILD_CONTEXT" = "tests" ]; then \
+        cmake ../tests && make; \
+    fi
 
-CMD ["./build/NetflixProject"]
+CMD ["bash"]

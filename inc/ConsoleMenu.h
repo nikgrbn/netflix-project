@@ -2,8 +2,7 @@
 #define NETFLIX_PROJECT_CONSOLEMENU_H
 
 #include "IMenu.h"
-#include <iostream>
-#include <map>
+#include <unistd.h>
 #include <vector>
 #include <sstream>
 
