@@ -16,8 +16,8 @@ private:
     static int getCommonFactor(const unordered_set<string>& mUserMovies, const vector<Movie>& userMovies);
 public:
     explicit RecommendCommand(IDataManager* dataManager) : dataManager(dataManager) {}
-    string info() override;
-    string execute(vector<string> commands) override;
+    string info() const override;
+    string execute(const vector<string>& commands) override;
 };
 
 

@@ -13,8 +13,8 @@ private:
     IDataManager* dataManager;
 public:
     explicit AddCommand(IDataManager* dataManager) : dataManager(dataManager) {}
-    string info() override;
-    string execute(vector<string> commands) override;
+    string info() const override;
+    string execute(const vector<string>& commands) override;
 };
 
 #endif //NETFLIX_PROJECT_ADDCOMMAND_H

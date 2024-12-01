@@ -1,8 +1,7 @@
 #include "../inc/RecommendCommand.h"
 
 
-string RecommendCommand::execute(vector<string> commands)
-{
+string RecommendCommand::execute(const vector<string>& commands) {
     if (commands.size() != 3) { // Only 3 arguments must be provided
         throw invalid_argument("Invalid number of arguments");
     }
@@ -65,7 +64,7 @@ string RecommendCommand::execute(vector<string> commands)
 
     // Create a string with movie ids
     ostringstream result;
-    for (int i = 0; i < 10 && i < movieVector.size(); i++) {
+    for (size_t i = 0; i < 10 && i < movieVector.size(); i++) {
         if (i > 0) {
             result << " "; // Add space before every element except the first
         }
@@ -89,6 +88,6 @@ int RecommendCommand::getCommonFactor(const unordered_set<string>& mUserMovies,
     return count;
 }
 
-string RecommendCommand::info() {
+string RecommendCommand::info() const {
     return "recommend [userid] [movieid]";
 }

@@ -1,6 +1,6 @@
 #include "../inc/AddCommand.h"
 
-string AddCommand::execute(vector<string> commands) {
+string AddCommand::execute(const vector<string>& commands) {
     if (commands.size() <= 2) { // Check if at least 3 arguments are provided
         throw invalid_argument("Invalid number of arguments");
     }
@@ -25,6 +25,6 @@ string AddCommand::execute(vector<string> commands) {
     return "";
 }
 
-string AddCommand::info() {
+string AddCommand::info() const {
     return "add [userid] [movieid1] [movieid2] …";
 }
