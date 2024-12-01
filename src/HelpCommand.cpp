@@ -1,14 +1,17 @@
 #include "../inc/HelpCommand.h"
+#include <sstream>
 
 // Constructor: Initializes the HelpCommand
 HelpCommand::HelpCommand(const std::map<std::string, ICommand*>& commands) : commands(commands) {}
 
 // Execute: Prints the command menu
-void HelpCommand::execute(const std::vector<std::string>& args) {
-    
-    for (const auto& command : commands) {
-        std::cout << command.second.info() << std::endl;
+std::string HelpCommand::execute(vector<string>& commands) {
+    std::stringstream ss;
+    for (const auto& command : this->commands) {
+        ss << command.second->info() << std::endl;
     }
+
+    return ss.str();
 }
 
 // Returns a description of the help command

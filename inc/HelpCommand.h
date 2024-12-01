@@ -11,10 +11,10 @@
 class HelpCommand : public ICommand {
 public:
     // Constructor to accept the list of commands and their handlers
-    HelpCommand(const std::map<std::string, ICommand*>& commands);
+    HelpCommand(const std::map<std::string, ICommand*>& commands); // 0x300
 
     // Override execute to print all commands
-    void execute(const std::vector<std::string>& args = {}) override;
+    string execute(vector<string>& commands) override;
 
     // Description for the help command
     std::string info() const override;

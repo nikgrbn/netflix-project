@@ -12,10 +12,11 @@ using namespace std;
 
 class App {
 private:
-    const map<string, ICommand*>& commands;
-    IMenu* menu;
+IMenu* menu;
+    map<string, ICommand*>& commands;
+    
 public:
-    App(IMenu* menu, const map<string, ICommand*>& commands);
+    App(IMenu* menu, map<string, ICommand*>& commands);
     void run();
 };
 
