@@ -5,7 +5,7 @@
 HelpCommand::HelpCommand(const std::map<std::string, ICommand*>& commands) : commands(commands) {}
 
 // Execute: Prints the command menu
-std::string HelpCommand::execute(vector<string>& commands) {
+std::string HelpCommand::execute(const vector<string>& commands) {
     std::stringstream ss;
     for (const auto& command : this->commands) {
         ss << command.second->info() << std::endl;

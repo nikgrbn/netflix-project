@@ -4,7 +4,7 @@ find_package(GTest REQUIRED)
 # Test files
 set(TEST_SOURCES
         MainTests.cpp
-        TestUtils.h
+        TestUtils.cpp
         AddCommandTest.cpp
         RecommendCommandTest.cpp
         HelpCommandTest.cpp

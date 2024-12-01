@@ -1,7 +1,7 @@
 #include "../inc/RecommendCommand.h"
 
 
-string RecommendCommand::execute(vector<string>& commands) {
+string RecommendCommand::execute(const vector<string>& commands) {
     if (commands.size() != 3) { // Only 3 arguments must be provided
         throw invalid_argument("Invalid number of arguments");
     }

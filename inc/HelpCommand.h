@@ -14,7 +14,7 @@ public:
     HelpCommand(const std::map<std::string, ICommand*>& commands); // 0x300
 
     // Override execute to print all commands
-    string execute(vector<string>& commands) override;
+    string execute(const vector<string>& commands) override;
 
     // Description for the help command
     std::string info() const override;

@@ -17,7 +17,7 @@ private:
 public:
     explicit RecommendCommand(IDataManager* dataManager) : dataManager(dataManager) {}
     string info() const override;
-    string execute(vector<string>& commands) override;
+    string execute(const vector<string>& commands) override;
 };
 
 
