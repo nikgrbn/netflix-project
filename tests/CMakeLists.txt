@@ -7,11 +7,13 @@ set(TEST_SOURCES
         TestUtils.h
         AddCommandTest.cpp
         RecommendCommandTest.cpp
+        HelpCommandTest.cpp
         ../src/AddCommand.cpp
         ../src/LocalDataManager.cpp
         ../src/User.cpp
         ../src/Movie.cpp
         ../src/RecommendCommand.cpp
+        ../src/HelpCommand.cpp
 )
 
 # Add test executable
