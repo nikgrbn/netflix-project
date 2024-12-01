@@ -8,8 +8,12 @@ HelpCommand::HelpCommand(const std::map<std::string, ICommand*>& commands) : com
 std::string HelpCommand::execute(const vector<string>& commands) {
     std::stringstream ss;
     for (const auto& command : this->commands) {
+        if(command.second->info() == this->info()) {
+            continue;
+        }
         ss << command.second->info() << std::endl;
     }
+    ss << this->info();
 
     return ss.str();
 }
