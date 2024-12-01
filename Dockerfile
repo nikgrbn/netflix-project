@@ -1,15 +1,7 @@
 FROM gcc:latest
 
-# Install required tools and libraries
-RUN apt-get update && apt-get install -y \
-    cmake \
-    libgtest-dev
-
-# Compile and install GTest
-RUN cd /usr/src/gtest && \
-    cmake CMakeLists.txt && \
-    make && \
-    cp lib/*.a /usr/lib
+# Install required tools and libraries for the application (no gtest)
+RUN apt-get update && apt-get install -y cmake
 
 # Copy project files
 COPY . /usr/src/netflix-project
@@ -22,12 +14,7 @@ RUN rm -rf build CMakeCache.txt CMakeFiles cmake_install.cmake Makefile
 RUN mkdir build
 WORKDIR /usr/src/netflix-project/build
 
-# Build project using CMake
-ARG BUILD_CONTEXT=app
-RUN if [ "$BUILD_CONTEXT" = "app" ]; then \
-        cmake .. && make; \
-    elif [ "$BUILD_CONTEXT" = "tests" ]; then \
-        cmake ../tests && make; \
-    fi
+# Build project using CMake (no tests enabled)
+RUN cmake -DENABLE_TESTS=OFF .. && make
 
-CMD ["bash"]
+CMD ["./NetflixProject"]

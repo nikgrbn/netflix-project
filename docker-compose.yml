@@ -3,8 +3,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        BUILD_CONTEXT: app
     tty: true
     stdin_open: true
     init: true
@@ -15,10 +13,8 @@ services:
   tests:
     build:
       context: .
-      dockerfile: Dockerfile
-      args:
-        BUILD_CONTEXT: tests
+      dockerfile: Dockerfile.test
 
-    working_dir: /usr/src/netflix-project/build
+    working_dir: /usr/src/netflix-project/build/tests
     command: ./runTests
 
