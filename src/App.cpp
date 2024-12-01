@@ -1,6 +1,7 @@
 #include <utility>
 
 #include "../inc/App.h"
+#include "../inc/HelpCommand.h"
 
 App::App(IMenu* menu, map<string, ICommand*> commands) : menu(menu), commands(std::move(commands)) {}
 
