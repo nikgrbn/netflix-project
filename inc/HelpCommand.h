@@ -8,21 +8,19 @@
 #include "AddCommand.h"
 #include "RecommendCommand.h"
 
-using namespace std;
-
 class HelpCommand : public ICommand {
 public:
     // Constructor to accept the list of commands and their handlers
-    HelpCommand(const std::unordered_map<std::string, std::shared_ptr<ICommand>>& commandHandlers);
+    HelpCommand(const std::map<std::string, ICommand*>& commands);
 
     // Override execute to print all commands
     void execute(const std::vector<std::string>& args = {}) override;
 
     // Description for the help command
-    string info() const override;
+    std::string info() const override;
 
 private:
-    const std::unordered_map<std::string, std::shared_ptr<ICommand>>& commandHandlers;
+    const std::map<std::string, ICommand*>& commands;
 };
 
 

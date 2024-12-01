@@ -88,6 +88,6 @@ int RecommendCommand::getCommonFactor(const unordered_set<string>& mUserMovies,
     return count;
 }
 
-string RecommendCommand::info() {
+string RecommendCommand::info() const {
     return "recommend [userid] [movieid]";
 }

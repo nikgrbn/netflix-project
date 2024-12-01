@@ -9,7 +9,7 @@ using namespace std;
 
 class ICommand {
 public:
-    virtual string info() = 0;
+    virtual string info() const = 0;
     virtual string execute(vector<string> commands) = 0;
 
     virtual ~ICommand() = default;

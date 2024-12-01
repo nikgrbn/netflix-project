@@ -25,6 +25,6 @@ string AddCommand::execute(vector<string> commands) {
     return "";
 }
 
-string AddCommand::info() {
+string AddCommand::info() const {
     return "add [userid] [movieid1] [movieid2] …";
 }

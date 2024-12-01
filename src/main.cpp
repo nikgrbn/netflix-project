@@ -17,7 +17,7 @@ int main() {
     map<string, ICommand*> commands;
     commands["add"] = (ICommand*) new AddCommand(dataManager);
     commands["recommend"] = (ICommand*) new RecommendCommand(dataManager);
-    commands["help"] = (ICommand*) new HelpCommand(dataManager);
+    commands["help"] = (ICommand*) new HelpCommand(commands);
 
     // Create an instance of CLI menu
     IMenu* menu = new ConsoleMenu();

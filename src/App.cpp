@@ -3,7 +3,7 @@
 #include "../inc/App.h"
 #include "../inc/HelpCommand.h"
 
-App::App(IMenu* menu, map<string, ICommand*> commands) : menu(menu), commands(std::move(commands)) {}
+App::App(IMenu* menu, const map<string, ICommand*>& commands) : menu(menu), commands(commands) {}
 
 void App::run() {
     string task;

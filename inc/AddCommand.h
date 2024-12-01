@@ -13,7 +13,7 @@ private:
     IDataManager* dataManager;
 public:
     explicit AddCommand(IDataManager* dataManager) : dataManager(dataManager) {}
-    string info() override;
+    string info() const override;
     string execute(vector<string> commands) override;
 };
 
