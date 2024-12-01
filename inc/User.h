@@ -17,10 +17,10 @@ private:
 public:
     User(UID id, vector<Movie> movies_watched) : id(id), movies_watched(std::move(movies_watched)) {};
     const UID &getId() const;
+    const vector<Movie> getMoviesWatched() const;
     bool operator==(const User& user) const;
 
     void addMovie(Movie movie);
-    vector<Movie> getMoviesWatched();
     void setMoviesWatched(vector<Movie> movies_watched);
 
 };

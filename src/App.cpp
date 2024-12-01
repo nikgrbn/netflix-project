@@ -7,18 +7,21 @@ App::App(IMenu* menu, map<string, ICommand*>& commands) : menu(menu), commands(c
 
 void App::run() {
     string task;
-    while (true) {
+    while (true)
+    {
         try {
-            // Get next command arguments
             vector<string> args = menu->nextCommand();
+            if (args.empty()) {
+                throw std::runtime_error("No command provided");
+            }
 
-            // Check if the key exists in the map
-            if (commands.find(args[0]) == commands.end() || !commands[args[0]]) {
+            auto it = commands.find(args[0]);
+            if (it == commands.end() || !(it->second)) {
                 throw std::runtime_error("Command not found");
             }
 
-            string res = commands[args[0]]->execute(args);
-            if (!res.empty()) { // Print execution result if not empty
+            string res = it->second->execute(args);
+            if (!res.empty()) {
                 menu->print(res);
             }
         } catch (const std::exception& e) {

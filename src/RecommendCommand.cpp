@@ -12,7 +12,7 @@ string RecommendCommand::execute(const vector<string>& commands) {
     // Get our user data
     User mUser = dataManager->get(mUserID);
     unordered_set<string> mUserWatched; // unordered_set for O(1) search complexity
-    for (Movie& movie : mUser.getMoviesWatched()) {
+    for (const Movie& movie : mUser.getMoviesWatched()) {
         mUserWatched.insert(movie.getId().toString());
     }
 
@@ -23,9 +23,9 @@ string RecommendCommand::execute(const vector<string>& commands) {
     unordered_map<std::string, int> movieRelevance;
 
     // For each user in vector
-    for_each(users.begin(), users.end(), [&](User& user) {
+    for (const User& user : users) {
         // Skip the current user
-        if (user.getId() == mUserID) return;
+        if (user.getId() == mUserID) continue;
 
         // Get users' watched movies
         vector<Movie> userMovies = user.getMoviesWatched();
@@ -48,7 +48,7 @@ string RecommendCommand::execute(const vector<string>& commands) {
                 movieRelevance[movie.getId().toString()] += commonFactor;
             }
         }
-    });
+    }
 
     // Convert map to vector of pairs
     vector<pair<string, int>> movieVector(movieRelevance.begin(), movieRelevance.end());
