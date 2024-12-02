@@ -7,6 +7,9 @@ services:
     stdin_open: true
     init: true
 
+    volumes:
+      - .:/usr/src/netflix-project/data
+    container_name: netflix_app
     working_dir: /usr/src/netflix-project/build
     command: ./NetflixProject
 
@@ -15,6 +18,9 @@ services:
       context: .
       dockerfile: Dockerfile.test
 
+    volumes:
+      - .:/usr/src/netflix-project/data
+    container_name: netflix_app_tests
     working_dir: /usr/src/netflix-project/build/tests
     command: ./runTests
 
