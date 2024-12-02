@@ -34,14 +34,19 @@ docker-compose build
 
 ## Running the Application
 
-### Run the Application
+### Start Application Container
 ```bash
-docker-compose run app
+docker-compose up -d
+```
+
+### Run Application
+```bash
+docker exec -it netflix_app ./NetflixProject
 ```
 
 ### Run Unit Tests
 ```bash
-docker-compose run tests
+docker-compose up tests
 ```
 
 ## Project Structure
