@@ -23,8 +23,9 @@ using namespace std;
 class Server {
 private:
     map<string, ICommand*>& commands;
+    const int server_port;
 public:
-    explicit Server(map<string, ICommand*>& commands);
+    explicit Server(map<string, ICommand*>& commands, int server_port=12345);
 
     void run();
     void handleClient(SocketData* data);

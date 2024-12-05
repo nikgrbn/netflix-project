@@ -1,10 +1,8 @@
 #include "Server.h"
 
-Server::Server(map<string, ICommand *> &commands) : commands(commands) {}
+Server::Server(map<string, ICommand *> &commands, int server_port) : commands(commands), server_port(server_port) {}
 
 void Server::run() {
-    const int server_port = 12345;
-
     // Create a socket, AF_INET is the address family for IPv4 and SOCK_STREAM is the socket type for TCP
     SocketRAII serverSock(socket(AF_INET, SOCK_STREAM, 0));
     if (serverSock.get() < 0) {

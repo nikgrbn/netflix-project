@@ -9,7 +9,15 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, const char * argv[]) {
+    // Get the port number from the command line arguments
+    int port;
+    try {
+        port = stoi(argv[1]);
+    } catch (exception& e) {
+        port = 12345;
+    }
+
     // Create an instance of LocalDataManager
     IDataManager* dataManager = new LocalDataManager();
 
@@ -19,7 +27,7 @@ int main() {
     commands["recommend"] = (ICommand*) new RecommendCommand(dataManager);
     commands["help"] = (ICommand*) new HelpCommand(commands);
 
-    Server server(commands); // Create an instance of server
+    Server server(commands, port); // Create an instance of server
     server.run(); // Start the server
 
     // Free the memory
