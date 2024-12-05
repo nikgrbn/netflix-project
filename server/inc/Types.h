@@ -30,4 +30,12 @@ struct SocketData {
     unsigned int from_len = sizeof(from);
 };
 
+namespace StatusCodes {
+    constexpr const char* OK = "200 Ok";
+    constexpr const char* CREATED = "201 Created";
+    constexpr const char* NO_CONTENT = "204 No Content";
+    constexpr const char* BAD_REQUEST = "400 Bad Request";
+    constexpr const char* NOT_FOUND = "404 Not Found";
+}
+
 #endif //NETFLIX_PROJECT_TYPES_H

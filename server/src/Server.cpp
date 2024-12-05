@@ -77,7 +77,7 @@ void Server::handleClient(SocketData* data) {
             // Check if command exists
             auto it = commands.find(args[0]);
             if (it == commands.end() || !(it->second)) {
-                throw InvalidCommandException("Command not found");
+                throw InvalidCommandException(StatusCodes::BAD_REQUEST);
             }
 
             // Execute the command
@@ -85,7 +85,7 @@ void Server::handleClient(SocketData* data) {
             if (!res.empty()) {
                 menu->out(res);
             } else {
-                menu->out("Command executed successfully");
+                menu->out(StatusCodes::NO_CONTENT);
             }
 
         } catch (const InvalidCommandException& e) {
