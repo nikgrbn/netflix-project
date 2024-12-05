@@ -1,8 +1,8 @@
-#include "../inc/App.h"
+#include "Server.h"
 
-App::App(IMenu* menu, map<string, ICommand*>& commands) : menu(menu), commands(commands) {}
+Server::Server(IMenu *menu, map<string, ICommand *> &commands) : menu(menu), commands(commands) {}
 
-void App::run() {
+void Server::run() {
     string task;
     while (true)
     {

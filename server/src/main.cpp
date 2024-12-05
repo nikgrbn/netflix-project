@@ -1,7 +1,7 @@
 #include "../inc/AddCommand.h"
 #include "../inc/RecommendCommand.h"
 #include "../inc/HelpCommand.h"
-#include "../inc/App.h"
+#include "../inc/Server.h"
 #include "../inc/ConsoleMenu.h"
 #include "../inc/LocalDataManager.h"
 #include <iostream>
@@ -22,8 +22,8 @@ int main() {
     // Create an instance of CLI menu
     IMenu* menu = new ConsoleMenu();
 
-    App app(menu, commands); // Create an instance of App
-    app.run(); // Start the application
+    Server server(menu, commands); // Create an instance of server
+    server.run(); // Start the server
 
     // Free the memory
     delete dataManager;

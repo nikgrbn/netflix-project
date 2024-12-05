@@ -25,6 +25,8 @@ add_executable(NetflixProject
         src/RecommendCommand.cpp
         src/HelpCommand.cpp
         inc/Types.h
+        src/Server.cpp
+        inc/Server.h
 )
 
 # Conditionally include tests if ENABLE_TESTS is ON
