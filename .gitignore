@@ -1,5 +1,5 @@
 # User and Movies data
-data/
+server/data/
 
 # General
 .DS_Store

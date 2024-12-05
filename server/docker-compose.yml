@@ -1,7 +1,7 @@
 services:
   app:
     build:
-      context: .
+      context: ..
       dockerfile: Dockerfile
     tty: true
     stdin_open: true
@@ -15,7 +15,7 @@ services:
 
   tests:
     build:
-      context: .
+      context: ..
       dockerfile: Dockerfile.test
 
     volumes:

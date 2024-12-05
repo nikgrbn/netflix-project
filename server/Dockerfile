@@ -4,7 +4,7 @@ FROM gcc:latest
 RUN apt-get update && apt-get install -y cmake
 
 # Copy project files
-COPY . /usr/src/netflix-project
+COPY .. /usr/src/netflix-project
 WORKDIR /usr/src/netflix-project
 
 # Clean up unnecessary files
