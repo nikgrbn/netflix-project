@@ -30,5 +30,8 @@ target_link_libraries(runTests PRIVATE GTest::GTest GTest::Main)
 # Include project headers
 target_include_directories(runTests PRIVATE ../include)
 
+# Set correct output directory for the test executable
+set_target_properties(runTests PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/tests)
+
 # Register the test target
-add_test(NAME RunAllTests COMMAND runTests)
+add_test(NAME RunAllTests COMMAND ${CMAKE_BINARY_DIR}/tests/runTests)
