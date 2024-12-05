@@ -26,7 +26,7 @@ public:
     explicit Server(map<string, ICommand*>& commands);
 
     void run();
-    void handleClient(void* socketData);
+    void handleClient(SocketData* data);
 };
 
 

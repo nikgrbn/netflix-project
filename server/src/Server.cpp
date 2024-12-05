@@ -32,13 +32,13 @@ void Server::run() {
 
     cout << "Listening..." << endl;
     while (true) {
-        // Create a new socket data object
-        auto* socketData = new SocketData();
+        // Create a unique_ptr for socket data to manage memory
+        auto socketData = make_unique<SocketData>();
 
         // Accept a connection
         socketData->client_socket = accept(serverSock.get(),
-                             (struct sockaddr *) &socketData->from,
-                             &socketData->from_len);
+                                           reinterpret_cast<struct sockaddr*>(&socketData->from),
+                                           &socketData->from_len);
         if (socketData->client_socket < 0) {
             perror("Error accepting connection");
             break;
@@ -46,17 +46,19 @@ void Server::run() {
 
         // Create a new thread to handle the client
         cout << socketData->client_socket << ":New connection!" << endl;
-        thread([this, socketData]() {
-            handleClient(socketData);
+        thread([this, socketData = std::move(socketData)]() {
+            handleClient(socketData.get());
         }).detach(); // Automatically cleans up thread resources
     }
 }
 
 
-void Server::handleClient(void *socketData) {
-    auto* data = (SocketData*) socketData;
+void Server::handleClient(SocketData* data) {
+    // Use RAII for client socket
     SocketRAII clientSock(data->client_socket);
-    auto* menu = new SocketMenu(data);
+
+    // Use unique_ptr for menu to manage memory
+    auto menu = make_unique<SocketMenu>(data);
 
     while (true) {
         // Clear the buffer for each iteration
@@ -90,8 +92,4 @@ void Server::handleClient(void *socketData) {
             break;
         }
     }
-
-    // Close the client socket and free memory
-    delete data;
-    delete menu;
 }

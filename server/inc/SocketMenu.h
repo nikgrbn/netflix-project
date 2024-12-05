@@ -15,7 +15,7 @@ private:
     SocketData *socketData;
     static vector<string> splitString(string& input, char delimiter);
 public:
-    explicit SocketMenu(SocketData *socketData) : socketData(socketData) {}
+    explicit SocketMenu(SocketData *socketData);
 
     vector<string> nextCommand() override;
     void out(string output) override;

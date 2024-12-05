@@ -1,5 +1,7 @@
 #include "SocketMenu.h"
 
+SocketMenu::SocketMenu(SocketData *socketData) : socketData(socketData) {}
+
 vector<string> SocketMenu::nextCommand() {
     // Read from the client
     int bytes = recv(socketData->client_socket,
