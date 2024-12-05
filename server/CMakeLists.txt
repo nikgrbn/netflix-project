@@ -30,6 +30,7 @@ add_executable(NetflixProject
         src/Server.cpp
         src/SocketMenu.cpp
         inc/SocketMenu.h
+        inc/SocketRAII.h
 )
 
 # Conditionally include tests if ENABLE_TESTS is ON

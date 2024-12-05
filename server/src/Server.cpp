@@ -6,9 +6,10 @@ void Server::run() {
     const int server_port = 12345;
 
     // Create a socket, AF_INET is the address family for IPv4 and SOCK_STREAM is the socket type for TCP
-    int sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (sock < 0) {
+    SocketRAII serverSock(socket(AF_INET, SOCK_STREAM, 0));
+    if (serverSock.get() < 0) {
         perror("error creating socket");
+        return;
     }
 
     // Set the address to bind to
@@ -19,26 +20,27 @@ void Server::run() {
     sin.sin_port = htons(server_port);
 
     // Bind the socket to the address
-    if (bind(sock, (struct sockaddr *) &sin, sizeof(sin)) < 0) {
+    if (bind(serverSock.get(), (struct sockaddr *) &sin, sizeof(sin)) < 0) {
         perror("error binding socket");
         return;
     }
 
     // Listen to the socket connections
-    if (listen(sock, 5) < 0) {
+    if (listen(serverSock.get(), 5) < 0) {
         perror("error listening to a socket");
     }
 
     cout << "Listening..." << endl;
     while (true) {
+        // Create a new socket data object
         auto* socketData = new SocketData();
 
         // Accept a connection
-        socketData->client_socket = accept(sock,
-                                           (struct sockaddr *) &socketData->from,
-                                           &socketData->from_len);
+        socketData->client_socket = accept(serverSock.get(),
+                             (struct sockaddr *) &socketData->from,
+                             &socketData->from_len);
         if (socketData->client_socket < 0) {
-            perror("error accepting connection");
+            perror("Error accepting connection");
             break;
         }
 
@@ -48,12 +50,12 @@ void Server::run() {
             handleClient(socketData);
         }).detach(); // Automatically cleans up thread resources
     }
-    close(sock);
 }
 
 
 void Server::handleClient(void *socketData) {
     auto* data = (SocketData*) socketData;
+    SocketRAII clientSock(data->client_socket);
     auto* menu = new SocketMenu(data);
 
     while (true) {
@@ -64,7 +66,7 @@ void Server::handleClient(void *socketData) {
             vector<string> args = menu->nextCommand();
 
             // TODO: Used for debugging, remove later
-            cout << data->client_socket << " : " << "The client sent: ";
+            cout << data->client_socket << ":" << "The client sent: ";
             for (const auto& arg : args) {
                 cout << arg << " ";
             }
@@ -73,7 +75,8 @@ void Server::handleClient(void *socketData) {
             // Check if command exists
             auto it = commands.find(args[0]);
             if (it == commands.end() || !(it->second)) {
-                throw std::runtime_error("Command not found");
+                // Skip to the next iteration
+                continue;
             }
 
             // Execute the command
@@ -83,13 +86,12 @@ void Server::handleClient(void *socketData) {
             }
 
         } catch (const std::exception& e) {
-            cout << data->client_socket << " : " << e.what() << endl;
+            cout << data->client_socket << ":" << e.what() << endl;
             break;
         }
     }
 
     // Close the client socket and free memory
-    close(data->client_socket);
     delete data;
     delete menu;
 }

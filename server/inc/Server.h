@@ -5,6 +5,7 @@
 #include "IMenu.h"
 #include "Types.h"
 #include "SocketMenu.h"
+#include <SocketRAII.h>
 #include <map>
 #include <iostream>
 #include <sys/socket.h>
@@ -21,9 +22,8 @@ using namespace std;
 class Server {
 private:
     map<string, ICommand*>& commands;
-
 public:
-    Server(map<string, ICommand*>& commands);
+    explicit Server(map<string, ICommand*>& commands);
 
     void run();
     void handleClient(void* socketData);
