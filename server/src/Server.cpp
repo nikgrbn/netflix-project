@@ -42,6 +42,7 @@ void Server::run() {
         }
 
         // Handle the client
+        cout << "Client accepted" << endl;
         handleClient(client_sock);
     }
     close(sock);
@@ -49,7 +50,6 @@ void Server::run() {
 
 
 void Server::handleClient(int client_sock) {
-    cout << "Client accepted" << endl;
     while (true) {
         char buffer[4096];
         int expected_data_len = sizeof(buffer);
@@ -66,7 +66,7 @@ void Server::handleClient(int client_sock) {
         }
         else {
             buffer[read_bytes] = '\0'; // Null-terminate
-            cout << buffer << endl; // Add endl to flush output
+            cout << buffer << endl;
         }
 
         int sent_bytes = send(client_sock, buffer, read_bytes, 0);
