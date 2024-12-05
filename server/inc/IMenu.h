@@ -9,7 +9,7 @@ using namespace std;
 class IMenu {
 public:
     virtual vector<string> nextCommand() = 0;
-    virtual void print(string output) = 0;
+    virtual void out(string output) = 0;
 
     virtual ~IMenu() = default;
 };

@@ -19,10 +19,7 @@ int main() {
     commands["recommend"] = (ICommand*) new RecommendCommand(dataManager);
     commands["help"] = (ICommand*) new HelpCommand(commands);
 
-    // Create an instance of CLI menu
-    IMenu* menu = new ConsoleMenu();
-
-    Server server(menu, commands); // Create an instance of server
+    Server server(commands); // Create an instance of server
     server.run(); // Start the server
 
     // Free the memory
@@ -30,7 +27,6 @@ int main() {
     for (const auto& command : commands) {
         delete command.second;
     }
-    delete menu;
 
     return 0;
 }

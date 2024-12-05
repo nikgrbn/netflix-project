@@ -28,6 +28,8 @@ add_executable(NetflixProject
         src/HelpCommand.cpp
         inc/Types.h
         src/Server.cpp
+        src/SocketMenu.cpp
+        inc/SocketMenu.h
 )
 
 # Conditionally include tests if ENABLE_TESTS is ON

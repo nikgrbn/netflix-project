@@ -19,7 +19,7 @@ void App::run() {
 
             string res = it->second->execute(args);
             if (!res.empty()) {
-                menu->print(res);
+                menu->out(res);
             }
         } catch (const std::exception& e) {
             // Skip to the next iteration

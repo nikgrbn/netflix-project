@@ -1,6 +1,6 @@
 #include "Server.h"
 
-Server::Server(IMenu *menu, map<string, ICommand *> &commands) : menu(menu), commands(commands) {}
+Server::Server(map<string, ICommand *> &commands) : commands(commands) {}
 
 void Server::run() {
     const int server_port = 12345;
@@ -44,7 +44,7 @@ void Server::run() {
 
         // Create a new thread to handle the client
         cout << socketData->client_socket << ":New connection!" << endl;
-        thread([socketData]() {
+        thread([this, socketData]() {
             handleClient(socketData);
         }).detach(); // Automatically cleans up thread resources
     }
@@ -54,36 +54,42 @@ void Server::run() {
 
 void Server::handleClient(void *socketData) {
     auto* data = (SocketData*) socketData;
+    auto* menu = new SocketMenu(data);
 
     while (true) {
         // Clear the buffer for each iteration
         memset(data->buffer, 0, sizeof(data->buffer));
+        try {
+            // Get the next command from the client
+            vector<string> args = menu->nextCommand();
 
-        // Read from the client
-        int bytes = recv(data->client_socket,
-                         data->buffer,
-                         sizeof(data->buffer),
-                         0);
-        if (bytes < 0) {
-            perror("Error reading from socket");
-            break;
-        } else if (bytes == 0) {
-            // Connection closed by the client
-            cout << data->client_socket << ":Client disconnected." << endl;
-            break;
-        }
+            // TODO: Used for debugging, remove later
+            cout << data->client_socket << " : " << "The client sent: ";
+            for (const auto& arg : args) {
+                cout << arg << " ";
+            }
+            cout << endl;
 
-        cout << data->client_socket << ":The client sent: " << data->buffer << endl;
-        int sent_bytes = send(data->client_socket,
-                              data->buffer,
-                              bytes,
-                              0);
-        if (sent_bytes < 0) {
-            perror("Error writing to socket");
+            // Check if command exists
+            auto it = commands.find(args[0]);
+            if (it == commands.end() || !(it->second)) {
+                throw std::runtime_error("Command not found");
+            }
+
+            // Execute the command
+            string res = it->second->execute(args);
+            if (!res.empty()) {
+                menu->out(res);
+            }
+
+        } catch (const std::exception& e) {
+            cout << data->client_socket << " : " << e.what() << endl;
+            break;
         }
     }
 
     // Close the client socket and free memory
     close(data->client_socket);
     delete data;
+    delete menu;
 }

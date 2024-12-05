@@ -13,7 +13,7 @@ private:
     static vector<string> splitString(string& input, char delimiter);
 public:
     vector<string> nextCommand() override;
-    void print(string output) override;
+    void out(string output) override;
 };
 
 #endif //NETFLIX_PROJECT_CONSOLEMENU_H
