@@ -12,7 +12,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
-#include <pthread.h>
+#include <thread>
 
 using namespace std;
 
@@ -25,8 +25,7 @@ public:
     Server(IMenu* menu, map<string, ICommand*>& commands);
 
     void run();
-    static void handleClient(int clientSocket);
-    static void *handleClient(void* socketData);
+    static void handleClient(void* socketData);
 };
 
 

@@ -27,6 +27,7 @@ struct SocketData {
     int client_socket;
     char buffer[4096];
     struct sockaddr_in from;
+    unsigned int from_len = sizeof(from);
 };
 
 #endif //NETFLIX_PROJECT_TYPES_H

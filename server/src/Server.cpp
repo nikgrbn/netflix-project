@@ -32,31 +32,27 @@ void Server::run() {
     cout << "Listening..." << endl;
     while (true) {
         auto* socketData = new SocketData();
-        unsigned int from_len = sizeof(socketData->from);
 
         // Accept a connection
         socketData->client_socket = accept(sock,
                                            (struct sockaddr *) &socketData->from,
-                                           &from_len);
+                                           &socketData->from_len);
         if (socketData->client_socket < 0) {
             perror("error accepting connection");
             break;
         }
 
         // Create a new thread to handle the client
-        pthread_t tid;
-        pthread_attr_t attr;
-        pthread_attr_init(&attr);
-
-        cout << socketData->client_socket << " New connection!" << endl;
-        pthread_create(&tid, &attr, handleClient, socketData);
-
+        cout << socketData->client_socket << ":New connection!" << endl;
+        thread([socketData]() {
+            handleClient(socketData);
+        }).detach(); // Automatically cleans up thread resources
     }
     close(sock);
 }
 
 
-void *Server::handleClient(void *socketData) {
+void Server::handleClient(void *socketData) {
     auto* data = (SocketData*) socketData;
 
     while (true) {
@@ -73,11 +69,11 @@ void *Server::handleClient(void *socketData) {
             break;
         } else if (bytes == 0) {
             // Connection closed by the client
-            cout << data->client_socket << " Client disconnected." << endl;
+            cout << data->client_socket << ":Client disconnected." << endl;
             break;
         }
 
-        cout << data->client_socket << " The client sent: " << data->buffer << endl;
+        cout << data->client_socket << ":The client sent: " << data->buffer << endl;
         int sent_bytes = send(data->client_socket,
                               data->buffer,
                               bytes,
@@ -90,5 +86,4 @@ void *Server::handleClient(void *socketData) {
     // Close the client socket and free memory
     close(data->client_socket);
     delete data;
-    return nullptr;
 }
