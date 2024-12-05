@@ -22,7 +22,7 @@ public:
     explicit SocketRAII(int fd) : socket_fd(fd) {}
     ~SocketRAII() {
         if (socket_fd >= 0) {
-            std::cout << socket_fd << " : Closing socket " << std::endl;
+            std::cout << socket_fd << ":Closing socket " << std::endl;
             close(socket_fd);
         }
     }

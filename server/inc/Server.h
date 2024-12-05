@@ -5,7 +5,8 @@
 #include "IMenu.h"
 #include "Types.h"
 #include "SocketMenu.h"
-#include <SocketRAII.h>
+#include "SocketRAII.h"
+#include "InvalidCommandException.h"
 #include <map>
 #include <iostream>
 #include <sys/socket.h>

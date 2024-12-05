@@ -31,6 +31,8 @@ add_executable(NetflixProject
         src/SocketMenu.cpp
         inc/SocketMenu.h
         inc/SocketRAII.h
+        inc/InvalidCommandException.h
+        inc/InvalidCommandException.h
 )
 
 # Conditionally include tests if ENABLE_TESTS is ON

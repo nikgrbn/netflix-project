@@ -77,17 +77,24 @@ void Server::handleClient(SocketData* data) {
             // Check if command exists
             auto it = commands.find(args[0]);
             if (it == commands.end() || !(it->second)) {
-                // Skip to the next iteration
-                continue;
+                throw InvalidCommandException("Command not found");
             }
 
             // Execute the command
             string res = it->second->execute(args);
             if (!res.empty()) {
                 menu->out(res);
+            } else {
+                menu->out("Command executed successfully");
             }
 
+        } catch (const InvalidCommandException& e) {
+            // Send the error message to the client
+            menu->out(e.what());
+            continue;
+
         } catch (const std::exception& e) {
+            // Close the connection
             cout << data->client_socket << ":" << e.what() << endl;
             break;
         }
