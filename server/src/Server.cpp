@@ -31,51 +31,64 @@ void Server::run() {
 
     cout << "Listening..." << endl;
     while (true) {
-        // Accept a client connection
-        struct sockaddr_in client_sin{};
-        unsigned int addr_len = sizeof(client_sin);
-        int client_sock = accept(sock,  (struct sockaddr *) &client_sin,  &addr_len);
+        auto* socketData = new SocketData();
+        unsigned int from_len = sizeof(socketData->from);
 
-        // Check if the client_sock is valid
-        if (client_sock < 0) {
-            perror("error accepting client");
+        // Accept a connection
+        socketData->client_socket = accept(sock,
+                                           (struct sockaddr *) &socketData->from,
+                                           &from_len);
+        if (socketData->client_socket < 0) {
+            perror("error accepting connection");
+            break;
         }
 
-        // Handle the client
-        cout << "Client accepted" << endl;
-        handleClient(client_sock);
+        // Create a new thread to handle the client
+        pthread_t tid;
+        pthread_attr_t attr;
+        pthread_attr_init(&attr);
+
+        cout << socketData->client_socket << " New connection!" << endl;
+        pthread_create(&tid, &attr, handleClient, socketData);
+
     }
     close(sock);
 }
 
 
-void Server::handleClient(int client_sock) {
+void *Server::handleClient(void *socketData) {
+    auto* data = (SocketData*) socketData;
+
     while (true) {
-        char buffer[4096];
-        int expected_data_len = sizeof(buffer);
-        int read_bytes = recv(client_sock, buffer, expected_data_len, 0);
-        if (read_bytes == 0) {
-            // connection is closed
-            close(client_sock);
-            return;
-        }
-        else if (read_bytes < 0) {
-            // error
-            close(client_sock);
-            return;
-        }
-        else {
-            buffer[read_bytes] = '\0'; // Null-terminate
-            cout << buffer << endl;
+        // Clear the buffer for each iteration
+        memset(data->buffer, 0, sizeof(data->buffer));
+
+        // Read from the client
+        int bytes = recv(data->client_socket,
+                         data->buffer,
+                         sizeof(data->buffer),
+                         0);
+        if (bytes < 0) {
+            perror("Error reading from socket");
+            break;
+        } else if (bytes == 0) {
+            // Connection closed by the client
+            cout << data->client_socket << " Client disconnected." << endl;
+            break;
         }
 
-        int sent_bytes = send(client_sock, buffer, read_bytes, 0);
-
+        cout << data->client_socket << " The client sent: " << data->buffer << endl;
+        int sent_bytes = send(data->client_socket,
+                              data->buffer,
+                              bytes,
+                              0);
         if (sent_bytes < 0) {
-            perror("error sending to client");
-            close(client_sock);
-            return;
+            perror("Error writing to socket");
         }
     }
-}
 
+    // Close the client socket and free memory
+    close(data->client_socket);
+    delete data;
+    return nullptr;
+}

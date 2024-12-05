@@ -10,6 +10,8 @@ option(ENABLE_TESTS "Enable tests" OFF)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pthread")
+
 # Add the include directory
 include_directories(inc)
 

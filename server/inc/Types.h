@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <string>
+#include <netinet/in.h>
 
 /**
  * @brief A unique identifier for User and Movie objects.
@@ -20,6 +21,12 @@ struct UID {
 
     bool operator==(const UID& id) const { return value == id.value; }
     bool operator<(const UID& id) const { return value < id.value; }
+};
+
+struct SocketData {
+    int client_socket;
+    char buffer[4096];
+    struct sockaddr_in from;
 };
 
 #endif //NETFLIX_PROJECT_TYPES_H

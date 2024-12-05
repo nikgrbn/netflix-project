@@ -3,6 +3,7 @@
 
 #include "ICommand.h"
 #include "IMenu.h"
+#include "Types.h"
 #include <map>
 #include <iostream>
 #include <sys/socket.h>
@@ -11,6 +12,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
+#include <pthread.h>
 
 using namespace std;
 
@@ -24,6 +26,7 @@ public:
 
     void run();
     static void handleClient(int clientSocket);
+    static void *handleClient(void* socketData);
 };
 
 
