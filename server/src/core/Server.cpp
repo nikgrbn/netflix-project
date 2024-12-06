@@ -32,7 +32,7 @@ void Server::run() {
     cout << "port: " << server_port << " addr: " << inet_ntoa(sin.sin_addr) << " Listening..." << endl;
     while (true) {
         // Create a unique_ptr for socket data to manage memory
-        auto socketData = make_unique<SocketData>();
+        auto socketData = make_unique<SocketData>(); // new SocketData();
 
         // Accept a connection
         socketData->client_socket = accept(serverSock.get(),
@@ -80,7 +80,9 @@ void Server::handleClient(SocketData* data) {
             }
 
             // Execute the command
+            cmdExecMtx.lock();
             string res = it->second->execute(args); // TODO: Mutex here, maybe?
+            cmdExecMtx.unlock();
             if (!res.empty()) {
                 menu->out(res);
             } else {

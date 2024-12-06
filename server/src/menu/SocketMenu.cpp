@@ -14,6 +14,7 @@ vector<string> SocketMenu::nextCommand() {
 
     // Split commands by specific delimiter
     string command(socketData->buffer, bytes);
+    clearSocketBuffer();
     return splitString(command, ' ');
 }
 
@@ -55,3 +56,6 @@ void SocketMenu::out(string output) {
     }
 }
 
+void SocketMenu::clearSocketBuffer() {
+    memset(socketData->buffer, 0, sizeof(socketData->buffer));
+}
