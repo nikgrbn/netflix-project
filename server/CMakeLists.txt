@@ -18,7 +18,6 @@ include_directories(inc)
 # Add the executable
 add_executable(NetflixProject
         src/main.cpp
-        src/core/App.cpp
         src/menu/ConsoleMenu.cpp
         src/models/Movie.cpp
         src/models/User.cpp
