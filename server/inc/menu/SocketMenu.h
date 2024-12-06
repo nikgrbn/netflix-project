@@ -19,6 +19,8 @@ public:
 
     vector<string> nextCommand() override;
     void out(string output) override;
+private:
+    void clearSocketBuffer();
 };
 
 
