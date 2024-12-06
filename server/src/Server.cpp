@@ -26,9 +26,10 @@ void Server::run() {
     // Listen to the socket connections
     if (listen(serverSock.get(), 5) < 0) {
         perror("error listening to a socket");
+        return;
     }
 
-    cout << "Listening..." << endl;
+    cout << "port: " << server_port << " addr: " << inet_ntoa(sin.sin_addr) << " Listening..." << endl;
     while (true) {
         // Create a unique_ptr for socket data to manage memory
         auto socketData = make_unique<SocketData>();
@@ -79,7 +80,7 @@ void Server::handleClient(SocketData* data) {
             }
 
             // Execute the command
-            string res = it->second->execute(args);
+            string res = it->second->execute(args); // TODO: Mutex here, maybe?
             if (!res.empty()) {
                 menu->out(res);
             } else {
