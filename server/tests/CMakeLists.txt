@@ -8,17 +8,17 @@ find_package(GTest REQUIRED)
 
 # Test files
 set(TEST_SOURCES
-        MainTests.cpp
-        TestUtils.cpp
-        AddCommandTest.cpp
-        RecommendCommandTest.cpp
-        HelpCommandTest.cpp
-        ../src/AddCommand.cpp
-        ../src/LocalDataManager.cpp
-        ../src/User.cpp
-        ../src/Movie.cpp
-        ../src/RecommendCommand.cpp
-        ../src/HelpCommand.cpp
+        core/MainTests.cpp
+        utils/TestUtils.cpp
+        commands/AddCommandTest.cpp
+        commands/RecommendCommandTest.cpp
+        commands/HelpCommandTest.cpp
+        ../src/commands/AddCommand.cpp
+        ../src/data_manager/LocalDataManager.cpp
+        ../src/models/User.cpp
+        ../src/models/Movie.cpp
+        ../src/commands/RecommendCommand.cpp
+        ../src/commands/HelpCommand.cpp
 )
 
 # Add test executable

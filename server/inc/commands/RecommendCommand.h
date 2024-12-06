@@ -7,8 +7,8 @@
 #include <unordered_set>
 #include <unordered_map>
 #include "ICommand.h"
-#include "IDataManager.h"
-#include "User.h"
+#include "data_manager/IDataManager.h"
+#include "models/User.h"
 
 class RecommendCommand : public ICommand {
 private:

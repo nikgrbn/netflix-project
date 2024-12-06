@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "../inc/RecommendCommand.h"
-#include "../inc/LocalDataManager.h"
-#include "TestUtils.h"
+#include "commands/RecommendCommand.h"
+#include "data_manager/LocalDataManager.h"
+#include "../utils/TestUtils.h"
 
 TEST(RecommendCommandTest, CheckCorrectRecommendations) {
     IDataManager* dataManager = new LocalDataManager();

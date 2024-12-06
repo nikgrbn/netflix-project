@@ -6,8 +6,8 @@
 #define NETFLIX_PROJECT_SOCKETMENU_H
 
 
-#include "IMenu.h"
-#include "Types.h"
+#include "menu/IMenu.h"
+#include "utils/Types.h"
 #include <sstream>
 
 class SocketMenu : public IMenu {

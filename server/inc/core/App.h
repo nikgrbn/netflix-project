@@ -1,8 +1,8 @@
 #ifndef NETFLIX_PROJECT_APP_H
 #define NETFLIX_PROJECT_APP_H
 
-#include "ICommand.h"
-#include "IMenu.h"
+#include "commands/ICommand.h"
+#include "menu/IMenu.h"
 
 #include <iostream>
 #include <map>

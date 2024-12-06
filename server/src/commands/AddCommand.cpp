@@ -1,4 +1,4 @@
-#include "../inc/AddCommand.h"
+#include "commands/AddCommand.h"
 
 string AddCommand::execute(const vector<string>& commands) {
     if (commands.size() <= 2) { // Check if at least 3 arguments are provided

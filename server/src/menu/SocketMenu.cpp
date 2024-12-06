@@ -1,26 +1,25 @@
-#include "../inc/ConsoleMenu.h"
+#include "menu/SocketMenu.h"
 
-vector<string> ConsoleMenu::nextCommand() {
-    string command;
-    std::getline(std::cin, command);
+SocketMenu::SocketMenu(SocketData *socketData) : socketData(socketData) {}
 
-    // Check if stdin is a terminal
-    // (HAPPENS IF --rm -it FLAGS AREN'T PASSED IN DOCKER run COMMAND)
-    if (!isatty(fileno(stdin))) {
-        // Non-interactive mode: simulate input or handle gracefully
-        std::cerr << "Non-interactive mode detected."
-                     "\nDid you pass --rm -it flags in the docker run command?"
-                     "\nExiting..." << std::endl;
-        exit(0);
+vector<string> SocketMenu::nextCommand() {
+    // Read from the client
+    int bytes = recv(socketData->client_socket,
+                     socketData->buffer,
+                     sizeof(socketData->buffer),
+                     0);
+    if (bytes <= 0) {
+        throw std::runtime_error("Client disconnected or error occurred.");
     }
 
+    // Split commands by specific delimiter
+    string command(socketData->buffer, bytes);
     return splitString(command, ' ');
 }
 
-
 // Function to split a string into tokens based on a
 // delimiter
-vector<string> ConsoleMenu::splitString(string& input, char delimiter)
+vector<string> SocketMenu::splitString(string& input, char delimiter)
 {
     // Checks for tabs or other illegal whitespace characters
     for (char& ch : input) {
@@ -49,6 +48,10 @@ vector<string> ConsoleMenu::splitString(string& input, char delimiter)
     return tokens;
 }
 
-void ConsoleMenu::out(string output) {
-    cout << output << endl;
+void SocketMenu::out(string output) {
+    int sent_bytes = send(socketData->client_socket, output.c_str(), output.size(), 0);
+    if (sent_bytes < 0) {
+        throw runtime_error("Error writing to socket");
+    }
 }
+

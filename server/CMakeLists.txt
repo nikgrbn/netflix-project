@@ -18,20 +18,20 @@ include_directories(inc)
 # Add the executable
 add_executable(NetflixProject
         src/main.cpp
-        src/App.cpp
-        src/ConsoleMenu.cpp
-        src/Movie.cpp
-        src/User.cpp
-        src/LocalDataManager.cpp
-        src/AddCommand.cpp
-        src/RecommendCommand.cpp
-        src/HelpCommand.cpp
-        inc/Types.h
-        src/Server.cpp
-        src/SocketMenu.cpp
-        inc/SocketMenu.h
-        inc/SocketRAII.h
-        inc/InvalidCommandException.h
+        src/core/App.cpp
+        src/menu/ConsoleMenu.cpp
+        src/models/Movie.cpp
+        src/models/User.cpp
+        src/data_manager/LocalDataManager.cpp
+        src/commands/AddCommand.cpp
+        src/commands/RecommendCommand.cpp
+        src/commands/HelpCommand.cpp
+        inc/utils/Types.h
+        src/core/Server.cpp
+        src/menu/SocketMenu.cpp
+        inc/menu/SocketMenu.h
+        inc/utils/SocketRAII.h
+        inc/utils/InvalidCommandException.h
 )
 
 # Conditionally include tests if ENABLE_TESTS is ON

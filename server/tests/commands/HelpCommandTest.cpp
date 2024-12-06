@@ -1,4 +1,4 @@
-#include "../inc/HelpCommand.h"
+#include "commands/HelpCommand.h"
 #include <gtest/gtest.h>
 
 // Check info method

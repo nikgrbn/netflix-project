@@ -1,4 +1,4 @@
-#include "../inc/HelpCommand.h"
+#include "commands/HelpCommand.h"
 #include <sstream>
 
 // Constructor: Initializes the HelpCommand

@@ -1,4 +1,4 @@
-#include "../inc/App.h"
+#include "core/App.h"
 
 App::App(IMenu* menu, map<string, ICommand*>& commands) : menu(menu), commands(commands) {}
 

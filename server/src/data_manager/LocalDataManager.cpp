@@ -1,4 +1,4 @@
-#include "../inc/LocalDataManager.h"
+#include "data_manager/LocalDataManager.h"
 
 LocalDataManager::LocalDataManager() {
     if (!filesystem::exists("data")) { // TODO remove hard coded path

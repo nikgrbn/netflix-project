@@ -6,7 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include "Movie.h"
-#include "Types.h"
+#include "utils/Types.h"
 
 using namespace std;
 

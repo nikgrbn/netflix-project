@@ -1,4 +1,4 @@
-#include "../inc/User.h"
+#include "models/User.h"
 
 
 bool User::operator==(const User &user) const {

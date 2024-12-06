@@ -1,4 +1,4 @@
-#include "Server.h"
+#include "core/Server.h"
 
 Server::Server(map<string, ICommand *> &commands, int server_port) : commands(commands), server_port(server_port) {}
 

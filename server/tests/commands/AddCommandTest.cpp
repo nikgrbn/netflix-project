@@ -1,8 +1,8 @@
-#include "../inc/LocalDataManager.h"
+#include "data_manager/LocalDataManager.h"
 #include <gtest/gtest.h>
 #include <vector>
-#include "../inc/AddCommand.h"
- #include "TestUtils.h"
+#include "commands/AddCommand.h"
+ #include "../utils/TestUtils.h"
 
 using namespace std;
 

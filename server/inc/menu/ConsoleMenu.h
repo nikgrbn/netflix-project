@@ -1,7 +1,7 @@
 #ifndef NETFLIX_PROJECT_CONSOLEMENU_H
 #define NETFLIX_PROJECT_CONSOLEMENU_H
 
-#include "IMenu.h"
+#include "menu/IMenu.h"
 #include <unistd.h>
 #include <vector>
 #include <sstream>

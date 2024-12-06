@@ -1,4 +1,4 @@
-#include "../inc/RecommendCommand.h"
+#include "commands/RecommendCommand.h"
 
 
 string RecommendCommand::execute(const vector<string>& commands) {

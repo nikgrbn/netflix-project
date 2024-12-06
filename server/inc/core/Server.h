@@ -1,12 +1,12 @@
 #ifndef NETFLIX_PROJECT_SERVER_H
 #define NETFLIX_PROJECT_SERVER_H
 
-#include "ICommand.h"
-#include "IMenu.h"
-#include "Types.h"
-#include "SocketMenu.h"
-#include "SocketRAII.h"
-#include "InvalidCommandException.h"
+#include "commands/ICommand.h"
+#include "menu/IMenu.h"
+#include "utils/Types.h"
+#include "menu/SocketMenu.h"
+#include "utils/SocketRAII.h"
+#include "utils/InvalidCommandException.h"
 #include <map>
 #include <iostream>
 #include <sys/socket.h>

@@ -2,7 +2,7 @@
 #define NETFLIX_PROJECT_MOVIE_H
 
 #include <iostream>
-#include "Types.h"
+#include "utils/Types.h"
 
 using namespace std;
 

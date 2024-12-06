@@ -1,10 +1,8 @@
-#include "../inc/AddCommand.h"
-#include "../inc/RecommendCommand.h"
-#include "../inc/HelpCommand.h"
-#include "../inc/Server.h"
-#include "../inc/ConsoleMenu.h"
-#include "../inc/LocalDataManager.h"
-#include <iostream>
+#include "commands/AddCommand.h"
+#include "commands/RecommendCommand.h"
+#include "commands/HelpCommand.h"
+#include "core/Server.h"
+#include "data_manager/LocalDataManager.h"
 #include <map>
 
 using namespace std;
