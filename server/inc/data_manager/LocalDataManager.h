@@ -18,7 +18,7 @@ private:
 public:
     LocalDataManager();
     void set(User user) override;
-    User* get(const UID& id) override;
+    std::optional<User> get(const UID& id) override;
     vector<User> load() override;
 };
 

@@ -18,7 +18,7 @@ TEST(RecommendCommandTest, CheckCorrectRecommendations) {
 
     // Expected recommendations for user 1 and movie 104
     vector<string> command = {"GET", "1", "104"};
-    string expectedLine = "105 106 111 110 112 113 107 108 109 114";
+    string expectedLine = "200 Ok\n\n105 106 111 110 112 113 107 108 109 114";
 
     string res = cRecommend.execute(command);
     EXPECT_EQ(res, expectedLine);
@@ -30,13 +30,13 @@ TEST(RecommendCommandTest, CheckIllegalArguments) {
     RecommendCommand* m = new RecommendCommand(dataManager);
 
     // Zero arguments are illegal
-    EXPECT_THROW(m->execute(vector<string>{}), std::invalid_argument);
+    EXPECT_THROW(m->execute(vector<string>{}), StatusCodeException);
 
     // One argument is illegal
-    EXPECT_THROW(m->execute(vector<string>{"GET"}), std::invalid_argument);
+    EXPECT_THROW(m->execute(vector<string>{"GET"}), StatusCodeException);
 
     // Two arguments are also illegal
-    EXPECT_THROW(m->execute(vector<string>{"GET 1"}), std::invalid_argument);
+    EXPECT_THROW(m->execute(vector<string>{"GET 1"}), StatusCodeException);
 }
 
 // Check info method
