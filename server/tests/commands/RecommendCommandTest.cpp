@@ -17,7 +17,7 @@ TEST(RecommendCommandTest, CheckCorrectRecommendations) {
     outFile.close();
 
     // Expected recommendations for user 1 and movie 104
-    vector<string> command = {"recommend", "1", "104"};
+    vector<string> command = {"GET", "1", "104"};
     string expectedLine = "105 106 111 110 112 113 107 108 109 114";
 
     string res = cRecommend.execute(command);
@@ -33,14 +33,14 @@ TEST(RecommendCommandTest, CheckIllegalArguments) {
     EXPECT_THROW(m->execute(vector<string>{}), std::invalid_argument);
 
     // One argument is illegal
-    EXPECT_THROW(m->execute(vector<string>{"recommend"}), std::invalid_argument);
+    EXPECT_THROW(m->execute(vector<string>{"GET"}), std::invalid_argument);
 
     // Two arguments are also illegal
-    EXPECT_THROW(m->execute(vector<string>{"recommend 1"}), std::invalid_argument);
+    EXPECT_THROW(m->execute(vector<string>{"GET 1"}), std::invalid_argument);
 }
 
 // Check info method
 TEST(RecommendCommandTest, CheckInfo) {
     IDataManager* dataManager = new LocalDataManager();
-    EXPECT_EQ(RecommendCommand(dataManager).info(), "recommend [userid] [movieid]");
+    EXPECT_EQ(RecommendCommand(dataManager).info(), "GET, arguments: [userid] [movieid]");
 }

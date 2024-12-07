@@ -21,8 +21,8 @@ int main(int argc, const char * argv[]) {
 
     // Create a map of commands
     map<string, ICommand*> commands;
-    commands["add"] = (ICommand*) new AddCommand(dataManager);
-    commands["recommend"] = (ICommand*) new RecommendCommand(dataManager);
+    commands["POST"] = (ICommand*) new AddCommand(dataManager);
+    commands["GET"] = (ICommand*) new RecommendCommand(dataManager);
     commands["help"] = (ICommand*) new HelpCommand(commands);
 
     Server server(commands, port); // Create an instance of server

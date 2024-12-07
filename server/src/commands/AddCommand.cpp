@@ -29,5 +29,5 @@ string AddCommand::execute(const vector<string>& commands) {
 }
 
 string AddCommand::info() const {
-    return "add [userid] [movieid1] [movieid2] …";
+    return "POST, arguments: [userid] [movieid1] [movieid2] …";
 }

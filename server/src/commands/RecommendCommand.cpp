@@ -67,13 +67,13 @@ string RecommendCommand::execute(const vector<string>& commands) {
 
     // Create a string with movie ids
     ostringstream result;
+    result << StatusCodes::OK << endl << endl;
     for (size_t i = 0; i < 10 && i < movieVector.size(); i++) {
         if (i > 0) {
             result << " "; // Add space before every element except the first
         }
         result << movieVector[i].first;
     }
-
     return result.str();
 }
 
@@ -92,5 +92,5 @@ int RecommendCommand::getCommonFactor(const unordered_set<string>& mUserMovies,
 }
 
 string RecommendCommand::info() const {
-    return "recommend [userid] [movieid]";
+    return "GET, arguments: [userid] [movieid]";
 }

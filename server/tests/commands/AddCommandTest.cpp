@@ -41,7 +41,7 @@ TEST(AddCommandTest, CheckAddOnExistingUser) {
   ofstream clearFile(testFilePath, ofstream::trunc); // Clear the file
   clearFile.close();
 
-  vector<string> command1 = {"add", "10", "1", "1", "1", "1"};
+  vector<string> command1 = {"POST", "10", "1", "1", "1", "1"};
   string expectedLine1 = "10 1";
 
   addCommand.execute(command1); // Add user
@@ -52,7 +52,7 @@ TEST(AddCommandTest, CheckAddOnExistingUser) {
   EXPECT_EQ(*it, expectedLine1);
 
   // Add more movies to the user
-  vector<string> command2 = {"add", "10", "1", "10", "12", "2"};
+  vector<string> command2 = {"POST", "10", "1", "10", "12", "2"};
   string expectedLine2 = "10 1 10 12 2";
 
   addCommand.execute(command2); // Add user
@@ -71,15 +71,15 @@ TEST(AddCommandTest, CheckIllegalArguments) {
   EXPECT_THROW(m->execute(vector<string>{}), std::invalid_argument);
 
   // One argument is illegal
-  EXPECT_THROW(m->execute(vector<string>{"add"}), std::invalid_argument);
+  EXPECT_THROW(m->execute(vector<string>{"POST"}), std::invalid_argument);
 
   // Two arguments are also illegal
-  EXPECT_THROW(m->execute(vector<string>{"add 12"}), std::invalid_argument);
+  EXPECT_THROW(m->execute(vector<string>{"POST 12"}), std::invalid_argument);
 }
 
 // Check info method
 TEST(AddCommandTest, CheckInfo) {
-  EXPECT_EQ(AddCommand(dataManager).info(), "add [userid] [movieid1] [movieid2] …");
+  EXPECT_EQ(AddCommand(dataManager).info(), "POST, arguments: [userid] [movieid1] [movieid2] …");
 }
 
 
