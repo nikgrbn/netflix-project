@@ -10,9 +10,12 @@ string RecommendCommand::execute(const vector<string>& commands) {
     UID mMovieID = UID(commands[2]);
 
     // Get our user data
-    User mUser = dataManager->get(mUserID);
+    User *mUser = dataManager->get(mUserID);
+    if (mUser == nullptr) {
+        throw StatusCodeException(StatusCodes::NOT_FOUND);
+    }
     unordered_set<string> mUserWatched; // unordered_set for O(1) search complexity
-    for (const Movie& movie : mUser.getMoviesWatched()) {
+    for (const Movie& movie : mUser->getMoviesWatched()) {
         mUserWatched.insert(movie.getId().toString());
     }
 

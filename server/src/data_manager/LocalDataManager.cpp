@@ -81,7 +81,7 @@ void LocalDataManager::set(User user) {
 }
 
 
-User LocalDataManager::get(const UID& id) {
+User* LocalDataManager::get(const UID& id) {
     vector<User> users = load();
 
     // Find user by ID
@@ -90,8 +90,8 @@ User LocalDataManager::get(const UID& id) {
     });
 
     if (it == users.end()) {
-        throw StatusCodeException(StatusCodes::NOT_FOUND);
+        return nullptr;
     }
 
-    return *it;
+    return &(*it);
 }

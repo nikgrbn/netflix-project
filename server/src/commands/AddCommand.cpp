@@ -4,6 +4,9 @@ string AddCommand::execute(const vector<string>& commands) {
     if (commands.size() <= 2) { // Check if at least 3 arguments are provided
         throw StatusCodeException(StatusCodes::BAD_REQUEST);
     }
+    if (dataManager->get(UID(commands[1])) != nullptr) { // Check if user already exists
+        throw StatusCodeException(StatusCodes::BAD_REQUEST);
+    }
 
     // Parse arguments to User object
     vector<Movie> movies;
@@ -22,7 +25,7 @@ string AddCommand::execute(const vector<string>& commands) {
     User user(UID(commands[1]), movies);
     dataManager->set(user);
 
-    return "";
+    return StatusCodes::CREATED;
 }
 
 string AddCommand::info() const {

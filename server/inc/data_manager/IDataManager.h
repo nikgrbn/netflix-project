@@ -7,7 +7,7 @@
 class IDataManager {
 public:
     virtual void set(User user) = 0;
-    virtual User get(const UID& id) = 0;
+    virtual User* get(const UID& id) = 0;
     virtual vector<User> load() = 0;
 
     virtual ~IDataManager() = default;
