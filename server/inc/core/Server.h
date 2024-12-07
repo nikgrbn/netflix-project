@@ -6,7 +6,7 @@
 #include "utils/Types.h"
 #include "menu/SocketMenu.h"
 #include "utils/SocketRAII.h"
-#include "utils/InvalidCommandException.h"
+#include "utils/StatusCodeException.h"
 #include <map>
 #include <iostream>
 #include <sys/socket.h>

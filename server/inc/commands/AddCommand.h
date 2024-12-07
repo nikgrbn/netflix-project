@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include "ICommand.h"
+#include "utils/StatusCodeException.h"
 
 using namespace std;
 

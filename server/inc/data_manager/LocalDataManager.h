@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <filesystem>
 #include "data_manager/IDataManager.h"
+#include "utils/StatusCodeException.h"
 
 using namespace std;
 
@@ -17,7 +18,7 @@ private:
 public:
     LocalDataManager();
     void set(User user) override;
-    User get(const UID& id) override;
+    std::optional<User> get(const UID& id) override;
     vector<User> load() override;
 };
 

@@ -3,16 +3,19 @@
 
 string RecommendCommand::execute(const vector<string>& commands) {
     if (commands.size() != 3) { // Only 3 arguments must be provided
-        throw invalid_argument("Invalid number of arguments");
+        throw StatusCodeException(StatusCodes::BAD_REQUEST);
     }
 
     UID mUserID = UID(commands[1]);
     UID mMovieID = UID(commands[2]);
 
     // Get our user data
-    User mUser = dataManager->get(mUserID);
+    std::optional<User> mUserOpt = dataManager->get(mUserID);
+    if (!mUserOpt) {
+        throw StatusCodeException(StatusCodes::NOT_FOUND);
+    }
     unordered_set<string> mUserWatched; // unordered_set for O(1) search complexity
-    for (const Movie& movie : mUser.getMoviesWatched()) {
+    for (const Movie& movie : (*mUserOpt).getMoviesWatched()) {
         mUserWatched.insert(movie.getId().toString());
     }
 
@@ -64,13 +67,13 @@ string RecommendCommand::execute(const vector<string>& commands) {
 
     // Create a string with movie ids
     ostringstream result;
+    result << StatusCodes::OK << endl << endl;
     for (size_t i = 0; i < 10 && i < movieVector.size(); i++) {
         if (i > 0) {
             result << " "; // Add space before every element except the first
         }
         result << movieVector[i].first;
     }
-
     return result.str();
 }
 
@@ -89,5 +92,5 @@ int RecommendCommand::getCommonFactor(const unordered_set<string>& mUserMovies,
 }
 
 string RecommendCommand::info() const {
-    return "recommend [userid] [movieid]";
+    return "GET, arguments: [userid] [movieid]";
 }

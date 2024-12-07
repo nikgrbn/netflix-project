@@ -4,9 +4,11 @@
 #include "data_manager/IDataManager.h"
 #include <iostream>
 #include <vector>
+#include <sstream>
 #include "ICommand.h"
 #include "AddCommand.h"
 #include "RecommendCommand.h"
+#include "utils/StatusCodeException.h"
 
 class HelpCommand : public ICommand {
 public:

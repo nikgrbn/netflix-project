@@ -3,6 +3,8 @@
 SocketMenu::SocketMenu(SocketData *socketData) : socketData(socketData) {}
 
 vector<string> SocketMenu::nextCommand() {
+    clearSocketBuffer();
+
     // Read from the client
     int bytes = recv(socketData->client_socket,
                      socketData->buffer,
@@ -14,7 +16,6 @@ vector<string> SocketMenu::nextCommand() {
 
     // Split commands by specific delimiter
     string command(socketData->buffer, bytes);
-    clearSocketBuffer();
     return splitString(command, ' ');
 }
 
@@ -22,10 +23,14 @@ vector<string> SocketMenu::nextCommand() {
 // delimiter
 vector<string> SocketMenu::splitString(string& input, char delimiter)
 {
+    if (input.empty()) {
+        throw StatusCodeException(StatusCodes::BAD_REQUEST);
+    }
+
     // Checks for tabs or other illegal whitespace characters
     for (char& ch : input) {
         if (ch != delimiter && isspace(ch)) {
-            throw runtime_error("Invalid whitespace character found.");
+            throw StatusCodeException(StatusCodes::BAD_REQUEST);
         }
     }
 

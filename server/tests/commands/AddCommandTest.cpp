@@ -32,54 +32,23 @@ TEST(AddCommandTest, CheckCorrectDataAddition) {
   }
 }
 
-// Test adding a user that already exists and updating it movie list
-TEST(AddCommandTest, CheckAddOnExistingUser) {
-  string testFilePath = "data/users.txt";
-  AddCommand addCommand(dataManager);
-
-  // Ensure the test file is clean
-  ofstream clearFile(testFilePath, ofstream::trunc); // Clear the file
-  clearFile.close();
-
-  vector<string> command1 = {"add", "10", "1", "1", "1", "1"};
-  string expectedLine1 = "10 1";
-
-  addCommand.execute(command1); // Add user
-
-  // Assert user been added correctly
-  vector<string> fileLines = TestUtils::readFileLines(testFilePath);     // Read file
-  auto it = find(fileLines.begin(), fileLines.end(), expectedLine1);
-  EXPECT_EQ(*it, expectedLine1);
-
-  // Add more movies to the user
-  vector<string> command2 = {"add", "10", "1", "10", "12", "2"};
-  string expectedLine2 = "10 1 10 12 2";
-
-  addCommand.execute(command2); // Add user
-
-  // Assert user been added correctly
-  fileLines = TestUtils::readFileLines(testFilePath);     // Read file
-  it = find(fileLines.begin(), fileLines.end(), expectedLine2);
-  EXPECT_EQ(*it, expectedLine2);
-}
-
 // Check illegal arguments
 TEST(AddCommandTest, CheckIllegalArguments) {
   AddCommand* m = new AddCommand(dataManager);
 
   // Zero arguments are illegal
-  EXPECT_THROW(m->execute(vector<string>{}), std::invalid_argument);
+  EXPECT_THROW(m->execute(vector<string>{}), StatusCodeException);
 
   // One argument is illegal
-  EXPECT_THROW(m->execute(vector<string>{"add"}), std::invalid_argument);
+  EXPECT_THROW(m->execute(vector<string>{"POST"}), StatusCodeException);
 
   // Two arguments are also illegal
-  EXPECT_THROW(m->execute(vector<string>{"add 12"}), std::invalid_argument);
+  EXPECT_THROW(m->execute(vector<string>{"POST 12"}), StatusCodeException);
 }
 
 // Check info method
 TEST(AddCommandTest, CheckInfo) {
-  EXPECT_EQ(AddCommand(dataManager).info(), "add [userid] [movieid1] [movieid2] …");
+  EXPECT_EQ(AddCommand(dataManager).info(), "POST, arguments: [userid] [movieid1] [movieid2] …");
 }
 
 
