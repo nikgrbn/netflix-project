@@ -74,6 +74,9 @@ void Server::handleClient(SocketData* data) {
             cout << endl;
 
             // Check if command exists
+            if (args.empty()) {
+                throw StatusCodeException(StatusCodes::BAD_REQUEST);
+            }
             auto it = commands.find(args[0]);
             if (it == commands.end() || !(it->second)) {
                 throw StatusCodeException(StatusCodes::BAD_REQUEST);
