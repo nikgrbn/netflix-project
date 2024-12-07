@@ -7,8 +7,10 @@
 
 
 #include "menu/IMenu.h"
+#include "utils/StatusCodeException.h"
 #include "utils/Types.h"
 #include <sstream>
+#include <cstring>
 
 class SocketMenu : public IMenu {
 private:

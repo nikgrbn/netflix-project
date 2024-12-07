@@ -9,6 +9,7 @@
 #include "ICommand.h"
 #include "data_manager/IDataManager.h"
 #include "models/User.h"
+#include "utils/StatusCodeException.h"
 
 class RecommendCommand : public ICommand {
 private:

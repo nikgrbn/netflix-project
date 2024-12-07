@@ -3,7 +3,7 @@
 
 string RecommendCommand::execute(const vector<string>& commands) {
     if (commands.size() != 3) { // Only 3 arguments must be provided
-        throw invalid_argument("Invalid number of arguments");
+        throw StatusCodeException(StatusCodes::BAD_REQUEST);
     }
 
     UID mUserID = UID(commands[1]);

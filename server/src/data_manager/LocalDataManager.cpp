@@ -90,7 +90,7 @@ User LocalDataManager::get(const UID& id) {
     });
 
     if (it == users.end()) {
-        throw invalid_argument("User not found");
+        throw StatusCodeException(StatusCodes::NOT_FOUND);
     }
 
     return *it;

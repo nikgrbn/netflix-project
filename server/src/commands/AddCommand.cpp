@@ -2,7 +2,7 @@
 
 string AddCommand::execute(const vector<string>& commands) {
     if (commands.size() <= 2) { // Check if at least 3 arguments are provided
-        throw invalid_argument("Invalid number of arguments");
+        throw StatusCodeException(StatusCodes::BAD_REQUEST);
     }
 
     // Parse arguments to User object

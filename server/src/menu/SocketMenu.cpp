@@ -25,7 +25,7 @@ vector<string> SocketMenu::splitString(string& input, char delimiter)
     // Checks for tabs or other illegal whitespace characters
     for (char& ch : input) {
         if (ch != delimiter && isspace(ch)) {
-            throw runtime_error("Invalid whitespace character found.");
+            throw StatusCodeException(StatusCodes::BAD_REQUEST);
         }
     }
 

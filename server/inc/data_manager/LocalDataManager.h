@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <filesystem>
 #include "data_manager/IDataManager.h"
+#include "utils/StatusCodeException.h"
 
 using namespace std;
 
