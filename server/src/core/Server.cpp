@@ -60,8 +60,6 @@ void Server::handleClient(SocketData* data) {
     auto menu = make_unique<SocketMenu>(data);
 
     while (true) {
-        // Clear the buffer for each iteration
-        memset(data->buffer, 0, sizeof(data->buffer));
         try {
             // Get the next command from the client
             vector<string> args = menu->nextCommand();
@@ -82,10 +80,10 @@ void Server::handleClient(SocketData* data) {
                 throw StatusCodeException(StatusCodes::BAD_REQUEST);
             }
 
-            // Execute the command
-            cmdExecMtx.lock();
+            // Lock the mutex before executing the command
+            std::unique_lock<std::mutex> lock(cmdExecMtx); // Unique lock to handle out of scope unlock
             string res = it->second->execute(args); // TODO: Mutex here, maybe? What about 'help' or 'recommend' commands? Neither use shared resources - so why lock them with mutex?
-            cmdExecMtx.unlock();
+            lock.unlock();
             if (!res.empty()) {
                 menu->out(res);
             } else {
@@ -93,7 +91,7 @@ void Server::handleClient(SocketData* data) {
             }
 
         } catch (const StatusCodeException& e) {
-            // Send the error message to the client
+            // Send the status code message to the client
             menu->out(e.what());
             continue;
 
