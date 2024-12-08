@@ -5,12 +5,13 @@ dest_ip = '127.0.0.1'
 dest_port = 12345
 s.connect((dest_ip, dest_port))
 
-msg = input("Message to send: ")
+msg = input()
 while not msg == 'quit':
-    s.send(bytes(msg, 'utf-8'))
-    data = s.recv(4096)
-    print("Server sent: ", data.decode('utf-8'))
-    msg = input("Message to send: ")
+    if msg: # If message is not empty
+        s.send(bytes(msg, 'utf-8'))
+        data = s.recv(4096)
+        print(data.decode('utf-8'))
+    msg = input()
 
 s.close()
 
