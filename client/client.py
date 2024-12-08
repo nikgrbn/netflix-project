@@ -1,10 +1,18 @@
 import socket
+import sys
 
+# Check if the user has provided the destination IP and port
+try:
+    dest_ip = sys.argv[1]
+    dest_port = int(sys.argv[2])
+except:
+    exit('Usage: python client.py <dest_ip> <dest_port>')
+
+# Create a socket and connect to the server
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-dest_ip = '127.0.0.1'
-dest_port = 12345
 s.connect((dest_ip, dest_port))
 
+# Send and receive messages
 msg = input()
 while not msg == 'quit':
     if msg: # If message is not empty
