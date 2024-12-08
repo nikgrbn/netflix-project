@@ -4,9 +4,10 @@ string AddCommand::execute(const vector<string>& commands) {
     if (commands.size() <= 2) { // Check if at least 3 arguments are provided
         throw StatusCodeException(StatusCodes::BAD_REQUEST);
     }
-    if (dataManager->get(UID(commands[1]))) { // Check if user already exists
-        throw StatusCodeException(StatusCodes::BAD_REQUEST);
-    }
+    std::optional<User> userOpt = dataManager->get(UID(commands[1]));
+    // if (!userOpt.has_value()) { // Check if user already exists
+    //     throw StatusCodeException(StatusCodes::BAD_REQUEST);
+    // }
 
     // Parse arguments to User object
     vector<Movie> movies;
@@ -19,7 +20,7 @@ string AddCommand::execute(const vector<string>& commands) {
         if (find(movies.begin(), movies.end(), movie) == movies.end()) {
             // If not -> add it
             movies.emplace_back(movie);
-            }
+        }
     }
 
     User user(UID(commands[1]), movies);

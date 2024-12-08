@@ -2,6 +2,7 @@
 #define NETFLIX_PROJECT_IDATAMANAGER_H
 
 #include <vector>
+#include <optional>
 #include "models/User.h"
 
 class IDataManager {
