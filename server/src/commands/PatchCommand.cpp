@@ -1,4 +1,4 @@
-#include "PatchCommand.h"
+#include "commands/PatchCommand.h"
 
 PatchCommand::PatchCommand(IDataManager *dataManager) {
     

@@ -13,12 +13,14 @@ set(TEST_SOURCES
         commands/AddCommandTest.cpp
         commands/RecommendCommandTest.cpp
         commands/HelpCommandTest.cpp
+        commands/PatchCommandTest.cpp
         ../src/commands/AddCommand.cpp
         ../src/data_manager/LocalDataManager.cpp
         ../src/models/User.cpp
         ../src/models/Movie.cpp
         ../src/commands/RecommendCommand.cpp
         ../src/commands/HelpCommand.cpp
+        ../src/commands/PatchCommand.cpp
 )
 
 # Add test executable

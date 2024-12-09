@@ -13,12 +13,13 @@ TEST(AddCommandTest, CheckCorrectDataAddition) {
   string testFilePath = "data/users.txt";
   AddCommand addCommand(dataManager);
 
+  const TestUtils& testUtils = TestUtils::getInstance();
   // Ensure the test file is clean
-  ofstream clearFile(testFilePath, ofstream::trunc); // Clear the file
-  clearFile.close();
+  testUtils.prepareTest("POST", testFilePath);
 
   // Run through each test case in the vector
-  for (const auto& testCase : TestUtils::testData) {
+  const auto& testData = testUtils.getTestData("POST");
+  for (const auto& testCase : testData) {
     const vector<string>& command = testCase.first;
     const string& expectedLine = testCase.second;
 

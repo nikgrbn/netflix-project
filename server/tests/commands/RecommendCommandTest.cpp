@@ -9,12 +9,9 @@ TEST(RecommendCommandTest, CheckCorrectRecommendations) {
 
     // Ensure the test file is clean and ready for writing
     string testFilePath = "data/users.txt";
-    ofstream outFile(testFilePath, ofstream::trunc); // Open in trunc mode to clear content
-
-    for (const auto& dataLine : TestUtils::testData) {
-        outFile << dataLine.second << endl; // Write data to a file
-    }
-    outFile.close();
+    
+    const TestUtils& testUtils = TestUtils::getInstance();
+    testUtils.prepareTest("GET", testFilePath);
 
     // Expected recommendations for user 1 and movie 104
     vector<string> command = {"GET", "1", "104"};
