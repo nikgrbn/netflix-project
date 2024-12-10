@@ -34,7 +34,7 @@ TEST(DeleteCommandTest, CheckCorrectDataDeletion) {
     }
 
     // Try to delete a non-existing movie
-    EXPECT_EQ(deleteCommand.execute(vector<string>{"DELETE", "1", "999"}), StatusCodes::NOT_FOUND);
+    EXPECT_THROW(deleteCommand.execute(vector<string>{"DELETE", "1", "999"}), StatusCodeException);
 }
 
 // Check illegal arguments
