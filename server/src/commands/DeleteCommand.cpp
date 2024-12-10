@@ -1,5 +1,7 @@
 #include "commands/DeleteCommand.h"
 
+#include <unordered_set>
+
 string DeleteCommand::execute(const vector<string>& commands) {
     if (commands.size() <= 2) { // Check if at least 3 arguments are provided
         throw StatusCodeException(StatusCodes::BAD_REQUEST);
@@ -12,12 +14,16 @@ string DeleteCommand::execute(const vector<string>& commands) {
     }
 
     vector<Movie> movies((*mUserOpt).getMoviesWatched());
-    for (auto it = commands.begin() + 2; it != commands.end(); ++it) {
-        // Check if movie in users watched
+    // Use unordered set to squish duplicates
+    unordered_set<std::string> deleteArguments(commands.begin() + 2, commands.end());
+    for (const auto& arg : deleteArguments) {
+
+        // Check if movie in user's watched
         auto movieToDelete =
-            find(movies.begin(), movies.end(), Movie((UID(*it))));
+            find(movies.begin(), movies.end(), Movie((UID(arg))));
+
+        // If not in user's watched, throw error
         if (movieToDelete == movies.end()) {
-            // If not in user's watched, throw error
             throw StatusCodeException(StatusCodes::NOT_FOUND);
         }
 
