@@ -8,6 +8,7 @@
 class IDataManager {
 public:
     virtual void set(User user) = 0;
+    virtual void update(User user) = 0;
     virtual std::optional<User> get(const UID& id) = 0;
     virtual vector<User> load() = 0;
 

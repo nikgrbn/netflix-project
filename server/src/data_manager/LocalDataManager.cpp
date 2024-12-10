@@ -68,7 +68,23 @@ vector<User> LocalDataManager::load() {
 }
 
 
+/**
+ * Set user entry in data,
+ * if does not exist, create a new entry
+ */
 void LocalDataManager::set(User user) {
+    // Lock at the start, lock gets released at the end.
+    std::lock_guard<std::mutex> lock(mtx);
+    users.push_back(user);
+    save();
+}
+
+
+/**
+ * Update user entry in data,
+ * if does not exist, create a new entry
+ */
+void LocalDataManager::update(User user) {
     // Lock at the start, lock gets released at the end.
     std::lock_guard<std::mutex> lock(mtx);
 

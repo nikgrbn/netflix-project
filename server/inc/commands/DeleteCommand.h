@@ -6,6 +6,7 @@
 #define DELETECOMMAND_H
 #include <data_manager/IDataManager.h>
 #include "ICommand.h"
+#include "utils/StatusCodeException.h"
 
 
 class DeleteCommand : public ICommand {
