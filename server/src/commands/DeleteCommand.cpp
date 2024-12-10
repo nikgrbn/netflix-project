@@ -7,26 +7,28 @@ string DeleteCommand::execute(const vector<string>& commands) {
 
     // Get our user data
     std::optional<User> mUserOpt = dataManager->get(UID(commands[1]));
-    if (!mUserOpt) {
+    if (!mUserOpt) { // Check if user exists
         throw StatusCodeException(StatusCodes::NOT_FOUND);
     }
 
-    vector<Movie> movies;
+    vector<Movie> movies((*mUserOpt).getMoviesWatched());
     for (auto it = commands.begin() + 2; it != commands.end(); ++it) {
-        // Create movie object
-        Movie movie((UID(*it)));
-
-        // Check if movie already in user's watched
-        if (find(movies.begin(), movies.end(), movie) == movies.end()) {
-            // If not -> add it
-            movies.emplace_back(movie);
+        // Check if movie in users watched
+        auto movieToDelete =
+            find(movies.begin(), movies.end(), Movie((UID(*it))));
+        if (movieToDelete == movies.end()) {
+            // If not in user's watched, throw error
+            throw StatusCodeException(StatusCodes::NOT_FOUND);
         }
+
+        // Remove movie from user's watched
+        movies.erase(movieToDelete);
     }
 
     User user(UID(commands[1]), movies);
     dataManager->set(user);
 
-    return "TODO: Implement DeleteCommand";
+    return StatusCodes::NO_CONTENT;
 }
 
 string DeleteCommand::info() const {
