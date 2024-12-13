@@ -18,6 +18,8 @@ std::string HelpCommand::execute(const vector<string>& commands) {
 
     // Build the output string
     std::stringstream ss;
+    ss << StatusCodes::OK << endl << endl;
+
     for (auto it = commandNames.begin(); it != commandNames.end(); ++it) {
         if(*it == "help") {
             continue;
@@ -28,7 +30,8 @@ std::string HelpCommand::execute(const vector<string>& commands) {
             ss << std::endl;
     }
    
-}
+}   
+
     ss << this->info();
 
     return ss.str();
