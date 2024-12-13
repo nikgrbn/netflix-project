@@ -9,19 +9,32 @@ std::string HelpCommand::execute(const vector<string>& commands) {
         throw StatusCodeException(StatusCodes::BAD_REQUEST);
     }
 
-    std::stringstream ss;
+    // Collect all command names and sort them alphabetically
+    std::vector<std::string> commandNames;
     for (const auto& command : this->commands) {
-        if(command.second->info() == this->info()) {
+        commandNames.push_back(command.first);
+    }
+    std::sort(commandNames.begin(), commandNames.end());
+
+    // Build the output string
+    std::stringstream ss;
+    for (auto it = commandNames.begin(); it != commandNames.end(); ++it) {
+        if(*it == "help") {
             continue;
         }
-        ss << command.second->info() << std::endl;
+        ss << this->commands.at(*it)->info();
+
+        if (std::next(it) != commandNames.end()) { 
+            ss << std::endl;
     }
+   
+}
     ss << this->info();
 
     return ss.str();
 }
 
-// Returns a description of the help command
+// Returns the description of the HelpCommand
 std::string HelpCommand::info() const {
     return "help";
 }

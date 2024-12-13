@@ -49,7 +49,7 @@ TEST(PatchCommandTest, CheckIllegalArguments) {
 
 TEST(PatchCommandTest, CheckInfo) {
   IDataManager* dataManager = new LocalDataManager();
-  EXPECT_EQ(PatchCommand(dataManager).info(), "PATCH, arguments: [userid] [movieid1] [movieid2] ...");
+  EXPECT_EQ(PatchCommand(dataManager).info(), "PATCH, arguments: [userid] [movieid1] [movieid2] …");
 }
 
 
