@@ -28,7 +28,7 @@ TEST(PatchCommandTest, CheckCorrectDataAddition) {
         // Assert
         vector<string> fileLines = TestUtils::readFileLines(testFilePath);     // Read file
         auto it = find(fileLines.begin(), fileLines.end(), expectedLine);
-        EXPECT_EQ(it, fileLines.end());
+        EXPECT_NE(it, fileLines.end()) << "Failed searching for " << expectedLine;
     }
 }
 

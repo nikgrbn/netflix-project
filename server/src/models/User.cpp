@@ -1,6 +1,5 @@
 #include "models/User.h"
 
-
 bool User::operator==(const User &user) const {
     return this->id == user.id;
 }
@@ -24,4 +23,13 @@ void User::setMoviesWatched(vector<Movie> movies_watched) {
 
 const UID &User::getId() const {
     return id;
+}
+
+bool User::hasWatchedMovie(const Movie& movie) const {
+    for (size_t i = 0; i < movies_watched.size(); i++) {
+        if (movies_watched[i] == movie) {
+            return true;
+        }
+    }
+    return false;
 }
