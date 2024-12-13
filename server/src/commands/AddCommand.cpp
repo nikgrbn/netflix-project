@@ -24,7 +24,7 @@ string AddCommand::execute(const vector<string>& commands) {
     }
 
     User user(UID(commands[1]), movies);
-    dataManager->set(user);
+    dataManager->update(user);
 
     return StatusCodes::CREATED;
 }

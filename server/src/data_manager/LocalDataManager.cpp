@@ -68,7 +68,36 @@ vector<User> LocalDataManager::load() {
 }
 
 
+/**
+ * Set user entry in data,
+ * if does not exist, create a new entry
+ */
 void LocalDataManager::set(User user) {
+    // Lock at the start, lock gets released at the end.
+    std::lock_guard<std::mutex> lock(mtx);
+
+    // Check if the user already exists
+    auto it = find_if(users.begin(), users.end(), [&](User& u) {
+        return u.getId() == user.getId();
+    });
+
+    if (it != users.end()) {
+        // User exists, set their movies
+        it->setMoviesWatched(user.getMoviesWatched());
+    } else {
+        // User does not exist, add them
+        users.push_back(user);
+    }
+
+    save();
+}
+
+
+/**
+ * Update user entry in data,
+ * if does not exist, create a new entry
+ */
+void LocalDataManager::update(User user) {
     // Lock at the start, lock gets released at the end.
     std::lock_guard<std::mutex> lock(mtx);
 
