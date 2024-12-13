@@ -8,28 +8,28 @@
 using namespace std;
 
 TEST(PostCommandTest, CheckCorrectDataAddition) {
-    IDataManager* dataManager = new LocalDataManager();
-    string testFilePath = "data/users.txt";
-    PostCommand postCommand(dataManager);
+  const TestUtils& testUtils = TestUtils::getInstance();
+  // Require the test file be filled with data.
+  string testFilePath = "data/users.txt";
+  testUtils.prepareTest("POST", testFilePath);
 
-    const TestUtils& testUtils = TestUtils::getInstance();
-    // Require the test file be filled with data.
-    testUtils.prepareTest("POST", testFilePath);
+  IDataManager* dataManager = new LocalDataManager();
+  PostCommand postCommand(dataManager);
 
-    // Run through each test case in the vector
-    const auto& testData = testUtils.getTestData("POST");
-    for (const auto& testCase : testData) {
-        const vector<string>& command = testCase.first;
-        const string& expectedLine = testCase.second;
+  // Run through each test case in the vector
+  const auto& testData = testUtils.getTestData("POST");
+  for (const auto& testCase : testData) {
+    const vector<string>& command = testCase.first;
+    const string& expectedLine = testCase.second;
 
-        // Act
-        postCommand.execute(command);
+    // Act
+    postCommand.execute(command);
 
-        // Assert
-        vector<string> fileLines = TestUtils::readFileLines(testFilePath);     // Read file
-        auto it = find(fileLines.begin(), fileLines.end(), expectedLine);
-        EXPECT_NE(it, fileLines.end()) << "Failed searching for " << expectedLine;
-    }
+    // Assert
+    vector<string> fileLines = TestUtils::readFileLines(testFilePath);     // Read file
+    auto it = find(fileLines.begin(), fileLines.end(), expectedLine);
+    EXPECT_NE(it, fileLines.end()) << "Failed searching for " << expectedLine;
+  }
 }
 
 TEST(PostCommandTest, CheckIllegalArguments) {
