@@ -7,7 +7,7 @@ PatchCommand::PatchCommand(IDataManager *dataManager) : dataManager(dataManager)
 }
 
 string PatchCommand::info() const {
-    return "PATCH, arguments: [userid] [movieid1] [movieid2] ...";
+    return "PATCH, arguments: [userid] [movieid1] [movieid2] …";
 }
 
 string PatchCommand::execute(const vector<string>& commands) {
