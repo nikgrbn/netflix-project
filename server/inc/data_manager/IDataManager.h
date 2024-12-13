@@ -8,8 +8,8 @@
 class IDataManager {
 public:
     virtual void set(User user) = 0;
-
-    /**
+    virtual void update(User user) = 0;
+     /**
      * @param id The ID of the user to get.
      * @returns The user with the given ID, or an empty optional if no user exists with the given ID.
      */

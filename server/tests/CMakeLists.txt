@@ -14,6 +14,7 @@ set(TEST_SOURCES
         commands/RecommendCommandTest.cpp
         commands/HelpCommandTest.cpp
         commands/PatchCommandTest.cpp
+        commands/DeleteCommandTest.cpp
         ../src/commands/AddCommand.cpp
         ../src/data_manager/LocalDataManager.cpp
         ../src/models/User.cpp
@@ -21,6 +22,7 @@ set(TEST_SOURCES
         ../src/commands/RecommendCommand.cpp
         ../src/commands/HelpCommand.cpp
         ../src/commands/PatchCommand.cpp
+        ../src/commands/DeleteCommand.cpp
 )
 
 # Add test executable

@@ -26,6 +26,7 @@ add_executable(NetflixProject
         src/commands/RecommendCommand.cpp
         src/commands/HelpCommand.cpp
         src/commands/PatchCommand.cpp
+        src/commands/DeleteCommand.cpp
         inc/utils/Types.h
         src/core/Server.cpp
         src/menu/SocketMenu.cpp
