@@ -20,6 +20,7 @@ TEST(HelpCommandTest, CheckHelpOutput) {
 
   
     string expectedOutput =
+        "200 Ok\n\n"
         "DELETE, arguments: [userid] [movieid1] [movieid2] …\n"
         "GET, arguments: [userid] [movieid]\n"
         "PATCH, arguments: [userid] [movieid1] [movieid2] …\n"
