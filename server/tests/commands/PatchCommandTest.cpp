@@ -8,13 +8,13 @@ using namespace std;
 
 // Use add command to add data to the file and check it
 TEST(PatchCommandTest, CheckCorrectDataAddition) {
-    IDataManager* dataManager = new LocalDataManager();
-    string testFilePath = "data/users.txt";
-    PatchCommand patchCommand(dataManager);
-
     const TestUtils& testUtils = TestUtils::getInstance();
+    string testFilePath = "data/users.txt";
     // Require the test file be filled with data.
     testUtils.prepareTest("PATCH", testFilePath);
+
+    IDataManager* dataManager = new LocalDataManager();
+    PatchCommand patchCommand(dataManager);
 
     // Run through each test case in the vector
     const auto& testData = testUtils.getTestData("PATCH");
@@ -49,7 +49,7 @@ TEST(PatchCommandTest, CheckIllegalArguments) {
 
 TEST(PatchCommandTest, CheckInfo) {
   IDataManager* dataManager = new LocalDataManager();
-  EXPECT_EQ(PatchCommand(dataManager).info(), "PATCH [userid] [movieid1] [movieid2] ...");
+  EXPECT_EQ(PatchCommand(dataManager).info(), "PATCH, arguments: [userid] [movieid1] [movieid2] ...");
 }
 
 
