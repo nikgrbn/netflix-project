@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 #include <vector>
 #include "commands/PatchCommand.h"
- #include "../utils/TestUtils.h"
+#include "../utils/TestUtils.h"
 
 using namespace std;
 

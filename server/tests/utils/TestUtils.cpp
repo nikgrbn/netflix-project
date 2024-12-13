@@ -25,6 +25,7 @@ const TestUtils& TestUtils::getInstance(){
 }
 
 TestUtils::TestUtils() : testData(), testPreparation() {
+    testPreparation["POST"] = "";
     testData["POST"] = {
         {{"POST", "1", "100", "101", "102", "103"}, "1 100 101 102 103"},
         {{"POST", "2", "101", "102", "104", "105", "106"}, "2 101 102 104 105 106"},
@@ -48,11 +49,9 @@ TestUtils::TestUtils() : testData(), testPreparation() {
         "8 101 104 105 106 109 111 114\n"
         "9 100 103 105 107 112 113 115\n"
         "10 100 102 105 106 107 109 110 116\n";
-    
     testData["GET"] = {};
 
     testPreparation["PATCH"] = testPreparation["GET"];
-
     testData["PATCH"] = {
         {{"PATCH", "1", "104"}, "1 100 101 102 103 104"},
         {{"PATCH", "2", "103", "106"}, "2 101 102 104 105 106 103"},

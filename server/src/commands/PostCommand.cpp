@@ -1,4 +1,4 @@
-#include "commands/PostCommand.cpp"
+#include "commands/PostCommand.h"
 
 PostCommand::PostCommand(IDataManager *dataManager) : dataManager(dataManager) {
 
