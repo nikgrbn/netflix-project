@@ -16,5 +16,3 @@ WORKDIR /usr/src/netflix-project/build
 
 # Build project using CMake (no tests enabled)
 RUN cmake -DENABLE_TESTS=OFF .. && make
-
-CMD ["./NetflixProject"]

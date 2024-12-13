@@ -15,7 +15,8 @@ int main(int argc, const char * argv[]) {
     try {
         port = stoi(argv[1]);
     } catch (exception& e) {
-        port = 12345;
+        cerr << "Error: Port number needs to be passed in args." << endl;
+        return 1;
     }
 
     // Create an instance of LocalDataManager

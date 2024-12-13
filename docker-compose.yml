@@ -22,8 +22,6 @@ services:
     init: true
     container_name: netflix_client
     working_dir: /usr/src/netflix-client
-    depends_on:
-      - server
     command: ["python", "client.py", "server", "${SERVER_PORT:-12345}"]  # Use default port if unset
     environment:
       - SERVER_PORT=${SERVER_PORT:-12345}
