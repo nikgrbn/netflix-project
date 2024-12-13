@@ -2,6 +2,7 @@
 #include "commands/RecommendCommand.h"
 #include <commands/DeleteCommand.h>
 #include "commands/HelpCommand.h"
+#include "commands/PatchCommand.h"
 #include "core/Server.h"
 #include "data_manager/LocalDataManager.h"
 #include <map>
@@ -24,6 +25,7 @@ int main(int argc, const char * argv[]) {
     map<string, ICommand*> commands;
     commands["POST"] = (ICommand*) new AddCommand(dataManager);
     commands["GET"] = (ICommand*) new RecommendCommand(dataManager);
+    commands["PATCH"] = (ICommand*) new PatchCommand(dataManager);
     commands["DELETE"] = (ICommand*) new DeleteCommand(dataManager);
     commands["help"] = (ICommand*) new HelpCommand(commands);
 

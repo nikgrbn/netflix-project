@@ -1,24 +1,37 @@
-//
-// Created by nikita on 11/26/24.
-//
-
 #ifndef TESTUTILS_H
 #define TESTUTILS_H
 
-#include <iostream>
+#include <string>
 #include <vector>
-#include <fstream>
-#include <filesystem>
-
-using namespace std;
+#include <map>
+#include <unordered_map>
 
 class TestUtils {
 public:
-    static const vector<pair<vector<string>, string>> testData;
-     static vector<string> readFileLines(const string& filePath);
-    static const vector<pair<vector<string>, string>> modifiedData;
+    static std::vector<std::string> readFileLines(const std::string& filePath);
+    typedef std::pair<std::vector<std::string>, std::string> TestLine;
+    typedef std::vector<TestLine> TestData;
+
+private:
+    std::unordered_map<std::string, TestData> testData;
+    std::unordered_map<std::string, std::string> testPreparation;
+
+    TestUtils();
+public:
+    // Copy constructor.
+    TestUtils(const TestUtils& other) = delete;
+    // Move constructor.
+    TestUtils(TestUtils&& other) = delete;
+    
+    // Copy assignment operator.
+    void operator=(const TestUtils& other) = delete;
+    // Move assignment operator.
+    void operator=(TestUtils&& other) = delete;
+
+    TestData getTestData(const std::string& testName) const;
+    const void prepareTest(const std::string& testName, const std::string& fileName = "data/users.txt") const;
+
+    static const TestUtils& getInstance();
 };
-
-
 
 #endif //TESTUTILS_H

@@ -13,6 +13,7 @@ set(TEST_SOURCES
         commands/AddCommandTest.cpp
         commands/RecommendCommandTest.cpp
         commands/HelpCommandTest.cpp
+        commands/PatchCommandTest.cpp
         commands/DeleteCommandTest.cpp
         ../src/commands/AddCommand.cpp
         ../src/data_manager/LocalDataManager.cpp
@@ -20,6 +21,7 @@ set(TEST_SOURCES
         ../src/models/Movie.cpp
         ../src/commands/RecommendCommand.cpp
         ../src/commands/HelpCommand.cpp
+        ../src/commands/PatchCommand.cpp
         ../src/commands/DeleteCommand.cpp
 )
 

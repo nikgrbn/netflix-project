@@ -6,19 +6,20 @@
 
 using namespace std;
 
-IDataManager* dataManager = new LocalDataManager();
-
 // Use add command to add data to the file and check it
 TEST(AddCommandTest, CheckCorrectDataAddition) {
   string testFilePath = "data/users.txt";
+
+  const TestUtils& testUtils = TestUtils::getInstance();
+  // Ensure the test file is clean
+  testUtils.prepareTest("POST", testFilePath);
+
+  IDataManager* dataManager = new LocalDataManager();
   AddCommand addCommand(dataManager);
 
-  // Ensure the test file is clean
-  ofstream clearFile(testFilePath, ofstream::trunc); // Clear the file
-  clearFile.close();
-
   // Run through each test case in the vector
-  for (const auto& testCase : TestUtils::testData) {
+  const auto& testData = testUtils.getTestData("POST");
+  for (const auto& testCase : testData) {
     const vector<string>& command = testCase.first;
     const string& expectedLine = testCase.second;
 
@@ -34,7 +35,8 @@ TEST(AddCommandTest, CheckCorrectDataAddition) {
 
 // Check illegal arguments
 TEST(AddCommandTest, CheckIllegalArguments) {
-  AddCommand* m = new AddCommand(dataManager);
+    IDataManager* dataManager = new LocalDataManager();
+    AddCommand* m = new AddCommand(dataManager);
 
   // Zero arguments are illegal
   EXPECT_THROW(m->execute(vector<string>{}), StatusCodeException);
@@ -48,6 +50,7 @@ TEST(AddCommandTest, CheckIllegalArguments) {
 
 // Check info method
 TEST(AddCommandTest, CheckInfo) {
+IDataManager* dataManager = new LocalDataManager();
   EXPECT_EQ(AddCommand(dataManager).info(), "POST, arguments: [userid] [movieid1] [movieid2] …");
 }
 

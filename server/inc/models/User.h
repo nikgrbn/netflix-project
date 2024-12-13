@@ -23,6 +23,7 @@ public:
     void addMovie(Movie movie);
     void setMoviesWatched(vector<Movie> movies_watched);
 
+    bool hasWatchedMovie(const Movie& Movie) const;
 };
 
 

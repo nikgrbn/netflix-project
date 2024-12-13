@@ -5,21 +5,17 @@
 
 // Delete data from the file and check it
 TEST(DeleteCommandTest, CheckCorrectDataDeletion) {
+    const TestUtils& testUtils = TestUtils::getInstance();
+    // Ensure the test file is clean
+    string testFilePath = "data/users.txt";
+    testUtils.prepareTest("DELETE", testFilePath);
+
     IDataManager* dataManager = new LocalDataManager();
     DeleteCommand deleteCommand(dataManager);
 
-    // Ensure the test file is clean and ready for writing
-    string testFilePath = "data/users.txt";
-    ofstream outFile(testFilePath, ofstream::trunc); // Open in trunc mode to clear content
-
-    // Fill file with data
-    for (const auto& dataLine : TestUtils::testData) {
-        outFile << dataLine.second << endl; // Write data to a file
-    }
-    outFile.close();
-
     // Run through each test case in the vector
-    for (const auto& testCase : TestUtils::modifiedData) {
+    const auto& testData = testUtils.getTestData("DELETE");
+    for (const auto& testCase : testData) {
         const vector<string>& command = testCase.first;
         const string& expectedLine = testCase.second;
 
