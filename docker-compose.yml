@@ -1,0 +1,37 @@
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    volumes:
+      - ./server:/usr/src/netflix-project/data
+    container_name: netflix_server
+    working_dir: /usr/src/netflix-project/build
+    command: ["./NetflixProject", "${SERVER_PORT:-12345}"]  # Use 12345 if SERVER_PORT is unset
+    ports:
+      - "${SERVER_PORT:-12345}:${SERVER_PORT:-12345}"  # Use default port mapping
+    environment:
+      - SERVER_PORT=${SERVER_PORT:-12345}
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    tty: true
+    stdin_open: true
+    init: true
+    container_name: netflix_client
+    working_dir: /usr/src/netflix-client
+    command: ["python", "client.py", "server", "${SERVER_PORT:-12345}"]  # Use default port if unset
+    environment:
+      - SERVER_PORT=${SERVER_PORT:-12345}
+
+  tests:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.test
+    volumes:
+      - ./server:/usr/src/netflix-project/data
+    container_name: netflix_app_tests
+    working_dir: /usr/src/netflix-project/build/tests
+    command: ./runTests
