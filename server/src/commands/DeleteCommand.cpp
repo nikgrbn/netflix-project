@@ -1,7 +1,5 @@
 #include "commands/DeleteCommand.h"
 
-#include <unordered_set>
-
 string DeleteCommand::execute(const vector<string>& commands) {
     if (commands.size() <= 2) { // Check if at least 3 arguments are provided
         throw StatusCodeException(StatusCodes::BAD_REQUEST);

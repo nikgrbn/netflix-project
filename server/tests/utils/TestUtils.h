@@ -5,10 +5,13 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
+#include <iostream>
+#include <fstream>
+#include "../inc/utils/Config.h"
 
 class TestUtils {
 public:
-    static std::vector<std::string> readFileLines(const std::string& filePath);
+    static std::vector<std::string> readFileLines(const std::string& filePath=Config::getUserFilePath());
     typedef std::pair<std::vector<std::string>, std::string> TestLine;
     typedef std::vector<TestLine> TestData;
 
@@ -29,7 +32,7 @@ public:
     void operator=(TestUtils&& other) = delete;
 
     TestData getTestData(const std::string& testName) const;
-    const void prepareTest(const std::string& testName, const std::string& fileName = "data/users.txt") const;
+    const void prepareTest(const std::string& testName, const std::string& fileName=Config::getUserFilePath()) const;
 
     static const TestUtils& getInstance();
 };

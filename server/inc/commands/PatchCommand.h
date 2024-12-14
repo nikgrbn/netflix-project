@@ -3,6 +3,8 @@
 
 #include "commands/ICommand.h"
 #include "data_manager/IDataManager.h"
+#include "utils/StatusCodeException.h"
+#include "models/Movie.h"
 
 class PatchCommand : public ICommand {
 private:

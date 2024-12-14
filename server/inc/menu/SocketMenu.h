@@ -1,10 +1,5 @@
-//
-// Created by Nikita on 12/5/2024.
-//
-
 #ifndef NETFLIX_PROJECT_SOCKETMENU_H
 #define NETFLIX_PROJECT_SOCKETMENU_H
-
 
 #include "menu/IMenu.h"
 #include "utils/StatusCodeException.h"

@@ -21,6 +21,4 @@ public:
     string execute(const vector<string>& commands) override;
 };
 
-
-
 #endif //RECOMMENDCOMMAND_H

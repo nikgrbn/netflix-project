@@ -23,6 +23,7 @@ set(TEST_SOURCES
         ../src/commands/HelpCommand.cpp
         ../src/commands/PatchCommand.cpp
         ../src/commands/DeleteCommand.cpp
+        ../inc/utils/Config.h
 )
 
 # Add test executable

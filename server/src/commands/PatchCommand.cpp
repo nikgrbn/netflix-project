@@ -1,10 +1,6 @@
 #include "commands/PatchCommand.h"
-#include "utils/StatusCodeException.h"
-#include "models/Movie.h"
 
-PatchCommand::PatchCommand(IDataManager *dataManager) : dataManager(dataManager) {
-    
-}
+PatchCommand::PatchCommand(IDataManager *dataManager) : dataManager(dataManager) {}
 
 string PatchCommand::info() const {
     return "PATCH, arguments: [userid] [movieid1] [movieid2] …";

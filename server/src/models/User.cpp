@@ -6,11 +6,11 @@ bool User::operator==(const User &user) const {
 
 void User::addMovie(Movie movie) {
     // Check if movie already in user's watched
-    if (find(movies_watched.begin(), movies_watched.end(),
-        movie) == movies_watched.end()) {
-        // If not -> add it
-        this->movies_watched.push_back(movie);
+    if (hasWatchedMovie(movie)) {
+        return;
     }
+    // If not -> add it
+    this->movies_watched.push_back(movie);
 }
 
 const vector<Movie> User::getMoviesWatched() const {
@@ -26,10 +26,11 @@ const UID &User::getId() const {
 }
 
 bool User::hasWatchedMovie(const Movie& movie) const {
-    for (size_t i = 0; i < movies_watched.size(); i++) {
-        if (movies_watched[i] == movie) {
-            return true;
-        }
+    // Iterate through the movies watched by the user and check if the movie is present
+    if (find(movies_watched.begin(), movies_watched.end(),
+        movie) != movies_watched.end()) {
+        return true;
+    } else {
+        return false;
     }
-    return false;
 }

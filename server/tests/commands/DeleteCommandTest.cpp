@@ -7,8 +7,7 @@
 TEST(DeleteCommandTest, CheckCorrectDataDeletion) {
     const TestUtils& testUtils = TestUtils::getInstance();
     // Ensure the test file is clean
-    string testFilePath = "data/users.txt";
-    testUtils.prepareTest("DELETE", testFilePath);
+    testUtils.prepareTest("DELETE");
 
     IDataManager* dataManager = new LocalDataManager();
     DeleteCommand deleteCommand(dataManager);
@@ -24,7 +23,7 @@ TEST(DeleteCommandTest, CheckCorrectDataDeletion) {
         EXPECT_EQ(res, StatusCodes::NO_CONTENT);
 
         // Assert
-        vector<string> fileLines = TestUtils::readFileLines(testFilePath);     // Read file
+        vector<string> fileLines = TestUtils::readFileLines();     // Read file
         auto it = find(fileLines.begin(), fileLines.end(), expectedLine);
         EXPECT_NE(it, fileLines.end());
     }
