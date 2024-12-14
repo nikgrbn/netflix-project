@@ -10,14 +10,12 @@
 #include <map>
 #include <iostream>
 #include <sys/socket.h>
-#include <stdio.h>
+#include <cstdio>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include <string.h>
 #include <thread>
 #include <mutex>
-
 
 using namespace std;
 
