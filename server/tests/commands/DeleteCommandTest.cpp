@@ -7,7 +7,7 @@
 TEST(DeleteCommandTest, CheckCorrectDataDeletion) {
     const TestUtils& testUtils = TestUtils::getInstance();
     // Ensure the test file is clean
-    string testFilePath = "data/users.txt";
+    string testFilePath = Config::getUserFilePath();
     testUtils.prepareTest("DELETE", testFilePath);
 
     IDataManager* dataManager = new LocalDataManager();

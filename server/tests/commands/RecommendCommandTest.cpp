@@ -8,7 +8,7 @@ TEST(RecommendCommandTest, CheckCorrectRecommendations) {
     RecommendCommand cRecommend(dataManager);
 
     // Ensure the test file is clean and ready for writing
-    string testFilePath = "data/users.txt";
+    string testFilePath = Config::getUserFilePath();
     
     const TestUtils& testUtils = TestUtils::getInstance();
     testUtils.prepareTest("GET", testFilePath);

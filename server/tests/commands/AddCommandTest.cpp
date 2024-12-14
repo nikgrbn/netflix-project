@@ -1,14 +1,14 @@
 #include "data_manager/LocalDataManager.h"
 #include <gtest/gtest.h>
 #include <vector>
+#include "../utils/TestUtils.h"
 #include "commands/AddCommand.h"
- #include "../utils/TestUtils.h"
 
 using namespace std;
 
 // Use add command to add data to the file and check it
 TEST(AddCommandTest, CheckCorrectDataAddition) {
-  string testFilePath = "data/users.txt";
+  string testFilePath = Config::getUserFilePath();
 
   const TestUtils& testUtils = TestUtils::getInstance();
   // Ensure the test file is clean

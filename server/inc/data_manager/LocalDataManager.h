@@ -10,12 +10,15 @@
 #include <mutex>
 #include "data_manager/IDataManager.h"
 #include "utils/StatusCodeException.h"
+#include "utils/Config.h"
 
 using namespace std;
 
 class LocalDataManager : public IDataManager {
 private:
-    string filePath = "data/users.txt";
+    string dataFolderPath = Config::getDataFolderPath();
+    string dataFilePath = Config::getUserFilePath();
+
     std::vector<User> users;
     std::mutex mtx;
 private:

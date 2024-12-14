@@ -9,7 +9,7 @@ using namespace std;
 // Use add command to add data to the file and check it
 TEST(PatchCommandTest, CheckCorrectDataAddition) {
     const TestUtils& testUtils = TestUtils::getInstance();
-    string testFilePath = "data/users.txt";
+    string testFilePath = Config::getUserFilePath();
     // Require the test file be filled with data.
     testUtils.prepareTest("PATCH", testFilePath);
 

@@ -5,6 +5,9 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
+#include <iostream>
+#include <fstream>
+#include "../inc/utils/Config.h"
 
 class TestUtils {
 public:
@@ -29,7 +32,7 @@ public:
     void operator=(TestUtils&& other) = delete;
 
     TestData getTestData(const std::string& testName) const;
-    const void prepareTest(const std::string& testName, const std::string& fileName = "data/users.txt") const;
+    const void prepareTest(const std::string& testName, const std::string& fileName = Config::getUserFilePath()) const;
 
     static const TestUtils& getInstance();
 };

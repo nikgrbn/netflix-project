@@ -1,17 +1,17 @@
 #include "data_manager/LocalDataManager.h"
 
 LocalDataManager::LocalDataManager() : users(), mtx() {
-    if (!filesystem::exists("data")) { // TODO remove hard coded path
-        filesystem::create_directory("data");
+    if (!filesystem::exists(dataFolderPath)) {
+        filesystem::create_directory(dataFolderPath);
     }
-    if (!filesystem::exists(filePath)) {
+    if (!filesystem::exists(dataFilePath)) {
         // Create a file by opening a new output file stream.
-        ofstream file(filePath);
+        ofstream file(dataFilePath);
         file.close();
     }
 
     // Load all users from the file
-    loadUsersFromFile(filePath);
+    loadUsersFromFile(dataFilePath);
 }
 
 LocalDataManager::~LocalDataManager() {
@@ -20,7 +20,7 @@ LocalDataManager::~LocalDataManager() {
 }
 
 void LocalDataManager::loadUsersFromFile(std::string filename) {
-    ifstream file(filePath);
+    ifstream file(dataFilePath);
     if (!file.is_open()) {
         throw std::runtime_error("Failed to open file for loading.");
     }
@@ -48,7 +48,7 @@ void LocalDataManager::loadUsersFromFile(std::string filename) {
 }
 
 void LocalDataManager::save() {
-    ofstream file(filePath);
+    ofstream file(dataFilePath);
     if (!file.is_open()) {
         throw runtime_error("Failed to open file for saving.");
     }

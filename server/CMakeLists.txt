@@ -33,6 +33,7 @@ add_executable(NetflixProject
         inc/menu/SocketMenu.h
         inc/utils/SocketRAII.h
         inc/utils/StatusCodeException.h
+        inc/utils/Config.h
 )
 
 # Conditionally include tests if ENABLE_TESTS is ON
