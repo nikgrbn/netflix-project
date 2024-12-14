@@ -28,8 +28,8 @@ void Server::run() {
         perror("error listening to a socket");
         return;
     }
+    cout << "Server is running on port " << server_port << endl;
 
-    cout << "port: " << server_port << " addr: " << inet_ntoa(sin.sin_addr) << " Listening..." << endl;
     while (true) {
         // Create a unique_ptr for socket data to manage memory
         auto socketData = make_unique<SocketData>(); // new SocketData();
@@ -44,7 +44,7 @@ void Server::run() {
         }
 
         // Create a new thread to handle the client
-        cout << socketData->client_socket << ":New connection!" << endl;
+        cout << socketData->client_socket << ":New connection" << endl;
         thread([this, socketData = std::move(socketData)]() {
             handleClient(socketData.get());
         }).detach(); // Automatically cleans up thread resources
@@ -63,12 +63,7 @@ void Server::handleClient(SocketData* data) {
         try {
             // Get the next command from the client
             vector<string> args = menu->nextCommand();
-            // TODO: Used for debugging, remove later
-            cout << data->client_socket << ":" << "The client sent: ";
-            for (const auto& arg : args) {
-                cout << arg << " ";
-            }
-            cout << endl;
+
             // Check if command exists
             if (args.empty()) {
                 throw StatusCodeException(StatusCodes::BAD_REQUEST);
