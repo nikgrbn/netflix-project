@@ -4,14 +4,12 @@
 #include "../utils/TestUtils.h"
 
 TEST(RecommendCommandTest, CheckCorrectRecommendations) {
+    const TestUtils& testUtils = TestUtils::getInstance();
+    // Ensure the test file is clean and ready for writing
+    testUtils.prepareTest("GET");
+
     IDataManager* dataManager = new LocalDataManager();
     RecommendCommand cRecommend(dataManager);
-
-    // Ensure the test file is clean and ready for writing
-    string testFilePath = Config::getUserFilePath();
-    
-    const TestUtils& testUtils = TestUtils::getInstance();
-    testUtils.prepareTest("GET", testFilePath);
 
     // Expected recommendations for user 1 and movie 104
     vector<string> command = {"GET", "1", "104"};

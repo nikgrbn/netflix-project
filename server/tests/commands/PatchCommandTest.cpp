@@ -2,16 +2,15 @@
 #include <gtest/gtest.h>
 #include <vector>
 #include "commands/PatchCommand.h"
- #include "../utils/TestUtils.h"
+#include "../utils/TestUtils.h"
 
 using namespace std;
 
 // Use add command to add data to the file and check it
 TEST(PatchCommandTest, CheckCorrectDataAddition) {
     const TestUtils& testUtils = TestUtils::getInstance();
-    string testFilePath = Config::getUserFilePath();
     // Require the test file be filled with data.
-    testUtils.prepareTest("PATCH", testFilePath);
+    testUtils.prepareTest("PATCH");
 
     IDataManager* dataManager = new LocalDataManager();
     PatchCommand patchCommand(dataManager);
@@ -26,7 +25,7 @@ TEST(PatchCommandTest, CheckCorrectDataAddition) {
         patchCommand.execute(command);
 
         // Assert
-        vector<string> fileLines = TestUtils::readFileLines(testFilePath);     // Read file
+        vector<string> fileLines = TestUtils::readFileLines();     // Read file
         auto it = find(fileLines.begin(), fileLines.end(), expectedLine);
         EXPECT_NE(it, fileLines.end()) << "Failed searching for " << expectedLine;
     }

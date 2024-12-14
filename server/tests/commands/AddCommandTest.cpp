@@ -8,11 +8,9 @@ using namespace std;
 
 // Use add command to add data to the file and check it
 TEST(AddCommandTest, CheckCorrectDataAddition) {
-  string testFilePath = Config::getUserFilePath();
-
   const TestUtils& testUtils = TestUtils::getInstance();
   // Ensure the test file is clean
-  testUtils.prepareTest("POST", testFilePath);
+  testUtils.prepareTest("POST");
 
   IDataManager* dataManager = new LocalDataManager();
   AddCommand addCommand(dataManager);
@@ -27,7 +25,7 @@ TEST(AddCommandTest, CheckCorrectDataAddition) {
     addCommand.execute(command);
 
     // Assert
-    vector<string> fileLines = TestUtils::readFileLines(testFilePath);     // Read file
+    vector<string> fileLines = TestUtils::readFileLines();     // Read file
     auto it = find(fileLines.begin(), fileLines.end(), expectedLine);
     EXPECT_NE(it, fileLines.end());
   }
