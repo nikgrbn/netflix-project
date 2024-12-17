@@ -6,3 +6,6 @@ WORKDIR /usr/src/netflix-client
 
 # Copy the client script
 COPY client.py .
+
+# Default to running client.py
+ENTRYPOINT ["python", "client.py"]
