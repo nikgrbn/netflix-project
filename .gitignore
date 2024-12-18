@@ -1,5 +1,5 @@
 # User and Movies data
-data/
+server/data/
 
 # General
 .DS_Store
@@ -18,6 +18,7 @@ bower_components/
 # Build directories
 dist/
 build/
+server/build/
 out/
 bin/
 obj/
@@ -76,3 +77,7 @@ coverage/
 *~
 *.swp
 *.swo
+
+# Server files
+server/run.sh
+server/build/

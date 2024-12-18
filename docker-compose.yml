@@ -1,26 +1,27 @@
 services:
-  app:
+  server:
     build:
-      context: .
+      context: ./server
+      dockerfile: Dockerfile
+    volumes:
+      - ../data:/usr/src/netflix-project/build/data
+    container_name: netflix_server_container
+    working_dir: /usr/src/netflix-project/build
+
+  client:
+    build:
+      context: ./client
       dockerfile: Dockerfile
     tty: true
     stdin_open: true
     init: true
-
-    volumes:
-      - .:/usr/src/netflix-project/data
-    container_name: netflix_app
-    working_dir: /usr/src/netflix-project/build
-    command: ./NetflixProject
+    container_name: netflix_client_container
+    working_dir: /usr/src/netflix-client
 
   tests:
     build:
-      context: .
+      context: ./server
       dockerfile: Dockerfile.test
-
-    volumes:
-      - .:/usr/src/netflix-project/data
     container_name: netflix_app_tests
     working_dir: /usr/src/netflix-project/build/tests
     command: ./runTests
-

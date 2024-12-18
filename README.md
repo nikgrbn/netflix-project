@@ -3,15 +3,30 @@
 ## Overview
 A command-line movie recommendation system that allows users to add their movie-watching history and receive personalized movie recommendations based on user similarity algorithms.
 
-![](https://github.com/nikgrbn/netflix-project/blob/feature/NP-5-README/preview.png) 
+<table>
+  <tr>
+    <th>Client</th>
+    <th>Server</th>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/nikgrbn/netflix-project/blob/557f761f426b054e492edf359fc2eed3971d5871/assets/client.png" width="%45"/>
+    </td>
+    <td>
+      <img src="https://github.com/nikgrbn/netflix-project/blob/557f761f426b054e492edf359fc2eed3971d5871/assets/server.png" width="%45"/>
+    </td>
+  </tr>
+</table>
 
 ## Features
 - Add movies to user watch history
 - Get movie recommendations based on viewing patterns
 - Persistent data storage
 - Command-line interface with simple commands:
-  - `add [userid] [movieid1] [movieid2] ...`: Record movies watched by a user
-  - `recommend [userid] [movieid]`: Get movie recommendations
+  - `POST [userid] [movieid1] [movieid2] ...`: Record movies watched by a user
+  - `PATCH [userid] [movieid1] [movieid2] ...`: Updates the user's watch history by adding new movies only if they don't already exist in the history.
+  - `DELETE [userid] [movieid1] [movieid2] ...`: Remove a specific movie from the user's watch       history
+  - `GET [userid] [movieid]`: Get movie recommendations
   - `help`: Display available commands
 
 ## Prerequisites
@@ -34,34 +49,47 @@ docker-compose build
 
 ## Running the Application
 
-### Start Application Container
+### Run Server with Custom Port
 ```bash
-docker-compose up -d
+docker-compose run --rm --name netflix-server server 8080
 ```
+Note: Replace `8080` with your desired port number
 
-### Run Application
+### Run Client
 ```bash
-docker exec -it netflix_app ./NetflixProject
+docker-compose run --rm client netflix-server 8080
 ```
+Note: The first argument is the server name, and the second is the port number
 
-### Run Unit Tests
+### Run Tests
 ```bash
-docker-compose up tests
+docker-compose run --rm tests
 ```
 
 ## Project Structure
-- `src/`: Source code
-- `data/`: Data persistence directory
-- `tests/`: Unit tests using Google Test framework
+- `client/`: Client-side logic and scripts 
+- `server/`: Server-side application code
+  - `inc/`: Header files for commands, core logic, and utilities
+  - `src/`: Source code implementation for commands, core components, and utilities
+  - `tests/`: Unit tests using the Google Test framework
 
-## Key Technologies
-- C++17
-- Google Test
-- Docker
-- Design Patterns: Command Pattern, Dependency Injection
-- SOLID Principles
 
 ## Development Approach
 - Test-Driven Development (TDD)
 - Modular and extensible architecture
 - Continuous integration with feature branches
+
+## Architecture and Extensibility
+In our project, renaming and adding new commands did not require modifications to existing code that is designed to be closed for modification but open for extension. This was achieved through the ICommand interface, which allowed us to add or rename commands by implementing them in new files, such as PatchCommand.cpp and PostCommand.cpp, without altering existing functionality.
+
+Additionally, a minor infrastructure adjustment was made by introducing a Mutex in LocalDataManager.cpp to handle concurrent access to the shared IDataManager resource, ensuring thread safety.
+
+Changing the input/output to sockets instead of using the console also did not require changes to the existing code. This was implemented by adding a new file, Server.cpp, which centralizes the server-side communication logic and integrates seamlessly with the project. The client-side logic was implemented separately in client.py, ensuring a clean separation of responsibilities.
+
+Overall, the project's modular architecture allowed us to extend the system efficiently without breaking existing components, keeping the codebase robust and maintainable.
+
+ ## Additional Notes
+- The project includes main.cpp for controlling the server-side logic and execution.
+- Helper utilities like Config and Types ensure clean and consistent code.
+- Commands were implemented using interfaces, allowing easy extension without modifying existing code.
+
