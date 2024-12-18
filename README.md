@@ -61,14 +61,6 @@ docker-compose run --rm tests
   - `tests/`: Unit tests using the Google Test framework
 
 
-## Key Technologies
-- C++17
-- Google Test
-- Docker
-- Design Patterns: Command Pattern, Dependency Injection
-- SOLID Principles
-- Mutex for thread-safe resource management
-
 ## Development Approach
 - Test-Driven Development (TDD)
 - Modular and extensible architecture
