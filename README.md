@@ -10,10 +10,10 @@ A command-line movie recommendation system that allows users to add their movie-
   </tr>
   <tr>
     <td>
-      <img src="https://github.com/nikgrbn/netflix-project/blob/feature/NP-58-READMEfile/assets/client.png" width="325"/>
+      <img src="https://github.com/nikgrbn/netflix-project/blob/feature/NP-58-READMEfile/assets/client.png" width="%45"/>
     </td>
     <td>
-      <img src="https://github.com/nikgrbn/netflix-project/blob/feature/NP-58-READMEfile/assets/server.png" width="325"/>
+      <img src="https://github.com/nikgrbn/netflix-project/blob/feature/NP-58-READMEfile/assets/server.png" width="%45"/>
     </td>
   </tr>
 </table>
