@@ -3,7 +3,8 @@
 ## Overview
 A command-line movie recommendation system that allows users to add their movie-watching history and receive personalized movie recommendations based on user similarity algorithms.
 
-![](https://github.com/nikgrbn/netflix-project/blob/feature/NP-5-README/preview.png) 
+<img src="https://github.com/nikgrbn/netflix-project/blob/feature/NP-58-READMEfile/assets/client.png" width="425"/> <img src="https://github.com/nikgrbn/netflix-project/blob/feature/NP-58-READMEfile/assets/server.png" width="425"/> 
+
 
 ## Features
 - Add movies to user watch history
