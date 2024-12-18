@@ -11,7 +11,8 @@ string DeleteCommand::execute(const vector<string>& commands) {
         throw StatusCodeException(StatusCodes::NOT_FOUND);
     }
 
-    vector<Movie> movies((*mUserOpt).getMoviesWatched());
+    User user = mUserOpt.value();
+    vector<Movie> movies = user.getMoviesWatched();
     // Use unordered set to squish duplicates
     unordered_set<std::string> deleteArguments(commands.begin() + 2, commands.end());
     for (const auto& arg : deleteArguments) {
@@ -29,7 +30,7 @@ string DeleteCommand::execute(const vector<string>& commands) {
         movies.erase(movieToDelete);
     }
 
-    User user(UID(commands[1]), movies);
+    user.setMoviesWatched(movies);
     dataManager->set(user);
 
     return StatusCodes::NO_CONTENT;

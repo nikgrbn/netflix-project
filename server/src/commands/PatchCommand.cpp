@@ -20,15 +20,16 @@ string PatchCommand::execute(const vector<string>& commands) {
     }
 
     User user = userOpt.value();
-
+    vector<Movie> movies = user.getMoviesWatched();
     // Add the movies to the user.
     for (size_t i = 2; i < commands.size(); i++) {
         Movie movie = Movie(UID(commands[i]));
         if (!user.hasWatchedMovie(movie)) {
-            user.addMovie(movie);
+            movies.push_back(movie);
         }
     }
 
+    user.setMoviesWatched(movies);
     dataManager->update(user);
 
     return StatusCodes::NO_CONTENT;
