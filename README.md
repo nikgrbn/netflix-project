@@ -10,14 +10,13 @@ A command-line movie recommendation system that allows users to add their movie-
   </tr>
   <tr>
     <td>
-      <img src="https://github.com/nikgrbn/netflix-project/blob/feature/NP-58-READMEfile/assets/client.png" width="%45"/>
+      <img src="https://github.com/nikgrbn/netflix-project/blob/557f761f426b054e492edf359fc2eed3971d5871/assets/client.png" width="%45"/>
     </td>
     <td>
-      <img src="https://github.com/nikgrbn/netflix-project/blob/feature/NP-58-READMEfile/assets/server.png" width="%45"/>
+      <img src="https://github.com/nikgrbn/netflix-project/blob/557f761f426b054e492edf359fc2eed3971d5871/assets/server.png" width="%45"/>
     </td>
   </tr>
 </table>
-
 
 ## Features
 - Add movies to user watch history
