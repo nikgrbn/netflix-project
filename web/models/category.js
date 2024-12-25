@@ -10,5 +10,5 @@ const Category = new Schema({
         type: Boolean,
         default: false
     }
-});
+}, { versionKey: false });
 module.exports = mongoose.model('Category', Category);

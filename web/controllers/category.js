@@ -5,14 +5,14 @@ const errors = require('../utils/errors');
 const createCategory = async (req, res) => {
     // Check if the category name field is provided
     if (!req.body.name) {
-        res.status(400).json({ error: errors.BAD_REQUEST });
+        res.status(400).json({ error: errors.CATEGORY_NAME_REQUIRED });
         return;
     }
 
     try {
         const category = await categoryService.createCategory(
             req.body.name, req.body.promoted);
-        res.status(201).json(category);
+        res.status(201).send();
     } catch (error) {
         if (error.code === 11000) {
             // Duplicate username error
