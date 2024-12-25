@@ -11,4 +11,8 @@ const createCategory = async (name, promoted) => {
     return await category.save();
 }
 
-module.exports = { createCategory };
+const getCategories = async () => {
+    return await Category.find({});
+}
+
+module.exports = { createCategory, getCategories };

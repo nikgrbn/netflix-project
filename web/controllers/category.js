@@ -22,4 +22,12 @@ const createCategory = async (req, res) => {
     }
 }
 
-module.exports = { createCategory };
+const getCategories = async (req, res) => {
+    try {
+        res.json(await categoryService.getCategories());
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+module.exports = { createCategory, getCategories };

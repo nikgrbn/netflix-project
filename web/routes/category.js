@@ -16,6 +16,7 @@ const ensureUserHeader = (req, res, next) => {
 router.use(ensureUserHeader); // Apply this middleware to all routes below
 
 router.route('/')
+    .get(categoryController.getCategories)
     .post(categoryController.createCategory);
 
 module.exports = router;
