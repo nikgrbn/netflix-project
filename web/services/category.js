@@ -4,7 +4,7 @@ const createCategory = async (name, promoted) => {
     const category = new Category({ name: name });
 
     // If the category is promoted, set the promoted field to true
-    if (promoted) {
+    if (promoted !== undefined) {
         category.promoted = promoted;
     }
 
@@ -17,4 +17,15 @@ const getCategories = async () => {
 
 const getCategoryById = async (id) => { return await Category.findById(id); };
 
-module.exports = { createCategory, getCategories, getCategoryById };
+const updateCategory = async (id, name, promoted) => {
+    const category = await getCategoryById(id);
+    if (!category) return null;
+    
+    // Update the category fields if new values are provided
+    if (name !== undefined) category.name = name;
+    if (promoted !== undefined) category.promoted = promoted;
+    
+    return await category.save();
+}
+
+module.exports = { createCategory, getCategories, getCategoryById, updateCategory };

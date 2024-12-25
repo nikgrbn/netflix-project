@@ -20,7 +20,8 @@ router.route('/')
     .post(categoryController.createCategory);
 
 router.route('/:id')
-    .get(categoryController.getCategoryById);
+    .get(categoryController.getCategoryById)
+    .patch(categoryController.updateCategory);
 
 module.exports = router;
     
