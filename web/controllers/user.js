@@ -12,7 +12,12 @@ const userSignUp = async (req, res) => {
         const user = await userServices.createUser(username, password);
         res.status(201).send();
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        if (error.code === 11000) {
+            // Duplicate username error
+            res.status(400).json({ error: 'Username already exists' });
+        } else {
+            res.status(400).json({ error: error.message });
+        }
     }
 }
 
