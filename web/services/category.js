@@ -28,4 +28,11 @@ const updateCategory = async (id, name, promoted) => {
     return await category.save();
 }
 
-module.exports = { createCategory, getCategories, getCategoryById, updateCategory };
+const deleteCategory = async (id) => {
+    const category = await getCategoryById(id);
+    if (!category) return null;
+
+    return await category.deleteOne();
+}
+
+module.exports = { createCategory, getCategories, getCategoryById, updateCategory, deleteCategory };
