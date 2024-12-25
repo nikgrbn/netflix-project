@@ -1,6 +1,6 @@
 const userServices = require('../services/user');
 
-const userSignUp = async (req, res) => {
+const signUpUser = async (req, res) => {
     // Extract username and password from request body
     const { username, password, picture } = req.body;
     if (!username || !password) {
@@ -24,4 +24,24 @@ const userSignUp = async (req, res) => {
     }
 }
 
-module.exports = { userSignUp };
+const getUserById = async (req, res) => {
+    // Extract user id from request parameters
+    const { id } = req.params;
+
+    // Call the getUserById function from userServices
+    try {
+        const user = await userServices.getUserById(id);
+        if (user) {
+            const userWithoutPassword = user.toObject();
+            delete userWithoutPassword.password; // Remove password from user object
+            res.status(200).json(userWithoutPassword);
+            
+        } else {
+            res.status(404).json({ error: 'User not found' });
+        }
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+module.exports = { signUpUser, getUserById };

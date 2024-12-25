@@ -7,8 +7,10 @@ const createUser = async (username, password, picture) => {
     if (picture) {
         user.picture = picture
     }
-    
+
     return await user.save();
 }
 
-module.exports = { createUser };
+const getUserById = async (id) => { return await User.findById(id) }
+
+module.exports = { createUser, getUserById };
