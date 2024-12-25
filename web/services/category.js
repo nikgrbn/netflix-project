@@ -15,4 +15,6 @@ const getCategories = async () => {
     return await Category.find({});
 }
 
-module.exports = { createCategory, getCategories };
+const getCategoryById = async (id) => { return await Category.findById(id); };
+
+module.exports = { createCategory, getCategories, getCategoryById };
