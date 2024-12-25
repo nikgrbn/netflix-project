@@ -16,5 +16,5 @@ const User = new Schema({
         required: false,
         default: 'default-picture.jpg'
     },
-});
+}, { versionKey: false });
 module.exports = mongoose.model('User', User);
