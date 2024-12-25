@@ -10,16 +10,15 @@ app.use(cors());
 
 const customENV = require('custom-env').env;
 customENV(process.env.NODE_ENV, './config');
-console.log("IP: " + process.env.MONGO_URI);
+console.log("Database IP: " + process.env.MONGO_URI);
 console.log("PORT:" + process.env.PORT);
 
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_URI, {
-     useNewUrlParser: true,
-     useUnifiedTopology: true 
-    });
+mongoose.connect(process.env.MONGO_URI);
 
 const articles = require('./routes/user');
 app.use('/users', articles);
+const tokens = require('./routes/token');
+app.use('/tokens', tokens);
 
 app.listen(process.env.PORT);

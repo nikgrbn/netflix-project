@@ -13,4 +13,19 @@ const createUser = async (username, password, picture) => {
 
 const getUserById = async (id) => { return await User.findById(id) }
 
-module.exports = { createUser, getUserById };
+const getUserByCredentials = async (username, password) => {
+    // Find the user by username (username is unique therefore only one user will be returned)
+    const user = await User.findOne({ username });
+    if (!user) {
+        return null;
+    }
+
+    // Compare the provided password with the stored hashed password
+    if (password != user.password) {
+        return null;
+    }
+
+    return user;
+}
+
+module.exports = { createUser, getUserById, getUserByCredentials };
