@@ -16,9 +16,14 @@ console.log("PORT:" + process.env.PORT);
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URI);
 
+// Authentication
 const articles = require('./routes/user');
 app.use('/users', articles);
 const tokens = require('./routes/token');
 app.use('/tokens', tokens);
+
+// Homepage
+const categories = require('./routes/category');
+app.use('/categories', categories);
 
 app.listen(process.env.PORT);
