@@ -26,4 +26,8 @@ app.use('/tokens', tokens);
 const categories = require('./routes/category');
 app.use('/categories', categories);
 
+// Recommend
+const recommend = require('./routes/recommend');
+app.use('/:id/recommend', recommend);
+
 app.listen(process.env.PORT);

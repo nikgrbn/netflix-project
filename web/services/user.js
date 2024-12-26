@@ -33,4 +33,13 @@ const getUserByCredentials = async (username, password) => {
     return user;
 }
 
-module.exports = { createUser, getUserById, getUserByCredentials };
+const addUserWatchedMovie = async (userId, movieId) => {
+    const user = await User.findById(userId);
+    if (!user) return null;
+
+    // Add the movie id to the user's watched movies array
+    user.watched_movies.push(movieId);
+    return await user.save();
+}
+
+module.exports = { createUser, getUserById, getUserByCredentials, addUserWatchedMovie };
