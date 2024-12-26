@@ -37,8 +37,12 @@ const addUserWatchedMovie = async (userId, movieId) => {
     const user = await User.findById(userId);
     if (!user) return null;
 
-    // Add the movie id to the user's watched movies array
-    user.watched_movies.push(movieId);
+    // Check if the movie id is already in the user's watched movies array
+    if (!user.watched_movies.includes(movieId)) {
+        // Add the movie id to the user's watched movies array
+        user.watched_movies.push(movieId);
+    }
+
     return await user.save();
 }
 

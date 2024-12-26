@@ -1,4 +1,4 @@
-const categoryController = require('../controllers/recommend');
+const recommendController = require('../controllers/recommend');
 const error = require('../utils/errors');
 
 const express = require('express');
@@ -15,8 +15,8 @@ const ensureUserHeader = (req, res, next) => {
 };
 router.use(ensureUserHeader); // Apply this middleware to all routes below
 
-router.route('/')
-    .post(categoryController.addUserWatchedMovie);
+router.route('/:id/recommend')
+    .post(recommendController.addUserWatchedMovie);
 
 module.exports = router;
     

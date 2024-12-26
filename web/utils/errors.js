@@ -9,6 +9,8 @@ const errors = {
     CATEGORY_NOT_FOUND: 'Category not found',
     CATEGORY_NAME_REQUIRED: 'Category name is required',
 
+    MOVIE_NOT_FOUND: 'Movie not found',
+
     BAD_REQUEST: 'Bad request',
     ID_HEADER_REQUIRED: 'User-ID header is required',
 };

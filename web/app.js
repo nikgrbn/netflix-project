@@ -28,6 +28,6 @@ app.use('/categories', categories);
 
 // Recommend
 const recommend = require('./routes/recommend');
-app.use('/:id/recommend', recommend);
+app.use('/', recommend); // TODO: Change this to /movies
 
 app.listen(process.env.PORT);
