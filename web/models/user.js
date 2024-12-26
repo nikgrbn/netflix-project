@@ -16,5 +16,10 @@ const User = new Schema({
         required: false,
         default: 'default-picture.jpg'
     },
+    watched_movies: {
+        type: Array,
+        required: false,
+        default: []
+    }
 }, { versionKey: false });
 module.exports = mongoose.model('User', User);
