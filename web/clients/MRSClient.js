@@ -58,4 +58,12 @@ class MRSClient {
     }
 }
 
-module.exports = MRSClient;
+const codes = {
+    OK: "200 Ok",
+    CREATED: "201 Created",
+    NO_CONTENT: "204 No Content",
+    BAD_REQUEST: "400 Bad Request",
+    NOT_FOUND: "404 Not Found",
+};
+
+module.exports = { MRSClient, codes };

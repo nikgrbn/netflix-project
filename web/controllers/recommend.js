@@ -1,7 +1,8 @@
 const userServices = require('../services/user');
 const mongoose = require('mongoose');
 const errors = require('../utils/errors');
-const MRSClient = require('../clients/MRSClient');
+const { MRSClient, codes } = require('../clients/MRSClient');
+
 
 const addUserWatchedMovie = async (req, res) => {
     // Check if the movie id is a valid MongoDB ObjectId
@@ -40,7 +41,7 @@ const addUserWatchedMovie = async (req, res) => {
         const postResponse = await client.sendMessage(postMessage);
 
         // If POST is successful, disconnect and return
-        if (postResponse.trim() === '201 Created') {
+        if (postResponse.trim() === codes.CREATED) {
             await client.disconnect();
             return res.status(204).send();
         }
@@ -50,7 +51,7 @@ const addUserWatchedMovie = async (req, res) => {
         const patchResponse = await client.sendMessage(patchMessage);
 
         // If PATCH is successful, disconnect and return
-        if (patchResponse.trim() === '204 No Content') {
+        if (patchResponse.trim() === codes.NO_CONTENT) {
             await client.disconnect();
             return res.status(204).send();
         }
