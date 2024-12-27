@@ -19,21 +19,13 @@ namespace StatusCodes {
  * Allows flexibility for future changes.
  */
 struct UID {
-    unsigned long value; // ID value is a 64-bit unsigned integer
+    std::string value; // ID value is a 64-bit unsigned integer
 
-    explicit UID(unsigned long v) : value(v) {}
-    explicit UID(const std::string& str) {
-        // Try parse argument into an unsigned long
-        try {
-            this->value = std::stoul(str);
-        } catch (...) {
-            // If parsing fails, throw a bad request exception
-            throw StatusCodeException(StatusCodes::BAD_REQUEST);
-        }
-    }
+    explicit UID(unsigned long v) : value(std::to_string(v)) {}
+    explicit UID(const std::string& str) : value(str) {}
 
     std::string toString() const {
-        return std::to_string(value);
+        return value;
     }
 
     bool operator==(const UID& id) const { return value == id.value; }
