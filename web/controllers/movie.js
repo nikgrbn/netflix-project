@@ -115,7 +115,7 @@ const getMovieById = async (req, res) => {
     
         try {
             const movie = await movieService.deleteMovie(id);
-            if (category) {
+            if (movie) {
                 res.status(204).send();
             } else {
                 res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
