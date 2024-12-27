@@ -17,7 +17,7 @@ const addUserWatchedMovie = async (req, res) => {
         if (user) {
             // Connect to the MRS server
             const client = new MRSClient();
-            await client.connect('127.0.0.1', 12345);
+            await client.connect();
 
             // Send the first message
             const postMessage = `POST ${userId} ${movieId}`;
@@ -26,7 +26,7 @@ const addUserWatchedMovie = async (req, res) => {
             // If the response is 201 Created, disconnect
             if (postResponse.trim() === '201 Created') {
                 await client.disconnect();
-                return res.status(400).json({ error: postResponse.trim() });
+                return res.status(204).send();
             }
 
             // If couldn't POST, then PATCH existing user

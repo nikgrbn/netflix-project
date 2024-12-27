@@ -1,4 +1,6 @@
 const net = require('net');
+const errors = require('../utils/errors');
+require('dotenv').config();
 
 class MRSClient {
     constructor() {
@@ -6,21 +8,24 @@ class MRSClient {
         this.connected = false;
     }
 
-    connect(host, port) {
+    connect() {
         return new Promise((resolve, reject) => {
+            const host = process.env.MRS_IP;
+            const port = process.env.MRS_PORT;
+
             this.client.connect(port, host, () => {
                 this.connected = true;
                 resolve();
             });
 
             this.client.on('error', (err) => {
-                reject(`Connection error: ${err.message}`);
+                reject(errors.MRS_CONNECTION_ERROR);
             });
 
             this.client.on('close', (hadError) => {
                 this.connected = false;
                 if (!hadError) {
-                    reject('Connection closed unexpectedly.');
+                    reject(errors.MRS_CONNECTION_CLOSED);
                 }
             });
         });
@@ -41,7 +46,7 @@ class MRSClient {
     sendMessage(message) {
         return new Promise((resolve, reject) => {
             if (!this.connected) {
-                return reject('Not connected to the server.');
+                return reject(errors.MRS_NOT_CONNECTED);
             }
 
             this.client.write(message);
