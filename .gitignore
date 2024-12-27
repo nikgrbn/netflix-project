@@ -81,3 +81,5 @@ coverage/
 # Server files
 server/run.sh
 server/build/
+config/
+node_modules/
