@@ -7,6 +7,7 @@
 #include "menu/SocketMenu.h"
 #include "utils/SocketRAII.h"
 #include "utils/StatusCodeException.h"
+#include "utils/ThreadPool.h"
 #include <map>
 #include <iostream>
 #include <sys/socket.h>
@@ -23,12 +24,12 @@ class Server {
 private:
     map<string, ICommand*>& commands;
     const int server_port;
-    mutex cmdExecMtx;
+    ThreadPool pool;
 public:
     explicit Server(map<string, ICommand*>& commands, int server_port=12345);
 
     void run();
-    void handleClient(SocketData* data);
+    void handleClient(std::shared_ptr<SocketData> data);
 };
 
 

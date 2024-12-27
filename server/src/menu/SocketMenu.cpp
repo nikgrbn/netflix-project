@@ -1,6 +1,6 @@
 #include "menu/SocketMenu.h"
 
-SocketMenu::SocketMenu(SocketData *socketData) : socketData(socketData) {}
+SocketMenu::SocketMenu(std::shared_ptr<SocketData> data) : socketData(data) {}
 
 vector<string> SocketMenu::nextCommand() {
     clearSocketBuffer();

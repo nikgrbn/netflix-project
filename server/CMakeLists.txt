@@ -34,6 +34,8 @@ add_executable(NetflixProject
         inc/utils/SocketRAII.h
         inc/utils/StatusCodeException.h
         inc/utils/Config.h
+        src/utils/ThreadPool.cpp
+        inc/utils/ThreadPool.h
 )
 
 # Conditionally include tests if ENABLE_TESTS is ON
