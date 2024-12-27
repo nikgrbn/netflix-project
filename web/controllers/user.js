@@ -3,14 +3,14 @@ const errors = require('../utils/errors');
 
 const signUpUser = async (req, res) => {
     // Extract username and password from request body
-    const { username, password, picture } = req.body;
+    const { username, password, picture, watched_movies } = req.body;
     if (!username || !password) {
         return res.status(400).json({ error: errors.USERNAME_PASSWORD_REQUIRED });
     }
 
     // Call the createUser function from userServices
     try {
-        const user = await userServices.createUser(username, password, picture);
+        const user = await userServices.createUser(username, password, picture, watched_movies);
         const userWithoutPassword = user.toObject();
         delete userWithoutPassword.password; // Remove password from returned user object
         res.status(201).json(userWithoutPassword);
@@ -28,6 +28,11 @@ const signUpUser = async (req, res) => {
 const getUserById = async (req, res) => {
     // Extract user id from request parameters
     const { id } = req.params;
+    
+    // Check if the id is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: errors.USER_NOT_FOUND });
+    }
 
     // Call the getUserById function from userServices
     try {
