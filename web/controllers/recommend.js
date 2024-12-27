@@ -11,7 +11,15 @@ const getRecommendations = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(movieId)) {
         return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
     }
-
+    try {
+        const movie = await movieServices.getMovieById(movieId);
+        if (!movie) {
+            return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
+        }
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+    
     // Retrieve user from MongoDB
     const userId = req.userId;
     try {
