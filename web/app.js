@@ -31,8 +31,4 @@ app.use('/categories', categories);
 const movies = require('./routes/movie');
 app.use('/movies', movies);
 
-// Recommend
-const recommend = require('./routes/recommend');
-app.use('/', recommend); // TODO: Change this to /movies
-
 app.listen(process.env.PORT);

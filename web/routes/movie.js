@@ -1,4 +1,5 @@
 const movieController = require('../controllers/movie');
+const recommendController = require('../controllers/recommend');
 const error = require('../utils/errors');
 
 const express = require('express');
@@ -23,6 +24,9 @@ router.route('/:id')
     .get(movieController.getMovieById)
     .put(movieController.updateMovie)
     .delete(movieController.deleteMovie);
+
+router.route('/:id/recommend')
+    .post(recommendController.addUserWatchedMovie);
 
 module.exports = router;
     
