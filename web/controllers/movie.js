@@ -6,7 +6,7 @@ const errors = require('../utils/errors');
 const createMovie = async (req, res) => {
     const { name, category } = req.body;
 
-    // Validate required fields
+
     if (!name || !category) {
         return res.status(400).json({ error: 'Name and category are required' });
     }
@@ -16,8 +16,8 @@ const createMovie = async (req, res) => {
         res.status(201).json(movie);
     } catch (error) {
         console.error(`Error creating movie: ${error.message}`);
-        if (error.message === 'Invalid category ID') {
-            return res.status(400).json({ error: 'Invalid category ID' });
+        if (error.message === 'Category not found') {
+            return res.status(400).json({ error: 'Category not found' }); 
         }
         res.status(500).send('An error occurred while creating the movie.');
     }
