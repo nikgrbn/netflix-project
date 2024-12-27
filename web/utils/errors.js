@@ -9,7 +9,10 @@ const errors = {
     CATEGORY_NOT_FOUND: 'Category not found',
     CATEGORY_NAME_REQUIRED: 'Category name is required',
 
+    MOVIE_ALREADY_EXISTS: 'Movie already exists',
     MOVIE_NOT_FOUND: 'Movie not found',
+    MOVIE_FIELDS_REQUIRED: 'all feilds are required',
+    MOVIE_PUT_ERROR: 'must change all fields',
 
     BAD_REQUEST: 'Bad request',
     ID_HEADER_REQUIRED: 'User-ID header is required',

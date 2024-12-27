@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const Movie = require('../models/movie');
+const errors = require('../utils/errors');
 
 const createUser = async (username, password, picture, watched_movies) => {
     const user = new User({ username, password });
@@ -35,7 +37,10 @@ const getUserByCredentials = async (username, password) => {
 
 const addUserWatchedMovie = async (userId, movieId) => {
     const user = await User.findById(userId);
-    if (!user) return null;
+    if (!user) throw new Error(errors.USER_NOT_FOUND);
+
+    const movie = await Movie.findById(movieId);
+    if (!movie) throw new Error(errors.MOVIE_NOT_FOUND);
 
     // Check if the movie id is already in the user's watched movies array
     if (!user.watched_movies.includes(movieId)) {

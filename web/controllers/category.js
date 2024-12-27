@@ -15,7 +15,7 @@ const createCategory = async (req, res) => {
         res.status(201).send();
     } catch (error) {
         if (error.code === 11000) {
-            // Duplicate username error
+            // Duplicate category error
             res.status(400).json({ error: errors.CATEGORY_ALREADY_EXISTS });
         } else {
             res.status(400).json({ error: error.message });
@@ -71,7 +71,12 @@ const updateCategory = async (req, res) => {
             res.status(404).json({ error: errors.CATEGORY_NOT_FOUND });
         }
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        if (error.code === 11000) {
+            // Duplicate category error
+            res.status(400).json({ error: errors.CATEGORY_ALREADY_EXISTS });
+        } else {
+            res.status(400).json({ error: error.message });
+        }
     }
 }
 

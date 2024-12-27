@@ -17,7 +17,7 @@ const User = new Schema({
         default: 'default-picture.jpg'
     },
     watched_movies: {
-        type: Array,
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
         required: false,
         default: []
     }
