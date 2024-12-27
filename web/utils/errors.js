@@ -17,7 +17,7 @@ const errors = {
     BAD_REQUEST: 'Bad request',
     ID_HEADER_REQUIRED: 'User-ID header is required',
 
-    MRS_CONNECTION_ERROR: 'Error connecting to the MRS server',
+    MRS_CONNECTION_ERROR: 'Could not connect to the MRS server',
     MRS_CONNECTION_CLOSED: 'Connection to the MRS server closed unexpectedly',
     MRS_NOT_CONNECTED: 'Not connected to the MRS server',
 };

@@ -10,21 +10,29 @@ const addUserWatchedMovie = async (req, res) => {
         return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
     }
 
-    // Update MongoDB
+    // Retrieve user from MongoDB
     const userId = req.userId;
     try {
-        const user = await userServices.addUserWatchedMovie(userId, movieId);
+        const user = await userServices.getUserById(userId);
         if (!user) {
             return res.status(404).json({ error: errors.USER_NOT_FOUND });
         }
+
+        // Check if the movie is already in the watched_movies list
+        if (user.watched_movies.includes(movieId)) {
+            return res.status(204).send();
+        }
+
+        // Add movie to the watched_movies list
+        await userServices.addUserWatchedMovie(userId, movieId);
     } catch (error) {
         return res.status(400).json({ error: error.message });
     }
 
     // Update MRS server
+    const client = new MRSClient();
     try {
         // Connect to the MRS server
-        const client = new MRSClient();
         await client.connect();
 
         // Send the first message
@@ -56,7 +64,7 @@ const addUserWatchedMovie = async (req, res) => {
         // Rollback MongoDB update if MRS server update fails
         await client.disconnect();
         await userServices.removeUserWatchedMovie(userId, movieId);
-        return res.status(400).json({ error: error.message });
+        return res.status(400).json({ error: error });
     }
 }
 
