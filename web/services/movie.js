@@ -1,18 +1,25 @@
-const movie = require("../models/movie");
+const mongoose = require('mongoose');
+const Movie = require("../models/movie");
+const Category = require("../models/category");
 const errors = require("../utils/errors");
 
-const createMovie = async (name, category) => {
-  const movie = new movie({ name: name }, { category: category });
+const createMovie = async (name, categoryName) => {
 
+  const category = await Category.findOne({ name: categoryName });
+  if (!category) {
+      throw new Error('Category not found');
+  }
+
+  const movie = new Movie({ name, category: category._id });
   return await movie.save();
 };
 
 const getMovies = async () => {
-  return await movie.find({});
+  return await Movie.find({});
 };
 
 const getMovieById = async (id) => {
-  return await movie.findById(id);
+  return await Movie.findById(id);
 };
 
 const updateMovie = async (id, name, category) => {

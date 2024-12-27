@@ -1,19 +1,32 @@
 const mongoose = require('mongoose');
+const userServices = require('../services/user');
 const movieService = require('../services/movie');
 const errors = require('../utils/errors');
 
 const createMovie = async (req, res) => {
-    // Check if the movie name field is provided
-    if (!req.body.name || !req.body.category) {
-        res.status(400).json({ error: errors.MOVIE_FIELDS_REQUIRED });
-        return;
+    const { name, category } = req.body;
+
+    // Validate required fields
+    if (!name || !category) {
+        return res.status(400).json({ error: 'Name and category are required' });
     }
-    const movie = await movieService.createMovie(
-                req.body.name, req.body.category);
-                        res.status(201).send();
+
+    try {
+        const movie = await movieService.createMovie(name, category);
+        res.status(201).json(movie);
+    } catch (error) {
+        console.error(`Error creating movie: ${error.message}`);
+        if (error.message === 'Invalid category ID') {
+            return res.status(400).json({ error: 'Invalid category ID' });
+        }
+        res.status(500).send('An error occurred while creating the movie.');
+    }
 };
 
 const getMovies = async (req, res) => {
+    const userId = req.params.id;
+
+
     try {
         res.json(await movieService.getMovies());
     } catch (error) {

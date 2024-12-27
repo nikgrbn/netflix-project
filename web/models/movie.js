@@ -9,7 +9,7 @@ const Movie = new Schema(
     },
     category: {
       type: Schema.Types.ObjectId,
-      ref: "category",
+      ref: "Category",
     },
   },
   { versionKey: false }
