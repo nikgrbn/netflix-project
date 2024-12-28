@@ -54,9 +54,14 @@ const getMovieById = async (req, res) => {
         const movie = await movieService.getMovieById(req.params.id);
         if (movie) {
             const formattedMovie = {
-                id: movie._id.toString(), // שינוי שם השדה
+                id: movie._id.toString(),
                 name: movie.name,
-                category: movie.category
+                category: movie.category,
+                duration: movie.duration,
+                image: movie.image,
+                ageLimit: movie.ageLimit,
+                description: movie.description,
+                watchedBy: movie.watchedBy
             };
             res.status(200).json(formattedMovie);
         } else {
@@ -105,23 +110,30 @@ const getMovieById = async (req, res) => {
     
     
     const deleteMovie = async (req, res) => {
-        const { id } = req.params;
-    
-        // Check if the id is a valid MongoDB ObjectId
+        const { id } = req.params; 
+        
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
         }
     
         try {
+           
             const movie = await movieService.deleteMovie(id);
-            if (movie) {
-                res.status(204).send();
-            } else {
-                res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
+            if (!movie) {
+                return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
             }
+    
+            await mongoose.model('User').updateMany(
+                {}, 
+                { $pull: { watched_movies: id } } 
+            );
+    
+            res.status(204).send(); 
         } catch (error) {
-    }
-}
+            console.error("Error deleting movie:", error.message);
+            res.status(500).json({ error: "An error occurred while deleting the movie." });
+        }
+    };
 
 module.exports = { createMovie, getMovies, getMovieById, updateMovie, deleteMovie };
 
