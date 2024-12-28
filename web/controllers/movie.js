@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const userServices = require('../services/user');
 const movieService = require('../services/movie');
 const errors = require('../utils/errors');
+const Category = require('../models/category');
 
 const createMovie = async (req, res) => {
     const { name, category } = req.body;
@@ -24,15 +25,21 @@ const createMovie = async (req, res) => {
 };
 
 const getMovies = async (req, res) => {
-    const userId = req.params.id;
-
-
     try {
-        res.json(await movieService.getMovies());
+        const movies = await movieService.getMovies();
+        
+        const formattedMovies = movies.map(movie => ({
+            id: movie._id.toString(), 
+            name: movie.name,
+            category: movie.category
+        }));
+
+        res.status(200).json(formattedMovies); 
     } catch (error) {
+        console.error(`Error fetching movies: ${error.message}`);
         res.status(400).json({ error: error.message });
     }
-}
+};
 
 const getMovieById = async (req, res) => {
     // Extract movie id from request parameters
@@ -47,7 +54,12 @@ const getMovieById = async (req, res) => {
     try {
         const movie = await movieService.getMovieById(req.params.id);
         if (movie) {
-            res.status(200).json(movie);
+            const formattedMovie = {
+                id: movie._id.toString(), // שינוי שם השדה
+                name: movie.name,
+                category: movie.category
+            };
+            res.status(200).json(formattedMovie);
         } else {
             res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
         }
@@ -59,24 +71,39 @@ const getMovieById = async (req, res) => {
     const updateMovie = async (req, res) => {
         const { id } = req.params;
     
-        // Check if the id is a valid MongoDB ObjectId
+        // Validate the id is a valid MongoDB ObjectId
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
+            return res.status(404).json({ error: "Movie not found" });
         }
     
         const { name, category } = req.body;
     
+        // Validate required fields
+        if (!name || !category) {
+            return res.status(400).json({ error: "All fields (name, category) must be provided for a full update" });
+        }
+    
         try {
-            const movie = await movieService.updateMovie(id, name, category);
+            // Find the category by name
+            const categoryDoc = await Category.findOne({ name: category });
+            if (!categoryDoc) {
+                return res.status(400).json({ error: `Category "${category}" not found` });
+            }
+    
+            // Update the movie in the database
+            const movie = await movieService.updateMovie(id, { name, category: categoryDoc._id });
+            
             if (movie) {
-                res.status(204).send();
+                res.status(200).json({ message: "Movie updated successfully", movie }); // Return the updated movie
             } else {
-                res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
+                res.status(404).json({ error: "Movie not found" });
             }
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            console.error("Error updating movie:", error.message);
+            res.status(500).json({ error: "An error occurred while updating the movie" });
         }
-    }
+    };
+    
     
     const deleteMovie = async (req, res) => {
         const { id } = req.params;
