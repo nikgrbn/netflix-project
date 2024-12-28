@@ -9,23 +9,24 @@ const Movie = new Schema(
       required: true,
     },
     category: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
       required: true,
     },
-    duration: { 
+
+    duration: {
       type: Number,
       default: 120,
     },
-    image: { 
+    image: {
       type: String,
       default: "https://example.com/default-image.jpg",
     },
-    ageLimit: { 
+    ageLimit: {
       type: Number,
       default: 13,
     },
-    description: { 
+    description: {
       type: String,
       default: "No description available for this movie.",
     },

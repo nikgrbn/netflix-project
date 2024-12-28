@@ -22,19 +22,38 @@ const getMovieById = async (id) => {
   return await Movie.findById(id);
 };
 
-const updateMovie = async (id, name, category) => {
-  const movie = await getMovieById(id);
+const updateMovie = async (id, updates) => {
+  const movie = await getMovieById(id); // בדוק אם הסרט קיים
   if (!movie) return null;
 
-  // Update the movie fields if new values are provided
-  if (name == undefined|| category == undefined) {
-    return res.status(400).json({ error: errors.MOVIE_PUT_ERROR });
-  }
-    movie.name = name;
-    movie.category = category;
+  let categoryDoc;
 
-  return await movie.save();
+  // בדוק אם הקטגוריה היא ObjectId או שם
+  if (mongoose.Types.ObjectId.isValid(updates.category)) {
+      categoryDoc = await Category.findById(updates.category);
+  } else {
+      categoryDoc = await Category.findOne({ name: updates.category });
+  }
+
+  if (!categoryDoc) {
+      throw new Error(`Category "${updates.category}" not found.`);
+  }
+
+  // עדכון כל השדות פרט ל-ID
+  movie.name = updates.name;
+  movie.category = categoryDoc._id;
+
+  if (updates.duration !== undefined) movie.duration = updates.duration;
+  if (updates.image !== undefined) movie.image = updates.image;
+  if (updates.ageLimit !== undefined) movie.ageLimit = updates.ageLimit;
+  if (updates.description !== undefined) movie.description = updates.description;
+
+  return await movie.save(); // שמור את השינויים במסד הנתונים
 };
+
+
+
+
 
 const deleteMovie = async (id) => {
   const movie = await getMovieById(id);

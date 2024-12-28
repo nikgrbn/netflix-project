@@ -73,40 +73,40 @@ const getMovieById = async (req, res) => {
     }
     
     const updateMovie = async (req, res) => {
-        const { id } = req.params;
+        const { id } = req.params; // מזהה הסרט מה-URL
+        const updates = req.body; // השדות לעדכון
     
-        // Validate the id is a valid MongoDB ObjectId
+        // בדיקת תקינות של מזהה הסרט
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ error: "Movie not found" });
+            return res.status(404).json({ error: "Invalid movie ID." });
         }
     
-        const { name, category } = req.body;
+        // הסר את האפשרות לשנות את ה-ID
+        if (updates._id || updates.id) {
+            return res.status(400).json({ error: "Movie ID cannot be modified." });
+        }
     
-        // Validate required fields
-        if (!name || !category) {
-            return res.status(400).json({ error: "All fields (name, category) must be provided for a full update" });
+        // בדיקת שדות חובה
+        if (!updates.name || !updates.category) {
+            return res.status(400).json({ error: "Name and category are required fields." });
         }
     
         try {
-            // Find the category by name
-            const categoryDoc = await Category.findOne({ name: category });
-            if (!categoryDoc) {
-                return res.status(400).json({ error: `Category "${category}" not found` });
+            // קריאה לשירות לעדכון הסרט
+            const movie = await movieService.updateMovie(id, updates);
+            if (!movie) {
+                return res.status(404).json({ error: "Movie not found." });
             }
     
-            // Update the movie in the database
-            const movie = await movieService.updateMovie(id, { name, category: categoryDoc._id });
-            
-            if (movie) {
-                res.status(200).json({ message: "Movie updated successfully", movie }); // Return the updated movie
-            } else {
-                res.status(404).json({ error: "Movie not found" });
-            }
+            res.status(200).json({ message: "Movie updated successfully.", movie });
         } catch (error) {
             console.error("Error updating movie:", error.message);
-            res.status(500).json({ error: "An error occurred while updating the movie" });
+            res.status(400).json({ error: error.message });
         }
     };
+            
+    
+    
     
     
     const deleteMovie = async (req, res) => {
