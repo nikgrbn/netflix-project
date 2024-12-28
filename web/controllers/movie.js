@@ -5,15 +5,14 @@ const errors = require('../utils/errors');
 const Category = require('../models/category');
 
 const createMovie = async (req, res) => {
-    const { name, category } = req.body;
-
+    const { name, category, duration, image, ageLimit, description } = req.body;
 
     if (!name || !category) {
         return res.status(400).json({ error: 'Name and category are required' });
     }
 
     try {
-        const movie = await movieService.createMovie(name, category);
+        const movie = await movieService.createMovie(name, category, duration, image, ageLimit, description);
         res.status(201).json(movie);
     } catch (error) {
         console.error(`Error creating movie: ${error.message}`);

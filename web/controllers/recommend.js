@@ -131,4 +131,4 @@ const addUserWatchedMovie = async (req, res) => {
     }
 }
 
-module.exports = { addUserWatchedMovie };
+module.exports = { addUserWatchedMovie, getRecommendations };
