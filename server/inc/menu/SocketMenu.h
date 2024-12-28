@@ -6,13 +6,14 @@
 #include "utils/Types.h"
 #include <sstream>
 #include <cstring>
+#include <memory>
 
 class SocketMenu : public IMenu {
 private:
-    SocketData *socketData;
+    std::shared_ptr<SocketData> socketData;
     static vector<string> splitString(string& input, char delimiter);
 public:
-    explicit SocketMenu(SocketData *socketData);
+    explicit SocketMenu(std::shared_ptr<SocketData> data);
 
     vector<string> nextCommand() override;
     void out(string output) override;

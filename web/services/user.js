@@ -51,4 +51,17 @@ const addUserWatchedMovie = async (userId, movieId) => {
     return await user.save();
 }
 
-module.exports = { createUser, getUserById, getUserByCredentials, addUserWatchedMovie };
+const removeUserWatchedMovie = async (userId, movieId) => {
+    const user = await User.findById(userId);
+    if (!user) throw new Error(errors.USER_NOT_FOUND);
+
+    const movie = await Movie.findById(movieId);
+    if (!movie) throw new Error(errors.MOVIE_NOT_FOUND);
+
+    // Remove the movie id from the user's watched movies array
+    user.watched_movies = user.watched_movies.filter(id => id.toString() !== movieId);
+
+    return await user.save();
+}
+
+module.exports = { createUser, getUserById, getUserByCredentials, addUserWatchedMovie, removeUserWatchedMovie };

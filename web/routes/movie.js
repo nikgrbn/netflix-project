@@ -26,6 +26,7 @@ router.route('/:id')
     .delete(movieController.deleteMovie);
 
 router.route('/:id/recommend')
+    .get(recommendController.getRecommendations)
     .post(recommendController.addUserWatchedMovie);
 
 module.exports = router;
