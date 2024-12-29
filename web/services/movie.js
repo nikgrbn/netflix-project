@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Movie = require("../models/movie");
 const Category = require("../models/category");
-const errors = require("../utils/errors");
+const { errors }  = require("../utils/consts");
 
 const createMovie = async (name, categoryName) => {
 

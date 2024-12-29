@@ -1,6 +1,6 @@
 const movieController = require('../controllers/movie');
 const recommendController = require('../controllers/recommend');
-const error = require('../utils/errors');
+const error = require('../utils/consts');
 
 const express = require('express');
 var router = express.Router();

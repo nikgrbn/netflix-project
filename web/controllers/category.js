@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const categoryService = require('../services/category');
-const errors = require('../utils/errors');
+const { errors }  = require('../utils/consts');
 
 const createCategory = async (req, res) => {
     // Check if the category name field is provided

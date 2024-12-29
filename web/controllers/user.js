@@ -1,5 +1,5 @@
 const userServices = require('../services/user');
-const errors = require('../utils/errors');
+const { errors }  = require('../utils/consts');
 
 const signUpUser = async (req, res) => {
     // Extract username and password from request body

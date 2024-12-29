@@ -24,4 +24,13 @@ const errors = {
     MRS_NOT_CONNECTED: 'Not connected to the MRS server',
 };
 
-module.exports = errors;
+const counters = {
+    C_USER: 'users',
+    C_CATEGORY: 'categories',
+    C_MOVIE: 'movies',
+};
+
+module.exports = {
+    errors,
+    counters
+};

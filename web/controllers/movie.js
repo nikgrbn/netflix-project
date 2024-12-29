@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const userServices = require("../services/user");
 const movieService = require("../services/movie");
-const errors = require("../utils/errors");
+const { errors }= require("../utils/consts");
 const Category = require("../models/category");
 
 const createMovie = async (req, res) => {

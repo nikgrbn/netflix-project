@@ -1,5 +1,5 @@
 const net = require('net');
-const errors = require('../utils/errors');
+const { errors } = require('../utils/consts');
 require('dotenv').config();
 
 class MRSClient {

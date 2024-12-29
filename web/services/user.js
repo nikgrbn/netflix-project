@@ -1,17 +1,23 @@
 const User = require('../models/user');
 const Movie = require('../models/movie');
-const errors = require('../utils/errors');
+const counterServices = require('../services/counter');
+const { errors, counters }  = require('../utils/consts');
 
 const createUser = async (username, password, picture) => {
-    const user = new User({ username, password });
+    const userId = await counterServices.getNextSequence(counters.USER_ID); // Generate the next ID
+    const user = new User({ 
+        _id: userId, // Assign the auto-incremented ID
+        username, 
+        password 
+    });
 
     // If a picture is provided, set it as the user's picture
     if (picture) {
-        user.picture = picture
+        user.picture = picture;
     }
 
     return await user.save();
-}
+};
 
 const getUserById = async (id) => { return await User.findById(id) }
 
