@@ -13,7 +13,7 @@ const createMovie = async (req, res) => {
 
     try {
         const movie = await movieService.createMovie(name, category, duration, image, ageLimit, description);
-        res.status(201).json(movie);
+        res.status(201).send() ;
     } catch (error) {
         console.error(`Error creating movie: ${error.message}`);
         if (error.message === 'Category not found') {
@@ -98,13 +98,13 @@ const getMovieById = async (req, res) => {
                 return res.status(404).json({ error: "Movie not found." });
             }
     
-            res.status(200).json({ message: "Movie updated successfully.", movie });
+            res.status(200).json({ message: "Movie updated successfully."});
         } catch (error) {
             console.error("Error updating movie:", error.message);
             res.status(400).json({ error: error.message });
         }
     };
-            
+
     
     
     
