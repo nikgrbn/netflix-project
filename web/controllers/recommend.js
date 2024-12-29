@@ -8,9 +8,6 @@ const mongoose = require('mongoose');
 const getRecommendations = async (req, res) => {
     // Check if the movie id is a valid MongoDB ObjectId
     const movieId = req.params.id;
-    if (!mongoose.Types.ObjectId.isValid(movieId)) {
-        return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
-    }
     try {
         const movie = await movieServices.getMovieById(movieId);
         if (!movie) {
@@ -69,9 +66,6 @@ const getRecommendations = async (req, res) => {
 const addUserWatchedMovie = async (req, res) => {
     // Check if the movie id is a valid MongoDB ObjectId
     const movieId = req.params.id;
-    if (!mongoose.Types.ObjectId.isValid(movieId)) {
-        return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
-    }
 
     // Retrieve user from MongoDB
     const userId = req.userId;

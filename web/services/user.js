@@ -2,17 +2,12 @@ const User = require('../models/user');
 const Movie = require('../models/movie');
 const errors = require('../utils/errors');
 
-const createUser = async (username, password, picture, watched_movies) => {
+const createUser = async (username, password, picture) => {
     const user = new User({ username, password });
 
     // If a picture is provided, set it as the user's picture
     if (picture) {
         user.picture = picture
-    }
-
-    // If watched movies are provided, set them as the user's watched movies
-    if (watched_movies) {
-        user.watched_movies = watched_movies
     }
 
     return await user.save();

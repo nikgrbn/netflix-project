@@ -28,11 +28,6 @@ const signUpUser = async (req, res) => {
 const getUserById = async (req, res) => {
     // Extract user id from request parameters
     const { id } = req.params;
-    
-    // Check if the id is a valid MongoDB ObjectId
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: errors.USER_NOT_FOUND });
-    }
 
     // Call the getUserById function from userServices
     try {

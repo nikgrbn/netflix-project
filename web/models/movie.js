@@ -22,7 +22,7 @@ const Movie = new Schema(
       type: String,
       default: "https://example.com/default-image.jpg",
     },
-    ageLimit: {
+    age_limit: {
       type: Number,
       default: 13,
     },

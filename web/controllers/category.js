@@ -35,14 +35,9 @@ const getCategoryById = async (req, res) => {
     // Extract category id from request parameters
     const { id } = req.params;
 
-    // Check if the id is a valid MongoDB ObjectId
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: errors.CATEGORY_NOT_FOUND });
-    }
-
     // Call the getCategoryById function from categoryServices
     try {
-        const category = await categoryService.getCategoryById(req.params.id);
+        const category = await categoryService.getCategoryById(id);
         if (category) {
             res.status(200).json(category);
         } else {
@@ -55,12 +50,6 @@ const getCategoryById = async (req, res) => {
 
 const updateCategory = async (req, res) => {
     const { id } = req.params;
-
-    // Check if the id is a valid MongoDB ObjectId
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: errors.CATEGORY_NOT_FOUND });
-    }
-
     const { name, promoted } = req.body;
 
     try {
@@ -82,11 +71,6 @@ const updateCategory = async (req, res) => {
 
 const deleteCategory = async (req, res) => {
     const { id } = req.params;
-
-    // Check if the id is a valid MongoDB ObjectId
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: errors.CATEGORY_NOT_FOUND });
-    }
 
     try {
         const category = await categoryService.deleteCategory(id);

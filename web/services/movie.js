@@ -23,37 +23,19 @@ const getMovieById = async (id) => {
 };
 
 const updateMovie = async (id, updates) => {
-  const movie = await getMovieById(id); // בדוק אם הסרט קיים
+  const movie = await getMovieById(id);
   if (!movie) return null;
 
-  let categoryDoc;
-
-  // בדוק אם הקטגוריה היא ObjectId או שם
-  if (mongoose.Types.ObjectId.isValid(updates.category)) {
-      categoryDoc = await Category.findById(updates.category);
-  } else {
-      categoryDoc = await Category.findOne({ name: updates.category });
-  }
-
-  if (!categoryDoc) {
-      throw new Error(`Category "${updates.category}" not found.`);
-  }
-
-  // עדכון כל השדות פרט ל-ID
-  movie.name = updates.name;
-  movie.category = categoryDoc._id;
-
+  // Update the movie fields if they are provided in the updates object
+  if (updates.name !== undefined) movie.name = updates.name;
+  if (updates.category !== undefined) movie.category = updates.category;
   if (updates.duration !== undefined) movie.duration = updates.duration;
   if (updates.image !== undefined) movie.image = updates.image;
-  if (updates.ageLimit !== undefined) movie.ageLimit = updates.ageLimit;
+  if (updates.age_limit !== undefined) movie.age_limit = updates.age_limit;
   if (updates.description !== undefined) movie.description = updates.description;
 
-  return await movie.save(); // שמור את השינויים במסד הנתונים
+  return await movie.save();
 };
-
-
-
-
 
 const deleteMovie = async (id) => {
   const movie = await getMovieById(id);

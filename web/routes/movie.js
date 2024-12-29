@@ -22,7 +22,7 @@ router.route('/')
 
 router.route('/:id')
     .get(movieController.getMovieById)
-    .put(movieController.updateMovie)
+    .put(movieController.setMovie)
     .delete(movieController.deleteMovie);
 
 router.route('/:id/recommend')
