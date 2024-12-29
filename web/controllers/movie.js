@@ -15,7 +15,8 @@ const createMovie = async (req, res) => {
     if (!movie) {
       return res.status(400).json({ error: "Movie not created" });
     }
-    res.status(201).send();
+    res.status(201).json(movie);
+
   } catch (error) {
     console.error(`Error creating movie: ${error.message}`);
     if (error.message === "Category not found") {

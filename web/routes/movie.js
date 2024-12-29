@@ -1,6 +1,6 @@
 const movieController = require('../controllers/movie');
 const recommendController = require('../controllers/recommend');
-const error = require('../utils/consts');
+const { errors } = require('../utils/consts');
 
 const express = require('express');
 var router = express.Router();
@@ -9,7 +9,7 @@ var router = express.Router();
 const ensureUserHeader = (req, res, next) => {
     const userId = req.headers['user-id'];
     if (!userId) {
-        return res.status(401).json({ error: error.ID_HEADER_REQUIRED });
+        return res.status(401).json({ error: errors.ID_HEADER_REQUIRED });
     }
     req.userId = userId; // Attach userId to the request object for downstream use
     next();
