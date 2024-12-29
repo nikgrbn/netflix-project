@@ -1,7 +1,13 @@
 const Category = require('../models/category');
+const counterService = require('../services/counter');
+const { counters }  = require('../utils/consts');
 
 const createCategory = async (name, promoted) => {
-    const category = new Category({ name: name });
+    const categoryId = await counterService.getNextSequence(counters.C_CATEGORY); // Generate the next ID
+    const category = new Category({ 
+        _id: categoryId, // Assign the auto-incremented ID
+        name
+    });
 
     // If the category is promoted, set the promoted field to true
     if (promoted !== undefined) {

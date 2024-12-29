@@ -1,10 +1,10 @@
 const User = require('../models/user');
 const Movie = require('../models/movie');
-const counterServices = require('../services/counter');
+const counterService = require('../services/counter');
 const { errors, counters }  = require('../utils/consts');
 
 const createUser = async (username, password, picture) => {
-    const userId = await counterServices.getNextSequence(counters.USER_ID); // Generate the next ID
+    const userId = await counterService.getNextSequence(counters.C_USER); // Generate the next ID
     const user = new User({ 
         _id: userId, // Assign the auto-incremented ID
         username, 

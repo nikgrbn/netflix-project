@@ -1,16 +1,25 @@
 const mongoose = require('mongoose');
 const Movie = require("../models/movie");
 const Category = require("../models/category");
-const { errors }  = require("../utils/consts");
+const counterService = require('../services/counter');
+const { counters }  = require('../utils/consts');
 
-const createMovie = async (name, categoryName) => {
-
-  const category = await Category.findOne({ name: categoryName });
+const createMovie = async (name, body) => {
+  const category = await Category.findOne({ name: body.category });
   if (!category) {
       throw new Error('Category not found');
   }
 
-  const movie = new Movie({ name, category: category._id });
+  const movieId = await counterService.getNextSequence(counters.C_MOVIE);
+  const movie = new Movie({ 
+    _id: movieId,
+    name,
+    duration: body.duration,
+    image: body.image,
+    age_limit: body.age_limit,
+    description: body.description,
+    category: category._id 
+  });
   return await movie.save();
 };
 

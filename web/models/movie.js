@@ -4,12 +4,16 @@ const Schema = mongoose.Schema;
 
 const Movie = new Schema(
   {
+    _id: {
+      type: Number,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
     },
     category: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Number,
       ref: "Category",
       required: true,
     },

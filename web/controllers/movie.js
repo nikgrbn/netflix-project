@@ -5,21 +5,13 @@ const { errors }= require("../utils/consts");
 const Category = require("../models/category");
 
 const createMovie = async (req, res) => {
-  const { name, category, duration, image, age_limit, description } = req.body;
-
+  const { name, category } = req.body;
   if (!name || !category) {
     return res.status(400).json({ error: "Name and category are required" });
   }
 
   try {
-    const movie = await movieService.createMovie(
-      name,
-      category,
-      duration,
-      image,
-      age_limit,
-      description
-    );
+    const movie = await movieService.createMovie(name, req.body);
     if (!movie) {
       return res.status(400).json({ error: "Movie not created" });
     }
@@ -108,7 +100,6 @@ const setMovie = async (req, res) => {
 
     res.status(200).json({ message: "Movie updated successfully." });
   } catch (error) {
-    console.error("Error updating movie:", error.message);
     res.status(400).json({ error: error.message });
   }
 };
