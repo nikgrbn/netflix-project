@@ -12,6 +12,7 @@ const createCategory = async (req, res) => {
     try {
         const category = await categoryService.createCategory(
             req.body.name, req.body.promoted);
+        if (!category) { res.status(400).json({ error: errors.CATEGORY_NOT_CREATED }); }
         res.status(201).send();
     } catch (error) {
         if (error.code === 11000) {

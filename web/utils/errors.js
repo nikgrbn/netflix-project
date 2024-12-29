@@ -2,12 +2,14 @@ const errors = {
     USERNAME_PASSWORD_REQUIRED: 'Username and password are required',
     USERNAME_ALREADY_EXISTS: 'Username already exists',
     USER_NOT_FOUND: 'User not found',
+    USER_NOT_CREATED: 'User not created',
 
     INVALID_CREDENTIALS: 'Invalid username or password',
 
     CATEGORY_ALREADY_EXISTS: 'Category already exists',
     CATEGORY_NOT_FOUND: 'Category not found',
     CATEGORY_NAME_REQUIRED: 'Category name is required',
+    CATEGORY_NOT_CREATED: 'Category not created',
 
     MOVIE_ALREADY_EXISTS: 'Movie already exists',
     MOVIE_NOT_FOUND: 'Movie not found',

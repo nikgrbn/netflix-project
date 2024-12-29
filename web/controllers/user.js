@@ -11,6 +11,8 @@ const signUpUser = async (req, res) => {
     // Call the createUser function from userServices
     try {
         const user = await userServices.createUser(username, password, picture, watched_movies);
+        if (!user) { return res.status(400).json({ error: errors.USER_NOT_CREATED }); }
+        
         const userWithoutPassword = user.toObject();
         delete userWithoutPassword.password; // Remove password from returned user object
         res.status(201).json(userWithoutPassword);
