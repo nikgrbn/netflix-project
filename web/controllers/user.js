@@ -3,14 +3,14 @@ const { errors }  = require('../utils/consts');
 
 const signUpUser = async (req, res) => {
     // Extract username and password from request body
-    const { username, password, picture, watched_movies } = req.body;
+    const { username, password, picture } = req.body;
     if (!username || !password) {
         return res.status(400).json({ error: errors.USERNAME_PASSWORD_REQUIRED });
     }
 
     // Call the createUser function from userServices
     try {
-        const user = await userServices.createUser(username, password, picture, watched_movies);
+        const user = await userServices.createUser(username, password, picture);
         if (!user) { return res.status(400).json({ error: errors.USER_NOT_CREATED }); }
         
         const userWithoutPassword = user.toObject();

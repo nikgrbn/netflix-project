@@ -2,8 +2,6 @@ const userServices = require('../services/user');
 const movieServices = require('../services/movie'); // Import movie services
 const { errors }  = require('../utils/consts');
 const { MRSClient, codes } = require('../clients/MRSClient');
-const mongoose = require('mongoose');
-
 
 const getRecommendations = async (req, res) => {
     // Check if the movie id is a valid MongoDB ObjectId
