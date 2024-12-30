@@ -11,10 +11,18 @@ const errors = {
     CATEGORY_NAME_REQUIRED: 'Category name is required',
     CATEGORY_NOT_CREATED: 'Category not created',
 
-    MOVIE_ALREADY_EXISTS: 'Movie already exists',
-    MOVIE_NOT_FOUND: 'Movie not found',
-    MOVIE_FIELDS_REQUIRED: 'all feilds are required',
-    MOVIE_PUT_ERROR: 'must change all fields',
+    MOVIE_CATEGORY_AND_NAME_REQUIRED: "Name and category are required.",
+    MOVIE_NOT_CREATED: "Failed to create movie.",
+    MOVIE_NOT_FOUND: "Movie not found.",
+    CATEGORY_NOT_FOUND: "Category not found.",
+    MOVIE_ID_MODIFY: "Movie ID cannot be modified.",
+    MOVIE_FETCH_ERROR: "An error occurred while fetching movies.",
+    MOVIE_ERROR_CREATION: "An error occurred while creating the movie.",
+    MOVIE_UPDATE_ERROR: "An error occurred while updating the movie.",
+    MOVIE_DELETE_ERROR: "An error occurred while deleting the movie.",
+};
+
+
 
     BAD_REQUEST: 'Bad request',
     ID_HEADER_REQUIRED: 'User-ID header is required',

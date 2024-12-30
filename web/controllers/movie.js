@@ -3,42 +3,40 @@ const userServices = require("../services/user");
 const movieService = require("../services/movie");
 const categoryService = require("../services/category");
 const { formatDocument } = require("../utils/helpers");
-const { errors }= require("../utils/consts");
-
+const { errors } = require("../utils/consts");
 
 const createMovie = async (req, res) => {
   const { name, category, ...fields } = req.body;
   if (!name || !category) {
-    return res.status(400).json({ error: "Name and category are required" });
+    return res
+      .status(400)
+      .json({ error: consts.MOVIE_CATEGORY_AND_NAME_REQUIRED });
   }
 
   try {
     const movie = await movieService.createMovie(name, category, fields);
     if (!movie) {
-      return res.status(400).json({ error: "Movie not created" });
+      return res.status(400).json({ error: errors.MOVIE_NOT_CREATED });
     }
     res.status(201).json(formatDocument(movie));
-
   } catch (error) {
-    console.error(`Error creating movie: ${error.message}`);
+    console.error(`Error creating movie: ${error.message}`); // TODO: Remove this line
     if (error.message === "Category not found") {
-      return res.status(400).json({ error: "Category not found" });
+      return res.status(400).json({ error: errors.CATEGORY_NOT_FOUND });
     }
-    res.status(500).send("An error occurred while creating the movie.");
+    res.status(500).json({ error: errors.MOVIE_ERROR_CREATION });
   }
 };
 
 const getMovies = async (req, res) => {
+  // TODO: change implementation
   try {
     const movies = await movieService.getMovies();
 
-    const formattedMovies = movies.map((movie) => (
-      formatDocument(movie)
-    ));
+    const formattedMovies = movies.map((movie) => formatDocument(movie));
     res.status(200).json(formattedMovies);
   } catch (error) {
-    console.error(`Error fetching movies: ${error.message}`);
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -55,42 +53,39 @@ const getMovieById = async (req, res) => {
       res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
     }
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: errors.MOVIE_FETCH_ERROR });
   }
 };
 
 const setMovie = async (req, res) => {
-  const { id } = req.params; // מזהה הסרט מה-URL
-  const updates = req.body; // השדות לעדכון
+  const { id } = req.params;
+  const updates = req.body;
 
-  // הסר את האפשרות לשנות את ה-ID
   if (updates._id || updates.id) {
-    return res.status(400).json({ error: "Movie ID cannot be modified." });
+    return res.status(400).json({ error: errors.MOVIE_ID_MODIFY });
   }
 
-  // בדיקת שדות חובה
   if (!updates.name || !updates.category) {
     return res
       .status(400)
-      .json({ error: "Name and category are required fields." });
+      .json({ error: errors.MOVIE_CATEGORY_AND_NAME_REQUIRED });
   }
 
   try {
-    // Get category by name
     const category = await categoryService.getCategoryByName(updates.category);
     if (!category) {
-      return res.status(400).json({ error: "Category not found." });
+      return res.status(400).json({ error: errors.CATEGORY_NOT_FOUND });
     }
     updates.category = category._id; // Update category with the category ID
 
     const movie = await movieService.updateMovie(id, updates);
     if (!movie) {
-      return res.status(404).json({ error: "Movie not found." });
+      return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
     }
 
-    res.status(200).json({ message: "Movie updated successfully." });
+    res.status(204).send();
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: errors.MOVIE_UPDATE_ERROR });
   }
 };
 
@@ -109,11 +104,14 @@ const deleteMovie = async (req, res) => {
 
     res.status(204).send();
   } catch (error) {
-    console.error("Error deleting movie:", error.message);
-    res
-      .status(500)
-      .json({ error: "An error occurred while deleting the movie." });
+    res.status(500).json({ error: errors.MOVIE_DELETE_ERROR });
   }
 };
 
-module.exports = { createMovie, getMovies, getMovieById, setMovie, deleteMovie };
+module.exports = {
+  createMovie,
+  getMovies,
+  getMovieById,
+  setMovie,
+  deleteMovie,
+};
