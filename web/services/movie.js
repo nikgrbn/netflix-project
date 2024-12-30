@@ -38,6 +38,30 @@ const updateMovie = async (id, updates) => {
   return await movie.save();
 };
 
+const setMovie = async (id, fields) => {
+  // Get the schema default values
+  const schemaDefaults = Movie.schema.obj;
+
+  // Create a default document from the schema
+  const defaultValues = {};
+  for (const key in schemaDefaults) {
+    if (schemaDefaults[key]?.default !== undefined) {
+      defaultValues[key] = typeof schemaDefaults[key].default === "function" 
+        ? schemaDefaults[key].default() // Call the function if the default is a function
+        : schemaDefaults[key].default;
+    }
+  }
+
+  // Merge defaults with provided fields
+  const newFields = { ...defaultValues, ...fields };
+
+  // Update the movie, replacing unspecified fields with defaults
+  const movie = await Movie.findByIdAndUpdate(id, newFields, { new: true, overwrite: true });
+
+  if (!movie) return null; // Return null if the movie does not exist
+  return movie; // Return the updated movie
+}
+
 const deleteMovie = async (id) => {
   const movie = await getMovieById(id);
   if (!movie) return null;
@@ -57,4 +81,4 @@ const deleteCategoryFromMovies = async (categoryId) => {
   return result;
 }
 
-module.exports = { createMovie, getMovies, getMovieById, updateMovie, deleteMovie, deleteCategoryFromMovies};
+module.exports = { createMovie, getMovies, getMovieById, updateMovie, setMovie, deleteMovie, deleteCategoryFromMovies};

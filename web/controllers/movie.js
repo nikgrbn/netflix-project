@@ -72,13 +72,13 @@ const getMovieById = async (req, res) => {
 
 const setMovie = async (req, res) => {
   const { id } = req.params;
-  const updates = req.body;
+  const fields = req.body;
 
-  if (updates._id || updates.id) {
+  if (fields._id || fields.id) {
     return res.status(400).json({ error: errors.MOVIE_ID_MODIFY });
   }
 
-  if (!updates.name || !updates.categories || !updates.categories.length) {
+  if (!fields.name || !fields.categories || !fields.categories.length) {
     return res
       .status(400)
       .json({ error: errors.MOVIE_CATEGORY_AND_NAME_REQUIRED });
@@ -87,7 +87,7 @@ const setMovie = async (req, res) => {
   try {
     // Get the category ID for each provided category name
     const categoriesIDs = [];
-    for (let name of updates.categories) {
+    for (let name of fields.categories) {
       const category = await categoryService.getCategoryByName(name);
       // If the category is not found, return an error
       if (!category) {
@@ -95,16 +95,16 @@ const setMovie = async (req, res) => {
       }
       categoriesIDs.push(category._id);
     }
-    updates.categories = categoriesIDs; // Update categories with the IDs
+    fields.categories = categoriesIDs; // Update categories with the IDs
 
-    const movie = await movieService.updateMovie(id, updates);
+    const movie = await movieService.setMovie(id, fields);
     if (!movie) {
       return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
     }
 
     res.status(204).send();
   } catch (error) {
-    res.status(500).json({ error: errors.MOVIE_UPDATE_ERROR });
+    res.status(500).json({ error: error.message });
   }
 };
 
