@@ -13,14 +13,19 @@ const ensureUserHeader = (req, res, next) => {
     req.userId = userId; // Attach userId to the request object for downstream use
     next();
 };
+
+router.route('/')
+    .get(categoryController.getCategories);
+
+router.route('/:id')
+    .get(categoryController.getCategoryById);
+
 router.use(ensureUserHeader); // Apply this middleware to all routes below
 
 router.route('/')
-    .get(categoryController.getCategories)
     .post(categoryController.createCategory);
 
 router.route('/:id')
-    .get(categoryController.getCategoryById)
     .patch(categoryController.updateCategory)
     .delete(categoryController.deleteCategory);
 
