@@ -4,21 +4,18 @@ const Category = require("../models/category");
 const counterService = require('../services/counter');
 const { counters }  = require('../utils/consts');
 
-const createMovie = async (name, body) => {
-  const category = await Category.findOne({ name: body.category });
-  if (!category) {
+const createMovie = async (name, category, fields) => {
+  const categoryDoc = await Category.findOne({ name: category });
+  if (!categoryDoc) {
       throw new Error('Category not found');
   }
 
   const movieId = await counterService.getNextSequence(counters.C_MOVIE);
-  const movie = new Movie({ 
+  const movie = new Movie({
     _id: movieId,
     name,
-    duration: body.duration,
-    image: body.image,
-    age_limit: body.age_limit,
-    description: body.description,
-    category: category._id 
+    category: categoryDoc._id,
+    ...fields
   });
   return await movie.save();
 };

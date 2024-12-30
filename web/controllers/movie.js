@@ -7,13 +7,13 @@ const { errors }= require("../utils/consts");
 
 
 const createMovie = async (req, res) => {
-  const { name, category } = req.body;
+  const { name, category, ...fields } = req.body;
   if (!name || !category) {
     return res.status(400).json({ error: "Name and category are required" });
   }
 
   try {
-    const movie = await movieService.createMovie(name, req.body);
+    const movie = await movieService.createMovie(name, category, fields);
     if (!movie) {
       return res.status(400).json({ error: "Movie not created" });
     }
