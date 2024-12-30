@@ -45,4 +45,16 @@ const deleteMovie = async (id) => {
   return await movie.deleteOne();
 };
 
-module.exports = { createMovie, getMovies, getMovieById, updateMovie, deleteMovie};
+const deleteCategoryFromMovies = async (categoryId) => {
+  const result = await Movie.updateMany(
+    { categories: categoryId }, // Find movies with the category
+    { $pull: { categories: categoryId } } // Remove the category from the array
+  );
+
+  // Delete movies with no categories left
+  await Movie.deleteMany({ categories: { $size: 0 } });
+
+  return result;
+}
+
+module.exports = { createMovie, getMovies, getMovieById, updateMovie, deleteMovie, deleteCategoryFromMovies};
