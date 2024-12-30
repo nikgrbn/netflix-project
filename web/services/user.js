@@ -65,4 +65,8 @@ const removeUserWatchedMovie = async (userId, movieId) => {
     return await user.save();
 }
 
-module.exports = { createUser, getUserById, getUserByCredentials, addUserWatchedMovie, removeUserWatchedMovie };
+const removeMovieFromUsers = async (movieId) => {
+    return User.updateMany({}, { $pull: { watched_movies: movieId } });
+  };
+
+module.exports = { createUser, getUserById, getUserByCredentials, addUserWatchedMovie, removeUserWatchedMovie, removeMovieFromUsers };

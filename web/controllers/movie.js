@@ -10,7 +10,7 @@ const createMovie = async (req, res) => {
   if (!name || !category) {
     return res
       .status(400)
-      .json({ error: consts.MOVIE_CATEGORY_AND_NAME_REQUIRED });
+      .json({ error: errors.MOVIE_CATEGORY_AND_NAME_REQUIRED });
   }
 
   try {
@@ -97,10 +97,7 @@ const deleteMovie = async (req, res) => {
     if (!movie) {
       return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
     }
-
-    await mongoose
-      .model("User")
-      .updateMany({}, { $pull: { watched_movies: id } });
+    await userServices.removeMovieFromUsers(id);
 
     res.status(204).send();
   } catch (error) {
