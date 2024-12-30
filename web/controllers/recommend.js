@@ -1,5 +1,6 @@
 const userServices = require('../services/user');
 const movieServices = require('../services/movie'); // Import movie services
+const { formatDocument } = require("../utils/helpers");
 const { errors }  = require('../utils/consts');
 const { MRSClient, codes } = require('../clients/MRSClient');
 
@@ -51,7 +52,12 @@ const getRecommendations = async (req, res) => {
         }
         
         // Get movie details for each recommended movie
-        const movies = await Promise.all(movieIds.map(id => movieServices.getMovieById(id)));
+        const movies = []
+        for (const id of movieIds) {
+            const movie = await movieServices.getMovieById(id);
+            if (!movie) return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
+            movies.push(formatDocument(movie));
+        }
 
         res.status(200).json(movies);
     } catch (error) {

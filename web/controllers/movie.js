@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
 const userServices = require("../services/user");
 const movieService = require("../services/movie");
+const categoryService = require("../services/category");
+const { formatDocument } = require("../utils/helpers");
 const { errors }= require("../utils/consts");
-const Category = require("../models/category");
+
 
 const createMovie = async (req, res) => {
   const { name, category } = req.body;
@@ -15,7 +17,7 @@ const createMovie = async (req, res) => {
     if (!movie) {
       return res.status(400).json({ error: "Movie not created" });
     }
-    res.status(201).json(movie);
+    res.status(201).json(formatDocument(movie));
 
   } catch (error) {
     console.error(`Error creating movie: ${error.message}`);
@@ -30,12 +32,9 @@ const getMovies = async (req, res) => {
   try {
     const movies = await movieService.getMovies();
 
-    const formattedMovies = movies.map((movie) => ({
-      id: movie._id.toString(),
-      name: movie.name,
-      category: movie.category,
-    }));
-
+    const formattedMovies = movies.map((movie) => (
+      formatDocument(movie)
+    ));
     res.status(200).json(formattedMovies);
   } catch (error) {
     console.error(`Error fetching movies: ${error.message}`);
@@ -51,17 +50,7 @@ const getMovieById = async (req, res) => {
   try {
     const movie = await movieService.getMovieById(id);
     if (movie) {
-      const formattedMovie = {
-        id: movie._id.toString(),
-        name: movie.name,
-        category: movie.category,
-        duration: movie.duration,
-        image: movie.image,
-        age_limit: movie.age_limit,
-        description: movie.description,
-        watchedBy: movie.watchedBy,
-      };
-      res.status(200).json(formattedMovie);
+      res.status(200).json(formatDocument(movie));
     } else {
       res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
     }
@@ -88,7 +77,7 @@ const setMovie = async (req, res) => {
 
   try {
     // Get category by name
-    const category = await Category.findOne({ name: updates.category });
+    const category = await categoryService.getCategoryByName(updates.category);
     if (!category) {
       return res.status(400).json({ error: "Category not found." });
     }
