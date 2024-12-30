@@ -6,15 +6,28 @@ const { formatDocument } = require("../utils/helpers");
 const { errors } = require("../utils/consts");
 
 const createMovie = async (req, res) => {
-  const { name, category, ...fields } = req.body;
-  if (!name || !category) {
+  const { name, categories, ...fields } = req.body;
+  // Check if name and categories are provided
+  if (!name || !categories || !categories.length) {
     return res
       .status(400)
-      .json({ error: consts.MOVIE_CATEGORY_AND_NAME_REQUIRED });
+      .json({ error: errors.MOVIE_CATEGORY_AND_NAME_REQUIRED });
   }
 
   try {
-    const movie = await movieService.createMovie(name, category, fields);
+    // Get the category ID for each provided category name
+    const categoriesIDs = [];
+    for (let name of categories) {
+      const category = await categoryService.getCategoryByName(name);
+      // If the category is not found, return an error
+      if (!category) {
+        return res.status(400).json({ error: errors.CATEGORY_NOT_FOUND });
+      }
+      categoriesIDs.push(category._id);
+    }
+
+    // Create the movie
+    const movie = await movieService.createMovie(name, categoriesIDs, fields);
     if (!movie) {
       return res.status(400).json({ error: errors.MOVIE_NOT_CREATED });
     }
@@ -65,18 +78,24 @@ const setMovie = async (req, res) => {
     return res.status(400).json({ error: errors.MOVIE_ID_MODIFY });
   }
 
-  if (!updates.name || !updates.category) {
+  if (!updates.name || !updates.categories || !updates.categories.length) {
     return res
       .status(400)
       .json({ error: errors.MOVIE_CATEGORY_AND_NAME_REQUIRED });
   }
 
   try {
-    const category = await categoryService.getCategoryByName(updates.category);
-    if (!category) {
-      return res.status(400).json({ error: errors.CATEGORY_NOT_FOUND });
+    // Get the category ID for each provided category name
+    const categoriesIDs = [];
+    for (let name of updates.categories) {
+      const category = await categoryService.getCategoryByName(name);
+      // If the category is not found, return an error
+      if (!category) {
+        return res.status(400).json({ error: errors.CATEGORY_NOT_FOUND });
+      }
+      categoriesIDs.push(category._id);
     }
-    updates.category = category._id; // Update category with the category ID
+    updates.categories = categoriesIDs; // Update categories with the IDs
 
     const movie = await movieService.updateMovie(id, updates);
     if (!movie) {

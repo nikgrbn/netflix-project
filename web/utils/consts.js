@@ -20,9 +20,6 @@ const errors = {
     MOVIE_ERROR_CREATION: "An error occurred while creating the movie.",
     MOVIE_UPDATE_ERROR: "An error occurred while updating the movie.",
     MOVIE_DELETE_ERROR: "An error occurred while deleting the movie.",
-};
-
-
 
     BAD_REQUEST: 'Bad request',
     ID_HEADER_REQUIRED: 'User-ID header is required',

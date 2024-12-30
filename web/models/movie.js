@@ -12,9 +12,8 @@ const Movie = new Schema(
       type: String,
       required: true,
     },
-    category: {
-      type: Number,
-      ref: "Category",
+    categories: {
+      type: [{ type: Number, ref: 'Category' }],
       required: true,
     },
 
