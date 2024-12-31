@@ -4,6 +4,7 @@ const movieService = require("../services/movie");
 const categoryService = require("../services/category");
 const { formatDocument } = require("../utils/helpers");
 const { errors } = require("../utils/consts");
+const { MRSClient, codes } = require("../clients/MRSClient");
 
 const createMovie = async (req, res) => {
   const { name, category, ...fields } = req.body;
@@ -90,18 +91,67 @@ const setMovie = async (req, res) => {
 };
 
 const deleteMovie = async (req, res) => {
-  const { id } = req.params;
+  const movieId = req.params.id;
 
+  // משתנה לשמירת רשימת המשתמשים שצפו בסרט
+  let usersWhoWatched;
+
+  // שלב 1: מחיקת הסרט ממסד הנתונים המקומי
   try {
-    const movie = await movieService.deleteMovie(id);
+    const movie = await movieService.deleteMovie(movieId);
     if (!movie) {
       return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
     }
-    await userServices.removeMovieFromUsers(id);
 
-    res.status(204).send();
+    // שליפת המשתמשים שצפו בסרט לפני המחיקה
+    usersWhoWatched = await userServices.getUsersByWatchedMovie(movieId);
+
+    movieDetails = await movieService.getMovieById(movieId);
+    try {
+      await userServices.removeMovieFromUsers(movieId);
+    } catch (error) {
+      console.error("Failed to remove movie from users:", error);
+      return res.status(500).json({ error: errors.USER_UPDATE_ERROR });
+    }
   } catch (error) {
-    res.status(500).json({ error: errors.MOVIE_DELETE_ERROR });
+    return res.status(500).json({ error: errors.MOVIE_DELETE_ERROR });
+  }
+
+  // שלב 2: עדכון השרת המרוחק
+  const client = new MRSClient();
+  try {
+    // התחברות לשרת MRS
+    await client.connect();
+
+    // שליחת פקודת DELETE
+    const deleteMessage = `DELETE ${movieId}`;
+    const deleteResponse = await client.sendMessage(deleteMessage);
+
+    if (deleteResponse.trim() === codes.NO_CONTENT) {
+      await client.disconnect();
+      return res.status(204).send(); // מחיקה מוצלחת
+    }
+
+    // אם DELETE נכשל, נסה PATCH
+    const patchMessage = `PATCH ${movieId}`;
+    const patchResponse = await client.sendMessage(patchMessage);
+
+    if (patchResponse.trim() === codes.NO_CONTENT) {
+      await client.disconnect();
+      return res.status(204).send(); // עדכון מוצלח
+    }
+
+    // אם PATCH נכשל, החזר את הסרט למשתמשים שצפו בו (Rollback)
+    await client.disconnect();
+    await userServices.addMovieToSpecificUsers(usersWhoWatched, movieId);
+    await movieService.createMovie(movieDetails);
+    return res.status(400).json({ error: patchResponse.trim() });
+  } catch (error) {
+    // אם יש שגיאה, החזר את הסרט למשתמשים שצפו בו (Rollback)
+    await client.disconnect();
+    await userServices.addMovieToSpecificUsers(usersWhoWatched, movieId);
+    await movieService.createMovie(movieDetails);
+    return res.status(500).json({ error: errors.MRS_SERVER_ERROR });
   }
 };
 
