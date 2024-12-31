@@ -102,55 +102,78 @@ const setMovie = async (req, res) => {
 };
 
 const deleteMovie = async (req, res) => {
-  const movieId = req.params.id;
-  
-  let movieDetails = {};
-  let usersWhoWatched;
+  const movieId = req.params.id; // Movie ID from request parameters
 
-  try {
-    movieDetails = await movieService.getMovieById(movieId);
-    const movie = await movieService.deleteMovie(movieId);
-    if (!movie) {
-      return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
-    }
-
-    usersWhoWatched = await userServices.getUsersByWatchedMovie(movieId);
-    try {
-      await userServices.removeMovieFromUsers(movieId);
-    } catch (error) {
-      console.error("Failed to remove movie from users:", error);
-      return res.status(500).json({ error: errors.USER_UPDATE_ERROR });
-    }
-  } catch (error) {
-    return res.status(500).json({ error: errors.MOVIE_DELETE_ERROR });
-  }
+  let movieDetails = {}; // To store movie details for rollback if needed
+  let usersWhoWatched = []; // List of users who watched the movie
 
   const client = new MRSClient();
   try {
+    // Connect to the remote server
     await client.connect();
 
-    // TODO: Call 'DELETE' for EACH user who watched the movie
-    const deleteMessage = `DELETE ${movieId}`; // TODO: Pass UserID as argument
-    const deleteResponse = await client.sendMessage(deleteMessage);
+    // Fetch all users who watched the movie
+    usersWhoWatched = await userServices.getUsersByWatchedMovie(movieId);
+    for (const user of usersWhoWatched) {
+      // Send DELETE request to the remote server for each user
+      const deleteMessage = `DELETE ${user.id} ${movieId}`; // Passing UserID and MovieID as arguments
+      const deleteResponse = await client.sendMessage(deleteMessage);
 
-    if (deleteResponse.trim() === codes.NO_CONTENT) {
-      await client.disconnect();
-      return res.status(204).send();
+      if (deleteResponse.trim() !== codes.NO_CONTENT) {
+        console.error(`Failed to delete movie for user: ${user.id}`);
+        throw new Error(`Failed to delete movie for user: ${user.id}`);
+      }
     }
-    await client.disconnect();
-    await userServices.addMovieToSpecificUsers(usersWhoWatched, movieId);
-    const { name, category, ...fields } = movieDetails;
-    const categoryDoc = await categoryService.getCategoryById(category);
-    await movieService.createMovie(name, categoryDoc.name, fields);
-    return res.status(400).json({ }); // TODO: return error
-  } catch (error) {
 
+    // Disconnect from the remote server
     await client.disconnect();
-    await userServices.addMovieToSpecificUsers(usersWhoWatched, movieId);
-    await movieService.createMovie(movieDetails.name, movieDetails.category, movieDetails);
-    return res.status(500).json({ error: error.message });     // TODO: Separate  C server errors and Web server errors
+  } catch (error) {
+    // Handle errors during remote server communication
+    await client.disconnect();
+    console.error("Error communicating with MRS server:", error);
+    return res.status(500).json({ error: "Failed to delete movie on remote server" });
+  }
+
+  try {
+    // Fetch movie details for rollback if necessary
+    movieDetails = await movieService.getMovieById(movieId);
+
+    // Delete the movie from the database
+    const movie = await movieService.deleteMovie(movieId);
+
+    if (!movie) {
+      return res.status(404).json({ error: errors.MOVIE_NOT_FOUND }); // Movie not found in database
+    }
+
+    // Remove the movie from all users who watched it
+    await userServices.removeMovieFromUsers(movieId);
+
+    // Respond with no content if successful
+    return res.status(204).send();
+  } catch (error) {
+    console.error("Error deleting movie or updating users:", error);
+
+    // Rollback in case of failure
+    if (movieDetails.name && movieDetails.category) {
+      try {
+        const { name, category, ...fields } = movieDetails;
+        const categoryDoc = await categoryService.getCategoryById(category);
+
+        // Restore the movie in the database
+        await movieService.createMovie(name, categoryDoc.name, fields);
+
+        // Reassign the movie to users
+        await userServices.addMovieToSpecificUsers(usersWhoWatched, movieId);
+      } catch (rollbackError) {
+        console.error("Error during rollback:", rollbackError);
+      }
+    }
+
+    // Respond with an error
+    return res.status(500).json({ error: "Failed to delete movie and rollback failed" });
   }
 };
+
 
 module.exports = {
   createMovie,
