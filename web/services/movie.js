@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 const Movie = require("../models/movie");
 const Category = require("../models/category");
+const User = require("../models/user");
 const counterService = require("../services/counter");
 const { counters } = require("../utils/consts");
 
 const createMovie = async (name, category, fields) => {
   const categoryDoc = await Category.findOne({ name: category });
   if (!categoryDoc) {
-      throw new Error('Category not found');
+    throw new Error("Category not found");
   }
 
   const movieId = await counterService.getNextSequence(counters.C_MOVIE);
@@ -15,13 +16,54 @@ const createMovie = async (name, category, fields) => {
     _id: movieId,
     name,
     category: categoryDoc._id,
-    ...fields
+    ...fields,
   });
   return await movie.save();
 };
 
-const getMovies = async () => {
-  return await Movie.find({});
+// const getMovies = async () => {
+//   return await Movie.find({});
+// };
+
+const getMoviesByCategory = async (userId) => {
+  const movies = {};
+  const categories = await Category.find({}); 
+
+  for (const category of categories) {
+    if (category.promoted) {
+    
+      const promotedMovies = await Movie.find({ category: category._id })
+        .limit(20)
+        .exec();
+      movies[category.name] = promotedMovies;
+    } else {
+      if (userId) {
+      
+        const user = await User.findById(userId).exec();
+        if (!user) {
+          throw new Error("User not found");
+        }
+        const watchedMovies = user.watched_movies || [];
+
+        // שליפת סרטים שהמשתמש לא צפה בהם
+        const unWatchedMovies = await Movie.find({
+          category: category._id,
+          _id: { $nin: watchedMovies }, // שלילת סרטים שצפה בהם
+        })
+          .limit(20)
+          .exec();
+        movies[category.name] = unWatchedMovies;
+      } else {
+        // אם אין משתמש - שליפת 20 סרטים אקראיים
+        const randomMovies = await Movie.find({ category: category._id })
+          .limit(20)
+          .exec();
+        movies[category.name] = randomMovies;
+      }
+    }
+  }
+
+  return movies; // החזרת כל הסרטים לפי קטגוריות
 };
 
 const getMovieById = async (id) => {
@@ -53,7 +95,7 @@ const deleteMovie = async (id) => {
 
 module.exports = {
   createMovie,
-  getMovies,
+  getMoviesByCategory,
   getMovieById,
   updateMovie,
   deleteMovie,

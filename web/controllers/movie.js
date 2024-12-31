@@ -29,15 +29,26 @@ const createMovie = async (req, res) => {
   }
 };
 
-const getMovies = async (req, res) => {
-  // TODO: change implementation
-  try {
-    const movies = await movieService.getMovies();
+// const getMovies = async (req, res) => {
+//   // TODO: change implementation
+//   try {
+//     const movies = await movieService.getMovies();
 
-    const formattedMovies = movies.map((movie) => formatDocument(movie));
-    res.status(200).json(formattedMovies);
+//     const formattedMovies = movies.map((movie) => formatDocument(movie));
+//     res.status(200).json(formattedMovies);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
+const getMoviesByCategory = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const movies = await movieService.getMoviesByCategory(userId);
+    res.status(200).json(movies);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error fetching movies by category:", error.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -93,17 +104,14 @@ const setMovie = async (req, res) => {
 const deleteMovie = async (req, res) => {
   const movieId = req.params.id;
 
-  // משתנה לשמירת רשימת המשתמשים שצפו בסרט
   let usersWhoWatched;
 
-  // שלב 1: מחיקת הסרט ממסד הנתונים המקומי
   try {
     const movie = await movieService.deleteMovie(movieId);
     if (!movie) {
       return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
     }
 
-    // שליפת המשתמשים שצפו בסרט לפני המחיקה
     usersWhoWatched = await userServices.getUsersByWatchedMovie(movieId);
 
     movieDetails = await movieService.getMovieById(movieId);
@@ -117,37 +125,22 @@ const deleteMovie = async (req, res) => {
     return res.status(500).json({ error: errors.MOVIE_DELETE_ERROR });
   }
 
-  // שלב 2: עדכון השרת המרוחק
   const client = new MRSClient();
   try {
-    // התחברות לשרת MRS
     await client.connect();
 
-    // שליחת פקודת DELETE
     const deleteMessage = `DELETE ${movieId}`;
     const deleteResponse = await client.sendMessage(deleteMessage);
 
     if (deleteResponse.trim() === codes.NO_CONTENT) {
       await client.disconnect();
-      return res.status(204).send(); // מחיקה מוצלחת
+      return res.status(204).send();
     }
-
-    // אם DELETE נכשל, נסה PATCH
-    const patchMessage = `PATCH ${movieId}`;
-    const patchResponse = await client.sendMessage(patchMessage);
-
-    if (patchResponse.trim() === codes.NO_CONTENT) {
-      await client.disconnect();
-      return res.status(204).send(); // עדכון מוצלח
-    }
-
-    // אם PATCH נכשל, החזר את הסרט למשתמשים שצפו בו (Rollback)
     await client.disconnect();
     await userServices.addMovieToSpecificUsers(usersWhoWatched, movieId);
     await movieService.createMovie(movieDetails);
     return res.status(400).json({ error: patchResponse.trim() });
   } catch (error) {
-    // אם יש שגיאה, החזר את הסרט למשתמשים שצפו בו (Rollback)
     await client.disconnect();
     await userServices.addMovieToSpecificUsers(usersWhoWatched, movieId);
     await movieService.createMovie(movieDetails);
@@ -157,7 +150,7 @@ const deleteMovie = async (req, res) => {
 
 module.exports = {
   createMovie,
-  getMovies,
+  getMoviesByCategory,
   getMovieById,
   setMovie,
   deleteMovie,

@@ -80,8 +80,8 @@ const getUsersByWatchedMovie = async (movieId) => {
 const addMovieToSpecificUsers = async (users, movieId) => {
   const userIds = users.map((user) => user._id);
   await User.updateMany(
-    { _id: { $in: userIds } }, // עדכון רק את המשתמשים הרלוונטיים
-    { $addToSet: { watched_movies: movieId } } // הוספת הסרט לרשימת watched_movies
+    { _id: { $in: userIds } },
+    { $addToSet: { watched_movies: movieId } } 
   );
 };
 
