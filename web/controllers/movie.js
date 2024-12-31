@@ -103,18 +103,18 @@ const setMovie = async (req, res) => {
 
 const deleteMovie = async (req, res) => {
   const movieId = req.params.id;
-
+  
+  let movieDetails = {};
   let usersWhoWatched;
 
   try {
+    movieDetails = await movieService.getMovieById(movieId);
     const movie = await movieService.deleteMovie(movieId);
     if (!movie) {
       return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
     }
 
     usersWhoWatched = await userServices.getUsersByWatchedMovie(movieId);
-
-    movieDetails = await movieService.getMovieById(movieId);
     try {
       await userServices.removeMovieFromUsers(movieId);
     } catch (error) {
@@ -129,7 +129,8 @@ const deleteMovie = async (req, res) => {
   try {
     await client.connect();
 
-    const deleteMessage = `DELETE ${movieId}`;
+    // TODO: Call 'DELETE' for EACH user who watched the movie
+    const deleteMessage = `DELETE ${movieId}`; // TODO: Pass UserID as argument
     const deleteResponse = await client.sendMessage(deleteMessage);
 
     if (deleteResponse.trim() === codes.NO_CONTENT) {
@@ -138,13 +139,16 @@ const deleteMovie = async (req, res) => {
     }
     await client.disconnect();
     await userServices.addMovieToSpecificUsers(usersWhoWatched, movieId);
-    await movieService.createMovie(movieDetails);
-    return res.status(400).json({ error: patchResponse.trim() });
+    const { name, category, ...fields } = movieDetails;
+    const categoryDoc = await categoryService.getCategoryById(category);
+    await movieService.createMovie(name, categoryDoc.name, fields);
+    return res.status(400).json({ }); // TODO: return error
   } catch (error) {
+
     await client.disconnect();
     await userServices.addMovieToSpecificUsers(usersWhoWatched, movieId);
-    await movieService.createMovie(movieDetails);
-    return res.status(500).json({ error: errors.MRS_SERVER_ERROR });
+    await movieService.createMovie(movieDetails.name, movieDetails.category, movieDetails);
+    return res.status(500).json({ error: error.message });     // TODO: Separate  C server errors and Web server errors
   }
 };
 
