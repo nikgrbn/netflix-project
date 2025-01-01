@@ -29,26 +29,18 @@ const createMovie = async (req, res) => {
   }
 };
 
-// const getMovies = async (req, res) => {
-//   // TODO: change implementation
-//   try {
-//     const movies = await movieService.getMovies();
-
-//     const formattedMovies = movies.map((movie) => formatDocument(movie));
-//     res.status(200).json(formattedMovies);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
 const getMoviesByCategory = async (req, res) => {
   try {
-    const userId = req.userId;
-    const movies = await movieService.getMoviesByCategory(userId);
-    res.status(200).json(movies);
+    // Fetch movies by category using the service
+    const movies = await movieService.getMoviesByCategory(req.userId);
+
+    // Return the movies to the client
+    return res.status(200).json(movies);
   } catch (error) {
-    console.error("Error fetching movies by category:", error.message);
-    res.status(500).json({ error: "Internal server error" });
+    console.error("Error fetching movies by category:", error);
+
+    // Return an error response
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -131,7 +123,9 @@ const deleteMovie = async (req, res) => {
     // Handle errors during remote server communication
     await client.disconnect();
     console.error("Error communicating with MRS server:", error);
-    return res.status(500).json({ error: "Failed to delete movie on remote server" });
+    return res
+      .status(500)
+      .json({ error: "Failed to delete movie on remote server" });
   }
 
   try {
@@ -170,10 +164,11 @@ const deleteMovie = async (req, res) => {
     }
 
     // Respond with an error
-    return res.status(500).json({ error: "Failed to delete movie and rollback failed" });
+    return res
+      .status(500)
+      .json({ error: "Failed to delete movie and rollback failed" });
   }
 };
-
 
 module.exports = {
   createMovie,

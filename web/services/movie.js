@@ -10,7 +10,6 @@ const createMovie = async (name, category, fields) => {
   if (!categoryDoc) {
     throw new Error("Category not found");
   }
-
   const movieId = await counterService.getNextSequence(counters.C_MOVIE);
   const movie = new Movie({
     _id: movieId,
@@ -21,49 +20,53 @@ const createMovie = async (name, category, fields) => {
   return await movie.save();
 };
 
-// const getMovies = async () => {
-//   return await Movie.find({});
-// };
-
 const getMoviesByCategory = async (userId) => {
-  const movies = {};
-  const categories = await Category.find({}); 
-
-  for (const category of categories) {
-    if (category.promoted) {
-    
-      const promotedMovies = await Movie.find({ category: category._id })
-        .limit(20)
-        .exec();
-      movies[category.name] = promotedMovies;
-    } else {
-      if (userId) {
-      
-        const user = await User.findById(userId).exec();
-        if (!user) {
-          throw new Error("User not found");
-        }
-        const watchedMovies = user.watched_movies || [];
-
-        // שליפת סרטים שהמשתמש לא צפה בהם
-        const unWatchedMovies = await Movie.find({
-          category: category._id,
-          _id: { $nin: watchedMovies }, // שלילת סרטים שצפה בהם
-        })
-          .limit(20)
-          .exec();
-        movies[category.name] = unWatchedMovies;
-      } else {
-        // אם אין משתמש - שליפת 20 סרטים אקראיים
-        const randomMovies = await Movie.find({ category: category._id })
-          .limit(20)
-          .exec();
-        movies[category.name] = randomMovies;
-      }
-    }
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new Error("User not found");
   }
 
-  return movies; // החזרת כל הסרטים לפי קטגוריות
+  const categories = [];
+  const promotedcategories = await Category.find({ promoted: true });
+
+  for (const category of promotedcategories) {
+    const promotedMovies = await Movie.aggregate([
+      {
+        $match: { category: category._id, _id: { $nin: user.watched_movies } },
+      },
+      { $sample: { size: 20 } },
+    ]);
+
+
+    const formattedMovies = promotedMovies.map((movie) => {
+      const formattedMovie = {
+        id: movie._id,
+        name: movie.name,
+        category: category.name, // Replace category ID with category name
+        duration: movie.duration,
+        image: movie.image,
+        age_limit: movie.age_limit,
+        description: movie.description,
+      };
+    return formattedMovie;
+
+    });
+
+    categories.push({
+      categoryId: category._id,
+      categoryname: category.name,
+      movies: formattedMovies,
+    });
+  }
+
+  const watchmovies = await Movie.find({ _id: { $in: user.watched_movies } });
+
+  categories.push({
+    categoryId: 0,
+    categoryname: "movies for you",
+    movies: watchmovies.slice(-20).sort(() => Math.random() - 0.5),
+  });
+  return categories;
 };
 
 const getMovieById = async (id) => {
