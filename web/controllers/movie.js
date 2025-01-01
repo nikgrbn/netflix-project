@@ -19,7 +19,7 @@ const createMovie = async (req, res) => {
     if (!movie) {
       return res.status(400).json({ error: errors.MOVIE_NOT_CREATED });
     }
-    res.status(201).json(formatDocument(movie));
+    res.status(201).send();
   } catch (error) {
     console.error(`Error creating movie: ${error.message}`); // TODO: Remove this line
     if (error.message === "Category not found") {
