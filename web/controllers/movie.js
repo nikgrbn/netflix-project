@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const userServices = require("../services/user");
 const movieService = require("../services/movie");
 const categoryService = require("../services/category");
-const { formatDocument } = require("../utils/helpers");
+const { formatDocument, formatMongoDocument } = require("../utils/helpers");
 const { errors, magicNumbers, uniqueCategory } = require("../utils/consts");
 const { MRSClient, codes } = require("../clients/MRSClient");
 
@@ -42,21 +42,19 @@ const getMovies = async (req, res) => {
     const categories = await categoryService.getCategories();
     
     // Fetch all movies under promoted category
-    const promotedCategories = categories.filter((cat) => cat.promoted);
-    for (const category of promotedCategories) {
-      let movies = await movieService.getMoviesByCategory(category);
-
-      // Filter out watched movies
-      movies = movies.filter(movie => !user.watched_movies.includes(movie.id));
-
-      // Limit the number of movies to 20
-      movies = movies.slice(0, magicNumbers.MAX_MOVIES);
+    const promoted = categories.filter((cat) => cat.promoted);
+    for (const category of promoted) {
+      // Filter movies based on the category and user's watched movies
+      const movies = await movieService.filterMovies(
+        { category: category._id, _id: { $nin: user.watched_movies }},
+        magicNumbers.MAX_MOVIES);
 
       // Format the document
       const formatted = movies.map((movie) => {
         // Format the movie document
-        movie.category = category.name;
-        return movie;
+        const formattedMovie = formatDocument(movie);
+        formattedMovie.category = category.name;
+        return formattedMovie;
       });
 
       // Push the category and its movies to the result
@@ -72,9 +70,10 @@ const getMovies = async (req, res) => {
       const movie = await movieService.getMovieById(movieId);
       const category = await categoryService.getCategoryById(movie.category);
       
-      // Format the document
-      movie.category = category.name;
-      return movie;
+      // Format the movie document
+      const formattedMovie = formatMongoDocument(movie);
+      formattedMovie.category = category.name;
+      return formattedMovie;
     }));
 
     // Push the unique category and its movies to the result
@@ -102,7 +101,7 @@ const getMovieById = async (req, res) => {
   try {
     const movie = await movieService.getMovieById(id);
     if (movie) {
-      res.status(200).json(formatDocument(movie));
+      res.status(200).json(formatMongoDocument(movie));
     } else {
       res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
     }

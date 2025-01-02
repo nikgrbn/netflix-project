@@ -25,14 +25,13 @@ const createMovie = async (name, category, fields) => {
   return await movie.save();
 };
 
-const getMoviesByCategory = async (category) => {
-  const movies = await Movie.aggregate([
+const filterMovies = async (match, sample) => {
+  return await Movie.aggregate([
     {
-      $match: { category: category._id},
-    }
+      $match: match
+    },
+    { $sample: { size: sample } },
   ]);
-
-  return movies;
 }
 
 const getMovieById = async (id) => {
@@ -64,8 +63,8 @@ const deleteMovie = async (id) => {
 
 module.exports = {
   createMovie,
-  getMoviesByCategory,
   getMovieById,
   updateMovie,
   deleteMovie,
+  filterMovies
 };

@@ -33,26 +33,6 @@ const Movie = new Schema(
       type: String,
       default: "No description available for this movie.",
     },
-  },
-  {
-    toJSON: {
-      virtuals: true,
-      transform: function (doc, ret) {
-        // Build the object with explicit field order
-        const formattedDoc = {
-          id: ret._id, // Add `id` first
-          name: ret.name,
-          category: ret.category,
-          duration: ret.duration,
-          image: ret.image,
-          age_limit: ret.age_limit,
-          description: ret.description,
-        };
-        delete ret._id; // Remove `_id`
-        return formattedDoc; // Return the reordered object
-      },
-    },
-    versionKey: false, // Remove the __v field
   }
 );
 
