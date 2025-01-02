@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Movie = require("../models/movie");
 const Category = require("../models/category");
 const counterService = require('../services/counter');
@@ -14,9 +13,14 @@ const createMovie = async (name, fields) => {
   return await movie.save();
 };
 
-const getMovies = async () => {
-  return await Movie.find({});
-};
+const filterMovies = async (match, sample) => {
+  return await Movie.aggregate([
+    {
+      $match: match
+    },
+    { $sample: { size: sample } },
+  ]);
+}
 
 const getMovieById = async (id) => {
   return await Movie.findById(id);
@@ -32,7 +36,8 @@ const updateMovie = async (id, updates) => {
   if (updates.duration !== undefined) movie.duration = updates.duration;
   if (updates.image !== undefined) movie.image = updates.image;
   if (updates.age_limit !== undefined) movie.age_limit = updates.age_limit;
-  if (updates.description !== undefined) movie.description = updates.description;
+  if (updates.description !== undefined)
+    movie.description = updates.description;
 
   return await movie.save();
 };
@@ -77,4 +82,4 @@ const deleteCategoryFromMovies = async (categoryId) => {
   return result;
 }
 
-module.exports = { createMovie, getMovies, getMovieById, updateMovie, setMovie, deleteMovie, deleteCategoryFromMovies};
+module.exports = { createMovie, filterMovies, getMovieById, updateMovie, setMovie, deleteMovie, deleteCategoryFromMovies};

@@ -11,8 +11,7 @@ const createCategory = async (name, promoted) => {
 
     // If the category is promoted, set the promoted field to true
     if (promoted !== undefined) {
-        category.promoted = promoted;
-    }
+        category.promoted = promoted;}
 
     return await category.save();
 }

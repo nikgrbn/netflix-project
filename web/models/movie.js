@@ -16,7 +16,6 @@ const Movie = new Schema(
       type: [{ type: Number, ref: "Category" }],
       default: [],
     },
-
     duration: {
       type: Number,
       default: 120,
@@ -33,8 +32,7 @@ const Movie = new Schema(
       type: String,
       default: "No description available for this movie.",
     },
-  },
-  { versionKey: false }
+  }
 );
 
 module.exports = mongoose.model("Movie", Movie);

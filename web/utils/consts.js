@@ -20,6 +20,10 @@ const errors = {
     MOVIE_ERROR_CREATION: "An error occurred while creating the movie.",
     MOVIE_UPDATE_ERROR: "An error occurred while updating the movie.",
     MOVIE_DELETE_ERROR: "An error occurred while deleting the movie.",
+    MOVIE_REMOTE_DELETE_ERROR: "Failed to delete movie on remote server",
+    MOVIE_ROLLBACK_ERROR: "Failed to delete movie and rollback failed",
+    MOVIE_ROLLBACK_SUCCESS: "Failed to delete movie and rollback done",
+    MOVIE_DELETE_USER_ERROR: "Failed to delete movie from user",
 
     BAD_REQUEST: 'Bad request',
     ID_HEADER_REQUIRED: 'User-ID header is required',
@@ -35,7 +39,13 @@ const counters = {
     C_MOVIE: 'movies',
 };
 
+const utils = {
+    MAX_MOVIES: 20,
+    SPECIAL_CATEGORY: 'Previous movies you have watched',
+};
+
 module.exports = {
     errors,
-    counters
+    counters,
+    utils
 };
