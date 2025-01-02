@@ -23,6 +23,7 @@ const errors = {
     MOVIE_REMOTE_DELETE_ERROR: "Failed to delete movie on remote server",
     MOVIE_ROLLBACK_ERROR: "Failed to delete movie and rollback failed",
     MOVIE_ROLLBACK_SUCCESS: "Failed to delete movie and rollback done",
+    MOVIE_DELETE_USER_ERROR: "Failed to delete movie from user",
 
 
 
@@ -40,7 +41,17 @@ const counters = {
     C_MOVIE: 'movies',
 };
 
+const magicNumbers = {
+    MOVIES_GET_NUMBER: 20,
+};
+
+const uniqueCategory = {
+    CATEGORY: 'Previous movies you have watched'
+};
+
 module.exports = {
     errors,
-    counters
+    counters,
+    magicNumbers,
+    uniqueCategory
 };

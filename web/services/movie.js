@@ -3,12 +3,17 @@ const Movie = require("../models/movie");
 const Category = require("../models/category");
 const User = require("../models/user");
 const counterService = require("../services/counter");
-const { counters } = require("../utils/consts");
+const {
+  counters,
+  errors,
+  magicNumbers,
+  uniqueCategory,
+} = require("../utils/consts");
 
 const createMovie = async (name, category, fields) => {
   const categoryDoc = await Category.findOne({ name: category });
   if (!categoryDoc) {
-    throw new Error("Category not found");
+    throw new Error(errors.CATEGORY_NOT_FOUND);
   }
   const movieId = await counterService.getNextSequence(counters.C_MOVIE);
   const movie = new Movie({
@@ -23,7 +28,7 @@ const createMovie = async (name, category, fields) => {
 const getMoviesByCategory = async (userId) => {
   const user = await User.findById(userId);
   if (!user) {
-    throw new Error("User not found");
+    throw new Error(errors.USER_NOT_FOUND);
   }
 
   // Fetch all categories and prepare a map of category IDs to names
@@ -36,14 +41,15 @@ const getMoviesByCategory = async (userId) => {
   const categories = [];
   const promotedcategories = allCategories.filter((cat) => cat.promoted);
 
+  // Fetch promoted movies for each promoted category
   for (const category of promotedcategories) {
     const promotedMovies = await Movie.aggregate([
       {
         $match: { category: category._id, _id: { $nin: user.watched_movies } },
       },
-      { $sample: { size: 20 } },
+      { $sample: { size: magicNumbers.MOVIES_GET_NUMBER } },
     ]);
-
+    // Format the movies to include user-friendly fields
     const formattedMovies = promotedMovies.map((movie) => ({
       id: movie._id,
       name: movie.name,
@@ -53,7 +59,7 @@ const getMoviesByCategory = async (userId) => {
       age_limit: movie.age_limit,
       description: movie.description,
     }));
-
+    // Push the category and its movies to the result
     categories.push({
       categoryId: category._id,
       categoryname: category.name,
@@ -61,10 +67,10 @@ const getMoviesByCategory = async (userId) => {
     });
   }
 
-  const watchmovies = await User.watched_movies;
+  const watchedMovies = await Movie.find({ _id: { $in: user.watched_movies } });
 
   // Map the watched movies to include the category name
-  const formattedWatchedMovies = watchmovies.map((movie) => ({
+  const formattedWatchedMovies = watchedMovies.map((movie) => ({
     id: movie._id,
     name: movie.name,
     category: categoryMap[movie.category.toString()], // Replace category ID with category name
@@ -73,16 +79,17 @@ const getMoviesByCategory = async (userId) => {
     age_limit: movie.age_limit,
     description: movie.description,
   }));
-
+  // Add unique category for watched movies
   categories.push({
     categoryId: 0,
-    categoryname: "movies for you",
-    movies: formattedWatchedMovies.slice(-20).sort(() => Math.random() - 0.5), //TODO: comlexity
+    categoryname: uniqueCategory.CATEGORY,
+    movies: formattedWatchedMovies
+      .slice(-magicNumbers.MOVIES_GET_NUMBER)
+      .sort(() => Math.random() - 0.5), //TODO: comlexity
   });
 
   return categories;
 };
-
 
 const getMovieById = async (id) => {
   return await Movie.findById(id);
