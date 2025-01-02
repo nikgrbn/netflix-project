@@ -20,7 +20,9 @@ const errors = {
     MOVIE_ERROR_CREATION: "An error occurred while creating the movie.",
     MOVIE_UPDATE_ERROR: "An error occurred while updating the movie.",
     MOVIE_DELETE_ERROR: "An error occurred while deleting the movie.",
-
+    MOVIE_REMOTE_DELETE_ERROR: "Failed to delete movie on remote server",
+    MOVIE_ROLLBACK_ERROR: "Failed to delete movie and rollback failed",
+    MOVIE_ROLLBACK_SUCCESS: "Failed to delete movie and rollback done",
 
 
 
