@@ -13,8 +13,8 @@ const Movie = new Schema(
       required: true,
     },
     categories: {
-      type: [{ type: Number, ref: 'Category' }],
-      required: true,
+      type: [{ type: Number, ref: "Category" }],
+      default: [],
     },
 
     duration: {

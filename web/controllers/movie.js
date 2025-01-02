@@ -8,26 +8,29 @@ const { errors } = require("../utils/consts");
 const createMovie = async (req, res) => {
   const { name, categories, ...fields } = req.body;
   // Check if name and categories are provided
-  if (!name || !categories || !categories.length) {
+  if (!name) {
     return res
       .status(400)
-      .json({ error: errors.MOVIE_CATEGORY_AND_NAME_REQUIRED });
+      .json({ error: errors.MOVIE_NAME_REQUIRED });
   }
 
   try {
     // Get the category ID for each provided category name
-    const categoriesIDs = [];
-    for (let name of categories) {
-      const category = await categoryService.getCategoryByName(name);
-      // If the category is not found, return an error
-      if (!category) {
-        return res.status(400).json({ error: errors.CATEGORY_NOT_FOUND });
+    if (categories) {
+      const categoriesIDs = [];
+      for (let name of categories) {
+        const category = await categoryService.getCategoryByName(name);
+        // If the category is not found, return an error
+        if (!category) {
+          return res.status(400).json({ error: errors.CATEGORY_NOT_FOUND });
+        }
+        categoriesIDs.push(category._id);
       }
-      categoriesIDs.push(category._id);
+      fields.categories = categoriesIDs; // Add category IDs to the fields
     }
 
     // Create the movie
-    const movie = await movieService.createMovie(name, categoriesIDs, fields);
+    const movie = await movieService.createMovie(name, fields);
     if (!movie) {
       return res.status(400).json({ error: errors.MOVIE_NOT_CREATED });
     }
@@ -78,24 +81,26 @@ const setMovie = async (req, res) => {
     return res.status(400).json({ error: errors.MOVIE_ID_MODIFY });
   }
 
-  if (!fields.name || !fields.categories || !fields.categories.length) {
+  if (!fields.name) {
     return res
       .status(400)
-      .json({ error: errors.MOVIE_CATEGORY_AND_NAME_REQUIRED });
+      .json({ error: errors.MOVIE_NAME_REQUIRED });
   }
 
   try {
     // Get the category ID for each provided category name
-    const categoriesIDs = [];
-    for (let name of fields.categories) {
-      const category = await categoryService.getCategoryByName(name);
-      // If the category is not found, return an error
-      if (!category) {
-        return res.status(400).json({ error: errors.CATEGORY_NOT_FOUND });
+    if (fields.categories) {
+      const categoriesIDs = [];
+      for (let name of fields.categories) {
+        const category = await categoryService.getCategoryByName(name);
+        // If the category is not found, return an error
+        if (!category) {
+          return res.status(400).json({ error: errors.CATEGORY_NOT_FOUND });
+        }
+        categoriesIDs.push(category._id);
       }
-      categoriesIDs.push(category._id);
+      fields.categories = categoriesIDs; // Update categories with the IDs
     }
-    fields.categories = categoriesIDs; // Update categories with the IDs
 
     const movie = await movieService.setMovie(id, fields);
     if (!movie) {

@@ -11,7 +11,7 @@ const errors = {
     CATEGORY_NAME_REQUIRED: 'Category name is required',
     CATEGORY_NOT_CREATED: 'Category not created',
 
-    MOVIE_CATEGORY_AND_NAME_REQUIRED: "Name and category are required.",
+    MOVIE_NAME_REQUIRED: "Movie name is required.",
     MOVIE_NOT_CREATED: "Failed to create movie.",
     MOVIE_NOT_FOUND: "Movie not found.",
     CATEGORY_NOT_FOUND: "Category not found.",

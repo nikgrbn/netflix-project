@@ -4,12 +4,11 @@ const Category = require("../models/category");
 const counterService = require('../services/counter');
 const { errors, counters }  = require('../utils/consts');
 
-const createMovie = async (name, categories, fields) => {
+const createMovie = async (name, fields) => {
   const movieId = await counterService.getNextSequence(counters.C_MOVIE);
   const movie = new Movie({
     _id: movieId,
     name,
-    categories: categories,
     ...fields
   });
   return await movie.save();
@@ -74,9 +73,6 @@ const deleteCategoryFromMovies = async (categoryId) => {
     { categories: categoryId }, // Find movies with the category
     { $pull: { categories: categoryId } } // Remove the category from the array
   );
-
-  // Delete movies with no categories left
-  await Movie.deleteMany({ categories: { $size: 0 } });
 
   return result;
 }
