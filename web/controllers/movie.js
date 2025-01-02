@@ -3,7 +3,7 @@ const userServices = require("../services/user");
 const movieService = require("../services/movie");
 const categoryService = require("../services/category");
 const { formatDocument } = require("../utils/helpers");
-const { errors } = require("../utils/consts");
+const { errors, magicNumbers, uniqueCategory } = require("../utils/consts");
 const { MRSClient, codes } = require("../clients/MRSClient");
 
 const createMovie = async (req, res) => {
@@ -28,13 +28,66 @@ const createMovie = async (req, res) => {
   }
 };
 
-const getMoviesByCategory = async (req, res) => {
+const getMovies = async (req, res) => {
   try {
-    // Fetch movies by category using the service
-    const movies = await movieService.getMoviesByCategory(req.userId);
+    // Fetch the user from the database
+    const user = await userServices.getUserById(req.userId);
+    if (!user) {
+      return res.status(404).json({ error: errors.USER_NOT_FOUND });
+    }
+
+    const result = [];
+
+    // Fetch all categories
+    const categories = await categoryService.getCategories();
+    
+    // Fetch all movies under promoted category
+    const promotedCategories = categories.filter((cat) => cat.promoted);
+    for (const category of promotedCategories) {
+      let movies = await movieService.getMoviesByCategory(category);
+
+      // Filter out watched movies
+      movies = movies.filter(movie => !user.watched_movies.includes(movie.id));
+
+      // Limit the number of movies to 20
+      movies = movies.slice(0, magicNumbers.MAX_MOVIES);
+
+      // Format the document
+      const formatted = movies.map((movie) => {
+        // Format the movie document
+        movie.category = category.name;
+        return movie;
+      });
+
+      // Push the category and its movies to the result
+      result.push({
+        categoryId: category._id,
+        categoryName: category.name,
+        movies: formatted,
+      });
+    }
+
+    // Fetch all movies under the unique category
+    const uniqueMovies = await Promise.all(user.watched_movies.map(async (movieId) => {
+      const movie = await movieService.getMovieById(movieId);
+      const category = await categoryService.getCategoryById(movie.category);
+      
+      // Format the document
+      movie.category = category.name;
+      return movie;
+    }));
+
+    // Push the unique category and its movies to the result
+    result.push({
+      categoryId: 0,
+      categoryName: uniqueCategory.CATEGORY,
+      movies: uniqueMovies
+        .slice(-magicNumbers.MAX_MOVIES)
+        .sort(() => Math.random() - 0.5)
+    });
 
     // Return the movies to the client
-    return res.status(200).json(movies);
+    return res.status(200).json(result);
   } catch (error) {
     // Return an error response
     return res.status(500).json({ error: error.message });
@@ -165,7 +218,7 @@ const deleteMovie = async (req, res) => {
 
 module.exports = {
   createMovie,
-  getMoviesByCategory,
+  getMovies,
   getMovieById,
   setMovie,
   deleteMovie,

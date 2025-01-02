@@ -42,7 +42,7 @@ const counters = {
 };
 
 const magicNumbers = {
-    MOVIES_GET_NUMBER: 20,
+    MAX_MOVIES: 20,
 };
 
 const uniqueCategory = {

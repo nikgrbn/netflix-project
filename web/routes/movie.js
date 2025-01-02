@@ -17,7 +17,7 @@ const ensureUserHeader = (req, res, next) => {
 router.use(ensureUserHeader); // Apply this middleware to all routes below
 
 router.route('/')
-    .get(movieController.getMoviesByCategory)
+    .get(movieController.getMovies)
     .post(movieController.createMovie);
 
 router.route('/:id')
