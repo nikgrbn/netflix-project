@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 const User = new Schema({
+    _id: {
+        type: Number,
+        required: true
+    },
     username: {
         type: String,
         unique: true,
@@ -16,5 +20,10 @@ const User = new Schema({
         required: false,
         default: 'default-picture.jpg'
     },
+    watched_movies: {
+        type: [{ type: Number, ref: 'Movie' }],
+        required: false,
+        default: []
+    }
 }, { versionKey: false });
 module.exports = mongoose.model('User', User);

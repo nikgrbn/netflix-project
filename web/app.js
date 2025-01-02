@@ -1,3 +1,4 @@
+
 const express = require('express');
 var app = express();
 
@@ -17,13 +18,17 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URI);
 
 // Authentication
-const articles = require('./routes/user');
-app.use('/users', articles);
+const users = require('./routes/user');
+app.use('/users', users);
 const tokens = require('./routes/token');
 app.use('/tokens', tokens);
 
 // Homepage
 const categories = require('./routes/category');
 app.use('/categories', categories);
+
+// Movies
+const movies = require('./routes/movie');
+app.use('/movies', movies);
 
 app.listen(process.env.PORT);

@@ -1,12 +1,17 @@
 const Category = require('../models/category');
+const counterService = require('../services/counter');
+const { counters }  = require('../utils/consts');
 
 const createCategory = async (name, promoted) => {
-    const category = new Category({ name: name });
+    const categoryId = await counterService.getNextSequence(counters.C_CATEGORY); // Generate the next ID
+    const category = new Category({ 
+        _id: categoryId, // Assign the auto-incremented ID
+        name
+    });
 
     // If the category is promoted, set the promoted field to true
     if (promoted !== undefined) {
-        category.promoted = promoted;
-    }
+        category.promoted = promoted;}
 
     return await category.save();
 }
@@ -16,6 +21,8 @@ const getCategories = async () => {
 }
 
 const getCategoryById = async (id) => { return await Category.findById(id); };
+
+const getCategoryByName = async (name) => { return await Category.findOne({ name }); }
 
 const updateCategory = async (id, name, promoted) => {
     const category = await getCategoryById(id);
@@ -35,4 +42,4 @@ const deleteCategory = async (id) => {
     return await category.deleteOne();
 }
 
-module.exports = { createCategory, getCategories, getCategoryById, updateCategory, deleteCategory };
+module.exports = { createCategory, getCategories, getCategoryById, getCategoryByName, updateCategory, deleteCategory };
