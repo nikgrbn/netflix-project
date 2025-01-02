@@ -26,8 +26,15 @@ const getMoviesByCategory = async (userId) => {
     throw new Error("User not found");
   }
 
+  // Fetch all categories and prepare a map of category IDs to names
+  const allCategories = await Category.find({});
+  const categoryMap = allCategories.reduce((map, category) => {
+    map[category._id.toString()] = category.name;
+    return map;
+  }, {});
+
   const categories = [];
-  const promotedcategories = await Category.find({ promoted: true });
+  const promotedcategories = allCategories.filter((cat) => cat.promoted);
 
   for (const category of promotedcategories) {
     const promotedMovies = await Movie.aggregate([
@@ -37,20 +44,15 @@ const getMoviesByCategory = async (userId) => {
       { $sample: { size: 20 } },
     ]);
 
-
-    const formattedMovies = promotedMovies.map((movie) => {
-      const formattedMovie = {
-        id: movie._id,
-        name: movie.name,
-        category: category.name, // Replace category ID with category name
-        duration: movie.duration,
-        image: movie.image,
-        age_limit: movie.age_limit,
-        description: movie.description,
-      };
-    return formattedMovie;
-
-    });
+    const formattedMovies = promotedMovies.map((movie) => ({
+      id: movie._id,
+      name: movie.name,
+      category: category.name, // Replace category ID with category name
+      duration: movie.duration,
+      image: movie.image,
+      age_limit: movie.age_limit,
+      description: movie.description,
+    }));
 
     categories.push({
       categoryId: category._id,
@@ -59,15 +61,28 @@ const getMoviesByCategory = async (userId) => {
     });
   }
 
-  const watchmovies = await Movie.find({ _id: { $in: user.watched_movies } });
+  const watchmovies = await User.watched_movies;
+
+  // Map the watched movies to include the category name
+  const formattedWatchedMovies = watchmovies.map((movie) => ({
+    id: movie._id,
+    name: movie.name,
+    category: categoryMap[movie.category.toString()], // Replace category ID with category name
+    duration: movie.duration,
+    image: movie.image,
+    age_limit: movie.age_limit,
+    description: movie.description,
+  }));
 
   categories.push({
     categoryId: 0,
     categoryname: "movies for you",
-    movies: watchmovies.slice(-20).sort(() => Math.random() - 0.5),
+    movies: formattedWatchedMovies.slice(-20).sort(() => Math.random() - 0.5), //TODO: comlexity
   });
+
   return categories;
 };
+
 
 const getMovieById = async (id) => {
   return await Movie.findById(id);

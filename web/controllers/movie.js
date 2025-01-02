@@ -21,7 +21,6 @@ const createMovie = async (req, res) => {
     }
     res.status(201).send();
   } catch (error) {
-    console.error(`Error creating movie: ${error.message}`); // TODO: Remove this line
     if (error.message === "Category not found") {
       return res.status(400).json({ error: errors.CATEGORY_NOT_FOUND });
     }
@@ -37,8 +36,6 @@ const getMoviesByCategory = async (req, res) => {
     // Return the movies to the client
     return res.status(200).json(movies);
   } catch (error) {
-    console.error("Error fetching movies by category:", error);
-
     // Return an error response
     return res.status(500).json({ error: error.message });
   }
@@ -112,7 +109,6 @@ const deleteMovie = async (req, res) => {
       const deleteResponse = await client.sendMessage(deleteMessage);
 
       if (deleteResponse.trim() !== codes.NO_CONTENT) {
-        console.error(`Failed to delete movie for user: ${user.id}`);
         throw new Error(`Failed to delete movie for user: ${user.id}`);
       }
     }
@@ -122,7 +118,6 @@ const deleteMovie = async (req, res) => {
   } catch (error) {
     // Handle errors during remote server communication
     await client.disconnect();
-    console.error("Error communicating with MRS server:", error);
     return res
       .status(500)
       .json({ error: "Failed to delete movie on remote server" });
@@ -145,8 +140,6 @@ const deleteMovie = async (req, res) => {
     // Respond with no content if successful
     return res.status(204).send();
   } catch (error) {
-    console.error("Error deleting movie or updating users:", error);
-
     // Rollback in case of failure
     if (movieDetails.name && movieDetails.category) {
       try {
@@ -158,8 +151,13 @@ const deleteMovie = async (req, res) => {
 
         // Reassign the movie to users
         await userServices.addMovieToSpecificUsers(usersWhoWatched, movieId);
+        return res
+          .status(500)
+          .json({ error: "Failed to delete movie and rollback done" });
       } catch (rollbackError) {
-        console.error("Error during rollback:", rollbackError);
+        return res
+          .status(500)
+          .json({ error: "Failed to delete movie and rollback failed" });
       }
     }
 
