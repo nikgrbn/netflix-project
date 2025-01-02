@@ -19,36 +19,25 @@ const createMovie = async (req, res) => {
     if (!movie) {
       return res.status(400).json({ error: errors.MOVIE_NOT_CREATED });
     }
-    res.status(201).json(formatDocument(movie));
+    res.status(201).send();
   } catch (error) {
-    console.error(`Error creating movie: ${error.message}`); // TODO: Remove this line
-    if (error.message === "Category not found") {
+    if (error.message === CATEGORY_NOT_FOUND) {
       return res.status(400).json({ error: errors.CATEGORY_NOT_FOUND });
     }
     res.status(500).json({ error: errors.MOVIE_ERROR_CREATION });
   }
 };
 
-// const getMovies = async (req, res) => {
-//   // TODO: change implementation
-//   try {
-//     const movies = await movieService.getMovies();
-
-//     const formattedMovies = movies.map((movie) => formatDocument(movie));
-//     res.status(200).json(formattedMovies);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
 const getMoviesByCategory = async (req, res) => {
   try {
-    const userId = req.userId;
-    const movies = await movieService.getMoviesByCategory(userId);
-    res.status(200).json(movies);
+    // Fetch movies by category using the service
+    const movies = await movieService.getMoviesByCategory(req.userId);
+
+    // Return the movies to the client
+    return res.status(200).json(movies);
   } catch (error) {
-    console.error("Error fetching movies by category:", error.message);
-    res.status(500).json({ error: "Internal server error" });
+    // Return an error response
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -70,13 +59,14 @@ const getMovieById = async (req, res) => {
 };
 
 const setMovie = async (req, res) => {
-  const { id } = req.params;
-  const updates = req.body;
+  const { id } = req.params; // Extract movie ID from request parameters
+  const updates = req.body; // Extract update fields from request body
 
+  // Prevent modification of the movie's ID
   if (updates._id || updates.id) {
     return res.status(400).json({ error: errors.MOVIE_ID_MODIFY });
   }
-
+  // Validate required fields: name and category must be provided
   if (!updates.name || !updates.category) {
     return res
       .status(400)
@@ -84,12 +74,14 @@ const setMovie = async (req, res) => {
   }
 
   try {
+    // Check if the category exists
     const category = await categoryService.getCategoryByName(updates.category);
     if (!category) {
       return res.status(400).json({ error: errors.CATEGORY_NOT_FOUND });
     }
     updates.category = category._id; // Update category with the category ID
 
+    // Call the service to update the movie
     const movie = await movieService.updateMovie(id, updates);
     if (!movie) {
       return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
@@ -102,53 +94,72 @@ const setMovie = async (req, res) => {
 };
 
 const deleteMovie = async (req, res) => {
-  const movieId = req.params.id;
-  
-  let movieDetails = {};
-  let usersWhoWatched;
+  const movieId = req.params.id; // Movie ID from request parameters
 
-  try {
-    movieDetails = await movieService.getMovieById(movieId);
-    const movie = await movieService.deleteMovie(movieId);
-    if (!movie) {
-      return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
-    }
-
-    usersWhoWatched = await userServices.getUsersByWatchedMovie(movieId);
-    try {
-      await userServices.removeMovieFromUsers(movieId);
-    } catch (error) {
-      console.error("Failed to remove movie from users:", error);
-      return res.status(500).json({ error: errors.USER_UPDATE_ERROR });
-    }
-  } catch (error) {
-    return res.status(500).json({ error: errors.MOVIE_DELETE_ERROR });
-  }
+  let movieDetails = {}; // To store movie details for rollback if needed
+  let usersWhoWatched = []; // List of users who watched the movie
 
   const client = new MRSClient();
   try {
+    // Connect to the remote server
     await client.connect();
 
-    // TODO: Call 'DELETE' for EACH user who watched the movie
-    const deleteMessage = `DELETE ${movieId}`; // TODO: Pass UserID as argument
-    const deleteResponse = await client.sendMessage(deleteMessage);
+    // Fetch all users who watched the movie
+    usersWhoWatched = await userServices.getUsersByWatchedMovie(movieId);
+    for (const user of usersWhoWatched) {
+      // Send DELETE request to the remote server for each user
+      const deleteMessage = `DELETE ${user.id} ${movieId}`; // Passing UserID and MovieID as arguments
+      const deleteResponse = await client.sendMessage(deleteMessage);
 
-    if (deleteResponse.trim() === codes.NO_CONTENT) {
-      await client.disconnect();
-      return res.status(204).send();
+      if (deleteResponse.trim() !== codes.NO_CONTENT) {
+        throw new Error(`${errors.MOVIE_DELETE_USER_ERROR}${user.id}`);
+      }
     }
-    await client.disconnect();
-    await userServices.addMovieToSpecificUsers(usersWhoWatched, movieId);
-    const { name, category, ...fields } = movieDetails;
-    const categoryDoc = await categoryService.getCategoryById(category);
-    await movieService.createMovie(name, categoryDoc.name, fields);
-    return res.status(400).json({ }); // TODO: return error
-  } catch (error) {
 
+    // Disconnect from the remote server
     await client.disconnect();
-    await userServices.addMovieToSpecificUsers(usersWhoWatched, movieId);
-    await movieService.createMovie(movieDetails.name, movieDetails.category, movieDetails);
-    return res.status(500).json({ error: error.message });     // TODO: Separate  C server errors and Web server errors
+  } catch (error) {
+    // Handle errors during remote server communication
+    await client.disconnect();
+    return res.status(500).json({ error: errors.MOVIE_REMOTE_DELETE_ERROR });
+  }
+
+  try {
+    // Fetch movie details for rollback if necessary
+    movieDetails = await movieService.getMovieById(movieId);
+
+    // Delete the movie from the database
+    const movie = await movieService.deleteMovie(movieId);
+
+    if (!movie) {
+      return res.status(404).json({ error: errors.MOVIE_NOT_FOUND }); // Movie not found in database
+    }
+
+    // Remove the movie from all users who watched it
+    await userServices.removeMovieFromUsers(movieId);
+
+    // Respond with no content if successful
+    return res.status(204).send();
+  } catch (error) {
+    // Rollback in case of failure
+    if (movieDetails.name && movieDetails.category) {
+      try {
+        const { name, category, ...fields } = movieDetails;
+        const categoryDoc = await categoryService.getCategoryById(category);
+
+        // Restore the movie in the database
+        await movieService.createMovie(name, categoryDoc.name, fields);
+
+        // Reassign the movie to users
+        await userServices.addMovieToSpecificUsers(usersWhoWatched, movieId);
+        return res.status(500).json({ error: errors.MOVIE_ROLLBACK_SUCCESS });
+      } catch (rollbackError) {
+        return res.status(500).json({ error: errors.MOVIE_ROLLBACK_ERROR });
+      }
+    }
+
+    // Respond with an error
+    return res.status(500).json({ error: errors.MOVIE_ROLLBACK_ERROR });
   }
 };
 

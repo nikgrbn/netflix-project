@@ -3,14 +3,18 @@ const Movie = require("../models/movie");
 const Category = require("../models/category");
 const User = require("../models/user");
 const counterService = require("../services/counter");
-const { counters } = require("../utils/consts");
+const {
+  counters,
+  errors,
+  magicNumbers,
+  uniqueCategory,
+} = require("../utils/consts");
 
 const createMovie = async (name, category, fields) => {
   const categoryDoc = await Category.findOne({ name: category });
   if (!categoryDoc) {
-    throw new Error("Category not found");
+    throw new Error(errors.CATEGORY_NOT_FOUND);
   }
-
   const movieId = await counterService.getNextSequence(counters.C_MOVIE);
   const movie = new Movie({
     _id: movieId,
@@ -21,49 +25,70 @@ const createMovie = async (name, category, fields) => {
   return await movie.save();
 };
 
-// const getMovies = async () => {
-//   return await Movie.find({});
-// };
-
 const getMoviesByCategory = async (userId) => {
-  const movies = {};
-  const categories = await Category.find({}); 
-
-  for (const category of categories) {
-    if (category.promoted) {
-    
-      const promotedMovies = await Movie.find({ category: category._id })
-        .limit(20)
-        .exec();
-      movies[category.name] = promotedMovies;
-    } else {
-      if (userId) {
-      
-        const user = await User.findById(userId).exec();
-        if (!user) {
-          throw new Error("User not found");
-        }
-        const watchedMovies = user.watched_movies || [];
-
-        // שליפת סרטים שהמשתמש לא צפה בהם
-        const unWatchedMovies = await Movie.find({
-          category: category._id,
-          _id: { $nin: watchedMovies }, // שלילת סרטים שצפה בהם
-        })
-          .limit(20)
-          .exec();
-        movies[category.name] = unWatchedMovies;
-      } else {
-        // אם אין משתמש - שליפת 20 סרטים אקראיים
-        const randomMovies = await Movie.find({ category: category._id })
-          .limit(20)
-          .exec();
-        movies[category.name] = randomMovies;
-      }
-    }
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new Error(errors.USER_NOT_FOUND);
   }
 
-  return movies; // החזרת כל הסרטים לפי קטגוריות
+  // Fetch all categories and prepare a map of category IDs to names
+  const allCategories = await Category.find({});
+  const categoryMap = allCategories.reduce((map, category) => {
+    map[category._id.toString()] = category.name;
+    return map;
+  }, {});
+
+  const categories = [];
+  const promotedcategories = allCategories.filter((cat) => cat.promoted);
+
+  // Fetch promoted movies for each promoted category
+  for (const category of promotedcategories) {
+    const promotedMovies = await Movie.aggregate([
+      {
+        $match: { category: category._id, _id: { $nin: user.watched_movies } },
+      },
+      { $sample: { size: magicNumbers.MOVIES_GET_NUMBER } },
+    ]);
+    // Format the movies to include user-friendly fields
+    const formattedMovies = promotedMovies.map((movie) => ({
+      id: movie._id,
+      name: movie.name,
+      category: category.name, // Replace category ID with category name
+      duration: movie.duration,
+      image: movie.image,
+      age_limit: movie.age_limit,
+      description: movie.description,
+    }));
+    // Push the category and its movies to the result
+    categories.push({
+      categoryId: category._id,
+      categoryname: category.name,
+      movies: formattedMovies,
+    });
+  }
+
+  const watchedMovies = await Movie.find({ _id: { $in: user.watched_movies } });
+
+  // Map the watched movies to include the category name
+  const formattedWatchedMovies = watchedMovies.map((movie) => ({
+    id: movie._id,
+    name: movie.name,
+    category: categoryMap[movie.category.toString()], // Replace category ID with category name
+    duration: movie.duration,
+    image: movie.image,
+    age_limit: movie.age_limit,
+    description: movie.description,
+  }));
+  // Add unique category for watched movies
+  categories.push({
+    categoryId: 0,
+    categoryname: uniqueCategory.CATEGORY,
+    movies: formattedWatchedMovies
+      .slice(-magicNumbers.MOVIES_GET_NUMBER)
+      .sort(() => Math.random() - 0.5), //TODO: comlexity
+  });
+
+  return categories;
 };
 
 const getMovieById = async (id) => {
