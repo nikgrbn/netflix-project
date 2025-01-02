@@ -1,9 +1,8 @@
-const mongoose = require("mongoose");
 const userServices = require("../services/user");
 const movieService = require("../services/movie");
 const categoryService = require("../services/category");
 const { formatDocument, formatMongoDocument } = require("../utils/helpers");
-const { errors, magicNumbers, uniqueCategory } = require("../utils/consts");
+const { errors, utils } = require("../utils/consts");
 const { MRSClient, codes } = require("../clients/MRSClient");
 
 const createMovie = async (req, res) => {
@@ -47,7 +46,7 @@ const getMovies = async (req, res) => {
       // Filter movies based on the category and user's watched movies
       const movies = await movieService.filterMovies(
         { category: category._id, _id: { $nin: user.watched_movies }},
-        magicNumbers.MAX_MOVIES);
+        utils.MAX_MOVIES);
 
       // Format the document
       const formatted = movies.map((movie) => {
@@ -79,9 +78,9 @@ const getMovies = async (req, res) => {
     // Push the unique category and its movies to the result
     result.push({
       categoryId: 0,
-      categoryName: uniqueCategory.CATEGORY,
+      categoryName: utils.UNIQUE_CATEGORY,
       movies: uniqueMovies
-        .slice(-magicNumbers.MAX_MOVIES)
+        .slice(-utils.MAX_MOVIES)
         .sort(() => Math.random() - 0.5)
     });
 

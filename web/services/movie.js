@@ -1,13 +1,9 @@
-const mongoose = require("mongoose");
 const Movie = require("../models/movie");
 const Category = require("../models/category");
-const User = require("../models/user");
 const counterService = require("../services/counter");
 const {
   counters,
-  errors,
-  magicNumbers,
-  uniqueCategory,
+  errors
 } = require("../utils/consts");
 
 const createMovie = async (name, category, fields) => {

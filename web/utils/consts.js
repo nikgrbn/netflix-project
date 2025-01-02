@@ -25,8 +25,6 @@ const errors = {
     MOVIE_ROLLBACK_SUCCESS: "Failed to delete movie and rollback done",
     MOVIE_DELETE_USER_ERROR: "Failed to delete movie from user",
 
-
-
     BAD_REQUEST: 'Bad request',
     ID_HEADER_REQUIRED: 'User-ID header is required',
 
@@ -41,17 +39,13 @@ const counters = {
     C_MOVIE: 'movies',
 };
 
-const magicNumbers = {
+const utils = {
     MAX_MOVIES: 20,
-};
-
-const uniqueCategory = {
-    CATEGORY: 'Previous movies you have watched'
+    SPECIAL_CATEGORY: 'Previous movies you have watched',
 };
 
 module.exports = {
     errors,
     counters,
-    magicNumbers,
-    uniqueCategory
+    utils
 };
