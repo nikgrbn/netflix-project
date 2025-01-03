@@ -1,5 +1,4 @@
 const Movie = require("../models/movie");
-const Category = require("../models/category");
 const counterService = require('../services/counter');
 const { errors, counters }  = require('../utils/consts');
 
@@ -13,17 +12,20 @@ const createMovie = async (name, fields) => {
   return await movie.save();
 };
 
-const filterMovies = async (match, sample) => {
+const filterMovies = async (match, sample, lookup) => {
   return await Movie.aggregate([
     {
       $match: match
     },
     { $sample: { size: sample } },
+    {
+      $lookup: lookup
+    }
   ]);
 }
 
 const getMovieById = async (id) => {
-  return await Movie.findById(id);
+  return await Movie.findById(id).populate("categories");
 };
 
 const updateMovie = async (id, updates) => {

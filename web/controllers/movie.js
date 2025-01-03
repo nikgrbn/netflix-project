@@ -61,14 +61,29 @@ const getMovies = async (req, res) => {
     for (const category of promoted) {
       // Filter movies based on the category and user's watched movies
       const movies = await movieService.filterMovies(
-        { category: category._id, _id: { $nin: user.watched_movies }},
-        utils.MAX_MOVIES);
+        {
+          categories: { $in: [category._id] }, // Check if categoryId is in the categories array
+          _id: { $nin: user.watched_movies } // Exclude movies that are in the watched movies list
+        },
+        utils.MAX_MOVIES,
+        {
+          from: 'categories', // Replace the category ID with the category document
+          localField: 'categories',
+          foreignField: '_id',
+          as: 'categories'
+        });
 
       // Format the document
       const formatted = movies.map((movie) => {
         // Format the movie document
         const formattedMovie = formatDocument(movie);
-        formattedMovie.category = category.name;
+
+        for (const movieCategory of formattedMovie.categories) {
+          // Remove the _id field from the category document
+          movieCategory.id = movieCategory._id;
+          delete movieCategory._id;
+        }
+
         return formattedMovie;
       });
 
@@ -83,11 +98,8 @@ const getMovies = async (req, res) => {
     // Fetch all movies under the unique category
     const uniqueMovies = await Promise.all(user.watched_movies.map(async (movieId) => {
       const movie = await movieService.getMovieById(movieId);
-      const category = await categoryService.getCategoryById(movie.category);
-      
-      // Format the movie document
       const formattedMovie = formatMongoDocument(movie);
-      formattedMovie.category = category.name;
+
       return formattedMovie;
     }));
 
@@ -184,7 +196,7 @@ const deleteMovie = async (req, res) => {
       const deleteResponse = await client.sendMessage(deleteMessage);
 
       if (deleteResponse.trim() !== codes.NO_CONTENT) {
-        throw new Error(`${errors.MOVIE_DELETE_USER_ERROR}${user.id}`);
+        return res.status(500).json({ error: errors.MOVIE_REMOTE_DELETE_ERROR });
       }
     }
 
@@ -214,13 +226,12 @@ const deleteMovie = async (req, res) => {
     return res.status(204).send();
   } catch (error) {
     // Rollback in case of failure
-    if (movieDetails.name && movieDetails.category) {
+    if (movieDetails.name) {
       try {
-        const { name, category, ...fields } = movieDetails;
-        const categoryDoc = await categoryService.getCategoryById(category);
+        const { name, ...fields } = movieDetails;
 
         // Restore the movie in the database
-        await movieService.createMovie(name, categoryDoc.name, fields);
+        await movieService.createMovie(name, fields);
 
         // Reassign the movie to users
         await userServices.addMovieToSpecificUsers(usersWhoWatched, movieId);

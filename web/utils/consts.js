@@ -41,7 +41,7 @@ const counters = {
 
 const utils = {
     MAX_MOVIES: 20,
-    SPECIAL_CATEGORY: 'Previous movies you have watched',
+    UNIQUE_CATEGORY: 'Previous movies you have watched',
 };
 
 module.exports = {
