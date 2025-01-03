@@ -1,13 +1,14 @@
 const Movie = require("../models/movie");
-const counterService = require('../services/counter');
-const { errors, counters }  = require('../utils/consts');
+const counterService = require("../services/counter");
+const Category = require("../models/category");
+const { errors, counters } = require("../utils/consts");
 
 const createMovie = async (name, fields) => {
   const movieId = await counterService.getNextSequence(counters.C_MOVIE);
   const movie = new Movie({
     _id: movieId,
     name,
-    ...fields
+    ...fields,
   });
   return await movie.save();
 };
@@ -15,14 +16,14 @@ const createMovie = async (name, fields) => {
 const filterMovies = async (match, sample, lookup) => {
   return await Movie.aggregate([
     {
-      $match: match
+      $match: match,
     },
     { $sample: { size: sample } },
     {
-      $lookup: lookup
-    }
+      $lookup: lookup,
+    },
   ]);
-}
+};
 
 const getMovieById = async (id) => {
   return await Movie.findById(id).populate("categories");
@@ -52,9 +53,10 @@ const setMovie = async (id, fields) => {
   const defaultValues = {};
   for (const key in schemaDefaults) {
     if (schemaDefaults[key]?.default !== undefined) {
-      defaultValues[key] = typeof schemaDefaults[key].default === "function" 
-        ? schemaDefaults[key].default() // Call the function if the default is a function
-        : schemaDefaults[key].default;
+      defaultValues[key] =
+        typeof schemaDefaults[key].default === "function"
+          ? schemaDefaults[key].default() // Call the function if the default is a function
+          : schemaDefaults[key].default;
     }
   }
 
@@ -62,11 +64,14 @@ const setMovie = async (id, fields) => {
   const newFields = { ...defaultValues, ...fields };
 
   // Update the movie, replacing unspecified fields with defaults
-  const movie = await Movie.findByIdAndUpdate(id, newFields, { new: true, overwrite: true });
+  const movie = await Movie.findByIdAndUpdate(id, newFields, {
+    new: true,
+    overwrite: true,
+  });
 
   if (!movie) return null; // Return null if the movie does not exist
   return movie; // Return the updated movie
-}
+};
 
 const deleteMovie = async (id) => {
   const movie = await getMovieById(id);
@@ -82,6 +87,40 @@ const deleteCategoryFromMovies = async (categoryId) => {
   );
 
   return result;
-}
+};
 
-module.exports = { createMovie, filterMovies, getMovieById, updateMovie, setMovie, deleteMovie, deleteCategoryFromMovies};
+const searchMovies = async (query) => {
+  console.log("Query received:", query);
+  if (!query || query.trim() === "") {
+    console.log("Query is empty, returning all movies.");
+    return await Movie.find({}).populate("categories", "name");
+  }
+
+  const matchingCategories = await Category.find({
+    name: { $regex: query, $options: "i" },
+  });
+  const categoryIds = matchingCategories.map((cat) => cat._id);
+
+  const queryConditions = {
+    $or: [
+      { name: { $regex: query, $options: "i" } },
+      { description: { $regex: query, $options: "i" } },
+      { age_limit: !isNaN(query) ? parseInt(query) : undefined },
+      { duration: !isNaN(query) ? parseInt(query) : undefined },
+      { categories: { $in: categoryIds } },
+    ].filter(Boolean),
+  };
+
+  return await Movie.find(queryConditions).populate("categories", "name");
+};
+
+module.exports = {
+  createMovie,
+  filterMovies,
+  getMovieById,
+  updateMovie,
+  setMovie,
+  deleteMovie,
+  deleteCategoryFromMovies,
+  searchMovies,
+};
