@@ -22,6 +22,8 @@ router
   .get(movieController.getMovies)
   .post(movieController.createMovie);
 
+router.route("/search/:query").get(queryController.searchMovies);
+
 router
   .route("/:id")
   .get(movieController.getMovieById)
@@ -32,7 +34,5 @@ router
   .route("/:id/recommend")
   .get(recommendController.getRecommendations)
   .post(recommendController.addUserWatchedMovie);
-
-router.route("/search/:query").get(queryController.searchMovies);
 
 module.exports = router;

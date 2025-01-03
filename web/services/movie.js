@@ -92,6 +92,7 @@ const deleteCategoryFromMovies = async (categoryId) => {
 const searchMovies = async (query) => {
   // Check if the query is empty or contains only whitespace
   if (!query || query.trim() === "") {
+    //TODO: check response
     // Return all movies if no query is provided, including populated category names
     return await Movie.find({}).populate("categories", "name");
   }
@@ -112,7 +113,19 @@ const searchMovies = async (query) => {
     ].filter(Boolean),
   };
 
-  return await Movie.find(queryConditions).populate("categories", "name");
+  const movies = await Movie.find(queryConditions).populate(
+    "categories",
+    "name"
+  );
+  return movies.map((movie) => ({
+    id: movie._id,
+    name: movie.name,
+    categories: movie.categories.map((cat) => cat.name),
+    duration: movie.duration,
+    image: movie.image,
+    age_limit: movie.age_limit,
+    description: movie.description,
+  }));
 };
 
 module.exports = {
