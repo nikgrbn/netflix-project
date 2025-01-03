@@ -12,10 +12,9 @@ const Movie = new Schema(
       type: String,
       required: true,
     },
-    category: {
-      type: Number,
-      ref: "Category",
-      required: true,
+    categories: {
+      type: [{ type: Number, ref: "Category" }],
+      default: [],
     },
     duration: {
       type: Number,
@@ -33,7 +32,15 @@ const Movie = new Schema(
       type: String,
       default: "No description available for this movie.",
     },
-  }
-);
+  }, { 
+    versionKey: false,
+    toJSON: { virtuals: true, transform: (doc, ret) => { delete ret._id; } },
+    toObject: { virtuals: true, transform: (doc, ret) => { delete ret._id; } }
+});
+
+// Create a virtual field 'id' that returns the value of '_id'
+Movie.virtual('id').get(function() {
+    return this._id;
+});
 
 module.exports = mongoose.model("Movie", Movie);

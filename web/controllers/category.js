@@ -74,12 +74,16 @@ const deleteCategory = async (req, res) => {
     const { id } = req.params;
 
     try {
+        // Delete category by id
         const category = await categoryService.deleteCategory(id);
-        if (category) {
-            res.status(204).send();
-        } else {
-            res.status(404).json({ error: errors.CATEGORY_NOT_FOUND });
+        if (!category) {
+            return res.status(404).json({ error: errors.CATEGORY_NOT_FOUND });
         }
+
+        // Delete the category from all movies
+        await movieService.deleteCategoryFromMovies(id);
+
+        res.status(204).send();
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
