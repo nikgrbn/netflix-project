@@ -90,17 +90,18 @@ const deleteCategoryFromMovies = async (categoryId) => {
 };
 
 const searchMovies = async (query) => {
-  console.log("Query received:", query);
+  // Check if the query is empty or contains only whitespace
   if (!query || query.trim() === "") {
-    console.log("Query is empty, returning all movies.");
+    // Return all movies if no query is provided, including populated category names
     return await Movie.find({}).populate("categories", "name");
   }
-
+  // Find categories that match the query (case-insensitive)
   const matchingCategories = await Category.find({
     name: { $regex: query, $options: "i" },
   });
+  // Extract the category IDs from the matching categories
   const categoryIds = matchingCategories.map((cat) => cat._id);
-
+  // Build query conditions for searching movies
   const queryConditions = {
     $or: [
       { name: { $regex: query, $options: "i" } },
