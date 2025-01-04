@@ -1,4 +1,5 @@
 const categoryService = require('../services/category');
+const movieService = require('../services/movie');
 const { formatMongoDocument } = require("../utils/helpers");
 const { errors }  = require('../utils/consts');
 
@@ -13,7 +14,7 @@ const createCategory = async (req, res) => {
         const category = await categoryService.createCategory(
             req.body.name, req.body.promoted);
         if (!category) { res.status(400).json({ error: errors.CATEGORY_NOT_CREATED }); }
-        res.status(201).json(formatMongoDocument(category));
+        res.status(201).send();
     } catch (error) {
         if (error.code === 11000) {
             // Duplicate category error

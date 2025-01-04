@@ -1,6 +1,6 @@
 const userServices = require('../services/user');
 const { errors }  = require('../utils/consts');
-const { formatMongoDocument } = require('../utils/helpers');
+const { formatDocument } = require('../utils/helpers');
 
 const signUpUser = async (req, res) => {
     // Extract username and password from request body
@@ -14,9 +14,7 @@ const signUpUser = async (req, res) => {
         const user = await userServices.createUser(username, password, picture);
         if (!user) { return res.status(400).json({ error: errors.USER_NOT_CREATED }); }
         
-        const userWithoutPassword = user.toObject();
-        delete userWithoutPassword.password; // Remove password from returned user object
-        res.status(201).json(formatMongoDocument(userWithoutPassword));
+        res.status(201).send();
 
     } catch (error) {
         if (error.code === 11000) {
@@ -38,7 +36,7 @@ const getUserById = async (req, res) => {
         if (user) {
             const userWithoutPassword = user.toObject();
             delete userWithoutPassword.password; // Remove password from returned user object
-            res.status(200).json(formatMongoDocument(userWithoutPassword));
+            res.status(200).json(formatDocument(userWithoutPassword));
 
         } else {
             res.status(404).json({ error: errors.USER_NOT_FOUND });
