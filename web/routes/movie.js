@@ -22,6 +22,9 @@ router
   .get(movieController.getMovies)
   .post(movieController.createMovie);
 
+// New route for search/
+router.route("/search/").get(queryController.searchMovies);
+
 router.route("/search/:query").get(queryController.searchMovies);
 
 router

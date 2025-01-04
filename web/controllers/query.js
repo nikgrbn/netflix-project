@@ -1,7 +1,12 @@
 const movieServices = require("../services/movie");
+
 // Controller to handle movie search by query
 const searchMovies = async (req, res) => {
   const { query } = req.params;
+  // Check if the query is empty or contains only whitespace
+  if (!query || query.trim() === "") {
+    return res.status(200).json()
+  }
 
   try {
     // Call the service to search for movies
