@@ -47,9 +47,6 @@ const getRecommendations = async (req, res) => {
         
         // Extract movie ids from the response
         const movieIds = responseParts.slice(1).map(id => id.trim().split(' ')).flat();
-        if (!movieIds.includes(movieId)) {
-            movieIds.unshift(movieId); // Insert the current movieId at the beginning of the movieIds array
-        }
         
         // Get movie details for each recommended movie
         const movies = []
