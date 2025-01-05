@@ -19,16 +19,16 @@ mongoose.connect(process.env.MONGO_URI);
 
 // Authentication
 const users = require('./routes/user');
-app.use('/users', users);
+app.use('/api/users', users);
 const tokens = require('./routes/token');
-app.use('/tokens', tokens);
+app.use('/api/tokens', tokens);
 
 // Homepage
 const categories = require('./routes/category');
-app.use('/categories', categories);
+app.use('/api/categories', categories);
 
 // Movies
 const movies = require('./routes/movie');
-app.use('/movies', movies);
+app.use('/api/movies', movies);
 
 app.listen(process.env.PORT);
