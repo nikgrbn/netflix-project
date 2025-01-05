@@ -18,6 +18,8 @@ services:
     working_dir: /usr/src/netflix-project/web
     depends_on:
       - mongo
+    ports:
+      - "19844:19844"
 
   client:
     build:
