@@ -81,12 +81,18 @@ docker-compose run --rm tests
 ```
 
 ## Project Structure
-- `client/`: Client-side logic and scripts 
-- `server/`: Server-side application code
+- `client/`: Client-side logic and scripts (c++)
+- `server/`: Server-side application code (c++)
   - `inc/`: Header files for commands, core logic, and utilities
   - `src/`: Source code implementation for commands, core components, and utilities
   - `tests/`: Unit tests using the Google Test framework
-
+- `web/`: the core of the web application, structured following the MVC design pattern.
+  - `controllers/`: handling HTTP requests, interacting with services, and returning responses.
+  - `models/`: including database schemas and interactions, typically using Mongoose for MongoDB.
+  - `routes/`: Maps HTTP endpoints to their respective controllers, defining the application's API structure.
+  - `services/`: Contains business logic and reusable functions for interacting with models, APIs, or performing complex operations.
+  - `utils/`: Provides utility functions and helper scripts used across the application.
+- `app/`: The entry point of the application, initializing the server, middleware, routes, and database connection.
 
 ## Development Approach
 - Test-Driven Development (TDD)
