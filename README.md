@@ -1,7 +1,8 @@
 # Netflix Project
 
 ## Overview
-A command-line movie recommendation system that allows users to add their movie-watching history and receive personalized movie recommendations based on user similarity algorithms.
+This project provides a multi-functional movie management system comprising two main servers: a **C++ Server** for command-line-based movie recommendations and a **Web Server** built with Node.js, following the **MVC architecture**. 
+The web server communicates with MongoDB for persistent data storage and integrates with the C++ server for additional functionality, such as updating user watch history.
 
 <table>
   <tr>
@@ -20,7 +21,7 @@ A command-line movie recommendation system that allows users to add their movie-
 
 ## Features
 ### **C++ Server Features**
-The following features are implemented in the C++ server, which manages user interactions and viewing history through a command-line interface:
+The C++ server enables users to manage their movie-watching history through a command-line interface and includes the following functionality:
 
 - **Add Movies to User Watch History**  
   Allows users to add movies they've watched to their personal watch history.
@@ -30,6 +31,8 @@ The following features are implemented in the C++ server, which manages user int
 
 - **Persistent Data Storage**  
   User data and movie watch history are stored persistently.
+
+- **ThreadPool Implementation:** Ensures efficient multi-threaded processing of user requests.
 
 - **Command-Line Interface (CLI)**  
   A simple CLI for managing user watch history and recommendations:
@@ -42,35 +45,39 @@ The following features are implemented in the C++ server, which manages user int
 ---
 
 ### **Web Server Features**
-The following features are implemented in the web server, which connects to a MongoDB database and provides RESTful APIs:
+The web server provides RESTful APIs for user management, movie operations, and recommendations, and follows the **MVC pattern** to ensure loose coupling and adherence to **SOLID principles**.
 
 #### **User Management**
-- **Create a New User**: Register a new user using `POST /api/users` with user details in the request body.
-- **Get User Details**: Retrieve information about a user using `GET /api/users/:id`.
-- **User Authentication**: Verify user credentials using `POST /api/tokens` and return a token for valid users.
+- **Create a New User:** Register a user with `POST /api/users`.
+- **Get User Details:** Retrieve user information with `GET /api/users/:id`.
+- **User Authentication:** Validate credentials and generate tokens using `POST /api/tokens`.
 
 #### **Movie Management**
 - **Get Movies by Categories**: Retrieve movies grouped by categories using `GET /api/movies`.  
   - Recommended categories: up to 20 unwatched movies in random order.  
   - Non-recommended categories: up to 20 random movies.  
   - Includes the user's last 20 viewed movies as a separate category.
-- **Add a New Movie**: Add a new movie using `POST /api/movies` with movie details in the request body.
-- **Get Movie Details**: Retrieve details of a specific movie using `GET /api/movies/:id`.
-- **Update Movie**: Update an existing movie using `PUT /api/movies/:id`.
-- **Delete Movie**: Remove a movie using `DELETE /api/movies/:id`.
-- **Search Movies**: Search for movies using keywords in `GET /api/movies/search/:query`.
+- **Add a New Movie:** Add a movie with `POST /api/movies`.
+- **Get Movie Details:** Retrieve a movie’s details with `GET /api/movies/:id`.
+- **Update Movie:** Update an existing movie with `PUT /api/movies/:id`.
+- **Delete Movie:** Remove a movie using `DELETE /api/movies/:id`.
+- **Search Movies:** Search movies with keywords using `GET /api/movies/search/:query`.
 
 
 #### **Category Management**
-- **Get All Categories**: Retrieve a list of categories using `GET /api/categories`.
-- **Create a New Category**: Add a new category using `POST /api/categories`.
-- **Get Category Details**: Get details of a specific category using `GET /api/categories/:id`.
-- **Update Category**: Update category details using `PATCH /api/categories/:id`.
-- **Delete Category**: Remove a category using `DELETE /api/categories/:id`.
+- **Get All Categories:** Retrieve all categories with `GET /api/categories`.
+- **Create a New Category:** Add a category with `POST /api/categories`.
+- **Get Category Details:** Retrieve details of a specific category with `GET /api/categories/:id`.
+- **Update Category:** Update category details with `PATCH /api/categories/:id`.
+- **Delete Category:** Remove a category using `DELETE /api/categories/:id`.
 
 #### **Recommendations**
-- **Get Movie Recommendations**: Retrieve a list of recommended movies based on user activity using `GET /api/movies/:id/recommend`.
-- **Add Recommendation**: Add a new recommendation for a specific movie using `POST /api/movies/:id/recommend`.
+- **Retrieve Movie Recommendations:** Fetch personalized recommendations from the C++ server with `GET /api/movies/:id/recommend`.
+- **Add Recommendation:** Add a movie recommendation with `POST /api/movies/:id/recommend`.
+
+### **Integration**
+- The web server communicates with the C++ server for adding movies to user watch history. This integration ensures seamless interaction between the two systems.
+
 
 ---
 
@@ -83,32 +90,28 @@ The following features are implemented in the web server, which connects to a Mo
 
 ## Prerequisites
 - **Docker**
-  
-    *Ensure Docker and Docker Compose are installed on your system.*
+- **Node.js** and **MongoDB**
 
-## Installation
 
-1. Clone the repository
+## Installation and setup
+
+### 1. Clone Repository
 ```bash
 git clone https://github.com/nikgrbn/netflix-project.git
 cd netflix-project
 ```
 
-2. Build the Docker image
+### 2. Build Docker Image
 ```bash
 docker-compose build
 ```
 
-## Running the Application
-
-### Start Movie Recommendation System
+### 3. Start Movie Recommendation System
 ```bash
 docker-compose run --rm --name c-server c-server 19845
 ```
-Note: Replace `19845` with your desired port number
 
-### Configure Environment
-```bash
+### 4. Configure Environment
 Create a configuration file `.env.production` in the `/web/config/` directory. We recommend to use this configuration:
 ```plaintext
 MONGO_URI="mongodb://mongo:27017/netflix-db"
@@ -117,12 +120,12 @@ MRS_IP="c-server"
 MRS_PORT=19845
 ```
 
-### Launch Web Server
+### 5. Launch Web Server
 ```bash
 docker-compose -f docker-compose.yml run --rm --name web-server --service-ports web-server
 ```
 
-### Verify Setup
+### 6. Verify Setup
 ```bash
 curl -i http://localhost:19844/api/categories
 ```
@@ -152,16 +155,67 @@ docker-compose run --rm tests
 - Continuous integration with feature branches
 
 ## Architecture and Extensibility
-In our project, renaming and adding new commands did not require modifications to existing code that is designed to be closed for modification but open for extension. This was achieved through the ICommand interface, which allowed us to add or rename commands by implementing them in new files, such as PatchCommand.cpp and PostCommand.cpp, without altering existing functionality.
 
-Additionally, a minor infrastructure adjustment was made by introducing a Mutex in LocalDataManager.cpp to handle concurrent access to the shared IDataManager resource, ensuring thread safety.
+The system is designed with a modular architecture to ensure scalability, maintainability, and extensibility. Key components include:
 
-Changing the input/output to sockets instead of using the console also did not require changes to the existing code. This was implemented by adding a new file, Server.cpp, which centralizes the server-side communication logic and integrates seamlessly with the project. The client-side logic was implemented separately in client.py, ensuring a clean separation of responsibilities.
+1. **C++ Server**
+   - Responsible for managing user interactions and watch history via a command-line interface.
+   - Communicates with the Web server to fetch movie recommendations.
+   - Processes and stores user watch history persistently.
+   - Handles requests from the Web server to add movies to a user's watch history.
 
-Overall, the project's modular architecture allowed us to extend the system efficiently without breaking existing components, keeping the codebase robust and maintainable.
+2. **Web Server**
+   - Built using Node.js and Express, connected to a MongoDB database.
+   - Handles RESTful API requests for user management, movie operations, and recommendations.
+   - Sends requests to the C++ server to update user watch history when movies are added.
+   - Implements modular design with the following layers:
+     - **Routes**: Define HTTP endpoints and map them to controllers.
+     - **Controllers**: Handle business logic for requests and responses.
+     - **Services**: Encapsulate reusable logic, such as database operations and communication with the C++ server.
+     - **Models**: Define MongoDB schemas and data structures.
+
+3. **Database**
+   - MongoDB is used for persistent data storage.
+   - Stores user details, movie data, categories, and recommendations.
+   - Optimized for querying and scalability.
+
+#### **Extensibility**
+- **Adding New Features**:  
+  The modular design allows for easy integration of additional routes, services, or models without impacting existing functionality.
+  
+- **Support for New Clients**:  
+  The architecture supports integration with additional clients (e.g., mobile apps) via RESTful APIs.
+
+- **Scalability**:  
+  Both servers can be scaled horizontally to handle increased load, with MongoDB ensuring efficient data handling.
+
+## Separation of Assignments
+
+To ensure proper evaluation of Assignment 2, the code for Assignment 2 is maintained in a dedicated branch, independent of the code for Assignment 3. This allows the evaluator to test Assignment 2 without any interference from changes or additions related to Assignment 3.
+
+### Branch Organization
+- **Assignment 2 Branch:**  
+  The code for Assignment 2 is stored in a separate branch (e.g., `part-2`). This branch contains all the necessary functionality and files required for Assignment 2, without any dependencies or overlaps with Assignment 3.
+
+- **Assignment 3 Branch:**  
+  The work for Assignment 3 is stored in its own branch (e.g., `part-3`). This ensures that the code for Assignment 3 does not affect the evaluation of Assignment 2.
+  
 
  ## Additional Notes
-- The project includes main.cpp for controlling the server-side logic and execution.
-- Helper utilities like Config and Types ensure clean and consistent code.
-- Commands were implemented using interfaces, allowing easy extension without modifying existing code.
+- **`main.cpp`:**  
+  Serves as the entry point for the C++ server, orchestrating server-side logic and execution. It initializes the necessary components and manages the main server loop.
 
+- **Helper Utilities (`Config` and `Types`):**  
+  These utilities provide modular and reusable components for managing configuration files and maintaining type consistency across the system. They ensure clean, readable, and maintainable code.
+
+- **Command Implementation Using Interfaces:**  
+  All commands in the system are implemented following the **interface-based design pattern**, which adheres to the **Open/Closed Principle** from SOLID principles. This design allows for the easy addition of new commands without modifying existing code, enhancing the system's extensibility and maintainability.
+
+- **Loose Coupling Across Components:**  
+  The project emphasizes **loose coupling** between modules, enabling independent development, testing, and scalability for both the C++ server and the web server.
+
+- **ThreadPool Usage in C++ Server:**  
+  The C++ server employs a **ThreadPool** to efficiently handle multiple client requests concurrently, ensuring high performance and responsiveness under heavy workloads.
+
+- **Integration Between Web and C++ Servers:**  
+  The web server communicates seamlessly with the C++ server for updating user watch history and fetching recommendations, leveraging RESTful APIs and a modular service-oriented architecture.
