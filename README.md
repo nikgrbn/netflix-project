@@ -4,20 +4,19 @@
 This project provides a multi-functional movie management system comprising two main servers: a **C++ Server** for command-line-based movie recommendations and a **Web Server** built with Node.js, following the **MVC architecture**. 
 The web server communicates with MongoDB for persistent data storage and integrates with the C++ server for additional functionality, such as updating user watch history.
 
-<table>
-  <tr>
-    <th>Client</th>
-    <th>Server</th>
-  </tr>
-  <tr>
-    <td>
-      <img src="https://github.com/nikgrbn/netflix-project/blob/557f761f426b054e492edf359fc2eed3971d5871/assets/client.png" width="%45"/>
-    </td>
-    <td>
-      <img src="https://github.com/nikgrbn/netflix-project/blob/557f761f426b054e492edf359fc2eed3971d5871/assets/server.png" width="%45"/>
-    </td>
-  </tr>
-</table>
+## Execution Examples
+
+### Categories Endpoint Response
+This example demonstrates the output from querying the categories endpoint.
+![Categories Response](assets/catories.png)
+
+### C++ Server Startup
+This example shows the C++ server starting and running successfully.
+![C++ Server Startup](assets/cserver.png)
+
+### Web Server Startup
+This example illustrates the Node.js web server starting and connecting to MongoDB.
+![Web Server Startup](assets/webserver.png)
 
 ## Features
 ### **C++ Server Features**
@@ -93,7 +92,7 @@ The web server provides RESTful APIs for user management, movie operations, and 
 - **Node.js** and **MongoDB**
 
 
-## Installation and setup
+## Installation and running
 
 ### 1. Clone Repository
 ```bash
@@ -199,7 +198,7 @@ To ensure proper evaluation of Assignment 2, the code for Assignment 2 is mainta
 
 - **Assignment 3 Branch:**  
   The work for Assignment 3 is stored in its own branch (e.g., `part-3`). This ensures that the code for Assignment 3 does not affect the evaluation of Assignment 2.
-  
+
 
  ## Additional Notes
 - **`main.cpp`:**  
