@@ -6,17 +6,14 @@ The web server communicates with MongoDB for persistent data storage and integra
 
 ## Execution Examples
 
-### Categories Endpoint Response
-This example demonstrates the output from querying the categories endpoint.
-![Categories Response](assets/catories.png)
-
 ### C++ Server Startup
-This example shows the C++ server starting and running successfully.
-![C++ Server Startup](assets/cserver.png)
+<img src="assets/cserver.png" alt="C++ Server Startup" width="400"/>
 
 ### Web Server Startup
-This example illustrates the Node.js web server starting and connecting to MongoDB.
-![Web Server Startup](assets/webserver.png)
+<img src="assets/webserver.png" alt="Web Server Startup" width="400"/>
+
+### Categories Endpoint Response
+<img src="assets/catories.png" alt="Categories Response" width="400"/>
 
 ## Features
 ### **C++ Server Features**
