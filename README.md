@@ -19,15 +19,67 @@ A command-line movie recommendation system that allows users to add their movie-
 </table>
 
 ## Features
-- Add movies to user watch history
-- Get movie recommendations based on viewing patterns
-- Persistent data storage
-- Command-line interface with simple commands:
-  - `POST [userid] [movieid1] [movieid2] ...`: Record movies watched by a user
-  - `PATCH [userid] [movieid1] [movieid2] ...`: Updates the user's watch history by adding new movies only if they don't already exist in the history.
-  - `DELETE [userid] [movieid1] [movieid2] ...`: Remove a specific movie from the user's watch       history
-  - `GET [userid] [movieid]`: Get movie recommendations
-  - `help`: Display available commands
+### **C++ Server Features**
+The following features are implemented in the C++ server, which manages user interactions and viewing history through a command-line interface:
+
+- **Add Movies to User Watch History**  
+  Allows users to add movies they've watched to their personal watch history.
+
+- **Get Movie Recommendations Based on Viewing Patterns**  
+  Provides movie suggestions based on the user's viewing history.
+
+- **Persistent Data Storage**  
+  User data and movie watch history are stored persistently.
+
+- **Command-Line Interface (CLI)**  
+  A simple CLI for managing user watch history and recommendations:
+  - **`POST [userid] [movieid1] [movieid2] ...`**: Record movies watched by a user. Creates a new watch history if it doesn't exist.
+  - **`PATCH [userid] [movieid1] [movieid2] ...`**: Update the user's watch history by adding only new movies (avoids duplicates).
+  - **`DELETE [userid] [movieid1] [movieid2] ...`**: Remove specific movies from the user's watch history.
+  - **`GET [userid] [movieid]`**: Retrieve movie recommendations for the user.
+  - **`help`**: Display available CLI commands and their usage.
+
+---
+
+### **Web Server Features**
+The following features are implemented in the web server, which connects to a MongoDB database and provides RESTful APIs:
+
+#### **User Management**
+- **Create a New User**: Register a new user using `POST /api/users` with user details in the request body.
+- **Get User Details**: Retrieve information about a user using `GET /api/users/:id`.
+- **User Authentication**: Verify user credentials using `POST /api/tokens` and return a token for valid users.
+
+#### **Movie Management**
+- **Get Movies by Categories**: Retrieve movies grouped by categories using `GET /api/movies`.  
+  - Recommended categories: up to 20 unwatched movies in random order.  
+  - Non-recommended categories: up to 20 random movies.  
+  - Includes the user's last 20 viewed movies as a separate category.
+- **Add a New Movie**: Add a new movie using `POST /api/movies` with movie details in the request body.
+- **Get Movie Details**: Retrieve details of a specific movie using `GET /api/movies/:id`.
+- **Update Movie**: Update an existing movie using `PUT /api/movies/:id`.
+- **Delete Movie**: Remove a movie using `DELETE /api/movies/:id`.
+- **Search Movies**: Search for movies using keywords in `GET /api/movies/search/:query`.
+
+
+#### **Category Management**
+- **Get All Categories**: Retrieve a list of categories using `GET /api/categories`.
+- **Create a New Category**: Add a new category using `POST /api/categories`.
+- **Get Category Details**: Get details of a specific category using `GET /api/categories/:id`.
+- **Update Category**: Update category details using `PATCH /api/categories/:id`.
+- **Delete Category**: Remove a category using `DELETE /api/categories/:id`.
+
+#### **Recommendations**
+- **Get Movie Recommendations**: Retrieve a list of recommended movies based on user activity using `GET /api/movies/:id/recommend`.
+- **Add Recommendation**: Add a new recommendation for a specific movie using `POST /api/movies/:id/recommend`.
+
+---
+
+### **Data Handling and Behavior**
+- The web server uses **MongoDB** for persistent data storage.
+- All API responses are returned in **JSON format**.
+- Appropriate HTTP status codes are used for success and error scenarios (e.g., `200 OK`, `201 Created`, `400 Bad Request`, `404 Not Found`).
+
+---
 
 ## Prerequisites
 - **Docker**
