@@ -12,13 +12,13 @@ The web server communicates with MongoDB for persistent data storage and integra
   </tr>
   <tr>
     <td>
-      <img src="assets/cserver.png" alt="C++ Server Startup" width="400"/>
+      <img src="assets/cserver.png" alt="C++ Server" width="400"/>
     </td>
     <td>
-      <img src="assets/webserver.png" alt="Web Server Startup" width="400"/>
+      <img src="assets/webserver.png" alt="Web Server" width="400"/>
     </td>
     <td>
-      <img src="assets/catories.png" alt="Categories Endpoint Response" width="400"/>
+      <img src="assets/http-request.png" alt="HTTP Request" width="400"/>
     </td>
   </tr>
 </table>
