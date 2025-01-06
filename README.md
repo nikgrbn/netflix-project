@@ -49,17 +49,31 @@ docker-compose build
 
 ## Running the Application
 
-### Run Server with Custom Port
+### Start Movie Recommendation System
 ```bash
-docker-compose run --rm --name netflix-server server 8080
+docker-compose run --rm --name c-server c-server 19845
 ```
-Note: Replace `8080` with your desired port number
+Note: Replace `19845` with your desired port number
 
-### Run Client
+### Configure Environment
 ```bash
-docker-compose run --rm client netflix-server 8080
+Create a configuration file `.env.production` in the `/web/config/` directory. We recommend to use this configuration:
+```plaintext
+MONGO_URI="mongodb://mongo:27017/netflix-db"
+PORT=19844
+MRS_IP="c-server"
+MRS_PORT=19845
 ```
-Note: The first argument is the server name, and the second is the port number
+
+### Launch Web Server
+```bash
+docker-compose -f docker-compose.yml run --rm --name web-server --service-ports web-server
+```
+
+### Verify Setup
+```bash
+curl -i http://localhost:19844/api/categories
+```
 
 ### Run Tests
 ```bash
