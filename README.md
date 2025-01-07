@@ -1,95 +1,110 @@
 # Netflix Project
 
 ## Overview
-A command-line movie recommendation system that allows users to add their movie-watching history and receive personalized movie recommendations based on user similarity algorithms.
+This project provides a multi-functional movie management system comprising two main servers: a **C++ Server** for command-line-based movie recommendations and a **Web Server** built with Node.js, following the **MVC architecture**. 
+The web server communicates with MongoDB for persistent data storage and integrates with the C++ server for additional functionality, such as updating user watch history.
 
 <table>
   <tr>
-    <th>Client</th>
-    <th>Server</th>
+    <th>C++ Server</th>
+    <th>Web Server</th>
+    <th>HTTP Request</th>
   </tr>
   <tr>
     <td>
-      <img src="https://github.com/nikgrbn/netflix-project/blob/557f761f426b054e492edf359fc2eed3971d5871/assets/client.png" width="%45"/>
+      <img src="assets/cserver.png" alt="C++ Server" width="400"/>
     </td>
     <td>
-      <img src="https://github.com/nikgrbn/netflix-project/blob/557f761f426b054e492edf359fc2eed3971d5871/assets/server.png" width="%45"/>
+      <img src="assets/webserver.png" alt="Web Server" width="400"/>
+    </td>
+    <td>
+      <img src="assets/http-request.png" alt="HTTP Request" width="400"/>
     </td>
   </tr>
 </table>
 
-## Features
-- Add movies to user watch history
-- Get movie recommendations based on viewing patterns
-- Persistent data storage
-- Command-line interface with simple commands:
-  - `POST [userid] [movieid1] [movieid2] ...`: Record movies watched by a user
-  - `PATCH [userid] [movieid1] [movieid2] ...`: Updates the user's watch history by adding new movies only if they don't already exist in the history.
-  - `DELETE [userid] [movieid1] [movieid2] ...`: Remove a specific movie from the user's watch       history
-  - `GET [userid] [movieid]`: Get movie recommendations
-  - `help`: Display available commands
-
 ## Prerequisites
 - **Docker**
-  
-    *Ensure Docker and Docker Compose are installed on your system.*
+- **Node.js** and **MongoDB**
 
 ## Installation
-
-1. Clone the repository
+### 1. Clone the repository
 ```bash
 git clone https://github.com/nikgrbn/netflix-project.git
 cd netflix-project
 ```
 
-2. Build the Docker image
+### 2. Build the Docker image
 ```bash
 docker-compose build
 ```
 
-## Running the Application
-
-### Run Server with Custom Port
+### 3. Start Movie Recommendation System
+Run c++ Server with Custom Port
 ```bash
-docker-compose run --rm --name netflix-server server 8080
+docker-compose run --rm --name c-server c-server 19845
 ```
-Note: Replace `8080` with your desired port number
 
-### Run Client
+### 4. Configure Environment
+Create a configuration file `.env.production` in the `/web/config/` directory. We recommend to use this configuration:
+```plaintext
+MONGO_URI="mongodb://mongo:27017/netflix-db"
+PORT=19844
+MRS_IP="c-server"
+MRS_PORT=19845
+```
+
+### 5. Launch Web Server
 ```bash
-docker-compose run --rm client netflix-server 8080
+docker-compose -f docker-compose.yml run --rm --name web-server --service-ports web-server
 ```
-Note: The first argument is the server name, and the second is the port number
 
-### Run Tests
+### 6. Test
+
+#### Send request to Web server
+```bash
+curl -i http://localhost:19844/api/categories
+```
+
+#### Run Tests on C++ server
 ```bash
 docker-compose run --rm tests
 ```
 
-## Project Structure
-- `client/`: Client-side logic and scripts 
-- `server/`: Server-side application code
-  - `inc/`: Header files for commands, core logic, and utilities
-  - `src/`: Source code implementation for commands, core components, and utilities
-  - `tests/`: Unit tests using the Google Test framework
+#### Run C++ Client 
+```bash
+docker-compose run --rm client c-server 19845
+```
 
+---
 
-## Development Approach
-- Test-Driven Development (TDD)
-- Modular and extensible architecture
-- Continuous integration with feature branches
+## Features
 
-## Architecture and Extensibility
-In our project, renaming and adding new commands did not require modifications to existing code that is designed to be closed for modification but open for extension. This was achieved through the ICommand interface, which allowed us to add or rename commands by implementing them in new files, such as PatchCommand.cpp and PostCommand.cpp, without altering existing functionality.
+### **C++ Server**
+- Manages user watch history and provides movie recommendations through a CLI.
+- Supports persistent data storage and handles multiple client requests with a **ThreadPool**.
+- Command-Line Commands:
+  - **`POST`**: Add movies to user history.
+  - **`PATCH`**: Update user history by adding new movies only.
+  - **`DELETE`**: Remove movies from user history.
+  - **`GET`**: Fetch movie recommendations.
+  - **`help`**: List available commands.
 
-Additionally, a minor infrastructure adjustment was made by introducing a Mutex in LocalDataManager.cpp to handle concurrent access to the shared IDataManager resource, ensuring thread safety.
+### **Web Server**
+- RESTful APIs for user and movie management, built with the **MVC pattern** for scalability and maintainability.
+- **User Management**: Create users, retrieve user details, and authenticate users.
+- **Movie Management**:
+  - Retrieve movies by categories, including recommendations and recently viewed.
+  - Add, update, delete, or search for movies.
+- **Category Management**: Create, update, delete, and retrieve categories.
+- **Recommendations**: Fetch or add movie recommendations from/to the C++ server.
+- Integration with the C++ server for seamless communication and watch history updates.
 
-Changing the input/output to sockets instead of using the console also did not require changes to the existing code. This was implemented by adding a new file, Server.cpp, which centralizes the server-side communication logic and integrates seamlessly with the project. The client-side logic was implemented separately in client.py, ensuring a clean separation of responsibilities.
+### **Data Handling**
+- MongoDB for persistent data storage.
+- API responses in **JSON** format with proper HTTP status codes for success and error handling.
+- Appropriate HTTP status codes are used for success and error scenarios (e.g., `200 OK`, `201 Created`, `400 Bad Request`, `404 Not Found`).
 
-Overall, the project's modular architecture allowed us to extend the system efficiently without breaking existing components, keeping the codebase robust and maintainable.
-
- ## Additional Notes
-- The project includes main.cpp for controlling the server-side logic and execution.
-- Helper utilities like Config and Types ensure clean and consistent code.
-- Commands were implemented using interfaces, allowing easy extension without modifying existing code.
+### **Integration**
+- The web server communicates with the C++ server for adding movies to user watch history. This integration ensures seamless interaction between the two systems.
 

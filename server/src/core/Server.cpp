@@ -1,6 +1,7 @@
 #include "core/Server.h"
 
-Server::Server(map<string, ICommand *> &commands, int server_port) : commands(commands), server_port(server_port) {}
+Server::Server(map<string, ICommand *> &commands, int server_port) :
+    commands(commands), server_port(server_port), pool(4) {}
 
 void Server::run() {
     // Create a socket, AF_INET is the address family for IPv4 and SOCK_STREAM is the socket type for TCP
@@ -32,7 +33,7 @@ void Server::run() {
 
     while (true) {
         // Create a unique_ptr for socket data to manage memory
-        auto socketData = make_unique<SocketData>(); // new SocketData();
+        auto socketData = make_shared<SocketData>(); // new SocketData();
 
         // Accept a connection
         socketData->client_socket = accept(serverSock.get(),
@@ -43,21 +44,22 @@ void Server::run() {
             break;
         }
 
-        // Create a new thread to handle the client
+
+        // Enqueue client handling task
         cout << socketData->client_socket << ":New connection" << endl;
-        thread([this, socketData = std::move(socketData)]() {
-            handleClient(socketData.get());
-        }).detach(); // Automatically cleans up thread resources
+        pool.enqueue([this, socketData]() mutable {
+            handleClient(socketData);
+        });
     }
 }
 
 
-void Server::handleClient(SocketData* data) {
+void Server::handleClient(std::shared_ptr<SocketData> data) {
     // Use RAII for client socket
     SocketRAII clientSock(data->client_socket);
 
     // Use unique_ptr for menu to manage memory
-    auto menu = make_unique<SocketMenu>(data);
+    auto menu = make_unique<SocketMenu>(std::move(data));
 
     while (true) {
         try {
@@ -89,7 +91,7 @@ void Server::handleClient(SocketData* data) {
 
         } catch (const std::exception& e) {
             // Close the connection
-            cout << data->client_socket << ":" << e.what() << endl;
+            cout << clientSock.get() << ":" << e.what() << endl;
             break;
         }
     }

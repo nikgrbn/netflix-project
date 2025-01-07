@@ -1,12 +1,25 @@
 services:
-  server:
+  c-server:
     build:
       context: ./server
       dockerfile: Dockerfile
     volumes:
       - ../data:/usr/src/netflix-project/build/data
-    container_name: netflix_server_container
+    container_name: netflix_c_server_container
     working_dir: /usr/src/netflix-project/build
+
+  web-server:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    volumes:
+      - ../data:/usr/src/netflix-project/build/data
+    container_name: netflix_web_server_container
+    working_dir: /usr/src/netflix-project/web
+    depends_on:
+      - mongo
+    ports:
+      - "19844:19844"
 
   client:
     build:
@@ -25,3 +38,16 @@ services:
     container_name: netflix_app_tests
     working_dir: /usr/src/netflix-project/build/tests
     command: ./runTests
+
+  mongo:
+    image: mongo:8
+    container_name: mongo_container
+    ports:
+      - "27017:27017" 
+    volumes:
+      - mongo_data:/data/db 
+
+volumes:
+  server_data: 
+  web_data:    
+  mongo_data:  
