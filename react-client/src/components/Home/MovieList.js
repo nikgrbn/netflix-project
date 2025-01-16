@@ -1,4 +1,5 @@
 import React from 'react';
+import useUserRedirect from '../Shared/useUserRedirect';
 
 const movies = [
   { id: 1, title: 'Inception', year: 2010 },
@@ -8,7 +9,10 @@ const movies = [
   { id: 5, title: 'Pulp Fiction', year: 1994 }
 ];
 
-const MovieList = () => {
+const MovieList = (props) => {
+  
+  useUserRedirect(props.token);
+
   return (
     <div>
       <h2>Movie List</h2>
