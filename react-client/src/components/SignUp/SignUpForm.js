@@ -33,7 +33,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div>
+    <div className="sign-up">
       <form onSubmit={handleSubmit}>
         <SignUpInput
           name="username"
