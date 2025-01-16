@@ -26,7 +26,7 @@ const SignUpForm = () => {
     e.preventDefault();
     try {
       await signUpUser(formData);
-      navigate('/homepage'); // Redirect to the homepage after successful signup
+      navigate('/home'); // Redirect to the homepage after successful signup
     } catch (error) {
       setMessage(error.message || 'User already exists.');
     }
