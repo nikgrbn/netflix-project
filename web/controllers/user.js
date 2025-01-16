@@ -14,7 +14,7 @@ const signUpUser = async (req, res) => {
         const user = await userServices.createUser(username, password, picture);
         if (!user) { return res.status(400).json({ error: errors.USER_NOT_CREATED }); }
         
-        res.status(201).send();
+        res.status(201).json({token: 'jwt'});
 
     } catch (error) {
         if (error.code === 11000) {
