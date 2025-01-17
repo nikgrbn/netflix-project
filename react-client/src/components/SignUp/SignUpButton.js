@@ -9,7 +9,7 @@ const SignUpButton = ({ text, type = "button" }) => {
   };
 
   return (
-    <button className="signup-button" onClick={handleClick} type={type}>
+    <button onClick={handleClick} type={type}>
       {text}
     </button>
   );

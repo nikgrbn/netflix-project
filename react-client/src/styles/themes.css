@@ -1,24 +1,30 @@
 :root {
     --background-color: black;
     --text-color: white;
-    --form-background-color: rgba(0, 0, 0, 0.9);
+    --form-background-color: rgba(0, 0, 0, 0.70);
+    --button-secondary-color: #66666670;
+    --button-secondary-hover: #66666640;
     --button-background-color: #e50914;
-    --button-hover-background-color: #f6121d;
+    --button-hover-background-color: #c7131c;
     --button-text-color: white;
     --link-color: #f6121d;
     --link-hover-color: #e50914;
-    --input-background-color: rgba(255, 255, 255, 0.1);
+    --input-background-color: rgba(30, 30, 30, 0.5);
+    --input-border-color: rgba(255, 255, 255, 0.3);
   }
   
   [data-theme="light"] {
     --background-color: white;
     --text-color: black;
-    --form-background-color: rgba(255, 255, 255, 0.9);
+    --form-background-color: rgba(255, 255, 255, 0.75);
+    --button-secondary-color: #9f9f9f70;
+    --button-secondary-hover: #9f9f9f41;
     --button-background-color: #e50914;
-    --button-hover-background-color: #f6121d;
+    --button-hover-background-color: #c7131c;
     --button-text-color: white;
     --link-color: #e50914;
     --link-hover-color: #f6121d;
-    --input-background-color: white;
+    --input-background-color: rgba(215, 215, 215, 0.5);
+    --input-border-color: rgba(0, 0, 0, 0.3);
   }
   

@@ -2,7 +2,7 @@ import React from "react";
 
 const SignUpInput = ({ type, placeholder, value, onChange }) => {
   return (
-    <div className="form-group">
+    <div>
       <input
         type={type}
         placeholder={placeholder}

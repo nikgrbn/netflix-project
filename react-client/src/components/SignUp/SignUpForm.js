@@ -25,7 +25,7 @@ const SignUpForm = ({ onSubmit }) => {
   };
 
   return (
-    <form className="signup-form" onSubmit={handleSubmit}>
+    <form className="form-group" onSubmit={handleSubmit}>
       <h1>Sign Up</h1>
       {error && <p className="error-message">{error}</p>}
       <SignUpInput
@@ -52,7 +52,7 @@ const SignUpForm = ({ onSubmit }) => {
         value={displayName}
         onChange={setDisplayName}
       />
-      <div className="form-group">
+      <div>
         <input type="file" accept="image/*" onChange={handleImageUpload} />
       </div>
       <SignUpButton text="Sign Up" />

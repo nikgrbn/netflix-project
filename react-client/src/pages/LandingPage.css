@@ -107,8 +107,6 @@
     transform: scale(1.1) rotateX(15deg); 
 }
 
-
-
 .header-buttons {
     display: flex;
     align-items: center;
