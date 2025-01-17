@@ -1,59 +1,62 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import SignUpInput from './SignUpInput';
-import SignUpButton from './SignUpButton';
-import { signUpUser } from '../../services/api'; // Import API service
+import React, { useState } from "react";
+import SignUpInput from "./SignUpInput";
+import SignUpButton from "./SignUpButton";
 
-const SignUpForm = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    password: ''
-  });
+const SignUpForm = ({ onSubmit }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
+  const [error, setError] = useState("");
 
-  const [message, setMessage] = useState("");
-  const navigate = useNavigate(); // Initialize useNavigate
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData, // Spread operator to copy the existing state
-      [name]: value // Update the field that matches the name attribute
-    });
+  const handleImageUpload = (e) => {
+    setProfileImage(e.target.files[0]);
   };
 
-  // Function to handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      await signUpUser(formData);
-      navigate('/home'); // Redirect to the homepage after successful signup
-    } catch (error) {
-      setMessage(error.message || 'User already exists.');
+    if (password !== confirmPassword) {
+      setError("Passwords do not match!");
+      return;
     }
+    setError("");
+    onSubmit({ username, password, displayName, profileImage });
   };
 
   return (
-    <div className="sign-up">
-      <form onSubmit={handleSubmit}>
-        <SignUpInput
-          name="username"
-          label="Username"
-          value={formData.username}
-          onChange={handleChange}
-          required={true}
-        />
-        <SignUpInput
-          name="password"
-          label="Password"
-          type="password"
-          value={formData.password}
-          onChange={handleChange}
-          required={true}
-        />
-        <SignUpButton />
-      </form>
-      {message && <p>{message}</p>} 
-    </div>
+    <form className="signup-form" onSubmit={handleSubmit}>
+      <h1>Sign Up</h1>
+      {error && <p className="error-message">{error}</p>}
+      <SignUpInput
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={setUsername}
+      />
+      <SignUpInput
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={setPassword}
+      />
+      <SignUpInput
+        type="password"
+        placeholder="Confirm Password"
+        value={confirmPassword}
+        onChange={setConfirmPassword}
+      />
+      <SignUpInput
+        type="text"
+        placeholder="Display Name"
+        value={displayName}
+        onChange={setDisplayName}
+      />
+      <div className="form-group">
+        <input type="file" accept="image/*" onChange={handleImageUpload} />
+      </div>
+      <SignUpButton text="Sign Up" />
+    </form>
   );
 };
 

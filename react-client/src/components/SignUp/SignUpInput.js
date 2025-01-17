@@ -1,17 +1,14 @@
-import React from 'react';
+import React from "react";
 
-
-const SignUpInput = ({ name, label, type = 'text', value, onChange, required }) => {
+const SignUpInput = ({ type, placeholder, value, onChange }) => {
   return (
-    <div>
-      <label htmlFor={name}>{label}</label>
+    <div className="form-group">
       <input
         type={type}
-        id={name}
-        name={name}
+        placeholder={placeholder}
         value={value}
-        onChange={onChange}
-        required={required}
+        onChange={(e) => onChange(e.target.value)}
+        required
       />
     </div>
   );
