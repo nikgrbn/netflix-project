@@ -1,28 +1,35 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import SignInButton from "./SignInButton"; // ייבוא הכפתור המעוצב
+import SignInButton from "./SignInButton"; 
+import useTheme from "../Shared/ThemeProvider";
+
 
 
 const SignInForm = () => {
+const { theme, toggleTheme } = useTheme();
+
   const location = useLocation();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState(location.state?.username || "");
   const [password, setPassword] = useState("");
 
-  // פונקציה לטיפול ב-Submit של הטופס
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted with:", { username, password });
   };
 
-  // פונקציה למעבר לדף ההרשמה
+
   const handleSignUpClick = () => {
     navigate("/signup");
   };
 
   return (
     <form className="signin-form" onSubmit={handleSubmit}>
+        <button onClick={toggleTheme} className="theme-toggle-button">
+          Switch to {theme === "light" ? "Dark" : "Light"} Mode
+        </button>
       <h1>Sign In</h1>
       <div className="form-group">
         <input
@@ -42,7 +49,6 @@ const SignInForm = () => {
           required
         />
       </div>
-      {/* שימוש בקומפוננטת הכפתור המעוצב */}
       <SignInButton />
       <div className="signup-section">
         <p>
