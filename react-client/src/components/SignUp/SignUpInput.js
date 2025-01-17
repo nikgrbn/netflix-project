@@ -1,6 +1,6 @@
 import React from "react";
 
-const SignUpInput = ({ type, placeholder, value, onChange, onFocus, onBlur, hasError }) => {
+const SignUpInput = ({ type, placeholder, value, onChange, hasError, ...props }) => {
   return (
     <div>
       <input
@@ -8,9 +8,8 @@ const SignUpInput = ({ type, placeholder, value, onChange, onFocus, onBlur, hasE
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        className={hasError ? "error" : ""}
+        className={hasError ? "has-error" : ""}
+        {...props}
       />
     </div>
   );

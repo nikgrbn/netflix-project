@@ -108,15 +108,15 @@ const SignUpForm = ({ onSubmit }) => {
       <h1>Sign Up</h1>
 
       <div>
-        <SignUpInput
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(value) => handleChange("username", value)}
-          onBlur={() => handleBlur("username")}
-          onFocus={() => handleFocus("username")}
-          hasError={!!errors.username}
-        />
+      <SignUpInput
+  type="text"
+  placeholder="Username"
+  value={username}
+  onChange={(value) => handleChange("username", value)}
+  onBlur={() => handleBlur("username")}
+  onFocus={() => handleFocus("username")}
+  hasError={!!errors.username}
+/>
         {touched.username && errors.username && (
           <p className="error-message">{errors.username}</p>
         )}
