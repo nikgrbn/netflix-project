@@ -2,7 +2,7 @@ import "./SignInPage.css";
 import SignInHeader from "../components/SignIn/SignInHeader";
 import SignInForm from "../components/SignIn/SignInForm";
 import useTheme from "../components/Shared/ThemeProvider";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SignInPage = () => {
   const { theme, toggleTheme } = useTheme();

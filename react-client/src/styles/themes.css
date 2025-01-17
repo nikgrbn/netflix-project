@@ -11,6 +11,7 @@
     --link-hover-color: #e50914;
     --input-background-color: rgba(30, 30, 30, 0.5);
     --input-border-color: rgba(255, 255, 255, 0.3);
+    --error-color : red;
   }
   
   [data-theme="light"] {
@@ -26,5 +27,6 @@
     --link-hover-color: #f6121d;
     --input-background-color: rgba(215, 215, 215, 0.5);
     --input-border-color: rgba(0, 0, 0, 0.3);
+    --error-color : red;
   }
   
