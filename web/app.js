@@ -22,9 +22,6 @@ app.use('/api/users', users);
 const tokens = require('./routes/token');
 app.use('/api/tokens', tokens);
 
-// File uploads
-app.use('/uploads', express.static('uploads'));
-
 // Homepage
 const categories = require('./routes/category');
 app.use('/api/categories', categories);
