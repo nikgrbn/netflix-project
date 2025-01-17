@@ -17,35 +17,41 @@ const SignUpForm = ({ onSubmit }) => {
   };
 
   const validateField = (field, value) => {
-    const newErrors = { ...errors };
+    setErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
 
-    if (field === "username" && value.trim() === "") {
-      newErrors.username = "Please enter a valid username.";
-    } else {
-      delete newErrors.username;
-    }
-
-    if (field === "password") {
-      if (!value || value.length < 4 || value.length > 60) {
-        newErrors.password = "Password must have 4-60 characters.";
+      if (field === "username" && value.trim() === "") {
+        if (!prevErrors.username)
+          newErrors.username = "Please enter a valid username.";
       } else {
-        delete newErrors.password;
+        delete newErrors.username;
       }
-    }
 
-    if (field === "confirmPassword" && value !== password) {
-      newErrors.confirmPassword = "Passwords do not match!";
-    } else {
-      delete newErrors.confirmPassword;
-    }
+      if (field === "password") {
+        if (!value || value.length < 4 || value.length > 60) {
+          if (!prevErrors.password)
+            newErrors.password = "Password must have 4-60 characters.";
+        } else {
+          delete newErrors.password;
+        }
+      }
 
-    if (field === "displayName" && value.trim() === "") {
-      newErrors.displayName = "Display name cannot be empty.";
-    } else {
-      delete newErrors.displayName;
-    }
+      if (field === "confirmPassword" && value !== password) {
+        if (!prevErrors.confirmPassword)
+          newErrors.confirmPassword = "Passwords do not match!";
+      } else {
+        delete newErrors.confirmPassword;
+      }
 
-    setErrors(newErrors);
+      if (field === "displayName" && value.trim() === "") {
+        if (!prevErrors.displayName)
+          newErrors.displayName = "Display name cannot be empty.";
+      } else {
+        delete newErrors.displayName;
+      }
+
+      return newErrors;
+    });
   };
 
   const handleBlur = (field) => {
@@ -81,7 +87,9 @@ const SignUpForm = ({ onSubmit }) => {
     e.preventDefault();
 
     const newErrors = {};
-    if (!username) {
+
+    // Validate all fields explicitly
+    if (!username.trim()) {
       newErrors.username = "Please enter a valid username.";
     }
     if (!password || password.length < 4 || password.length > 60) {
@@ -94,11 +102,13 @@ const SignUpForm = ({ onSubmit }) => {
       newErrors.displayName = "Display name cannot be empty.";
     }
 
+    // If there are errors, set them and stop submission
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+      setErrors((prevErrors) => ({ ...prevErrors, ...newErrors }));
       return;
     }
 
+    // Clear errors and submit the form
     setErrors({});
     onSubmit({ username, password, displayName, profileImage });
   };
@@ -108,18 +118,16 @@ const SignUpForm = ({ onSubmit }) => {
       <h1>Sign Up</h1>
 
       <div>
-      <SignUpInput
-  type="text"
-  placeholder="Username"
-  value={username}
-  onChange={(value) => handleChange("username", value)}
-  onBlur={() => handleBlur("username")}
-  onFocus={() => handleFocus("username")}
-  hasError={!!errors.username}
-/>
-        {touched.username && errors.username && (
-          <p className="error-message">{errors.username}</p>
-        )}
+        <SignUpInput
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(value) => handleChange("username", value)}
+          onBlur={() => handleBlur("username")}
+          onFocus={() => handleFocus("username")}
+          hasError={!!errors.username}
+        />
+        {errors.username && <p className="error-message">{errors.username}</p>}
       </div>
 
       <div>
@@ -132,9 +140,7 @@ const SignUpForm = ({ onSubmit }) => {
           onFocus={() => handleFocus("password")}
           hasError={!!errors.password}
         />
-        {touched.password && errors.password && (
-          <p className="error-message">{errors.password}</p>
-        )}
+        {errors.password && <p className="error-message">{errors.password}</p>}
       </div>
 
       <div>
@@ -147,9 +153,7 @@ const SignUpForm = ({ onSubmit }) => {
           onFocus={() => handleFocus("confirmPassword")}
           hasError={!!errors.confirmPassword}
         />
-        {touched.confirmPassword && errors.confirmPassword && (
-          <p className="error-message">{errors.confirmPassword}</p>
-        )}
+        {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
       </div>
 
       <div>
@@ -162,9 +166,7 @@ const SignUpForm = ({ onSubmit }) => {
           onFocus={() => handleFocus("displayName")}
           hasError={!!errors.displayName}
         />
-        {touched.displayName && errors.displayName && (
-          <p className="error-message">{errors.displayName}</p>
-        )}
+        {errors.displayName && <p className="error-message">{errors.displayName}</p>}
       </div>
 
       <div>
