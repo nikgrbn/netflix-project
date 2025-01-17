@@ -1,0 +1,142 @@
+
+.landing-page {
+    position: relative; 
+    background-image: url('../../../assets/moviespicture.webp');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+}
+
+
+.landing-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1; 
+}
+
+
+.landing-page * {
+    position: relative; 
+    z-index: 2; 
+}
+
+
+.landing-header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.landing-header p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+
+.landing-form p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.landing-form {
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.7); 
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.username-input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 300px;
+}
+
+.get-started-button {
+    background-color: #e50914;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.get-started-button:hover {
+    background-color: #f6121d;
+}
+
+.landing-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 10px 30px; 
+    z-index: 3; 
+    background: rgba(0, 0, 0, 0.5); 
+    box-sizing: border-box; 
+}
+
+
+.logo {
+    color: red;
+    font-size: 3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    font-family: 'Arial', sans-serif; 
+    display: inline-block;
+    letter-spacing: 2px; 
+    line-height: 1;
+    transform: scale(1.1) rotateX(15deg); 
+}
+
+
+
+.header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+}
+
+.language-select {
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.8);
+    color: black;
+}
+
+.sign-in-button {
+    background-color: #e50914;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap; 
+}
+
+.sign-in-button:hover {
+    background-color: #f6121d;
+}
