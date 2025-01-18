@@ -15,6 +15,12 @@ const SignUpPage = () => {
       navigate("/signin");
     } catch (error) {
       console.error("Error signing up", error);
+    
+      // Extract the error message correctly
+      const message = error.error || error.message || "An unexpected error occurred.";
+    
+      // Alert the user with the specific error message
+      alert("An error occurred while signing up: " + message);
     }
   };
 
