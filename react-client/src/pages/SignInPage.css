@@ -64,3 +64,19 @@
 .signin-secondary-button:hover {
   background-color: var(--button-secondary-hover);
 }
+
+.theme-toggle-button {
+  background-color: var(--button-background-color);
+  color: var(--button-text-color);
+  border: 1px solid var(--button-border-color, transparent);
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-toggle-button:hover {
+  background-color: var(--button-hover-background-color);
+  color: var(--button-hover-text-color, white);
+}
+
