@@ -1,8 +1,10 @@
 const SignInHeader = () => {
     return (
-      <header className="signin-header">
-        <div className="logo">NETFLIX</div>
-      </header>
+      <img
+          src="netflix-logo.png"
+          alt="Netflix Logo"
+          className="netflix-logo"
+        />
     );
   };
   
