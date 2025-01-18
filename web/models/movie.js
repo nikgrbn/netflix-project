@@ -22,7 +22,11 @@ const Movie = new Schema(
     },
     image: {
       type: String,
-      default: "https://example.com/default-image.jpg",
+      default: 'uploads\\movies\\default-picture.jpg',
+    },
+    video: {
+      type: String,
+      default: 'uploads\\movies\\default-video.mp4',
     },
     age_limit: {
       type: Number,

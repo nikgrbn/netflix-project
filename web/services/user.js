@@ -10,7 +10,7 @@ const createUser = async (username, password, picturePath, display_name) => {
     _id: userId,
     username,
     password,
-    picture: picturePath || 'uploads\\default-picture.png',
+    picture: picturePath || 'uploads\\users\\default-picture.png',
     display_name,
   });
 

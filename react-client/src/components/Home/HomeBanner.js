@@ -1,10 +1,17 @@
-import React from "react";
+import React from 'react';
 
-const HomeBanner = ({ title, description, imageUrl, onPlay, onMoreInfo }) => {
+const HomeBanner = ({ title, description, videoUrl, onPlay, onMoreInfo }) => {
   return (
     <div className="banner">
       <div className="banner-gradient"></div>
-      <img src={imageUrl} alt="Banner" className="banner-image" />
+      <video
+        className="banner-video"
+        src={videoUrl}
+        autoPlay
+        loop
+        muted
+        playsInline
+      />
       <div className="banner-content">
         <h1>{title}</h1>
         <p>{description}</p>
