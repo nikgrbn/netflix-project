@@ -3,114 +3,68 @@ import SignUpInput from "./SignUpInput";
 import SignUpButton from "./SignUpButton";
 
 const SignUpForm = ({ onSubmit }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [displayName, setDisplayName] = useState("");
-  const [profileImage, setProfileImage] = useState(null);
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    confirmPassword: "",
+    display_name: "",
+    picture: null,
+  });
 
-  const [errors, setErrors] = useState({}); // Tracks field-specific errors
-  const [touched, setTouched] = useState({}); // Tracks which fields have been focused
+  const [errors, setErrors] = useState({});
+  const [preview, setPreview] = useState(null); // For image preview
 
   const handleImageUpload = (e) => {
-    setProfileImage(e.target.files[0]);
+    const file = e.target.files[0];
+    setFormData((prev) => ({ ...prev, picture: file }));
+    setPreview(file ? URL.createObjectURL(file) : null); // Generate preview
   };
 
   const validateField = (field, value) => {
-    setErrors((prevErrors) => {
-      const newErrors = { ...prevErrors };
+    let error = "";
 
-      if (field === "username" && value.trim() === "") {
-        if (!prevErrors.username)
-          newErrors.username = "Please enter a valid username.";
-      } else {
-        delete newErrors.username;
-      }
+    if (field === "username" && !value.trim()) {
+      error = "Please enter a valid username.";
+    }
 
-      if (field === "password") {
-        if (!value || value.length < 4 || value.length > 60) {
-          if (!prevErrors.password)
-            newErrors.password = "Password must have 4-60 characters.";
-        } else {
-          delete newErrors.password;
-        }
-      }
+    if (field === "password" && (value.length < 4 || value.length > 60)) {
+      error = "Password must have 4-60 characters.";
+    }
 
-      if (field === "confirmPassword" && value !== password) {
-        if (!prevErrors.confirmPassword)
-          newErrors.confirmPassword = "Passwords do not match!";
-      } else {
-        delete newErrors.confirmPassword;
-      }
+    if (field === "confirmPassword" && value !== formData.password) {
+      error = "Passwords do not match!";
+    }
 
-      if (field === "displayName" && value.trim() === "") {
-        if (!prevErrors.displayName)
-          newErrors.displayName = "Display name cannot be empty.";
-      } else {
-        delete newErrors.displayName;
-      }
+    if (field === "display_name" && !value.trim()) {
+      error = "Display name cannot be empty.";
+    }
 
-      return newErrors;
-    });
+    setErrors((prev) => ({ ...prev, [field]: error }));
   };
 
   const handleBlur = (field) => {
-    setTouched({ ...touched, [field]: true });
-    validateField(field, eval(field)); // Dynamically validate the field
-  };
-
-  const handleFocus = (field) => {
-    // Clear the error for the field when focused
-    setErrors((prevErrors) => {
-      const { [field]: _, ...rest } = prevErrors; // Remove the specific error
-      return rest;
-    });
-
-    // Mark the field as touched
-    setTouched((prevTouched) => ({
-      ...prevTouched,
-      [field]: true,
-    }));
+    validateField(field, formData[field]);
   };
 
   const handleChange = (field, value) => {
-    if (field === "username") setUsername(value);
-    if (field === "password") setPassword(value);
-    if (field === "confirmPassword") setConfirmPassword(value);
-    if (field === "displayName") setDisplayName(value);
-
-    // Clear errors as the user types
-    validateField(field, value);
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    validateField(field, value); // Real-time validation
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const newErrors = {};
+    ["username", "password", "confirmPassword", "display_name"].forEach((field) =>
+      validateField(field, formData[field])
+    );
 
-    // Validate all fields explicitly
-    if (!username.trim()) {
-      newErrors.username = "Please enter a valid username.";
-    }
-    if (!password || password.length < 4 || password.length > 60) {
-      newErrors.password = "Password must have 4-60 characters.";
-    }
-    if (password !== confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match!";
-    }
-    if (!displayName.trim()) {
-      newErrors.displayName = "Display name cannot be empty.";
-    }
-
-    // If there are errors, set them and stop submission
-    if (Object.keys(newErrors).length > 0) {
-      setErrors((prevErrors) => ({ ...prevErrors, ...newErrors }));
+    // Check for any validation errors
+    if (Object.values(errors).some((error) => error)) {
       return;
     }
 
-    // Clear errors and submit the form
-    setErrors({});
-    onSubmit({ username, password, displayName, profileImage });
+    onSubmit(formData); // Submit validated data
   };
 
   return (
@@ -121,12 +75,11 @@ const SignUpForm = ({ onSubmit }) => {
         <SignUpInput
           type="text"
           placeholder="Username"
-          value={username}
+          value={formData.username}
           onChange={(value) => handleChange("username", value)}
           onBlur={() => handleBlur("username")}
-          onFocus={() => handleFocus("username")}
-          hasError={!!errors.username}
-          autocomplete="off" // Add this line
+          className={errors.username ? "has-error error" : ""}
+          autoComplete="off"
         />
         {errors.username && <p className="error-message">{errors.username}</p>}
       </div>
@@ -135,11 +88,10 @@ const SignUpForm = ({ onSubmit }) => {
         <SignUpInput
           type="password"
           placeholder="Password"
-          value={password}
+          value={formData.password}
           onChange={(value) => handleChange("password", value)}
           onBlur={() => handleBlur("password")}
-          onFocus={() => handleFocus("password")}
-          hasError={!!errors.password}
+          className={errors.password ? "has-error error" : ""}
         />
         {errors.password && <p className="error-message">{errors.password}</p>}
       </div>
@@ -148,33 +100,47 @@ const SignUpForm = ({ onSubmit }) => {
         <SignUpInput
           type="password"
           placeholder="Confirm Password"
-          value={confirmPassword}
+          value={formData.confirmPassword}
           onChange={(value) => handleChange("confirmPassword", value)}
           onBlur={() => handleBlur("confirmPassword")}
-          onFocus={() => handleFocus("confirmPassword")}
-          hasError={!!errors.confirmPassword}
+          className={errors.confirmPassword ? "has-error error" : ""}
         />
-        {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
+        {errors.confirmPassword && (
+          <p className="error-message">{errors.confirmPassword}</p>
+        )}
       </div>
 
       <div>
         <SignUpInput
           type="text"
           placeholder="Display Name"
-          value={displayName}
-          onChange={(value) => handleChange("displayName", value)}
-          onBlur={() => handleBlur("displayName")}
-          onFocus={() => handleFocus("displayName")}
-          hasError={!!errors.displayName}
+          value={formData.display_name}
+          onChange={(value) => handleChange("display_name", value)}
+          onBlur={() => handleBlur("display_name")}
+          className={errors.display_name ? "has-error error" : ""}
         />
-        {errors.displayName && <p className="error-message">{errors.displayName}</p>}
+        {errors.display_name && (
+          <p className="error-message">{errors.display_name}</p>
+        )}
       </div>
 
       <div>
         <input type="file" accept="image/*" onChange={handleImageUpload} />
+        {preview && (
+          <img
+            src={preview}
+            alt="Profile Preview"
+            style={{ width: "100px", height: "100px", marginTop: "10px" }}
+          />
+        )}
       </div>
 
-      <SignUpButton text="Sign Up" />
+      <SignUpButton
+        text="Sign Up"
+        className={`signup-button ${
+          Object.keys(errors).length > 0 ? "error" : ""
+        }`}
+      />
     </form>
   );
 };

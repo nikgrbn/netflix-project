@@ -8,7 +8,6 @@ const SignUpInput = ({ type, placeholder, value, onChange, hasError, ...props })
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={hasError ? "has-error" : ""}
         {...props}
       />
     </div>
