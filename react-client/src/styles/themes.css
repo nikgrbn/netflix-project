@@ -1,5 +1,10 @@
+* {
+  transition: all 0.1s ease-in-out;
+}
+
 :root {
     --background-color: black;
+    --background-color-opacity: rgba(0, 0, 0, 0.1);
     --background-secondary-color: rgb(20, 20, 20);
     --text-color: white;
     --text-color-secondary: rgba(255, 255, 255, 0.6);
@@ -16,10 +21,12 @@
     --error-color : rgba(255, 62, 62, 0.8);
     --link-color: #e50914;
     --link-color-blue: #55a2ff;
+    --header-text-color: #ffffff;
   }
   
   [data-theme="light"] {
     --background-color: white;
+    --background-color-opacity: rgba(255, 255, 255, 0.01);
     --background-secondary-color: rgb(211, 211, 211);
     --text-color: black;
     --text-color-secondary: rgba(0, 0, 0, 0.6);
@@ -35,5 +42,6 @@
     --input-border-color: rgba(0, 0, 0, 0.3);
     --error-color : rgba(255, 62, 62, 0.8);
     --link-color-blue: #55a2ff;
+    --header-text-color: #C40812;
   }
   

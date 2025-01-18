@@ -20,7 +20,11 @@ const HomePage = (props) => {
 
   return (
     <div className='home-page'>
-      
+      <HomeHeader
+        username='John Doe'
+        profilePicture='default-picture.png'
+      />
+
       <HomeBanner
         title='Featured Movie'
         description='An exciting movie description goes here!'
@@ -29,7 +33,6 @@ const HomePage = (props) => {
         onMoreInfo={handleMoreInfo}
       />
 
-      <HomeHeader />
       <h1>Home</h1>
     </div>
   );
