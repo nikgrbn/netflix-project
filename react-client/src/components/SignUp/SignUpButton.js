@@ -1,18 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
-const SignUpButton = ({ text, type = "button" }) => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate("/signup");
-  };
-
+const SignUpButton = ({ text, type = "submit" }) => {
   return (
-    <button className="signup-button" onClick={handleClick} type={type}>
+    <button type={type}>
       {text}
     </button>
   );
 };
+
 
 export default SignUpButton;

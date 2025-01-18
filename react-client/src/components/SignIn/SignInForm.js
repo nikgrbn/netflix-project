@@ -1,37 +1,22 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import SignInButton from "./SignInButton"; 
-import useTheme from "../Shared/ThemeProvider";
-
-
+import { useLocation } from "react-router-dom";
+import SignInButton from "./SignInButton";
 
 const SignInForm = () => {
-const { theme, toggleTheme } = useTheme();
-
   const location = useLocation();
-  const navigate = useNavigate();
 
   const [username, setUsername] = useState(location.state?.username || "");
   const [password, setPassword] = useState("");
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted with:", { username, password });
   };
 
-
-  const handleSignUpClick = () => {
-    navigate("/signup");
-  };
-
   return (
-    <form className="signin-form" onSubmit={handleSubmit}>
-        <button onClick={toggleTheme} className="theme-toggle-button">
-          Switch to {theme === "light" ? "Dark" : "Light"} Mode
-        </button>
+    <form className="form-group" onSubmit={handleSubmit}>
       <h1>Sign In</h1>
-      <div className="form-group">
+      <div>
         <input
           type="text"
           placeholder="Username"
@@ -40,7 +25,7 @@ const { theme, toggleTheme } = useTheme();
           required
         />
       </div>
-      <div className="form-group">
+      <div>
         <input
           type="password"
           placeholder="Password"
@@ -50,18 +35,6 @@ const { theme, toggleTheme } = useTheme();
         />
       </div>
       <SignInButton />
-      <div className="signup-section">
-        <p>
-          New to Netflix?{" "}
-          <button
-            type="button"
-            className="signup-button"
-            onClick={handleSignUpClick}
-          >
-            Sign up now.
-          </button>
-        </p>
-      </div>
     </form>
   );
 };
