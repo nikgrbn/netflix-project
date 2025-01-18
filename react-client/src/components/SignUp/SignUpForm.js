@@ -126,6 +126,7 @@ const SignUpForm = ({ onSubmit }) => {
           onBlur={() => handleBlur("username")}
           onFocus={() => handleFocus("username")}
           hasError={!!errors.username}
+          autocomplete="off" // Add this line
         />
         {errors.username && <p className="error-message">{errors.username}</p>}
       </div>
