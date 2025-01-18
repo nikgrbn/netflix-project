@@ -20,6 +20,16 @@ const User = new Schema({
         required: false,
         default: 'default-picture.jpg'
     },
+    display_name: {
+        type: String,
+        required: false,
+        default: ''
+    },
+    is_admin: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
     watched_movies: {
         type: [{ type: Number, ref: 'Movie' }],
         required: false,

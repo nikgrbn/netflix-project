@@ -1,0 +1,212 @@
+[33m5d44098[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/NP-105-Movies[m[33m)[m HEAD@{0}: rebase (abort): updating HEAD
+[33m2396969[m[33m ([m[1;31morigin/feature/NP-112-Sign-in-Page[m[33m, [m[1;32mfeature/NP-112-Sign-in-Page[m[33m)[m HEAD@{1}: commit: NP-112: post request
+[33mcbc0d1a[m HEAD@{2}: commit: NP-112: Merged conflicts and resolve
+[33mdd69a06[m HEAD@{3}: pull --tags origin feature/NP-112-Sign-in-Page: Fast-forward
+[33m87de484[m HEAD@{4}: commit: NP-111: Themes
+[33m0b7f660[m HEAD@{5}: commit: NP-112: Division into components
+[33m2fcddd1[m HEAD@{6}: checkout: moving from feature/NP111-Landpage to feature/NP-112-Sign-in-Page
+[33m363b1f2[m[33m ([m[1;32mfeature/NP111-Landpage[m[33m)[m HEAD@{7}: checkout: moving from feature/NP-113-Sign-up-Page to feature/NP111-Landpage
+[33mb039352[m[33m ([m[1;32mfeature/NP-113-Sign-up-Page[m[33m)[m HEAD@{8}: commit: NP-112: Basic design
+[33m82c9c04[m HEAD@{9}: pull origin feature/NP-112-Sign-in-Page: Fast-forward
+[33mc33feb6[m[33m ([m[1;32mdev[m[33m)[m HEAD@{10}: checkout: moving from dev to feature/NP-113-Sign-up-Page
+[33mc33feb6[m[33m ([m[1;32mdev[m[33m)[m HEAD@{11}: pull origin dev: Fast-forward
+[33m92b1550[m HEAD@{12}: checkout: moving from feature/NP-112-Sign-in-Page to dev
+[33m2fcddd1[m HEAD@{13}: commit: Updated SigninPage.css
+[33m82c9c04[m HEAD@{14}: commit: NP-112: Basic page design
+[33m826a6a7[m[33m ([m[1;31morigin/feature/NP111-Landpage[m[33m)[m HEAD@{15}: Branch: renamed refs/heads/Sign-in-page to refs/heads/feature/NP-112-Sign-in-Page
+[33m826a6a7[m[33m ([m[1;31morigin/feature/NP111-Landpage[m[33m)[m HEAD@{17}: pull origin feature/NP111-Landpage: Fast-forward
+[33m92b1550[m HEAD@{18}: checkout: moving from dev to Sign-in-page
+[33m92b1550[m HEAD@{19}: checkout: moving from feature/NP111-Landpage to dev
+[33m363b1f2[m[33m ([m[1;32mfeature/NP111-Landpage[m[33m)[m HEAD@{20}: commit: Updated LandingPage.css
+[33m826a6a7[m[33m ([m[1;31morigin/feature/NP111-Landpage[m[33m)[m HEAD@{21}: commit: NP-111: Navigate sign in button
+[33m1d77557[m HEAD@{22}: commit: NP-111: Css file and uploaded photo
+[33m1009ebe[m HEAD@{23}: commit: NP-111: Changing design and adding buttons
+[33mc33feb6[m[33m ([m[1;32mdev[m[33m)[m HEAD@{24}: pull origin dev: Fast-forward
+[33m92b1550[m HEAD@{25}: checkout: moving from dev to feature/NP111-Landpage
+[33m92b1550[m HEAD@{26}: checkout: moving from NP-112-LoginScreen to dev
+[33mcc9b69f[m[33m ([m[1;31morigin/NP-112-LoginScreen[m[33m, [m[1;32mNP-112-LoginScreen[m[33m)[m HEAD@{27}: commit: NP-112: Basic implementation
+[33m619d0bd[m HEAD@{28}: pull: Fast-forward
+[33m92b1550[m HEAD@{29}: reset: moving to HEAD
+[33m92b1550[m HEAD@{30}: reset: moving to HEAD
+[33m92b1550[m HEAD@{31}: checkout: moving from dev to NP-112-LoginScreen
+[33m92b1550[m HEAD@{32}: checkout: moving from feature/NP-111-Home-Page-for-Non-Logged-In-Users to dev
+[33m4427aac[m[33m ([m[1;31morigin/feature/NP-111-Home-Page-for-Non-Logged-In-Users[m[33m, [m[1;32mfeature/NP-111-Home-Page-for-Non-Logged-In-Users[m[33m)[m HEAD@{33}: commit: NP-111: Basic implementation
+[33med60d52[m[33m ([m[1;31morigin/feature/NP-107-React-Setup[m[33m, [m[1;32mfeature/NP-107-React-Setup[m[33m)[m HEAD@{34}: checkout: moving from feature/NP-107-React-Setup to feature/NP-111-Home-Page-for-Non-Logged-In-Users
+[33med60d52[m[33m ([m[1;31morigin/feature/NP-107-React-Setup[m[33m, [m[1;32mfeature/NP-107-React-Setup[m[33m)[m HEAD@{35}: checkout: moving from feature/NP-107-Frontend-Development to feature/NP-107-React-Setup
+[33m1ff0a29[m[33m ([m[1;31morigin/feature/NP-107-Frontend-Development[m[33m, [m[1;32mfeature/NP-107-Frontend-Development[m[33m)[m HEAD@{36}: commit: NP-108: Adduser Test Integration
+[33m2d7387a[m HEAD@{37}: commit: NP-108: Create React Application and Test Integration with Node.js
+[33m5e926ec[m HEAD@{38}: Branch: renamed refs/heads/feature/NP-107--Frontend-Development to refs/heads/feature/NP-107-Frontend-Development
+[33m5e926ec[m HEAD@{40}: commit: NP-108: Create React Application
+[33m92b1550[m HEAD@{41}: checkout: moving from dev to feature/NP-107--Frontend-Development
+[33m92b1550[m HEAD@{42}: pull origin dev: Fast-forward
+[33m0b6a496[m HEAD@{43}: checkout: moving from feature/NP-100-READMEfile to dev
+[33m2d91afe[m[33m ([m[1;31morigin/feature/NP-100-READMEfile[m[33m, [m[1;32mfeature/NP-100-READMEfile[m[33m)[m HEAD@{44}: commit: NP-100: Extracts and reordering
+[33m676ba15[m HEAD@{45}: commit: NP-100: resize photos
+[33m613a1b5[m HEAD@{46}: commit: NP-100: uploded photos
+[33m170c70f[m HEAD@{47}: commit: NP-100: Architecture and Extensibility
+[33mcd485f5[m HEAD@{48}: commit: NP-100: updated features
+[33m6856b4e[m HEAD@{49}: commit: NP-100: Updated project structure
+[33m807d1d7[m HEAD@{50}: commit: NP-100: Docker commands updates
+[33m0b6a496[m HEAD@{51}: checkout: moving from dev to feature/NP-100-READMEfile
+[33m0b6a496[m HEAD@{52}: reset: moving to origin/dev
+[33md3ed6be[m HEAD@{53}: checkout: moving from feature/NP-99-Dockerfile to dev
+[33med47258[m[33m ([m[1;32mfeature/NP-99-Dockerfile[m[33m)[m HEAD@{54}: commit: NP-99: basic implementation of web dockerfile
+[33md3ed6be[m HEAD@{55}: checkout: moving from dev to feature/NP-99-Dockerfile
+[33md3ed6be[m HEAD@{56}: pull origin dev: Fast-forward
+[33m0fd69ab[m HEAD@{57}: checkout: moving from dev to dev
+[33m0fd69ab[m HEAD@{58}: checkout: moving from feature/NP-97-query to dev
+[33me0b0bfa[m[33m ([m[1;32mfeature/NP-97-query[m[33m)[m HEAD@{59}: commit: NP-97: Added movie format
+[33mde3ad65[m HEAD@{60}: commit: NP-97: Added comments
+[33md3554b5[m HEAD@{61}: commit: NP-97: Basic query implementation
+[33m0fd69ab[m HEAD@{62}: Branch: renamed refs/heads/feature/NP-97-query' to refs/heads/feature/NP-97-query
+[33m0fd69ab[m HEAD@{64}: checkout: moving from dev to feature/NP-97-query'
+[33m0fd69ab[m HEAD@{65}: pull origin dev: Fast-forward
+[33m53aa58f[m HEAD@{66}: checkout: moving from feature/NP-105-Movies to dev
+[33m61b7d06[m HEAD@{67}: commit: NP-105: Updated comments
+[33me5acb45[m HEAD@{68}: commit: NP-105: Added const errors
+[33m3e55ef6[m HEAD@{69}: commit: NP-105 Deleting console messages and changing the movie return format
+[33mfc47a79[m HEAD@{70}: commit: NP-90: Update post response to client
+[33mfe1b717[m HEAD@{71}: commit: NP-89: Basic Get Command implemantation
+[33mce22a5c[m HEAD@{72}: commit: NP-93: Changing the logical order of the command
+[33m6ecdbfc[m HEAD@{73}: pull origin feature/NP-105-Movies: Fast-forward
+[33ma45b35b[m HEAD@{74}: commit: NP-93: Basic implementation od Delete Command
+[33m482841f[m HEAD@{75}: commit: NP-105: Basic connection to C++ server
+[33md98ad0c[m HEAD@{76}: commit: NP-93: Update Delete Command
+[33m23578ec[m HEAD@{77}: commit: NP-105: Update error handling in movie routes
+[33m745ec64[m HEAD@{78}: pull origin feature/NP-104-Recommend: Fast-forward
+[33mcbd5592[m HEAD@{79}: commit: NP-90: Change the response message
+[33mdc05720[m HEAD@{80}: commit: NP-62: Updated PUT command
+[33m28a08a9[m HEAD@{81}: commit: NP-91: Add movie fields to get command by id
+[33m12dfe07[m HEAD@{82}: commit: NP-105: Add movie fields
+[33m108e976[m HEAD@{83}: commit: merge conflict
+[33m3f78ea4[m HEAD@{84}: rebase (pick): NP-94: Movie ID validation check
+[33mf317b25[m HEAD@{85}: rebase (continue): NP-94: 'Get' command for recommend implemented
+[33m106e72c[m HEAD@{86}: rebase (continue): NP-95: MRS return codes added
+[33m86859ea[m HEAD@{87}: rebase (continue): NP-95: Safe rollback on MRS error implemented
+[33m5d44098[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/NP-105-Movies[m[33m)[m HEAD@{88}: checkout: moving from b0bbd316c0037a4041474db265219684c990576e to feature/NP-105-Movies
+[33mb0bbd31[m HEAD@{89}: commit: Accepted incoming changes
+[33me2b31a0[m HEAD@{90}: rebase (continue): NP-95: Retrieve IP and PORT for MRS from config
+[33m18086fa[m HEAD@{91}: rebase (continue): NP-95: Connecting to MRS and updating user data entry on 'Post' request
+[33m6f07452[m HEAD@{92}: rebase (continue): NP-104: UID type changed to String
+[33m83cd951[m HEAD@{93}: rebase (continue): NP-96: Server rework with ThreadPool
+[33m4bf5e44[m HEAD@{94}: rebase (continue): NP-96: ThreadPool class implemented
+[33mbd5a0c9[m HEAD@{95}: pull --tags origin feature/NP-105-Movies (pick): NP-104: Client socket connector with C++ server
+[33mf75d7c4[m HEAD@{96}: pull --tags origin feature/NP-105-Movies (start): checkout 8c0dda34de082442154513ac0ffe5ec104e378aa
+[33m5d44098[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/NP-105-Movies[m[33m)[m HEAD@{97}: commit (merge): Merge remote-tracking branch 'origin/feature/NP-104-Recommend' into feature/NP-105-Movies
+[33mf75d7c4[m HEAD@{98}: commit: Save local changes before merging NP-104-Recommend
+[33m8c0dda3[m HEAD@{99}: checkout: moving from feature/NP-104-RECOMMEND to feature/NP-105-Movies
+[33m280e7a0[m[33m ([m[1;32mfeature/NP-104-RECOMMEND[m[33m)[m HEAD@{100}: pull: Fast-forward
+[33m53c2e0e[m HEAD@{101}: checkout: moving from feature/NP-105-Movies to feature/NP-104-RECOMMEND
+[33m8c0dda3[m HEAD@{102}: commit: NP-101: Import category model
+[33mc73e2da[m HEAD@{103}: pull: Fast-forward
+[33mc821312[m HEAD@{104}: checkout: moving from feature/NP-101-User to feature/NP-105-Movies
+[33m01928ce[m[33m ([m[1;31morigin/feature/NP-101-User[m[33m, [m[1;32mfeature/NP-101-User[m[33m)[m HEAD@{105}: checkout: moving from feature/NP-105-Movies to feature/NP-101-User
+[33mc821312[m HEAD@{106}: commit: NP-90: Category not found error
+[33m06f50ea[m HEAD@{107}: commit: NP-90: Implement Post for movies
+[33m118b560[m HEAD@{108}: commit (merge): Merge branch 'feature/NP-104-Recommend' of https://github.com/nikgrbn/netflix-project into feature/NP-105-Movies
+[33m0ad2212[m HEAD@{109}: commit: NP-89: Basic Get implementation
+[33m53aa58f[m HEAD@{110}: checkout: moving from dev to feature/NP-105-Movies
+[33m53aa58f[m HEAD@{111}: checkout: moving from feature/NP-104-Recommend to dev
+[33m53c2e0e[m HEAD@{112}: checkout: moving from dev to feature/NP-104-Recommend
+[33m53aa58f[m HEAD@{113}: pull origin dev: Fast-forward
+[33md234683[m HEAD@{114}: checkout: moving from feature/NP-58-READMEfile to dev
+[33mee5e955[m[33m ([m[1;31morigin/feature/NP-58-READMEfile[m[33m, [m[1;32mfeature/NP-58-READMEfile[m[33m)[m HEAD@{115}: commit: update project structure, features and running commands
+[33md234683[m HEAD@{116}: checkout: moving from dev to feature/NP-58-READMEfile
+[33md234683[m HEAD@{117}: pull origin dev: Fast-forward
+[33m3587447[m[33m ([m[1;31morigin/feature/NP-37-Dockerfile[m[33m, [m[1;32mfeature/NP-37-Dockerfile[m[33m)[m HEAD@{118}: checkout: moving from feature/NP-37-Dockerfile to dev
+[33m3587447[m[33m ([m[1;31morigin/feature/NP-37-Dockerfile[m[33m, [m[1;32mfeature/NP-37-Dockerfile[m[33m)[m HEAD@{119}: checkout: moving from dev to feature/NP-37-Dockerfile
+[33m3587447[m[33m ([m[1;31morigin/feature/NP-37-Dockerfile[m[33m, [m[1;32mfeature/NP-37-Dockerfile[m[33m)[m HEAD@{120}: pull origin feature/NP-37-Dockerfile: Fast-forward
+[33m0877904[m HEAD@{121}: pull origin dev: Fast-forward
+[33md5223e5[m HEAD@{122}: checkout: moving from feature/NP-71-Editinghelpcommand to dev
+[33mb0c8c1c[m[33m ([m[1;31morigin/feature/NP-71-Editinghelpcommand[m[33m, [m[1;32mfeature/NP-71-Editinghelpcommand[m[33m)[m HEAD@{123}: commit: NP-71: Adding return code
+[33m4f07c6e[m HEAD@{124}: commit: NP-71: Editing helpCommand and TestCommand
+[33md5223e5[m HEAD@{125}: checkout: moving from dev to feature/NP-71-Editinghelpcommand
+[33md5223e5[m HEAD@{126}: pull origin dev: Fast-forward
+[33m7d5ec53[m HEAD@{127}: checkout: moving from feature/NP-71-EditingHelpCommand to dev
+[33md971447[m[33m ([m[1;31morigin/feature/NP-72-PostCommand[m[33m, [m[1;32mfeature/NP-72-PostCommand[m[33m)[m HEAD@{128}: checkout: moving from feature/NP-72-PostCommand to feature/NP-71-EditingHelpCommand
+[33md971447[m[33m ([m[1;31morigin/feature/NP-72-PostCommand[m[33m, [m[1;32mfeature/NP-72-PostCommand[m[33m)[m HEAD@{129}: commit: NP-72: Implement PostCommand execute method
+[33m8b5cc78[m HEAD@{130}: commit: NP-72: Implemented tests
+[33mbcf2d6c[m HEAD@{131}: commit: NP-72: Created skeleton of PostCommand class
+[33mbd2c3d1[m[33m ([m[1;32mfeature/NP-52-PatchCommand[m[33m)[m HEAD@{132}: checkout: moving from feature/NP-52-PatchCommand to feature/NP-72-PostCommand
+[33mbd2c3d1[m[33m ([m[1;32mfeature/NP-52-PatchCommand[m[33m)[m HEAD@{133}: checkout: moving from dev to feature/NP-52-PatchCommand
+[33m7d5ec53[m HEAD@{134}: checkout: moving from feature/NP-52-PatchCommand to dev
+[33mbd2c3d1[m[33m ([m[1;32mfeature/NP-52-PatchCommand[m[33m)[m HEAD@{135}: commit: NP-52: Implemented Patch execute method
+[33mffed7f0[m HEAD@{136}: commit: NP-52: Implemented info method
+[33m6ee43fd[m HEAD@{137}: commit: NP-52: more test implementations
+[33ma37c4a8[m[33m ([m[1;31morigin/feature/NP-53-PatchCommandTest[m[33m, [m[1;32mfeature/NP-53-PatchCommandTest[m[33m)[m HEAD@{138}: checkout: moving from feature/NP-53-PatchCommandTest to feature/NP-52-PatchCommand
+[33ma37c4a8[m[33m ([m[1;31morigin/feature/NP-53-PatchCommandTest[m[33m, [m[1;32mfeature/NP-53-PatchCommandTest[m[33m)[m HEAD@{139}: checkout: moving from feature/NP-52-PatchCommand to feature/NP-53-PatchCommandTest
+[33m18da47e[m HEAD@{140}: commit: Initial implementation of PATCH command
+[33m618fd52[m[33m ([m[1;31morigin/feature/NP-52-FetchCommand[m[33m)[m HEAD@{141}: checkout: moving from feature/NP-52-PatchCommand to feature/NP-52-PatchCommand
+[33m618fd52[m[33m ([m[1;31morigin/feature/NP-52-FetchCommand[m[33m)[m HEAD@{142}: checkout: moving from feature/NP-44-Server to feature/NP-52-PatchCommand
+[33mb8715b9[m[33m ([m[1;32mfeature/NP-44-Server[m[33m)[m HEAD@{143}: commit: NP-69: add command bugfix
+[33mcb78fdf[m HEAD@{144}: checkout: moving from feature/NP-44-Server to feature/NP-44-Server
+[33mcb78fdf[m HEAD@{145}: checkout: moving from feature/NP-53-PatchCommandTest to feature/NP-44-Server
+[33ma37c4a8[m[33m ([m[1;31morigin/feature/NP-53-PatchCommandTest[m[33m, [m[1;32mfeature/NP-53-PatchCommandTest[m[33m)[m HEAD@{146}: checkout: moving from feature/NP-52-PatchCommand to feature/NP-53-PatchCommandTest
+[33m618fd52[m[33m ([m[1;31morigin/feature/NP-52-FetchCommand[m[33m)[m HEAD@{147}: checkout: moving from feature/NP-53-PatchCommandTest to feature/NP-52-PatchCommand
+[33ma37c4a8[m[33m ([m[1;31morigin/feature/NP-53-PatchCommandTest[m[33m, [m[1;32mfeature/NP-53-PatchCommandTest[m[33m)[m HEAD@{148}: checkout: moving from feature/NP-52-PatchCommand to feature/NP-53-PatchCommandTest
+[33m618fd52[m[33m ([m[1;31morigin/feature/NP-52-FetchCommand[m[33m)[m HEAD@{149}: checkout: moving from feature/NP-44-Server to feature/NP-52-PatchCommand
+[33mcb78fdf[m HEAD@{150}: checkout: moving from feature/NP-53-PatchCommandTest to feature/NP-44-Server
+[33ma37c4a8[m[33m ([m[1;31morigin/feature/NP-53-PatchCommandTest[m[33m, [m[1;32mfeature/NP-53-PatchCommandTest[m[33m)[m HEAD@{151}: checkout: moving from feature/NP-52-PatchCommand to feature/NP-53-PatchCommandTest
+[33m618fd52[m[33m ([m[1;31morigin/feature/NP-52-FetchCommand[m[33m)[m HEAD@{152}: checkout: moving from feature/NP-52-PatchCommand to feature/NP-52-PatchCommand
+[33m618fd52[m[33m ([m[1;31morigin/feature/NP-52-FetchCommand[m[33m)[m HEAD@{153}: checkout: moving from feature/NP-53-PatchCommandTest to feature/NP-52-PatchCommand
+[33ma37c4a8[m[33m ([m[1;31morigin/feature/NP-53-PatchCommandTest[m[33m, [m[1;32mfeature/NP-53-PatchCommandTest[m[33m)[m HEAD@{154}: checkout: moving from feature/NP-52-PatchCommand to feature/NP-53-PatchCommandTest
+[33m618fd52[m[33m ([m[1;31morigin/feature/NP-52-FetchCommand[m[33m)[m HEAD@{155}: checkout: moving from feature/NP-53-PatchCommandTest to feature/NP-52-PatchCommand
+[33ma37c4a8[m[33m ([m[1;31morigin/feature/NP-53-PatchCommandTest[m[33m, [m[1;32mfeature/NP-53-PatchCommandTest[m[33m)[m HEAD@{156}: commit: NP-53: test implementation
+[33m618fd52[m[33m ([m[1;31morigin/feature/NP-52-FetchCommand[m[33m)[m HEAD@{157}: checkout: moving from feature/NP-52-PatchCommand to feature/NP-53-PatchCommandTest
+[33m618fd52[m[33m ([m[1;31morigin/feature/NP-52-FetchCommand[m[33m)[m HEAD@{158}: reset: moving to HEAD
+[33m618fd52[m[33m ([m[1;31morigin/feature/NP-52-FetchCommand[m[33m)[m HEAD@{159}: checkout: moving from feature/NP-44-Server to feature/NP-52-PatchCommand
+[33mcb78fdf[m HEAD@{160}: checkout: moving from feature/NP-52-PatchCommand to feature/NP-44-Server
+[33m618fd52[m[33m ([m[1;31morigin/feature/NP-52-FetchCommand[m[33m)[m HEAD@{161}: commit: NP-52: Implement 'PATCH' command
+[33mcb78fdf[m HEAD@{162}: Branch: renamed refs/heads/feature/NP-52-FetchCommand to refs/heads/feature/NP-52-PatchCommand
+[33mcb78fdf[m HEAD@{164}: checkout: moving from feature/NP-44-Server to feature/NP-52-FetchCommand
+[33mcb78fdf[m HEAD@{165}: commit: NP-69: Implement the ability for the server to have multiple connections
+[33m4d5a4c2[m[33m ([m[1;31morigin/feature/NP-66-Exceptions[m[33m, [m[1;32mfeature/NP-66-Exceptions[m[33m)[m HEAD@{166}: merge feature/NP-66-Exceptions: Fast-forward
+[33m0152f73[m HEAD@{167}: checkout: moving from feature/NP-66-Exceptions to feature/NP-44-Server
+[33m4d5a4c2[m[33m ([m[1;31morigin/feature/NP-66-Exceptions[m[33m, [m[1;32mfeature/NP-66-Exceptions[m[33m)[m HEAD@{168}: checkout: moving from feature/NP-44-Server to feature/NP-66-Exceptions
+[33m0152f73[m HEAD@{169}: commit: adding mutex and clearSocketBuffer
+[33mf497e9d[m HEAD@{170}: checkout: moving from dev to feature/NP-44-Server
+[33m7d5ec53[m HEAD@{171}: reset: moving to HEAD
+[33m7d5ec53[m HEAD@{172}: pull --tags origin dev: Fast-forward
+[33mfe8b2c9[m[33m ([m[1;32mNP-37-Dockerfile[m[33m)[m HEAD@{173}: checkout: moving from feature/NP-32-HelpCommand to dev
+[33me2811ca[m[33m ([m[1;32mfeature/NP-32-HelpCommand[m[33m)[m HEAD@{174}: commit: NP-32: fixing HelpCommandTest
+[33m6e92e10[m[33m ([m[1;32mfeature/NP-30-AddCommand[m[33m)[m HEAD@{175}: pull origin dev: Fast-forward
+[33m1a94c62[m HEAD@{176}: checkout: moving from feature/NP-30-AddCommand to feature/NP-32-HelpCommand
+[33m6e92e10[m[33m ([m[1;32mfeature/NP-30-AddCommand[m[33m)[m HEAD@{177}: pull origin dev: Fast-forward
+[33mc0f392b[m HEAD@{178}: pull origin dev: Fast-forward
+[33m832bbff[m[33m ([m[1;31morigin/feature/NP-30-AddCommand[m[33m)[m HEAD@{179}: checkout: moving from dev to feature/NP-30-AddCommand
+[33mfe8b2c9[m[33m ([m[1;32mNP-37-Dockerfile[m[33m)[m HEAD@{180}: pull: Fast-forward
+[33m00697ab[m HEAD@{181}: checkout: moving from main to dev
+[33m1594654[m[33m ([m[1;32mmain[m[33m)[m HEAD@{182}: checkout: moving from feature/NP-32-HelpCommand to main
+[33m1a94c62[m HEAD@{183}: commit: updated ICommand execute function signature
+[33m075f0e4[m HEAD@{184}: commit: changed help command to use commands map
+[33m9c5075a[m HEAD@{185}: commit: created basic help command
+[33m41fdc52[m[33m ([m[1;31morigin/feature/NP-39-refactor[m[33m, [m[1;32mfeature/NP-39-refactor[m[33m)[m HEAD@{186}: checkout: moving from feature/NP-39-refactor to feature/NP-32-HelpCommand
+[33m41fdc52[m[33m ([m[1;31morigin/feature/NP-39-refactor[m[33m, [m[1;32mfeature/NP-39-refactor[m[33m)[m HEAD@{187}: checkout: moving from NP-37-Dockerfile to feature/NP-39-refactor
+[33mfe8b2c9[m[33m ([m[1;32mNP-37-Dockerfile[m[33m)[m HEAD@{188}: pull origin dev: Fast-forward
+[33ma3068f7[m[33m ([m[1;31morigin/NP-37-Dockerfile[m[33m)[m HEAD@{189}: commit: NP-37: fix libraries
+[33m65a5d86[m HEAD@{190}: commit: Added Dockerfile
+[33m00697ab[m HEAD@{191}: checkout: moving from dev to NP-37-Dockerfile
+[33m00697ab[m HEAD@{192}: pull origin dev: Fast-forward
+[33m78fab79[m HEAD@{193}: reset: moving to HEAD
+[33m78fab79[m HEAD@{194}: reset: moving to HEAD
+[33m78fab79[m HEAD@{195}: reset: moving to HEAD
+[33m78fab79[m HEAD@{196}: pull origin dev: Fast-forward
+[33maa31fea[m HEAD@{197}: reset: moving to origin/dev
+[33maa31fea[m HEAD@{198}: checkout: moving from dev to dev
+[33maa31fea[m HEAD@{199}: reset: moving to HEAD
+[33maa31fea[m HEAD@{200}: pull origin dev: Fast-forward
+[33m619d539[m HEAD@{201}: checkout: moving from feature/NP-12-Infrastructure to dev
+[33m6b1b76f[m[33m ([m[1;32mfeature/NP-12-Infrastructure[m[33m)[m HEAD@{202}: commit: NP-16: implemented IMenu
+[33m697e9c9[m HEAD@{203}: commit: NP-16: uploading menu
+[33m254ad5d[m HEAD@{204}: commit: NP-16: fixed menu
+[33m57fafb1[m HEAD@{205}: commit: NP-16: initialized menu
+[33mba62255[m HEAD@{206}: checkout: moving from dev to feature/NP-12-Infrastructure
+[33m619d539[m HEAD@{207}: pull origin dev: Fast-forward
+[33m6e1c545[m HEAD@{208}: checkout: moving from main to dev
+[33m1594654[m[33m ([m[1;32mmain[m[33m)[m HEAD@{209}: pull origin main: Fast-forward
+[33mbe7afa3[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{210}: checkout: moving from feature/NP-5-README to main
+[33m7031e12[m[33m ([m[1;32mfeature/NP-5-README[m[33m)[m HEAD@{211}: commit: NP-5: changed readme file
+[33m6e1c545[m HEAD@{212}: checkout: moving from dev to feature/NP-5-README
+[33m6e1c545[m HEAD@{213}: pull: Fast-forward
+[33mbe7afa3[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{214}: checkout: moving from master to dev
+[33mbe7afa3[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{215}: initial pull

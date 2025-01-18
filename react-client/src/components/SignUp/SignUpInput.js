@@ -1,14 +1,15 @@
 import React from "react";
 
-const SignUpInput = ({ type, placeholder, value, onChange }) => {
+const SignUpInput = ({ type, placeholder, value, onChange, hasError, ...props }) => {
   return (
-    <div className="form-group">
+    <div>
       <input
         type={type}
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        required
+        className={hasError ? "has-error" : ""}
+        {...props}
       />
     </div>
   );

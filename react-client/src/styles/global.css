@@ -12,78 +12,85 @@ code {
     monospace;
 }
 
-.sign-up {
-  margin: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  max-width: 400px;
-  background-color: #f9f9f9;
+.form-group {
+  margin-bottom: 20px;
+  padding-left: 40px; /* Add horizontal padding */
+  padding-right: 40px; /* Add horizontal padding */
 }
 
-.sign-up h2 {
-  text-align: center;
-  color: #333;
+
+.form-group h1 {
+  text-align: left;
+  font-size: 1.8rem;
 }
 
-.sign-up form {
-  display: flex;
-  flex-direction: column;
-}
-
-.sign-up input {
-  margin: 10px 0;
+.form-group input {
+  margin-bottom: 14px;
+  width: 100%;
+  height: 52px;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  font-size: 1rem;
+  border-color: var(--input-border-color);
+  border-radius: 4px;
+  border-width: 1px;
+  background: var(--input-background-color);
+  color: var(--text-color);
+  outline: none; /* Remove the blue border on focus */
 }
 
-.sign-up button {
-  padding: 10px;
-  color: white;
-  background-color: #007bff;
+.form-group input.has-error {
+  margin-bottom: 1px; /* Reduced margin-top when there's an error */
+}
+
+.form-group input:focus {
+  outline: 2px solid white; /* Change the outline to white on focus */
+}
+
+.form-group button {
+  background-color: var(--button-background-color);
+  color: var(--button-text-color);
   border: none;
   border-radius: 5px;
+  font-size: 0.8rem;
   cursor: pointer;
+  width: 100%;
+  padding: 8px;
 }
 
-.sign-up button:hover {
-  background-color: #0056b3;
+.form-group button:hover {
+  background-color: var(--button-hover-background-color);
 }
 
-.sign-up p {
-  margin-top: 15px;
-  color: #007bff;
-  text-align: center;
+.form-group input, 
+.form-group button {
+  box-sizing: border-box; /* Ensure width includes padding and border */
 }
-
-.header {
-  background-color: #333;
-  padding: 10px 20px;
-}
-
-.nav {
+.error-message {
+  color: var(--error-color);
+  font-size: 0.8rem;
+  margin-top: 4px;
+  margin-bottom: 10px;
+  text-align: left; /* Align error text to the left */
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
 }
 
-.nav-list {
-  list-style: none;
-  display: flex;
-  margin: 0;
-  padding: 0;
+.error-message::before {
+  content: "✖"; /* Add an X icon to the error message */
+  color: var(--error-color);
+  margin-left: 4px;
 }
 
-.nav-item {
-  margin-right: 20px;
+.form-group input:focus.error {
+  outline: 2px solid var(--error-color); /* Highlight the input field with a red outline */
 }
 
-.nav-link {
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
+.form-group input {
+  border: 1px solid var(--input-border-color); /* Ensure default border color */
+  border-radius: 4px;
 }
 
-.nav-link:hover {
-  text-decoration: underline;
+.form-group input.error {
+  border: 1px solid var(--error-color); /* Change border color if there is an error */
 }

@@ -2,7 +2,7 @@ import React from "react";
 
 const SignInButton = ({ onClick }) => {
   return (
-    <button type="submit" className="signin-button" onClick={onClick}>
+    <button type="submit" onClick={onClick}>
       Sign In
     </button>
   );
