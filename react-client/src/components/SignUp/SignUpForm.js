@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SignUpInput from "./SignUpInput";
 import SignUpButton from "./SignUpButton";
+import SignUpImageUpload from "./SignUpImageUpload";
 
 const SignUpForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -124,16 +125,7 @@ const SignUpForm = ({ onSubmit }) => {
         )}
       </div>
 
-      <div>
-        <input type="file" accept="image/*" onChange={handleImageUpload} />
-        {preview && (
-          <img
-            src={preview}
-            alt="Profile Preview"
-            style={{ width: "100px", height: "100px", marginTop: "10px" }}
-          />
-        )}
-      </div>
+      <SignUpImageUpload handleImageUpload={handleImageUpload} preview={preview} />
 
       <SignUpButton
         text="Sign Up"
