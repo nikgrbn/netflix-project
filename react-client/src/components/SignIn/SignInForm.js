@@ -15,11 +15,26 @@ const { theme, toggleTheme } = useTheme();
   const [password, setPassword] = useState("");
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted with:", { username, password });
+    try {
+      const response = await axios.post(
+        "http://localhost:19844/signin",
+        {
+          username,
+          password
+        }
+      );
+      
+      const { user = username, role, token} = response.data;
+      navigate("/movies", { //TODO: CHECK THIS
+        state: { username: user, role, token }
+      });
+      
+    } catch (error) {
+      console.error(error);
+    }
   };
-
 
   const handleSignUpClick = () => {
     navigate("/signup");
