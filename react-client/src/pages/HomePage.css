@@ -135,9 +135,12 @@
 }
 
 .home-header-right .username {
-    color: white;
+    color: var(--text-color);
     font-size: 1rem;
     font-weight: bold;
+    -webkit-text-stroke: 1px var(--text-color-secondary); /* Add text stroke */
+    text-shadow: 2px 2px 4px var(--input-background-color); /* Add text shadow */
+
 }
 
 .home-header-right .profile-picture {
