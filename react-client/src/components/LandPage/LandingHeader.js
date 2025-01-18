@@ -10,11 +10,7 @@ const LandingHeader = () => {
 
   return (
     <header className="landing-header">
-      <img
-        src="/netflix-logo.png"
-        alt="Netflix Logo"
-        className="netflix-logo"
-      />
+      <img src="./netflix-logo.png" alt="Netflix Logo" className="netflix-logo" />
       <div className="header-buttons">
         <select className="language-select">
           <option value="en">English</option>

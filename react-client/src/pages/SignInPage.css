@@ -67,9 +67,8 @@
 
 
 .form-group .signup-button {
-  background-color: rgba(128, 128, 128, 0.5);
-  color: white; 
-  border: 1px solid rgba(255, 255, 255, 0.8); 
+  margin-top: 15px;
+  background-color: var(--signup-button-background);
   padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
@@ -78,12 +77,8 @@
   font-size: 1rem; 
 }
 
-.form-group .signup-button:hover {
-  background-color: rgba(128, 128, 128, 0.7); 
-  border: 1px solid white; 
-}
-
 .form-group .signin-button {
   font-size: 1rem;
   font-weight: bold; 
 }
+
