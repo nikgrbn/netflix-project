@@ -3,28 +3,29 @@ const { errors }  = require('../utils/consts');
 const { formatDocument } = require('../utils/helpers');
 
 const signUpUser = async (req, res) => {
-    // Extract username and password from request body
-    const { username, password, picture, display_name } = req.body;
+    const { username, password, display_name } = req.body;
+    const picture = req.file ? req.file.path : undefined; // Use the uploaded file path if provided
+  
     if (!username || !password) {
-        return res.status(400).json({ error: errors.USERNAME_PASSWORD_REQUIRED });
+      return res.status(400).json({ error: errors.USERNAME_PASSWORD_REQUIRED });
     }
-
-    // Call the createUser function from userServices
+  
     try {
-        const user = await userServices.createUser(username, password, picture, display_name);
-        if (!user) { return res.status(400).json({ error: errors.USER_NOT_CREATED }); }
-        
-        res.status(201).json({token: 'jwt'});
-
+      const user = await userServices.createUser(username, password, picture, display_name);
+      if (!user) {
+        return res.status(400).json({ error: errors.USER_NOT_CREATED });
+      }
+  
+      res.status(201).json({ token: 'jwt' });
     } catch (error) {
-        if (error.code === 11000) {
-            // Duplicate username error
-            res.status(400).json({ error: errors.USERNAME_ALREADY_EXISTS });
-        } else {
-            res.status(400).json({ error: error.message });
-        }
+      if (error.code === 11000) {
+        res.status(400).json({ error: errors.USERNAME_ALREADY_EXISTS });
+      } else {
+        res.status(400).json({ error: error.message });
+      }
     }
-}
+  };
+  
 
 const getUserById = async (req, res) => {
     // Extract user id from request parameters

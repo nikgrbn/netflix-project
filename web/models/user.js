@@ -18,7 +18,7 @@ const User = new Schema({
     picture: {
         type: String,
         required: false,
-        default: 'default-picture.jpg'
+        default: 'uploads\\default-picture.png'
     },
     display_name: {
         type: String,
