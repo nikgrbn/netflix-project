@@ -28,9 +28,10 @@ export const signInUser = async (username, password) => {
       username,
       password,
     });
-
     return response.data;
   } catch (error) {
-    throw error.response?.data || error.message;
+   
+    const serverError = error.response?.data?.error || error.message;
+    throw new Error(serverError);
   }
 };

@@ -16,15 +16,18 @@ const SignInPage = () => {
         data.username,
         data.password
       );
+      console.log("User signed in successfully:", username, role, token)
+      if (!username || role || !token) {
+        throw new Error("Invalid response from server.");
+      }
 
       alert("User signed in successfully!");
-
       navigate("/home", {
         state: { username, role, token },
       });
     } catch (error) {
       console.error("Error signing in:", error);
-      alert(error);
+      alert(error.message);
     }
   };
 
