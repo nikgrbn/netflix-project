@@ -8,14 +8,16 @@ import "./styles/themes.css";
 import { ThemeProvider } from "./components/Shared/ThemeProvider";
 
 function App() {
+
+
   return (
     <ThemeProvider>
       <Router>
         <Routes>
-          <Route path="/home" element={<HomePage />} />
           <Route path="/" element={<LandingPage />} />
-          <Route path="/signin" element={<SignInPage />} />
           <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/signin" element={<SignInPage />} />
+          <Route path="/home" element={<HomePage token="TODO:REMOVE-LATER"/>} />
         </Routes>
       </Router>
     </ThemeProvider>

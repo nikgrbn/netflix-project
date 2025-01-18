@@ -94,3 +94,4 @@ code {
 .form-group input.error {
   border: 1px solid var(--error-color); /* Change border color if there is an error */
 }
+
