@@ -15,7 +15,7 @@ const signUpUser = async (req, res) => {
       if (!user) {
         return res.status(400).json({ error: errors.USER_NOT_CREATED });
       }
-  
+ 
       res.status(201).send();
     } catch (error) {
       if (error.code === 11000) {
