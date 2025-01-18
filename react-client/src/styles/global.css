@@ -95,3 +95,9 @@ code {
   border: 1px solid var(--error-color); /* Change border color if there is an error */
 }
 
+.netflix-logo {
+  margin-top: 6px;
+  height: 25px;
+  object-fit: contain;
+}
+

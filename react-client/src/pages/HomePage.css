@@ -124,14 +124,8 @@
 .home-header-left {
     display: flex;
     align-items: center;
-    gap: 1rem; /* Spacing between logo and toggle */
+    gap: 0.5rem; /* Spacing between logo and toggle */
   }
-
-.home-header-left .netflix-logo {
-    margin-top: 6px;
-    height: 25px;
-    object-fit: contain;
-}
 
 .home-header-right {
     display: flex;
@@ -152,3 +146,46 @@
     object-fit: cover;
     border-radius: 6px;
 }
+
+
+.search-bar {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    margin-left: 1rem; /* Space between logo and search bar */
+    height: 35px;
+  }
+  
+  .search-input-wrapper {
+    position: relative;
+    width: 180px;
+  }
+  
+  .search-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: var(--text-muted-color);
+    font-size: 1rem;
+    pointer-events: none; /* Prevent icon from blocking input interaction */
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 0.5rem 0.5rem 0.5rem 2.2rem; /* Add padding for the icon */
+    border: 1px solid var(--input-border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+    color: var(--text-color);
+    background-color: var(--input-background-color);
+  }
+  
+  .search-input::placeholder {
+    color: var(--text-muted-color);
+  }
+  
+  .search-input:focus {
+    border-color: var(--input-focus-border-color);
+  }
