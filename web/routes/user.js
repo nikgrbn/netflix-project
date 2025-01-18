@@ -1,12 +1,13 @@
-const userController = require('../controllers/user');
-const { errors }  = require('../utils/consts');
-
 const express = require('express');
-var router = express.Router();
+const router = express.Router();
+const userController = require('../controllers/user');
+const { upload } = require('../middlewares/multer'); // Import the Multer middleware
 
+// Route to sign up a user with file upload
 router.route('/')
-    .post(userController.signUpUser);
+    .post(upload.single('picture'), userController.signUpUser); // Use the middleware for handling file uploads
 
+// Route to get a user by ID
 router.route('/:id')
     .get(userController.getUserById);
 
