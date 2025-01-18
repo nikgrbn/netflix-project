@@ -33,5 +33,4 @@ app.use('/api/categories', categories);
 const movies = require('./routes/movie');
 app.use('/api/movies', movies);
 
-
 app.listen(process.env.PORT);

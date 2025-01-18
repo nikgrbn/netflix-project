@@ -27,24 +27,32 @@ const signUpUser = async (req, res) => {
   };
   
 
-const getUserById = async (req, res) => {
+  const getUserById = async (req, res) => {
     // Extract user id from request parameters
     const { id } = req.params;
 
-    // Call the getUserById function from userServices
     try {
+        // Retrieve user data from the database
         const user = await userServices.getUserById(id);
-        if (user) {
-            const userWithoutPassword = user.toObject();
-            delete userWithoutPassword.password; // Remove password from returned user object
-            res.status(200).json(formatDocument(userWithoutPassword));
 
+        if (user) {
+            // Convert Mongoose document to plain JavaScript object
+            const userWithoutPassword = user.toObject();
+            delete userWithoutPassword.password; // Remove sensitive password field
+
+            // Construct the full profile picture URL
+            userWithoutPassword.picture = user.picture
+                ? `${req.protocol}://${req.get("host")}/${user.picture}`
+                : `${req.protocol}://${req.get("host")}/uploads/users/default-picture.png`;
+
+            res.status(200).json(formatDocument(userWithoutPassword));
         } else {
             res.status(404).json({ error: errors.USER_NOT_FOUND });
         }
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-}
+};
+
 
 module.exports = { signUpUser, getUserById };

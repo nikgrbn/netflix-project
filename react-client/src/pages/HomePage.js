@@ -1,55 +1,78 @@
 import React, { useEffect, useState } from "react";
 import "./HomePage.css";
-import { fetchMovieVideoStream, fetchMovieDetails } from '../services/api';
+import {
+  fetchMovieVideoStream,
+  fetchMovieDetails,
+  getUserProfile,
+} from "../services/api";
 import HomeHeader from "../components/Home/HomeHeader";
-import useUserRedirect from "../components/Shared/useUserRedirect";
 import HomeBanner from "../components/Home/HomeBanner";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
-  const location = useLocation();
-  const { username, role, token } = location.state || {};
+  const navigate = useNavigate();
 
-  // Call the hook with the token
-  const isValidUser = useUserRedirect(token);
-
+  const [userProfile, setUserProfile] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
   const [movieDetails, setMovieDetails] = useState(null);
+
+  // Retrieve data from localStorage
+  const userId = localStorage.getItem("id");
+  const username = localStorage.getItem("username");
+  const role = localStorage.getItem("role");
+  const token = localStorage.getItem("authToken");
+
+  // Redirect to sign-in if token is missing
+  useEffect(() => {
+    if (!token) {
+      navigate("/signin");
+    }
+  }, [token, navigate]);
 
   useEffect(() => {
     const fetchMovieData = async () => {
       try {
         const movieId = 25; // Example movie ID
-        const [videoBlobUrl, movie] = await Promise.all([
+        const [videoBlobUrl, movie, user] = await Promise.all([
           fetchMovieVideoStream(movieId, token),
           fetchMovieDetails(movieId, token),
+          getUserProfile(userId),
         ]);
-        console.log("Fetched movie data:", videoBlobUrl);
+        console.log("Profile picture:", user);
         setVideoUrl(videoBlobUrl); // Set Blob URL for the video
         setMovieDetails(movie);
+        setUserProfile(user.picture);
+
       } catch (error) {
         console.error("Failed to fetch movie data:", error);
       }
     };
-  
-    fetchMovieData();
-  }, []);
+
+    if (token) {
+      fetchMovieData();
+    }
+  }, [token]);
 
   const handlePlay = () => {
-    console.log('Play button clicked!');
+    console.log("Play button clicked!");
   };
 
   const handleMoreInfo = () => {
-    console.log('More Info button clicked!');
+    console.log("More Info button clicked!");
   };
 
-  if (!isValidUser) {
-    return null;
-  }
+  const handleLogout = () => {
+    localStorage.clear();
+    localStorage.setItem("selectedTheme", "dark");
+    navigate("/signin");
+  };
 
   return (
     <div className="home-page">
-      <HomeHeader username="John Doe" profilePicture="default-picture.png" />
+      <HomeHeader
+        username={username}
+        profilePicture={"default-picture.png"}
+      />
 
       {videoUrl && movieDetails ? (
         <HomeBanner
@@ -64,6 +87,10 @@ const HomePage = () => {
       )}
 
       <h1>Home</h1>
+
+      <button className="logout-button" onClick={handleLogout}>
+        Logout
+      </button>
     </div>
   );
 };
