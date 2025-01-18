@@ -1,8 +1,7 @@
 import "./SignInPage.css";
 import SignInHeader from "../components/SignIn/SignInHeader";
 import SignInForm from "../components/SignIn/SignInForm";
-import ThemeToggleButton from "../components/SignIn/ThemeToggleButton"; 
-import SignUpButton from "../components/SignUp/SignUpButton";
+import ThemeToggleButton from "../components/SignIn/ThemeToggleButton";
 import { useNavigate } from "react-router-dom";
 import useTheme from "../components/Shared/ThemeProvider";
 import { signInUser } from "../services/api";
@@ -11,13 +10,21 @@ const SignInPage = () => {
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
-  const handleFormSubmit =  async (data) => {
+  const handleFormSubmit = async (data) => {
     try {
-      await signInUser(data);
+      const { username, role, token } = await signInUser(
+        data.username,
+        data.password
+      );
+
       alert("User signed in successfully!");
-      navigate("/home");
+
+      navigate("/home", {
+        state: { username, role, token },
+      });
     } catch (error) {
       console.error("Error signing in:", error);
+      alert(error);
     }
   };
 

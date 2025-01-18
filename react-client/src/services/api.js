@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_BASE_URL = 'http://localhost:19844/api';
+const API_BASE_URL = "http://localhost:19844/api";
 
 // Function to sign up a user with file upload
 export const signUpUser = async (userData) => {
@@ -12,7 +12,7 @@ export const signUpUser = async (userData) => {
 
     const response = await axios.post(`${API_BASE_URL}/users`, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data', // Specify multipart form data
+        "Content-Type": "multipart/form-data", // Specify multipart form data
       },
     });
 
@@ -22,13 +22,15 @@ export const signUpUser = async (userData) => {
   }
 };
 
-export const signInUser = async (userData) => {
+export const signInUser = async (username, password) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/`, userData);
+    const response = await axios.post(`${API_BASE_URL}/tokens`, {
+      username,
+      password,
+    });
+
     return response.data;
   } catch (error) {
-    // Return the error message
     throw error.response?.data || error.message;
   }
 };
-

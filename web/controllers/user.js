@@ -16,7 +16,7 @@ const signUpUser = async (req, res) => {
         return res.status(400).json({ error: errors.USER_NOT_CREATED });
       }
   
-      res.status(201).json({ token: 'jwt' });
+      res.status(201).send();
     } catch (error) {
       if (error.code === 11000) {
         res.status(400).json({ error: errors.USERNAME_ALREADY_EXISTS });
