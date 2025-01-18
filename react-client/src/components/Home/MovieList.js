@@ -11,7 +11,7 @@ const movies = [
 
 const MovieList = (props) => {
   
-  useUserRedirect(props.token);
+  // useUserRedirect(props.token);
 
   return (
     <div>

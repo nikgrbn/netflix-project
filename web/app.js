@@ -1,4 +1,3 @@
-
 const express = require('express');
 var app = express();
 
@@ -33,5 +32,6 @@ app.use('/api/categories', categories);
 // Movies
 const movies = require('./routes/movie');
 app.use('/api/movies', movies);
+
 
 app.listen(process.env.PORT);
