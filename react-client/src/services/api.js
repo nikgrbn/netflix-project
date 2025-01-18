@@ -37,9 +37,13 @@ export const signInUser = async (username, password) => {
 };
 
 // Fetch movie details by ID
-export const fetchMovieDetails = async (movieId) => {
+export const fetchMovieDetails = async (movieId, token) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/movies/${movieId}`);
+    const response = await axios.get(`${API_BASE_URL}/movies/${movieId}`, {
+      headers: {
+        'User-ID': token, // Pass the token in the User-ID header
+      },
+    });
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;
@@ -47,12 +51,19 @@ export const fetchMovieDetails = async (movieId) => {
 };
 
 // Function to get the video URL for a movie
-export const fetchMovieVideoUrl = async (movieId) => {
-  try {
-    // Construct the URL for video streaming
-    const videoUrl = `${API_BASE_URL}/movies/${movieId}/video`;
-    return videoUrl;
-  } catch (error) {
-    throw error.response?.data || error.message;
+export const fetchMovieVideoStream = async (movieId, token) => {
+  const videoUrl = `${API_BASE_URL}/movies/${movieId}/video`;
+  const response = await fetch(videoUrl, {
+    method: "GET",
+    headers: {
+      "User-ID": token, // Include the required header
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch video stream: ${response.statusText}`);
   }
+
+  const blob = await response.blob(); // Convert response to Blob
+  return URL.createObjectURL(blob); // Create a Blob URL
 };

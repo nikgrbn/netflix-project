@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./HomePage.css";
-import { fetchMovieVideoUrl, fetchMovieDetails } from '../services/api';
+import { fetchMovieVideoStream, fetchMovieDetails } from '../services/api';
 import HomeHeader from "../components/Home/HomeHeader";
 import useUserRedirect from "../components/Shared/useUserRedirect";
 import HomeBanner from "../components/Home/HomeBanner";
+import { useLocation } from "react-router-dom";
 
+const HomePage = () => {
+  const location = useLocation();
+  const { username, role, token } = location.state || {};
 
-const HomePage = (props) => {
-  const isValidUser = useUserRedirect(props.token);
+  // Call the hook with the token
+  const isValidUser = useUserRedirect(token);
 
   const [videoUrl, setVideoUrl] = useState(null);
   const [movieDetails, setMovieDetails] = useState(null);
@@ -16,17 +20,18 @@ const HomePage = (props) => {
     const fetchMovieData = async () => {
       try {
         const movieId = 25; // Example movie ID
-        const [videoUrl, movie] = await Promise.all([
-          fetchMovieVideoUrl(movieId),
-          fetchMovieDetails(movieId),
+        const [videoBlobUrl, movie] = await Promise.all([
+          fetchMovieVideoStream(movieId, token),
+          fetchMovieDetails(movieId, token),
         ]);
-        setVideoUrl(videoUrl);
+        console.log("Fetched movie data:", videoBlobUrl);
+        setVideoUrl(videoBlobUrl); // Set Blob URL for the video
         setMovieDetails(movie);
       } catch (error) {
-        console.error('Failed to fetch movie data:', error);
+        console.error("Failed to fetch movie data:", error);
       }
     };
-
+  
     fetchMovieData();
   }, []);
 

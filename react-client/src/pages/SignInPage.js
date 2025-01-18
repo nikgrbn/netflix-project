@@ -17,7 +17,7 @@ const SignInPage = () => {
         data.password
       );
       console.log("User signed in successfully:", username, role, token)
-      if (!username || role || !token) {
+      if (!username || !token) {
         throw new Error("Invalid response from server.");
       }
 
