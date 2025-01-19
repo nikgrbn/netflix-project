@@ -202,3 +202,39 @@
   .search-input:focus {
     border-color: var(--input-focus-border-color);
   }
+
+  .movie-category {
+    margin-bottom: 20px;
+  }
+  
+  .movie-category h2 {
+    margin: 10px 0;
+    font-size: 1.5rem;
+  }
+  
+  .movie-list {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: thin; /* For Firefox */
+  }
+  
+  .movie-list::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .movie-list::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+  }
+  
+  .movie-item {
+    flex: 0 0 auto;
+    margin-right: 10px;
+    width: 150px;
+  }
+  
+  .movie-item img {
+    width: 100%;
+    border-radius: 4px;
+  }
+  

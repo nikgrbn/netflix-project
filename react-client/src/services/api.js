@@ -69,6 +69,23 @@ export const fetchMovieVideoStream = async (movieId, token) => {
   return URL.createObjectURL(blob); // Create a Blob URL
 };
 
+// Fetch movie by user id
+export const fetchMoviesByUserID = async (userId, token) => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/movies`, // Use POST instead of GET
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
+          "User-ID": userId, // Pass the userId in the User-ID header
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
 
 // Function to get user profile by ID
 export const getUserProfile = async (userId, token) => {

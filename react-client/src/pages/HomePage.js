@@ -4,9 +4,11 @@ import {
   fetchMovieVideoStream,
   fetchMovieDetails,
   getUserProfile,
+  fetchMoviesByUserID,
 } from "../services/api";
 import HomeHeader from "../components/Home/HomeHeader";
 import HomeBanner from "../components/Home/HomeBanner";
+import HomeMovieCategory from "../components/Home/HomeMovieCategory";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
@@ -15,12 +17,11 @@ const HomePage = () => {
   const [userProfile, setUserProfile] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
   const [movieDetails, setMovieDetails] = useState(null);
-
+  const [categories, setCategories] = useState([]);
+  
   // Retrieve data from localStorage
   const userId = localStorage.getItem("id");
-  const username = localStorage.getItem("username");
   const display_name = localStorage.getItem("display_name");
-  const role = localStorage.getItem("role");
   const token = localStorage.getItem("authToken");
 
   // Redirect to sign-in if token is missing
@@ -34,15 +35,18 @@ const HomePage = () => {
     const fetchMovieData = async () => {
       try {
         const movieId = 25; // Example movie ID
-        const [videoBlobUrl, movie, user] = await Promise.all([
+        const [user, videoBlobUrl, movie, categories] = await Promise.all([
+          getUserProfile(userId),
           fetchMovieVideoStream(movieId, token),
           fetchMovieDetails(movieId, token),
-          getUserProfile(userId),
+          fetchMoviesByUserID(userId, token),
         ]);
         console.log("Profile picture:", user);
+        setUserProfile(user.picture);
         setVideoUrl(videoBlobUrl); // Set Blob URL for the video
         setMovieDetails(movie);
-        setUserProfile(user.picture);
+        console.log("Categories details:", categories);
+        //setCategories(user.movies);
 
       } catch (error) {
         console.error("Failed to fetch movie data:", error);
@@ -87,7 +91,15 @@ const HomePage = () => {
         <p>Loading banner...</p>
       )}
 
-      <h1>Home</h1>
+      <div className="categories-container">
+        {categories.map((category) => (
+          <HomeMovieCategory
+            key={category.id}
+            title={category.name}
+            movies={category.movies}
+          />
+        ))}
+      </div>
 
       <button className="logout-button" onClick={handleLogout}>
         Logout
