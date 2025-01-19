@@ -149,8 +149,6 @@
     font-size: 1rem;
     font-weight: bold;
     -webkit-text-stroke: 1px var(--text-color-secondary); /* Add text stroke */
-    text-shadow: 2px 2px 4px var(--input-background-color); /* Add text shadow */
-
 }
 
 .home-header-right .profile-picture {
@@ -158,6 +156,7 @@
     height: 40px;
     object-fit: cover;
     border-radius: 6px;
+    border: 2px solid var(--text-color-secondary); /* Set the border color */
 }
 
 
