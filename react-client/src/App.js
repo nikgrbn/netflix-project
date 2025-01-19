@@ -4,6 +4,7 @@ import SignUpPage from "./pages/SignUpPage";
 import LandingPage from "./pages/LandingPage";
 import HomePage from "./pages/HomePage";
 import SignInPage from "./pages/SignInPage";
+import MovieInfoPage from "./pages/MovieInfoPage"; 
 import "./styles/themes.css";
 import { ThemeProvider } from "./components/Shared/ThemeProvider";
 import ProtectedRoute from "./components/Shared/ProtectedRoute";
@@ -21,6 +22,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <HomePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/movies/:id"
+            element={
+              <ProtectedRoute>
+                <MovieInfoPage />
               </ProtectedRoute>
             }
           />

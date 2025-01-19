@@ -68,6 +68,11 @@ const HomePage = () => {
     navigate("/");
   };
 
+  const goToMovieInfo = () => {
+    const movieId = 25; // Example movie ID, replace with dynamic ID if needed
+    navigate(`/movies/${movieId}`);
+  };
+
   return (
     <div className="home-page">
       <HomeHeader
@@ -88,6 +93,10 @@ const HomePage = () => {
       )}
 
       <h1>Home</h1>
+
+      <button className="movie-info-button" onClick={goToMovieInfo}>
+        Movie Info
+      </button>
 
       <button className="logout-button" onClick={handleLogout}>
         Logout
