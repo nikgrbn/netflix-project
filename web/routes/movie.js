@@ -1,5 +1,6 @@
 const movieController = require("../controllers/movie");
 const recommendController = require("../controllers/recommend");
+const streamController = require("../controllers/stream");
 const queryController = require("../controllers/query");
 const { errors } = require("../utils/consts");
 
@@ -37,5 +38,9 @@ router
   .route("/:id/recommend")
   .get(recommendController.getRecommendations)
   .post(recommendController.addUserWatchedMovie);
+
+router
+  .route("/:id/video")
+  .get(streamController.getStreamById);
 
 module.exports = router;

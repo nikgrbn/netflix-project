@@ -107,5 +107,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # Uploads
-web/uploads/*
-!web/uploads/default-picture.png
+web/uploads/users/*
+web/uploads/movies/*
+!web/uploads/users/default-picture.png
+!web/uploads/movies/default-picture.jpg
+!web/uploads/movies/default-video.mp4

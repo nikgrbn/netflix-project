@@ -4,9 +4,17 @@ import "./SignUpPage.css"; // Ensure this import is correct
 import { signUpUser } from "../services/api"; // Import API service
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      navigate("/home");
+    }
+  }, [navigate]);
 
   const handleFormSubmit = async (data) => {
     try {
