@@ -113,10 +113,10 @@ code {
 }
 
 .header-container {
-  position: absolute; /* שמור על המיקום קבוע */
-  top: 20px; /* גובה קבוע */
-  left: -10px; /* יישור לשמאל */
+  position: absolute; 
+  top: 20px; 
+  left: -10px;
   display: flex;
   align-items: center;
-  z-index: 1000; /* מעל כל האלמנטים האחרים */
+  z-index: 1000; 
 }
