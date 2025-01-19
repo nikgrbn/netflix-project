@@ -70,7 +70,7 @@
     background-color: var(--button-hover-background-color);
 }
 
-.logo {
+/* .logo {
     color: var(--link-color);
     font-size: 3rem;
     font-weight: bold;
@@ -82,7 +82,7 @@
     letter-spacing: 2px; 
     line-height: 1;
     transform: scale(1.1) rotateX(15deg); 
-}
+} */
 
 .header-buttons {
     display: flex;
