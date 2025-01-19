@@ -9,11 +9,12 @@ var router = express.Router();
 
 // Middleware to ensure User-ID header exists
 const ensureUserHeader = (req, res, next) => {
-  const userId = req.headers["user-id"];
-  if (!userId) {
+  const token = req.headers["authorization"].split(" ")[1];
+  //console.log("Token:", token);
+  if (!token) {
     return res.status(401).json({ error: errors.ID_HEADER_REQUIRED });
   }
-  req.userId = userId; // Attach userId to the request object for downstream use
+  //req.userId = userId; // Attach userId to the request object for downstream use
   next();
 };
 router.use(ensureUserHeader); // Apply this middleware to all routes below
