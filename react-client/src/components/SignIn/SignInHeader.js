@@ -1,12 +1,11 @@
+import React from "react";
+
 const SignInHeader = () => {
-    return (
-      <img
-          src="netflix-logo.png"
-          alt="Netflix Logo"
-          className="netflix-logo"
-        />
-    );
-  };
-  
-  export default SignInHeader;
-  
+  return (
+    <header className="header-container">
+      <img src="/netflix-logo.png" alt="Netflix Logo" className="netflix-logo" />
+    </header>
+  );
+};
+
+export default SignInHeader;

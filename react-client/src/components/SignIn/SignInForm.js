@@ -22,7 +22,7 @@ const SignInForm = ({ onSubmit }) => {
       }
 
       if (field === "password" && (value.trim().length < 4 || value.trim().length > 60)) {
-        newErrors.password = "Password must be between 4 and 60 characters.";
+        newErrors.password = "Password must have 4-60 characters.";
       } else {
         delete newErrors.password;
       }
@@ -63,7 +63,7 @@ const SignInForm = ({ onSubmit }) => {
       newErrors.username = "Username cannot be empty.";
     }
     if (password.length < 4 || password.length > 60) {
-      newErrors.password = "Password must be between 4 and 60 characters.";
+      newErrors.password = "Password must have 4-60 characters.";
     }
 
     if (Object.keys(newErrors).length > 0) {
