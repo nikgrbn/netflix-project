@@ -41,12 +41,12 @@ const HomePage = () => {
           fetchMovieDetails(movieId, token),
           fetchMoviesByUserID(userId, token),
         ]);
-        console.log("Profile picture:", user);
+        console.log("Profile picture:", user.picture);
         setUserProfile(user.picture);
         setVideoUrl(videoBlobUrl); // Set Blob URL for the video
         setMovieDetails(movie);
         console.log("Categories details:", categories);
-        //setCategories(user.movies);
+        setCategories(categories);
 
       } catch (error) {
         console.error("Failed to fetch movie data:", error);
@@ -94,8 +94,8 @@ const HomePage = () => {
       <div className="categories-container">
         {categories.map((category) => (
           <HomeMovieCategory
-            key={category.id}
-            title={category.name}
+            key={category.categoryId}
+            title={category.categoryName}
             movies={category.movies}
           />
         ))}

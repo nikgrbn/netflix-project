@@ -7,7 +7,7 @@ const HomeMovieCategory = ({ title, movies }) => {
       <div className="movie-list">
         {movies.map((movie) => (
           <div key={movie.id} className="movie-item">
-            <img src={movie.posterUrl} alt={movie.name} />
+            <img src={movie.image} alt={movie.name} />
           </div>
         ))}
       </div>
