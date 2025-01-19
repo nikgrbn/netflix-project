@@ -55,7 +55,7 @@ const getMovies = async (req, res) => {
 
     // Fetch all categories
     const categories = await categoryService.getCategories();
-    
+
     // Fetch all movies under promoted category
     const promoted = categories.filter((cat) => cat.promoted);
     for (const category of promoted) {
@@ -78,6 +78,11 @@ const getMovies = async (req, res) => {
         // Format the movie document
         const formattedMovie = formatDocument(movie);
 
+        // Construct the full movie picture URL
+        formattedMovie.image = formattedMovie.image
+          ? `${req.protocol}://${req.get("host")}/${formattedMovie.image}`
+          : `${req.protocol}://${req.get("host")}/uploads/movies/default-picture.png`;
+
         for (const movieCategory of formattedMovie.categories) {
           // Remove the _id field from the category document
           movieCategory.id = movieCategory._id;
@@ -99,6 +104,11 @@ const getMovies = async (req, res) => {
     const uniqueMovies = await Promise.all(user.watched_movies.map(async (movieId) => {
       const movie = await movieService.getMovieById(movieId);
       const formattedMovie = formatMongoDocument(movie);
+      
+      // Construct the full movie picture URL
+      formattedMovie.image = formattedMovie.image
+        ? `${req.protocol}://${req.get("host")}/${formattedMovie.image}`
+        : `${req.protocol}://${req.get("host")}/uploads/movies/default-picture.png`;
 
       return formattedMovie;
     }));
