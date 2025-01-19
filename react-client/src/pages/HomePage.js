@@ -19,6 +19,7 @@ const HomePage = () => {
   // Retrieve data from localStorage
   const userId = localStorage.getItem("id");
   const username = localStorage.getItem("username");
+  const display_name = localStorage.getItem("display_name");
   const role = localStorage.getItem("role");
   const token = localStorage.getItem("authToken");
 
@@ -64,13 +65,13 @@ const HomePage = () => {
   const handleLogout = () => {
     localStorage.clear();
     localStorage.setItem("selectedTheme", "dark");
-    navigate("/signin");
+    navigate("/");
   };
 
   return (
     <div className="home-page">
       <HomeHeader
-        username={username}
+        username={display_name}
         profilePicture={"default-picture.png"}
       />
 

@@ -7,7 +7,8 @@ import { useEffect } from "react";
 
 const LandingPage = () => {
   const navigate = useNavigate();
-
+  localStorage.setItem("selectedTheme", "dark");
+  
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
