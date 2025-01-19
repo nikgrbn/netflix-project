@@ -118,18 +118,22 @@
 }
 
 .home-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background-color: var(--background-color-opacity); /* Semi-transparent black */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2rem;
-    z-index: 100; /* Ensure it stays above other elements */
-    box-shadow: 0 2px 5px var(--background-color-opacity); /* Add a subtle shadow */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  z-index: 100;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-header.scrolled {
+  background-color: var(--background-secondary-color); /* Your semi-transparent background */
+  box-shadow: 0 2px 5px var(--background-secondary-color);
 }
 
 .home-header-left {
