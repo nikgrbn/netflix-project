@@ -72,7 +72,7 @@ const HomePage = () => {
     <div className="home-page">
       <HomeHeader
         username={display_name}
-        profilePicture={"default-picture.png"}
+        profilePicture={userProfile}
       />
 
       {videoUrl && movieDetails ? (

@@ -7,8 +7,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
   text-align: center;
+  position: relative; /* Ensure the pseudo-element is positioned relative to this element */
 }
 
 .signup-page::before {
