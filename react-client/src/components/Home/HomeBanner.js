@@ -17,10 +17,10 @@ const HomeBanner = ({ title, description, videoUrl, onPlay, onMoreInfo }) => {
         <p>{description}</p>
         <div className="banner-buttons">
           <button className="play-button" onClick={onPlay}>
-            <span className="icon-play" /> Play
+            <i className="fas fa-play"></i> Play
           </button>
           <button className="info-button" onClick={onMoreInfo}>
-            <span className="icon-info" /> More Info
+            <i className="fas fa-info-circle fa-lg"></i> More Info
           </button>
         </div>
       </div>
