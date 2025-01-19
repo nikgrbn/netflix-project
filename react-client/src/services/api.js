@@ -22,6 +22,7 @@ export const signUpUser = async (userData) => {
   }
 };
 
+// Function to sign in a user
 export const signInUser = async (username, password) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/tokens`, {
@@ -41,7 +42,7 @@ export const fetchMovieDetails = async (movieId, token) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/movies/${movieId}`, {
       headers: {
-        'User-ID': token, // Pass the token in the User-ID header
+        "authorization": `Bearer ${token}`, // Pass the token as a Bearer token in the Authorization header
       },
     });
     return response.data;
@@ -56,7 +57,7 @@ export const fetchMovieVideoStream = async (movieId, token) => {
   const response = await fetch(videoUrl, {
     method: "GET",
     headers: {
-      "User-ID": token, // Include the required header
+      "authorization": `Bearer ${token}`, // Pass the token as a Bearer token in the Authorization header
     },
   });
 
