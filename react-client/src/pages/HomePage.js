@@ -18,7 +18,7 @@ const HomePage = () => {
   const [videoUrl, setVideoUrl] = useState(null);
   const [movieDetails, setMovieDetails] = useState(null);
   const [categories, setCategories] = useState([]);
-  
+
   // Retrieve data from localStorage
   const userId = localStorage.getItem("id");
   const display_name = localStorage.getItem("display_name");
@@ -101,7 +101,7 @@ const HomePage = () => {
         ))}
       </div>
 
-      <button className="logout-button" onClick={handleLogout}>
+      <button onClick={handleLogout} style={{ fontSize: '1.5rem', padding: '10px 20px', borderRadius: '5px' }}>
         Logout
       </button>
     </div>
