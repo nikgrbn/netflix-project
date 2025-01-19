@@ -3,6 +3,9 @@ const recommendController = require("../controllers/recommend");
 const streamController = require("../controllers/stream");
 const queryController = require("../controllers/query");
 const { errors } = require("../utils/consts");
+const jwt = require("jsonwebtoken");
+
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 const express = require("express");
 var router = express.Router();
@@ -12,9 +15,18 @@ const ensureUserHeader = (req, res, next) => {
   const token = req.headers["authorization"].split(" ")[1];
   //console.log("Token:", token);
   if (!token) {
-    return res.status(401).json({ error: errors.ID_HEADER_REQUIRED });
+    return res.status(401).json({ error: errors.TOKEN_REQUIREDED });
   }
-  //req.userId = userId; // Attach userId to the request object for downstream use
+  jwt.verify(token, JWT_SECRET_KEY, (err, content) => {
+    if (err) {
+      req.jwtContent = undefined;
+    } else {
+      req.jwtContent = content;
+    }
+  });
+  if (!req.jwtContent) {
+    return res.status(401).json({ error: errors.TOKEN_NOT_VALID });
+  }
   next();
 };
 router.use(ensureUserHeader); // Apply this middleware to all routes below
@@ -40,8 +52,6 @@ router
   .get(recommendController.getRecommendations)
   .post(recommendController.addUserWatchedMovie);
 
-router
-  .route("/:id/video")
-  .get(streamController.getStreamById);
+router.route("/:id/video").get(streamController.getStreamById);
 
 module.exports = router;

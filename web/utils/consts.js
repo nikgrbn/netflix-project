@@ -26,7 +26,8 @@ const errors = {
     MOVIE_DELETE_USER_ERROR: "Failed to delete movie from user",
 
     BAD_REQUEST: 'Bad request',
-    ID_HEADER_REQUIRED: 'User-ID header is required',
+    TOKEN_REQUIREDED: 'Token is required',
+    TOKEN_NOT_VALID: 'Token not valid',
 
     MRS_CONNECTION_ERROR: 'Could not connect to the MRS server',
     MRS_CONNECTION_CLOSED: 'Connection to the MRS server closed unexpectedly',
