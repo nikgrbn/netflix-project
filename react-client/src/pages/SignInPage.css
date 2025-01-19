@@ -66,11 +66,12 @@
   cursor: pointer;
   width: 100%;
   padding: 8px;
-  background-color: var(--signup-button-background);
+  background-color: var(--button-secondary-color);
+  color: var(--text-color);
   transition: background-color 0.3s ease, border 0.3s ease;
 }
 
 .form-group .signup-button:hover {
-  background-color: var(--signup-button-hover-background);
-  border: 1px solid var(--signup-button-hover-border);
+  background-color: var(--button-secondary-hover);
+  color: var(--text-color);
 }

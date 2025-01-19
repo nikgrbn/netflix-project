@@ -19,7 +19,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--background-dark); 
+    background-color: var(--form-background-color); 
     z-index: 1; 
 }
 
