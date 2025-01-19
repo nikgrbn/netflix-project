@@ -27,6 +27,11 @@ const ensureUserHeader = (req, res, next) => {
   if (!req.jwtContent) {
     return res.status(401).json({ error: errors.TOKEN_NOT_VALID });
   }
+
+  // Attach user ID to the request if header present
+  if (req.headers["user-id"]) {
+    req.userId = req.headers["user-id"];
+  }
   next();
 };
 router.use(ensureUserHeader); // Apply this middleware to all routes below
