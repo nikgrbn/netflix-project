@@ -1,0 +1,107 @@
+/* General styling */
+.movie-info-page {
+    position: relative;
+    height: 100vh;
+    color: var(--text-color); 
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+/* Background image */
+.movie-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../../public/banner.jpg') center/cover no-repeat;
+    z-index: -2;
+}
+
+/* Transparent black overlay with gradient */
+.movie-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%; /* חצי מסך */
+    background: linear-gradient(
+        to top,
+        var(--background-secondary-color) 20%, 
+        rgba(0, 0, 0, 0.7) 70%, 
+        rgba(0, 0, 0, 0) 100% 
+    );
+    border-radius: 20px 20px 0 0; 
+    z-index: -1;
+}
+
+/* Content styling */
+.movie-content {
+    position: absolute;
+    bottom: 0%; 
+    left: 5%; 
+    width: 90%; 
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1;
+}
+
+/* Header styling */
+.movie-header {
+    margin-bottom: 20px;
+}
+
+.movie-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--text-color); 
+}
+
+.movie-details {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.detail-item {
+    background: var(--button-secondary-color); 
+    color: var(--button-text-color); 
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 5px; 
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif; 
+}
+
+/* Movie description */
+.movie-description {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    color: var(--text-color-secondary); 
+}
+
+/* Actions styling */
+.play-button-movie {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    background-color: var(--button-text-color); 
+    color: var(--background-color); 
+    border: none;
+    border-radius: 5px; 
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+    margin-top: -10px;
+}
+
+.play-button-movie:hover {
+    background-color: var(--button-hover-background-color); 
+    color: var(--button-text-color); 
+}
+
+
