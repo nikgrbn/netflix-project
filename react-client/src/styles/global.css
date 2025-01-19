@@ -30,31 +30,29 @@ code {
   padding: 10px;
   font-size: 1rem;
   border: none; 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.6); 
-  background-color: rgba(60, 70, 100, 0.6); 
-  color: #fff; 
+  border-bottom: 1px solid var(--text-color-secondary); 
+  background-color: var(--input-background-color); 
+  color: var(--text-color); 
   outline: none; 
   border-radius: 0; 
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .form-group input::placeholder {
-  color: rgba(255, 255, 255, 0.6); 
+  color: var(--text-color-secondary); 
 }
 
 .form-group input:focus {
-  border-bottom: 1px solid rgba(255, 255, 255, 1); 
+  border-bottom: 1px solid var(--text-color); 
   background-color: rgba(60, 70, 100, 0.8); 
 }
 
-
-
 .form-group input.has-error {
-  margin-bottom: 1px; /* Reduced margin-top when there's an error */
+  margin-bottom: 10px; /* Reduced margin-top when there's an error */
 }
 
 .form-group input:focus {
-  outline: 2px solid white; /* Change the outline to white on focus */
+  outline: 2px solid var(--text-color); /* Change the outline to white on focus */
 }
 
 .form-group button {
@@ -76,6 +74,7 @@ code {
 .form-group button {
   box-sizing: border-box; /* Ensure width includes padding and border */
 }
+
 .error-message {
   color: var(--error-color); 
   font-size: 0.8rem; 
@@ -111,4 +110,13 @@ code {
   margin-top: 6px;
   height: 25px;
   object-fit: contain;
+}
+
+.header-container {
+  position: absolute; /* שמור על המיקום קבוע */
+  top: 20px; /* גובה קבוע */
+  left: -10px; /* יישור לשמאל */
+  display: flex;
+  align-items: center;
+  z-index: 1000; /* מעל כל האלמנטים האחרים */
 }

@@ -46,8 +46,8 @@ const SignInPage = () => {
 
   return (
     <div className="signin-page">
-      <SignInHeader />
-      <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
+      {/* <SignInHeader /> */}
+      {/* <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} /> */}
       <div className="signin-content">
         <SignInForm onSubmit={handleFormSubmit} />
       </div>
