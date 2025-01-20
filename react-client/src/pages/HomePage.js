@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 const HomePage = () => {
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(true);
+  const [dataReady, setDataReady] = useState(false); // Tracks when data is ready
   const [userProfile, setUserProfile] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
   const [movieDetails, setMovieDetails] = useState(null);
@@ -23,29 +25,44 @@ const HomePage = () => {
   const userId = localStorage.getItem("id");
   const display_name = localStorage.getItem("display_name");
   const token = localStorage.getItem("authToken");
-
-  // Redirect to sign-in if token is missing
   useEffect(() => {
     if (!token) {
       navigate("/signin");
     }
   }, [token, navigate]);
 
-  // Fetch user profile and movie data
   useEffect(() => {
     const fetchHomeData = async () => {
       try {
-        const [user, categories] = await Promise.all([
+        const [user, fetchedCategories] = await Promise.all([
           getUserProfile(userId),
           fetchMoviesByUserID(userId, token),
         ]);
-        console.log("Profile picture:", user.picture);
-        setUserProfile(user.picture);
-        console.log("Categories details:", categories);
-        setCategories(categories);
 
+        setUserProfile(user.picture);
+        setCategories(fetchedCategories);
+
+        // Check if categories have movies for the banner
+        if (fetchedCategories.length > 0 && fetchedCategories[0].movies?.length > 0) {
+          const randomCategoryIndex = Math.floor(Math.random() * fetchedCategories.length);
+          const randomMovieIndex = Math.floor(
+            Math.random() * fetchedCategories[randomCategoryIndex].movies.length
+          );
+          const movieId = fetchedCategories[randomCategoryIndex].movies[randomMovieIndex].id;
+
+          const [videoBlobUrl, movie] = await Promise.all([
+            fetchMovieVideoStream(movieId, token),
+            fetchMovieDetails(movieId, token),
+          ]);
+
+          setVideoUrl(videoBlobUrl);
+          setMovieDetails(movie);
+        }
+
+        setDataReady(true); // Data is ready
       } catch (error) {
-        console.error("Failed to fetch movie data:", error);
+        console.error("Failed to fetch home data:", error);
+        setDataReady(true); // Mark as ready even if fetching fails
       }
     };
 
@@ -54,40 +71,13 @@ const HomePage = () => {
     }
   }, [token]);
 
-  // Fetch banner movie data
+  // Wait for rendering to complete after data is ready
   useEffect(() => {
-    const fetchBannerData = async () => {
-      try {
-        // Ensure categories is defined and has at least one item with movies
-        if (categories && categories.length > 0 && categories[0].movies && categories[0].movies.length > 0) {
-          
-          // Get a random movie from a random category
-          const randomCategoryIndex = Math.floor(Math.random() * categories.length);
-          const randomMovieIndex = Math.floor(Math.random() * categories[randomCategoryIndex].movies.length);
-          const movieId = categories[randomCategoryIndex].movies[randomMovieIndex].id;
-
-          const [videoBlobUrl, movie] = await Promise.all([
-            fetchMovieVideoStream(movieId, token),
-            fetchMovieDetails(movieId, token),
-          ]);
-          
-          // Set Blob URL and movie details
-          setVideoUrl(videoBlobUrl); // Set Blob URL for the video
-          setMovieDetails(movie);
-          console.log("Banner movie details:", movie);
-
-        } else {
-          console.warn("Categories or movies data is not available.");
-        }
-      } catch (error) {
-        console.error("Failed to fetch banner movie data:", error);
-      }
-    };
-
-    if (categories) {
-      fetchBannerData();
+    if (dataReady) {
+      const timeout = setTimeout(() => setLoading(false), 100); // Add a small delay for smoother transitions
+      return () => clearTimeout(timeout);
     }
-  }, [categories]);
+  }, [dataReady]);
 
   const handlePlay = () => {
     console.log("Play button clicked!");
@@ -110,38 +100,43 @@ const HomePage = () => {
 
   return (
     <div className="home-page">
-      <HomeHeader
-        username={display_name}
-        profilePicture={userProfile}
-      />
-
-      {videoUrl && movieDetails ? (
-        <HomeBanner
-          title={movieDetails.name}
-          description={movieDetails.description}
-          videoUrl={videoUrl}
-          onPlay={handlePlay}
-          onMoreInfo={handleMoreInfo}
-        />
+      {loading ? (
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+        </div>
       ) : (
-        <p>Loading banner...</p>
-      )}
+        <>
+          <HomeHeader username={display_name} profilePicture={userProfile} />
 
-      <div className="categories-container">
-        {categories.map((category) => (
-          <HomeMovieCategory
-            key={category.categoryId}
-            title={category.categoryName}
-            movies={category.movies}
-          />
-        ))}
-      </div>
-      <button className="movie-info-button" onClick={goToMovieInfo}>
-        Movie Info
-      </button>
-      <button onClick={handleLogout} style={{ fontSize: '1.5rem', padding: '10px 20px', borderRadius: '5px' }}>
-        Logout
-      </button>
+          {videoUrl && movieDetails ? (
+            <HomeBanner
+              title={movieDetails.name}
+              description={movieDetails.description}
+              videoUrl={videoUrl}
+              onPlay={() => console.log("Play button clicked!")}
+              onMoreInfo={() => console.log("More Info button clicked!")}
+            />
+          ) : (
+            <p>Loading banner...</p>
+          )}
+
+          <div className="categories-container">
+            {categories.map((category) => (
+              <HomeMovieCategory
+                key={category.categoryId}
+                title={category.categoryName}
+                movies={category.movies}
+              />
+            ))}
+          </div>
+          <button className="movie-info-button" onClick={goToMovieInfo}>
+            Movie Info
+          </button>
+          <button onClick={handleLogout} style={{ fontSize: '1.5rem', padding: '10px 20px', borderRadius: '5px' }}>
+            Logout
+          </button>
+        </>
+      )}
     </div>
   );
 };
