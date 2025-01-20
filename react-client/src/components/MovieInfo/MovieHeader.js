@@ -8,11 +8,14 @@ const MovieHeader = ({ movieDetails }) => {
         <span className="detail-item">
           {movieDetails.age_limit ? `${movieDetails.age_limit}+` : "N/A"}
         </span>
-        <span className="detail-item">{movieDetails.duration || "N/A"} min</span>
+        <span className="detail-item">
+          {movieDetails.duration || "N/A"} min
+        </span>
       </div>
       <p className="movie-description">{movieDetails.description}</p>
       <p className="movie-description">
-        <strong>Categories:</strong> {movieDetails.categories.join(", ")}
+        <strong>Categories:</strong>{" "}
+        {movieDetails.categories.map((category) => category.name).join(", ")}
       </p>
     </div>
   );
