@@ -31,20 +31,16 @@ const HomePage = () => {
     }
   }, [token, navigate]);
 
+  // Fetch user profile and movie data
   useEffect(() => {
-    const fetchMovieData = async () => {
+    const fetchHomeData = async () => {
       try {
-        const movieId = 25; // Example movie ID
-        const [user, videoBlobUrl, movie, categories] = await Promise.all([
+        const [user, categories] = await Promise.all([
           getUserProfile(userId),
-          fetchMovieVideoStream(movieId, token),
-          fetchMovieDetails(movieId, token),
           fetchMoviesByUserID(userId, token),
         ]);
         console.log("Profile picture:", user.picture);
         setUserProfile(user.picture);
-        setVideoUrl(videoBlobUrl); // Set Blob URL for the video
-        setMovieDetails(movie);
         console.log("Categories details:", categories);
         setCategories(categories);
 
@@ -54,9 +50,44 @@ const HomePage = () => {
     };
 
     if (token) {
-      fetchMovieData();
+      fetchHomeData();
     }
   }, [token]);
+
+  // Fetch banner movie data
+  useEffect(() => {
+    const fetchBannerData = async () => {
+      try {
+        // Ensure categories is defined and has at least one item with movies
+        if (categories && categories.length > 0 && categories[0].movies && categories[0].movies.length > 0) {
+          
+          // Get a random movie from a random category
+          const randomCategoryIndex = Math.floor(Math.random() * categories.length);
+          const randomMovieIndex = Math.floor(Math.random() * categories[randomCategoryIndex].movies.length);
+          const movieId = categories[randomCategoryIndex].movies[randomMovieIndex].id;
+
+          const [videoBlobUrl, movie] = await Promise.all([
+            fetchMovieVideoStream(movieId, token),
+            fetchMovieDetails(movieId, token),
+          ]);
+          
+          // Set Blob URL and movie details
+          setVideoUrl(videoBlobUrl); // Set Blob URL for the video
+          setMovieDetails(movie);
+          console.log("Banner movie details:", movie);
+
+        } else {
+          console.warn("Categories or movies data is not available.");
+        }
+      } catch (error) {
+        console.error("Failed to fetch banner movie data:", error);
+      }
+    };
+
+    if (categories) {
+      fetchBannerData();
+    }
+  }, [categories]);
 
   const handlePlay = () => {
     console.log("Play button clicked!");
@@ -108,7 +139,7 @@ const HomePage = () => {
       <button className="movie-info-button" onClick={goToMovieInfo}>
         Movie Info
       </button>
-<button onClick={handleLogout} style={{ fontSize: '1.5rem', padding: '10px 20px', borderRadius: '5px' }}>
+      <button onClick={handleLogout} style={{ fontSize: '1.5rem', padding: '10px 20px', borderRadius: '5px' }}>
         Logout
       </button>
     </div>
