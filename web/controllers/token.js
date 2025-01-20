@@ -25,7 +25,8 @@ const authenticateUser = async (req, res) => {
           username: user.username,
           role: user.is_admin,
         },
-        JWT_SECRET_KEY
+        JWT_SECRET_KEY,
+        { expiresIn: "1h" } // optional.
       );
 
       res.status(200).json({

@@ -7,15 +7,15 @@
     overflow: hidden;
 }
 
-/* Background image */
+/* Background video */
 .movie-background {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('../../public/banner.jpg') center/cover no-repeat;
-    z-index: -2;
+    object-fit: cover; /* Cover the entire screen */
+    z-index: -2; /* Place behind the overlay */
 }
 
 /* Transparent black overlay with gradient */
@@ -32,7 +32,7 @@
         rgba(0, 0, 0, 0) 100% 
     );
     border-radius: 20px 20px 0 0; 
-    z-index: -1;
+    z-index: -1; /* Ensure it's above the background */
 }
 
 /* Content styling */
@@ -46,7 +46,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    z-index: 1;
+    z-index: 1; /* Ensure it's above the overlay */
 }
 
 /* Header styling */
@@ -103,5 +103,3 @@
     background-color: var(--button-hover-background-color); 
     color: var(--button-text-color); 
 }
-
-
