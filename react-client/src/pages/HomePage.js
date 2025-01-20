@@ -23,8 +23,8 @@ const HomePage = () => {
 
   // Retrieve data from localStorage
   const userId = localStorage.getItem("id");
-  const display_name = localStorage.getItem("display_name");
   const token = localStorage.getItem("authToken");
+
   useEffect(() => {
     if (!token) {
       navigate("/signin");
@@ -106,7 +106,7 @@ const HomePage = () => {
         </div>
       ) : (
         <>
-          <HomeHeader username={display_name} profilePicture={userProfile} />
+          {/* <HomeHeader username={display_name} profilePicture={userProfile} /> */}
 
           {videoUrl && movieDetails ? (
             <HomeBanner

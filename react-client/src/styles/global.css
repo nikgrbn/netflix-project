@@ -14,8 +14,10 @@ code {
 
 .form-group {
   margin-bottom: 20px;
-  padding-left: 40px; /* Add horizontal padding */
-  padding-right: 40px; /* Add horizontal padding */
+  padding-left: 40px;
+  /* Add horizontal padding */
+  padding-right: 40px;
+  /* Add horizontal padding */
 }
 
 .form-group h1 {
@@ -29,30 +31,32 @@ code {
   height: 52px;
   padding: 10px;
   font-size: 1rem;
-  border: none; 
-  border-bottom: 1px solid var(--text-color-secondary); 
-  background-color: var(--input-background-color); 
-  color: var(--text-color); 
-  outline: none; 
-  border-radius: 0; 
+  border: none;
+  border-bottom: 1px solid var(--text-color-secondary);
+  background-color: var(--input-background-color);
+  color: var(--text-color);
+  outline: none;
+  border-radius: 0;
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .form-group input::placeholder {
-  color: var(--text-color-secondary); 
+  color: var(--text-color-secondary);
 }
 
 .form-group input:focus {
-  border-bottom: 1px solid var(--text-color); 
-  background-color: rgba(60, 70, 100, 0.8); 
+  border-bottom: 1px solid var(--text-color);
+  background-color: rgba(60, 70, 100, 0.8);
 }
 
 .form-group input.has-error {
-  margin-bottom: 10px; /* Reduced margin-top when there's an error */
+  margin-bottom: 10px;
+  /* Reduced margin-top when there's an error */
 }
 
 .form-group input:focus {
-  outline: 2px solid var(--text-color); /* Change the outline to white on focus */
+  outline: 2px solid var(--text-color);
+  /* Change the outline to white on focus */
 }
 
 .form-group button {
@@ -70,40 +74,44 @@ code {
   background-color: var(--button-hover-background-color);
 }
 
-.form-group input, 
+.form-group input,
 .form-group button {
-  box-sizing: border-box; /* Ensure width includes padding and border */
+  box-sizing: border-box;
+  /* Ensure width includes padding and border */
 }
 
 .error-message {
-  color: var(--error-color); 
-  font-size: 0.8rem; 
-  margin-top: -8px; 
-  margin-bottom: 5px; 
-  text-align: left; 
+  color: var(--error-color);
+  font-size: 0.8rem;
+  margin-top: -8px;
+  margin-bottom: 5px;
+  text-align: left;
   display: flex;
   align-items: center;
-  gap: 4px; 
-  padding-left: 5px; 
+  gap: 4px;
+  padding-left: 5px;
 }
 
 .error-message::before {
-  content: "✖"; 
-  color: var(--error-color); 
-  margin-left: 0px; 
+  content: "✖";
+  color: var(--error-color);
+  margin-left: 0px;
 }
 
 .form-group input:focus.error {
-  outline: 2px solid var(--error-color); /* Highlight the input field with a red outline */
+  outline: 2px solid var(--error-color);
+  /* Highlight the input field with a red outline */
 }
 
 .form-group input {
-  border: 1px solid var(--input-border-color); /* Ensure default border color */
+  border: 1px solid var(--input-border-color);
+  /* Ensure default border color */
   border-radius: 4px;
 }
 
 .form-group input.error {
-  border: 1px solid var(--error-color); /* Change border color if there is an error */
+  border: 1px solid var(--error-color);
+  /* Change border color if there is an error */
 }
 
 .netflix-logo {
@@ -113,12 +121,12 @@ code {
 }
 
 .header-container {
-  position: absolute; 
-  top: 20px; 
+  position: absolute;
+  top: 20px;
   left: -10px;
   display: flex;
   align-items: center;
-  z-index: 1000; 
+  z-index: 1000;
 }
 
 .loading-spinner {
@@ -147,4 +155,102 @@ code {
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.home-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  z-index: 100;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-header.scrolled {
+  background-color: var(--background-secondary-color);
+  /* Your semi-transparent background */
+  box-shadow: 0 2px 5px var(--background-secondary-color);
+}
+
+.home-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  /* Spacing between logo and toggle */
+}
+
+.home-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-right: 3.5rem;
+}
+
+.home-header-right .username {
+  color: var(--text-color);
+  font-size: 1rem;
+  font-weight: bold;
+  -webkit-text-stroke: 1px var(--text-color-secondary);
+  /* Add text stroke */
+}
+
+.home-header-right .profile-picture {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid var(--text-color-secondary);
+  /* Set the border color */
+}
+
+
+.search-bar {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+  /* Space between logo and search bar */
+  height: 35px;
+}
+
+.search-input-wrapper {
+  position: relative;
+  width: 180px;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: var(--text-color);
+  font-size: 1rem;
+  pointer-events: none;
+  /* Prevent icon from blocking input interaction */
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.5rem 0.5rem 0.5rem 2.2rem;
+  /* Add padding for the icon */
+  border: 1px solid var(--input-border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+  outline: none;
+  color: var(--text-color);
+  background-color: var(--input-background-color);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted-color);
+}
+
+.search-input:focus {
+  border-color: var(--input-focus-border-color);
 }
