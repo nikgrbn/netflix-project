@@ -84,8 +84,11 @@ const HomePage = () => {
   };
 
   const handleMoreInfo = () => {
-    const movieId = 25; // Example movie ID, replace with dynamic ID if needed
-    navigate(`/movies/${movieId}`);
+    if (movieDetails && movieDetails.id) {
+      navigate(`/movies/${movieDetails.id}`);
+    } else {
+      console.error("Movie ID is not available.");
+    }
   };
 
   const handleLogout = () => {
@@ -125,9 +128,6 @@ return (
               />
             ))}
           </div>
-          <button className="movie-info-button" onClick={handleMoreInfo}>
-            Movie Info
-          </button>
           <button onClick={handleLogout} style={{ fontSize: '1.5rem', padding: '10px 20px', borderRadius: '5px' }}>
             Logout
           </button>
