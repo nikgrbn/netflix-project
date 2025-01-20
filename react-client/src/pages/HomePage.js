@@ -84,7 +84,8 @@ const HomePage = () => {
   };
 
   const handleMoreInfo = () => {
-    console.log("More Info button clicked!");
+    const movieId = 25; // Example movie ID, replace with dynamic ID if needed
+    navigate(`/movies/${movieId}`);
   };
 
   const handleLogout = () => {
@@ -93,12 +94,7 @@ const HomePage = () => {
     navigate("/");
   };
 
-  const goToMovieInfo = () => {
-    const movieId = 25; // Example movie ID, replace with dynamic ID if needed
-    navigate(`/movies/${movieId}`);
-  };
-
-  return (
+return (
     <div className="home-page">
       {loading ? (
         <div className="loading-spinner">
@@ -109,13 +105,13 @@ const HomePage = () => {
           {/* <HomeHeader username={display_name} profilePicture={userProfile} /> */}
 
           {videoUrl && movieDetails ? (
-            <HomeBanner
-              title={movieDetails.name}
-              description={movieDetails.description}
-              videoUrl={videoUrl}
-              onPlay={() => console.log("Play button clicked!")}
-              onMoreInfo={() => console.log("More Info button clicked!")}
-            />
+        <HomeBanner
+          title={movieDetails.name}
+          description={movieDetails.description}
+          videoUrl={videoUrl}
+          onPlay={handlePlay}
+          onMoreInfo={goToMovieInfo}
+        />
           ) : (
             <p>Loading banner...</p>
           )}
@@ -129,7 +125,7 @@ const HomePage = () => {
               />
             ))}
           </div>
-          <button className="movie-info-button" onClick={goToMovieInfo}>
+          <button className="movie-info-button" onClick={handleMoreInfo}>
             Movie Info
           </button>
           <button onClick={handleLogout} style={{ fontSize: '1.5rem', padding: '10px 20px', borderRadius: '5px' }}>
