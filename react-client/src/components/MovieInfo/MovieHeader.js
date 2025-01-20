@@ -1,18 +1,18 @@
 import React from "react";
 
-const MovieHeader = () => {
+const MovieHeader = ({ movieDetails }) => {
   return (
     <div className="movie-header">
-      <h1 className="movie-title">LOVE IS BLIND UK</h1>
+      <h1 className="movie-title">{movieDetails.name}</h1>
       <div className="movie-details">
-        <span className="detail-item">2024</span>
-        <span className="detail-item">13+</span>
+        <span className="detail-item">
+          {movieDetails.age_limit ? `${movieDetails.age_limit}+` : "N/A"}
+        </span>
+        <span className="detail-item">{movieDetails.duration || "N/A"} min</span>
       </div>
+      <p className="movie-description">{movieDetails.description}</p>
       <p className="movie-description">
-        In a small, forgotten town, a young musician discovers a mysterious melody hidden within an old piano. As she unravels its secrets, she is drawn into a haunting tale of love, loss, and redemption that spans generations.
-      </p>
-      <p className="movie-description">
-        <strong>Categories:</strong> Romantic, Comedy
+        <strong>Categories:</strong> {movieDetails.categories.join(", ")}
       </p>
     </div>
   );
