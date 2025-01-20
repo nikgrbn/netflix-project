@@ -8,6 +8,7 @@
     --background-secondary-color: rgb(20, 20, 20);
     --background-secondary-color-rgb: 20, 20, 20;
     --text-color: white;
+    --text-color-hover: rgb(210, 210, 210);
     --text-color-secondary: rgba(255, 255, 255, 0.6);
     --form-background-color: rgba(0, 0, 0, 0.70);
     --button-secondary-color: #66666670;
@@ -31,6 +32,7 @@
     --background-secondary-color: rgb(211, 211, 211);
     --background-secondary-color-rgb: 211, 211, 211;
     --text-color: black;
+    --text-color-hover: rgb(45, 45, 45);
     --text-color-secondary: rgba(0, 0, 0, 0.6);
     --form-background-color: rgba(255, 255, 255, 0.75);
     --button-secondary-color: #9f9f9f70;

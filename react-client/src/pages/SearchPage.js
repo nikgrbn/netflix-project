@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./SearchPage.css";
 import { useLocation } from "react-router-dom";
-import HomeHeader from "../components/Home/HomeHeader";
 
 const SearchPage = () => {
     const [results, setResults] = useState([]);

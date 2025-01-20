@@ -9,7 +9,7 @@ import SearchPage from "./pages/SearchPage";
 import "./styles/themes.css";
 import { ThemeProvider } from "./components/Shared/ThemeProvider";
 import ProtectedRoute from "./components/Shared/ProtectedRoute";
-import Layout from "./components/Shared/Layout";
+import Layout from "./components/Shared/MainHeader/Layout";
 
 function App() {
   const username = localStorage.getItem("display_name");

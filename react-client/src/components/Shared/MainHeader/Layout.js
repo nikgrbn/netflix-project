@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import HomeHeader from "../Home/HomeHeader";
+import MainHeader from "./MainHeader";
 import { Outlet } from "react-router-dom";
-import { getUserProfile } from "../../services/api";
+import { getUserProfile } from "../../../services/api";
 
 const Layout = () => {
     const [display_name, setDisplayName] = useState(null);
@@ -28,7 +28,7 @@ const Layout = () => {
 
     return (
         <>
-            <HomeHeader username={display_name} profilePicture={picture} />
+            <MainHeader username={display_name} profilePicture={picture} />
             <div>
                 <Outlet /> {/* Render nested routes here */}
             </div>

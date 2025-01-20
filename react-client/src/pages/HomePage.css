@@ -68,7 +68,7 @@
 }
 
 .banner-content p {
-    color: white;
+    color: var(--text-color);
     font-size: 0.8rem;
     margin-bottom: 1rem;
 }
