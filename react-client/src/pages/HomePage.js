@@ -7,7 +7,6 @@ import {
   getUserProfile,
   fetchMoviesByUserID,
 } from "../services/api";
-import HomeHeader from "../components/Home/HomeHeader";
 import HomeBanner from "../components/Home/HomeBanner";
 import HomeMovieCategory from "../components/Home/HomeMovieCategory";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +16,6 @@ const HomePage = () => {
 
   const [loading, setLoading] = useState(true);
   const [dataReady, setDataReady] = useState(false); // Tracks when data is ready
-  const [userProfile, setUserProfile] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
   const [movieDetails, setMovieDetails] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -35,12 +33,9 @@ const HomePage = () => {
   useEffect(() => {
     const fetchHomeData = async () => {
       try {
-        const [user, fetchedCategories] = await Promise.all([
-          getUserProfile(userId),
+        const [fetchedCategories] = await Promise.all([
           fetchMoviesByUserID(userId, token),
         ]);
-
-        setUserProfile(user.picture);
         setCategories(fetchedCategories);
 
         // Check if categories have movies for the banner
