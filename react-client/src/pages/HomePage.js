@@ -90,7 +90,7 @@ const HomePage = () => {
           description={movieDetails.description}
           videoUrl={videoUrl}
           onPlay={handlePlay}
-          onMoreInfo={handleMoreInfo}
+          onMoreInfo={goToMovieInfo}
         />
       ) : (
         <p>Loading banner...</p>
@@ -105,9 +105,6 @@ const HomePage = () => {
           />
         ))}
       </div>
-      <button className="movie-info-button" onClick={goToMovieInfo}>
-        Movie Info
-      </button>
 <button onClick={handleLogout} style={{ fontSize: '1.5rem', padding: '10px 20px', borderRadius: '5px' }}>
         Logout
       </button>
