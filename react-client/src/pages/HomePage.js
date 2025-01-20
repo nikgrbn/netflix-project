@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import "./HomePage.css";
 import {
@@ -6,7 +7,6 @@ import {
   getUserProfile,
   fetchMoviesByUserID,
 } from "../services/api";
-import HomeHeader from "../components/Home/HomeHeader";
 import HomeBanner from "../components/Home/HomeBanner";
 import HomeMovieCategory from "../components/Home/HomeMovieCategory";
 import { useNavigate } from "react-router-dom";
@@ -16,15 +16,14 @@ const HomePage = () => {
 
   const [loading, setLoading] = useState(true);
   const [dataReady, setDataReady] = useState(false); // Tracks when data is ready
-  const [userProfile, setUserProfile] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
   const [movieDetails, setMovieDetails] = useState(null);
   const [categories, setCategories] = useState([]);
 
   // Retrieve data from localStorage
   const userId = localStorage.getItem("id");
-  const display_name = localStorage.getItem("display_name");
   const token = localStorage.getItem("authToken");
+
   useEffect(() => {
     if (!token) {
       navigate("/signin");
@@ -34,12 +33,9 @@ const HomePage = () => {
   useEffect(() => {
     const fetchHomeData = async () => {
       try {
-        const [user, fetchedCategories] = await Promise.all([
-          getUserProfile(userId),
+        const [fetchedCategories] = await Promise.all([
           fetchMoviesByUserID(userId, token),
         ]);
-
-        setUserProfile(user.picture);
         setCategories(fetchedCategories);
 
         // Check if categories have movies for the banner
@@ -105,7 +101,7 @@ return (
         </div>
       ) : (
         <>
-          <HomeHeader username={display_name} profilePicture={userProfile} />
+          {/* <HomeHeader username={display_name} profilePicture={userProfile} /> */}
 
           {videoUrl && movieDetails ? (
         <HomeBanner
@@ -128,6 +124,9 @@ return (
               />
             ))}
           </div>
+          <button className="movie-info-button" onClick={handleMoreInfo}>
+            Movie Info
+          </button>
           <button onClick={handleLogout} style={{ fontSize: '1.5rem', padding: '10px 20px', borderRadius: '5px' }}>
             Logout
           </button>
