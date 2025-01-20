@@ -110,7 +110,7 @@ return (
           description={movieDetails.description}
           videoUrl={videoUrl}
           onPlay={handlePlay}
-          onMoreInfo={goToMovieInfo}
+          onMoreInfo={handleMoreInfo}
         />
           ) : (
             <p>Loading banner...</p>
