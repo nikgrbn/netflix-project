@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import "./HomePage.css";
 import {
@@ -84,8 +85,11 @@ const HomePage = () => {
   };
 
   const handleMoreInfo = () => {
-    const movieId = 25; // Example movie ID, replace with dynamic ID if needed
-    navigate(`/movies/${movieId}`);
+    if (movieDetails && movieDetails.id) {
+      navigate(`/movies/${movieDetails.id}`);
+    } else {
+      console.error("Movie ID is not available.");
+    }
   };
 
   const handleLogout = () => {
@@ -110,7 +114,7 @@ return (
           description={movieDetails.description}
           videoUrl={videoUrl}
           onPlay={handlePlay}
-          onMoreInfo={goToMovieInfo}
+          onMoreInfo={handleMoreInfo}
         />
           ) : (
             <p>Loading banner...</p>
