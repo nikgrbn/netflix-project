@@ -82,11 +82,12 @@
     display: flex;
     align-items: center; /* Align icons and text */
     gap: 0.5rem; /* Space between icon and text */
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1rem;
     border: none;
     border-radius: 5px;
     font-size: 1rem;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .play-button {

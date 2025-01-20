@@ -19,7 +19,6 @@ const SignUpPage = () => {
   const handleFormSubmit = async (data) => {
     try {
       await signUpUser(data);
-      alert("User signed up successfully!");
       navigate("/signin");
     } catch (error) {
       console.error("Error signing up", error);
