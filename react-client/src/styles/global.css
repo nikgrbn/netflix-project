@@ -114,16 +114,6 @@ code {
   /* Change border color if there is an error */
 }
 
-
-.header-container {
-  position: absolute;
-  top: 20px;
-  left: -10px;
-  display: flex;
-  align-items: center;
-  z-index: 1000;
-}
-
 .loading-spinner {
   position: fixed;
   top: 0;

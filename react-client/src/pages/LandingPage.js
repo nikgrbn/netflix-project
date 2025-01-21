@@ -8,7 +8,7 @@ import { useEffect } from "react";
 const LandingPage = () => {
   const navigate = useNavigate();
   localStorage.setItem("selectedTheme", "dark");
-  
+
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
@@ -17,9 +17,11 @@ const LandingPage = () => {
   }, [navigate]);
 
   return (
-    <div className="landing-page">
+    <div>
       <LandingHeader />
-      <LandingContent />
+      <div className="landing-page">
+        <LandingContent />
+      </div>
     </div>
   );
 };

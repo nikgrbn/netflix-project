@@ -10,13 +10,15 @@ const LandingHeader = () => {
 
   return (
     <header className="header-container">
-      {/* <img src="/netflix-logo.png" alt="Netflix Logo" className="netflix-logo" /> */}
+      <img 
+        src="/netflix-logo.png" 
+        alt="Netflix Logo" 
+        className="netflix-logo" 
+        onClick={() => navigate("/")} 
+      />
       <div className="header-buttons">
-        <select className="language-select">
-          <option value="en">English</option>
-          <option value="he">עברית</option>
-        </select>
-        <button className="sign-in-button" onClick={handleSignInClick}>
+        <button className="sign-in-button"
+          onClick={handleSignInClick}>
           Sign In
         </button>
       </div>

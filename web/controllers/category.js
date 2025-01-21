@@ -1,7 +1,8 @@
 const categoryService = require('../services/category');
 const movieService = require('../services/movie');
-const { formatMongoDocument } = require("../utils/helpers");
-const { errors }  = require('../utils/consts');
+const { formatDocument, formatMongoDocument } = require("../utils/helpers");
+const { errors } = require("../utils/consts");
+
 
 const createCategory = async (req, res) => {
     // Check if the category name field is provided
@@ -27,7 +28,53 @@ const createCategory = async (req, res) => {
 
 const getCategories = async (req, res) => {
     try {
-        res.json(await categoryService.getCategories());
+        
+        const result = [];
+
+        // Fetch all categories
+        const categories = await categoryService.getCategories();
+        for (const category of categories) {
+            // Filter movies based on the category
+            const movies = await movieService.filterMovies(
+                {
+                    categories: { $in: [category._id] }, // Check if categoryId is in the categories array
+                },
+                undefined,
+                {
+                    from: 'categories', // Replace the category ID with the category document
+                    localField: 'categories',
+                    foreignField: '_id',
+                    as: 'categories'
+                });
+
+            // Format the document
+            const formatted = movies.map((movie) => {
+                // Format the movie document
+                const formattedMovie = formatDocument(movie);
+
+                // Construct the full movie picture URL
+                formattedMovie.image = formattedMovie.image
+                    ? `${req.protocol}://${req.get("host")}/${formattedMovie.image}`
+                    : `${req.protocol}://${req.get("host")}/uploads/movies/default-picture.png`;
+
+                for (const movieCategory of formattedMovie.categories) {
+                    // Remove the _id field from the category document
+                    movieCategory.id = movieCategory._id;
+                    delete movieCategory._id;
+                }
+
+                return formattedMovie;
+            });
+
+            // Push the category and its movies to the result
+            result.push({
+                categoryId: category._id,
+                categoryName: category.name,
+                movies: formatted,
+            });
+        }
+
+        return res.status(200).json(result);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
