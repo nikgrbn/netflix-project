@@ -186,3 +186,7 @@
   scrollbar-width: none;
   /* For Firefox */
 }
+.movie-image-container {
+  position: relative;
+  display: inline-block;
+}
