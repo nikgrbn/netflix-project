@@ -5,12 +5,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
 const MainHeader = ({ username, profilePicture }) => {
-  const [opacity, setOpacity] = useState(0.1);
+  const [opacity, setOpacity] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrolled = Math.min((window.scrollY / 150) + 0.1, 1);
+      const scrolled = Math.min((window.scrollY / 150), 1);
       setOpacity(scrolled);
     };
 

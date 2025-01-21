@@ -166,6 +166,17 @@ code {
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.home-header::before {
+  content: "";
+  position: absolute;
+  top: -10px; /* Increase to cover more area above the header */
+  left: 0;
+  right: 0;
+  height: 70px; /* Increase to cover more area above the header */
+  background: linear-gradient(to bottom, var(--background-secondary-color), transparent); /* Adjust gradient as needed */
+  z-index: -1; /* Ensure the gradient is behind the header */
+}
+
 .netflix-logo {
   padding-left: 6%;
   padding-right: 4%;
@@ -224,7 +235,7 @@ code {
 .search-bar {
   display: flex;
   align-items: center;
-  margin-right: 2.5rem;
+  margin-right: 2.75rem;
   height: 35px;
 }
 
