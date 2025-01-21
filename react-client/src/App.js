@@ -41,16 +41,20 @@ function App() {
                 </ProtectedRoute>
               }
             />
-          </Route>
 
-          <Route
-            path="/movies/:id"
-            element={
-              <ProtectedRoute>
-                <MovieInfoPage />
-              </ProtectedRoute>
-            }
-          />
+            {/* Route for Movie Modal */}
+            <Route
+              path="/movies/:id"
+              element={
+                <ProtectedRoute>
+                  <>
+                    <HomePage /> {/* Background page */}
+                    <MovieInfoPage /> {/* Modal */}
+                  </>
+                </ProtectedRoute>
+              }
+            />
+          </Route>
         </Routes>
       </Router>
     </ThemeProvider>
