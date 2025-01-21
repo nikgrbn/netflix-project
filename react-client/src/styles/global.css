@@ -162,7 +162,7 @@ code {
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
-  z-index: 100;
+  z-index: 1000;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -175,6 +175,7 @@ code {
 }
 
 .home-header.scrolled {
+  z-index: 1000;
   background-color: var(--background-secondary-color);
   /* Your semi-transparent background */
   box-shadow: 0 2px 5px var(--background-secondary-color);
@@ -261,4 +262,21 @@ code {
 
 .search-input:focus {
   border-color: var(--input-focus-border-color);
+}
+
+.movie-item {
+  user-select: none;
+  flex: 0 0 auto;
+  width: 150px;
+  z-index: 100;
+}
+
+.movie-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.movie-item img {
+  width: 100%;
+  border-radius: 4px;
 }

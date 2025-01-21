@@ -1,11 +1,32 @@
 .search-page {
-    color: var(--text-color);
+    color: var(--text-color-secondary);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    /* Align at the top */
     text-align: center;
     background-color: var(--background-secondary-color);
     min-height: 100vh;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 10%;
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 60px;
+    /* Adjust the gap to suit your layout */
+    width: 100%;
+    max-width: 1200px;
+    /* Limit the grid's maximum width */
+    justify-items: center;
+    /* Centers the items horizontally */
+    align-items: center;
+    /* Centers the items vertically */
+    box-sizing: border-box;
+}
+
+.movie-img {
+
 }

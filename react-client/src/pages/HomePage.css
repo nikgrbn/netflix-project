@@ -1,175 +1,188 @@
 .home-page {
-    color: var(--text-color);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* Align at the top */
-    text-align: center;
-    background-color: var(--background-secondary-color);
-    min-height: 100vh;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  /* Align at the top */
+  text-align: center;
+  background-color: var(--background-secondary-color);
+  min-height: 100vh;
 }
 
 
 .banner {
-    position: relative;
-    width: 100%;
-    height: 80svh;
-    overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 80svh;
+  overflow: hidden;
 }
 
 .banner-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensure the video covers the entire banner area */
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1; /* Place below content but above gradient */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Ensure the video covers the entire banner area */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  /* Place below content but above gradient */
 }
 
 .banner-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensure the image covers the entire banner area */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Ensure the image covers the entire banner area */
 }
 
 .banner-gradient {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        to top,
-        var(--background-secondary-color) 10%, /* Start at original page color */
-        rgba(0, 0, 0, 0.5) 50%, /* Transparent gradient */
-        rgba(0, 0, 0, 0) 100% /* Fully transparent */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top,
+      var(--background-secondary-color) 10%,
+      /* Start at original page color */
+      rgba(0, 0, 0, 0.5) 50%,
+      /* Transparent gradient */
+      rgba(0, 0, 0, 0) 100%
+      /* Fully transparent */
     );
-    z-index: 5;
+  z-index: 5;
 }
 
 .banner-content {
-    position: absolute;
-    top: 45%;
-    left: 0;
-    transform: translateY(-50%);
-    text-align: left;
-    color: var(--text-color);
-    z-index: 10;
-    padding-left: 5%;
-    max-width: 35%;
-    box-sizing: border-box;
+  position: absolute;
+  top: 45%;
+  left: 0;
+  transform: translateY(-50%);
+  text-align: left;
+  color: var(--text-color);
+  z-index: 10;
+  padding-left: 5%;
+  max-width: 35%;
+  box-sizing: border-box;
 }
 
 .banner-content h1 {
-    color: var(--header-text-color);
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
+  color: var(--header-text-color);
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
 }
 
 .banner-content p {
-    color: var(--text-color);
-    font-size: 0.8rem;
-    margin-bottom: 1rem;
+  color: var(--text-color);
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
 }
 
 .banner-buttons {
-    display: flex;
-    gap: 1rem;
+  display: flex;
+  gap: 1rem;
 }
 
-.play-button, .info-button {
-    display: flex;
-    align-items: center; /* Align icons and text */
-    gap: 0.5rem; /* Space between icon and text */
-    padding: 0.6rem 1rem;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    font-weight: bold;
+.play-button,
+.info-button {
+  display: flex;
+  align-items: center;
+  /* Align icons and text */
+  gap: 0.5rem;
+  /* Space between icon and text */
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .play-button {
-    background-color: var(--text-color);
-    color: var(--background-color);
+  background-color: var(--text-color);
+  color: var(--background-color);
 }
 
 .info-button {
-    background-color: var(--button-secondary-color);
-    color: var(--text-color);
+  background-color: var(--button-secondary-color);
+  color: var(--text-color);
 }
 
 .play-button:hover {
-    background-color: var(--text-color-secondary);
+  background-color: var(--text-color-secondary);
 }
 
 .info-button:hover {
-    background-color: var(--button-secondary-hover);
+  background-color: var(--button-secondary-hover);
 }
 
 .icon-play::before {
-    content: '▶';
-    font-size: 1rem;
+  content: '▶';
+  font-size: 1rem;
 }
 
 .icon-info::before {
-    content: 'ℹ';
-    font-size: 1rem;
+  content: 'ℹ';
+  font-size: 1rem;
 }
 
+.categories-container {
+  z-index: 10;
+  /* Ensure it stays above the banner */
+  width: 100%;
+  /* Take the full width of the parent */
+  margin-top: -60px;
+  /* Move the section higher relative to its default position */
+  box-sizing: border-box;
+  /* Ensure padding is included in the element's width */
+}
 
-  .categories-container {
-    z-index: 10; /* Ensure it stays above the banner */
-    width: 100%; /* Take the full width of the parent */
-    margin-top: -70px; /* Move the section higher relative to its default position */
-    box-sizing: border-box; /* Ensure padding is included in the element's width */
-  }
-  
-  .movie-category {
-    margin-bottom: 30px; /* Increase space between categories */
-    width: 100%; /* Ensure full width to align content properly */
-  }
-  
-  .movie-category h2 {
-    color: var(--text-color-secondary);
-    padding-left: 5%; /* Start scrolling from the left padding */
-    margin: 10px 0;
-    font-size: 1.5rem;
-    text-align: left; /* Ensure the category title aligns to the left */
-  }
-  
-  .movie-list {
-    display: flex;
-    overflow-x: auto; /* Allow horizontal scrolling */
-    padding-left: 5%; /* Start scrolling from the left padding */
-    scroll-padding-left: 5%; /* Ensure scrolling starts from the padding */
-  }
-  
-  .movie-list-content {
-    display: flex;
-    gap: 10px; /* Space between movie items */
-  }
-  
-  .movie-list.dragging {
-    cursor: grabbing;
-  }
-  
-  .movie-item {
-    user-select: none;
-    flex: 0 0 auto;
-    width: 150px;
-  }
-  
-  .movie-item img {
-    width: 100%;
-    border-radius: 4px;
-  }
-  
-  .movie-list::-webkit-scrollbar {
-    display: none; /* Hide the scrollbar */
-  }
-  
-  .movie-list {
-    scrollbar-width: none; /* For Firefox */
-  }
+.movie-category {
+  margin-bottom: 30px;
+  /* Increase space between categories */
+  width: 100%;
+  /* Ensure full width to align content properly */
+}
+
+.movie-category h2 {
+  color: var(--text-color-secondary);
+  padding-left: 5%;
+  /* Start scrolling from the left padding */
+  margin: 10px 0;
+  font-size: 1.5rem;
+  text-align: left;
+  /* Ensure the category title aligns to the left */
+}
+
+.movie-list {
+  display: flex;
+  overflow-x: auto;
+  /* Allow horizontal scrolling */
+  padding-left: 5%;
+  /* Start scrolling from the left padding */
+  scroll-padding-left: 5%;
+  /* Ensure scrolling starts from the padding */
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.movie-list-content {
+  display: flex;
+  gap: 10px;
+  /* Space between movie items */
+}
+
+.movie-list.dragging {
+  cursor: grabbing;
+}
+
+.movie-list::-webkit-scrollbar {
+  display: none;
+  /* Hide the scrollbar */
+}
+
+.movie-list {
+  scrollbar-width: none;
+  /* For Firefox */
+}

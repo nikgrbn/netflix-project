@@ -12,6 +12,13 @@ const searchMovies = async (req, res) => {
     // Call the service to search for movies
     const movies = await movieServices.searchMovies(query);
 
+    // Map the image URLs to include the full URL
+    movies.map(movie => {
+      movie.image = movie.image
+        ? `${req.protocol}://${req.get("host")}/${movie.image}`
+        : `${req.protocol}://${req.get("host")}/uploads/movies/default-picture.png`;
+    });
+
     // Return the search results
     return res.status(200).json(movies);
   } catch (error) {
