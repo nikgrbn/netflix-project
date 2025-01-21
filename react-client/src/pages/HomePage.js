@@ -18,11 +18,6 @@ const HomePage = () => {
   const [movieDetails, setMovieDetails] = useState(null);
   const [categories, setCategories] = useState([]);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  // Open and close handlers
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
   // Retrieve data from localStorage
   const userId = localStorage.getItem("id");
   const token = localStorage.getItem("authToken");
