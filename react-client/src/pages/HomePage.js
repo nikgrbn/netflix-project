@@ -75,7 +75,11 @@ const HomePage = () => {
   }, [dataReady]);
 
   const handlePlay = () => {
-    console.log("Play button clicked!");
+    if (movieDetails.id) {
+      navigate(`/watch/${movieDetails.id}`);
+    } else {
+      console.error("Movie is not available.");
+    }
   };
 
   const handleMoreInfo = () => {
