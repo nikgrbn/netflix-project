@@ -19,7 +19,7 @@ const SearchPage = () => {
         try {
             const searchResults = await fetchSearchResults(query, token);
             setResults(searchResults);
-            console.log("Search results:", searchResults);
+            console.log("Search results for:", searchResults);
         } catch (error) {
             console.error("Error fetching search results:", error);
         }
@@ -27,8 +27,7 @@ const SearchPage = () => {
 
     return (
         <div className="search-page">
-            <h2>Search Results</h2>
-            <div className="movie-grid">
+            <h2>Search Results for "{query}"</h2>            <div className="movie-grid">
                 {results.map((result) => (
                     <div key={result.id} className="movie-item">
                         <img
