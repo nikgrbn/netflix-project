@@ -26,21 +26,23 @@ function App() {
           <Route path="/signin" element={<SignInPage />} />
 
           {/* Nested routes for Layout */}
-          <Route element={<Layout />}>
+          <Route element={<ProtectedRoute> <Layout /> </ProtectedRoute>}>
             <Route
               path="/home"
               element={
-                <ProtectedRoute>
                   <HomePage />
-                </ProtectedRoute>
               }
             />
             <Route
               path="/search"
               element={
-                <ProtectedRoute>
                   <SearchPage />
-                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/categories"
+              element={
+                  <CategoriesPage />
               }
             />
 
@@ -48,12 +50,10 @@ function App() {
             <Route
               path="/movies/:id"
               element={
-                <ProtectedRoute>
                   <>
                     <HomePage /> {/* Background page */}
                     <MovieInfoPage /> {/* Modal */}
                   </>
-                </ProtectedRoute>
               }
             />
           </Route>
@@ -63,15 +63,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <VideoPage />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/categories"
-            element={
-              <ProtectedRoute>
-                <CategoriesPage />
               </ProtectedRoute>
             }
           />

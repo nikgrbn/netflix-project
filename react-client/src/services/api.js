@@ -135,3 +135,19 @@ export const fetchRecommendedMovies = async (userId, movieId, token) => {
     throw error.response?.data || error.message;
   }
 };
+
+
+// Function to fetch categories
+export const fetchCategories = async (token) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/categories`,  {
+      headers: {
+        Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
