@@ -36,7 +36,6 @@ const SignInPage = () => {
       localStorage.setItem("is_admin", is_admin);
       localStorage.setItem("watched_movies", watched_movies);
 
-      alert("User signed in successfully!");
       navigate("/home");
     } catch (error) {
       console.error("Error signing in:", error);

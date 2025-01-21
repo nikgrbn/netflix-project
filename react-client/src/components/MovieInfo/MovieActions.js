@@ -3,7 +3,9 @@ import React from "react";
 const MovieActions = () => {
   return (
     <div className="action-buttons">
-      <button className="play-button-movie">▶ Play</button>
+      <button className="play-button-movie">
+        <i className="fas fa-play"></i> Play
+      </button>
     </div>
   );
 };

@@ -96,3 +96,21 @@ export const getUserProfile = async (userId, token) => {
     throw error.response?.data || error.message;
   }
 };
+
+
+// Function to search for movies
+export const fetchSearchResults = async (query, token) => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/movies/search/${query}`, // Use POST instead of GET
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
