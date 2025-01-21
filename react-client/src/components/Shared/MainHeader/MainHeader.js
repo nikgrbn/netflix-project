@@ -47,8 +47,7 @@ const MainHeader = ({ username, profilePicture }) => {
   }
 
   const handleCategoriesClick = () => {
-    // TODO: Implement categories page
-    console.log("Categories page not implemented yet");
+    navigate("/categories");
   }
 
   const handleLogoutClick = () => {

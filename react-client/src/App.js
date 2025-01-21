@@ -11,6 +11,7 @@ import { ThemeProvider } from "./components/Shared/ThemeProvider";
 import ProtectedRoute from "./components/Shared/ProtectedRoute";
 import Layout from "./components/Shared/MainHeader/Layout";
 import VideoPage from "./pages/VideoPage";
+import CategoriesPage from "./pages/CategoriesPage";
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
 
 function AppRoutes() {
   const location = useLocation();
-  const state = location.state || {}; 
+  const state = location.state || {};
 
   return (
     <>
@@ -34,21 +35,23 @@ function AppRoutes() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/signin" element={<SignInPage />} />
 
-        <Route element={<Layout />}>
+        <Route element={<ProtectedRoute> <Layout /> </ProtectedRoute>}>
           <Route
             path="/home"
             element={
-              <ProtectedRoute>
-                <HomePage />
-              </ProtectedRoute>
+              <HomePage />
             }
           />
           <Route
             path="/search"
             element={
-              <ProtectedRoute>
-                <SearchPage />
-              </ProtectedRoute>
+              <SearchPage />
+            }
+          />
+          <Route
+            path="/categories"
+            element={
+              <CategoriesPage />
             }
           />
         </Route>
@@ -56,9 +59,7 @@ function AppRoutes() {
         <Route
           path="/watch/:id"
           element={
-            <ProtectedRoute>
-              <VideoPage />
-            </ProtectedRoute>
+            <VideoPage />
           }
         />
       </Routes>
@@ -69,9 +70,7 @@ function AppRoutes() {
           <Route
             path="/movies/:id"
             element={
-              <ProtectedRoute>
-                <MovieInfoPage />
-              </ProtectedRoute>
+              <MovieInfoPage />
             }
           />
         </Routes>
