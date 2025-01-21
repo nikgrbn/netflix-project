@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import "./HomePage.css";
 import {
@@ -19,6 +18,11 @@ const HomePage = () => {
   const [movieDetails, setMovieDetails] = useState(null);
   const [categories, setCategories] = useState([]);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // Open and close handlers
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   // Retrieve data from localStorage
   const userId = localStorage.getItem("id");
   const token = localStorage.getItem("authToken");
@@ -38,12 +42,18 @@ const HomePage = () => {
         setCategories(fetchedCategories);
 
         // Check if categories have movies for the banner
-        if (fetchedCategories.length > 0 && fetchedCategories[0].movies?.length > 0) {
-          const randomCategoryIndex = Math.floor(Math.random() * fetchedCategories.length);
+        if (
+          fetchedCategories.length > 0 &&
+          fetchedCategories[0].movies?.length > 0
+        ) {
+          const randomCategoryIndex = Math.floor(
+            Math.random() * fetchedCategories.length
+          );
           const randomMovieIndex = Math.floor(
             Math.random() * fetchedCategories[randomCategoryIndex].movies.length
           );
-          const movieId = fetchedCategories[randomCategoryIndex].movies[randomMovieIndex].id;
+          const movieId =
+            fetchedCategories[randomCategoryIndex].movies[randomMovieIndex].id;
 
           const [videoBlobUrl, movie] = await Promise.all([
             fetchMovieVideoStream(movieId, token),
@@ -98,7 +108,6 @@ const HomePage = () => {
         </div>
       ) : (
         <>
-
           {videoUrl && movieDetails ? (
             <HomeBanner
               title={movieDetails.name}
@@ -127,4 +136,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
