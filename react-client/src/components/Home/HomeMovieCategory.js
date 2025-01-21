@@ -1,8 +1,9 @@
 import React, { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,  useLocation } from "react-router-dom";
 
 const HomeMovieCategory = ({ title, movies }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const movieListRef = useRef(null);
   const isDragging = useRef(false);
@@ -34,7 +35,15 @@ const HomeMovieCategory = ({ title, movies }) => {
   const handleMovieClick = (movie) => {
     if (!isDragging.current) {
       console.log("Movie clicked:", movie);
-      navigate(`/movies/${movie.id}`);
+      navigate(`/movies/${movie.id}`, {state: { backgroundLocation: location }});
+      }
+  };
+
+  const handlePlayClick = (movie) => {
+    if (movie.id) {
+      navigate(`/watch/${movie.id}`);
+    } else {
+      console.error("Movie is not available.");
     }
   };
 
@@ -61,6 +70,15 @@ const HomeMovieCategory = ({ title, movies }) => {
               onClick={() => handleMovieClick(movie)}
             >
               <img src={movie.image} alt={movie.name} draggable="false" />
+              <button
+                className="movie-play-button"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent triggering other clicks
+                  handlePlayClick(movie);
+                }}
+              >
+                <i className="fas fa-play"></i>
+              </button>
             </div>
           ))}
         </div>
