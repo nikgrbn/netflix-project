@@ -14,15 +14,16 @@ const createMovie = async (name, fields) => {
 };
 
 const filterMovies = async (match, sample, lookup) => {
-  return await Movie.aggregate([
-    {
-      $match: match,
-    },
-    { $sample: { size: sample } },
-    {
-      $lookup: lookup,
-    },
-  ]);
+  const pipeline = [
+    { $match: match },
+    { $lookup: lookup },
+  ];
+
+  if (sample !== undefined && sample !== null) {
+    pipeline.splice(1, 0, { $sample: { size: sample } });
+  }
+
+  return await Movie.aggregate(pipeline);
 };
 
 const getMovieById = async (id) => {
