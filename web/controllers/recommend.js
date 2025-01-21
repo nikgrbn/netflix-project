@@ -52,8 +52,28 @@ const getRecommendations = async (req, res) => {
         const movies = []
         for (const id of movieIds) {
             const movie = await movieServices.getMovieById(id);
-            if (!movie) return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
-            movies.push(formatMongoDocument(movie));
+            if (!movie) {
+                return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
+            }
+
+            // Format the movie document
+            const formattedMovie = formatMongoDocument(movie);
+
+            // Construct the full movie picture URL
+            formattedMovie.image = formattedMovie.image
+                ? `${req.protocol}://${req.get("host")}/${formattedMovie.image}`
+                : `${req.protocol}://${req.get("host")}/uploads/movies/default-picture.png`;
+
+            // Remove internal MongoDB fields
+            if (formattedMovie.categories) {
+                formattedMovie.categories = formattedMovie.categories.map(category => {
+                    category.id = category._id;
+                    delete category._id;
+                    return category;
+                });
+            }
+
+            movies.push(formattedMovie);
         }
 
         res.status(200).json(movies);

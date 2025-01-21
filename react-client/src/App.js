@@ -1,3 +1,4 @@
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignUpPage from "./pages/SignUpPage";
@@ -38,6 +39,21 @@ function App() {
                 <SearchPage />
               }
             />
+                
+                
+            {/* Route for Movie Modal */}
+            <Route
+              path="/movies/:id"
+              element={
+                <ProtectedRoute>
+                  <>
+                    <HomePage /> {/* Background page */}
+                    <MovieInfoPage /> {/* Modal */}
+                  </>
+                </ProtectedRoute>
+              }
+            />
+
           </Route>
 
           <Route
@@ -65,3 +81,4 @@ function App() {
 }
 
 export default App;
+
