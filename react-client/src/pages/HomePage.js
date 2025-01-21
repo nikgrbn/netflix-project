@@ -7,9 +7,10 @@ import {
 } from "../services/api";
 import HomeBanner from "../components/Home/HomeBanner";
 import HomeMovieCategory from "../components/Home/HomeMovieCategory";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const HomePage = () => {
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
@@ -89,7 +90,7 @@ const HomePage = () => {
 
   const handleMoreInfo = () => {
     if (movieDetails && movieDetails.id) {
-      navigate(`/movies/${movieDetails.id}`);
+      navigate(`/movies/${movieDetails.id}`, {state: { backgroundLocation: location }});
     } else {
       console.error("Movie ID is not available.");
     }
