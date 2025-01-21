@@ -37,6 +37,13 @@ const HomeMovieCategory = ({ title, movies }) => {
       navigate(`/movies/${movie.id}`);
     }
   };
+  const handlePlayClick = (movie) => {
+    if (movie.id) {
+      navigate(`/watch/${movie.id}`);
+    } else {
+      console.error("Movie is not available.");
+    }
+  };
 
   return (
     <div className="movie-category">
@@ -61,6 +68,15 @@ const HomeMovieCategory = ({ title, movies }) => {
               onClick={() => handleMovieClick(movie)}
             >
               <img src={movie.image} alt={movie.name} draggable="false" />
+              <button
+                className="movie-play-button"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent triggering other clicks
+                  handlePlayClick(movie);
+                }}
+              >
+                <i className="fas fa-play"></i>
+              </button>
             </div>
           ))}
         </div>

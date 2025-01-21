@@ -126,6 +126,7 @@ const HomePage = () => {
                 key={category.categoryId}
                 title={category.categoryName}
                 movies={category.movies}
+                bannerMovieId={movieDetails?.id}
               />
             ))}
           </div>
