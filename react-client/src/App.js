@@ -11,6 +11,7 @@ import { ThemeProvider } from "./components/Shared/ThemeProvider";
 import ProtectedRoute from "./components/Shared/ProtectedRoute";
 import Layout from "./components/Shared/MainHeader/Layout";
 import VideoPage from "./pages/VideoPage";
+import CategoriesPage from "./pages/CategoriesPage";
 
 function App() {
   const username = localStorage.getItem("display_name");
@@ -65,7 +66,16 @@ function App() {
               </ProtectedRoute>
             }
           />
-          
+
+          <Route
+            path="/categories"
+            element={
+              <ProtectedRoute>
+                <CategoriesPage />
+              </ProtectedRoute>
+            }
+          />
+
         </Routes>
       </Router>
     </ThemeProvider>
