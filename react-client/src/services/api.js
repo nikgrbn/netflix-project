@@ -114,3 +114,24 @@ export const fetchSearchResults = async (query, token) => {
     throw error.response?.data || error.message;
   }
 };
+
+// Function to fetch recommended movies
+export const fetchRecommendedMovies = async (userId, movieId, token) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/movies/${movieId}/recommend`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
+        "User-ID": userId, // Pass the userId in the User-ID header
+      },
+    });
+
+    // Ensure the response is an array of movies
+    if (!Array.isArray(response.data)) {
+      throw new Error("Invalid response format. Expected an array.");
+    }
+
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};

@@ -13,7 +13,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* כהה עם שקיפות */
+    background: rgba(0, 0, 0, 0.8); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,22 +21,22 @@
 }
   
 .modal-content {
-    background: rgba(0, 0, 0, 0.85); /* כהה */
-    width: 60%;
-    max-width: 900px; /* רוחב מקסימלי */
+    background: rgba(0, 0, 0, 0.85); 
+    max-width: 900px; 
     color: white;
     display: flex;
     flex-direction: column;
     border-radius: 8px;
-    overflow: hidden;
+    overflow-y: auto; 
     position: relative;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
     animation: fadeIn 0.5s ease;
+    max-height: 90vh;
 }
 
 .movie-background {
     width: 100%;
-    border-radius: 8px 8px 0 0; /* עיגול רק בפינות העליונות */
+    border-radius: 8px 8px 0 0; 
     object-fit: cover;
     height: 300px;
 }
@@ -44,7 +44,7 @@
 /* Header styling */
 .movie-header {
     padding: 20px;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 1)); /* מעבר צבע כהה */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 1)); 
     color: white;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     position: relative;
@@ -64,7 +64,7 @@
 }
 
 .detail-item {
-    background: rgba(255, 255, 255, 0.2); /* רקע אפור שקוף */
+    background: rgba(255, 255, 255, 0.2); 
     color: white;
     padding: 5px 10px;
     border-radius: 4px;
@@ -81,9 +81,10 @@
 
 /* Actions styling */
 .play-button-movie {
-    position: relative; /* או absolute אם מתאים יותר */
-    z-index: 10; /* מבטיח שהכפתור יופיע מעל כולם */
-    margin-top: -10px;
+    margin-left: 20px;
+    position: relative; 
+    z-index: 10; 
+    margin-top: -18px;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -100,7 +101,7 @@
 
 .play-button-movie:hover {
     background-color: #e6e6e6;
-    transform: scale(1.05); /* אפקט זום קל */
+    transform: scale(1.05); 
 }
 
 .add-button {
@@ -131,10 +132,10 @@
     right: 15px;
     width: 35px;
     height: 35px;
-    background: rgba(0, 0, 0, 0.7); /* עיגול שחור עם שקיפות */
-    color: white; /* כיתוב לבן */
+    background: rgba(0, 0, 0, 0.7); 
+    color: white; 
     border: none;
-    border-radius: 50%; /* עיגול מושלם */
+    border-radius: 50%; 
     font-size: 1.5rem;
     font-weight: bold;
     display: flex;
@@ -142,20 +143,20 @@
     align-items: center;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    z-index: 2; /* מעל כל התוכן */
+    z-index: 2; 
 }
 
 .modal-close:hover {
-    background: rgba(0, 0, 0, 0.9); /* עיגול כהה יותר */
+    background: rgba(0, 0, 0, 0.9); 
 }
 
 /* Gradient transition under video */
 .modal-header {
     position: relative;
-    height: 300px; /* גובה הוידאו */
+    height: 300px; 
     display: flex;
     align-items: flex-end;
-    overflow: hidden; /* הכרחי כדי למנוע גלישה */
+    overflow: hidden; 
 }
 
 .modal-header::after {
@@ -164,10 +165,10 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 100%; /* מכסה את כל הוידאו */
-    background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)); /* מעבר הדרגתי */
-    z-index: 1; /* מעל הוידאו */
-    pointer-events: none; /* מונע הפרעה ללחיצות */
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+    z-index: 1; 
+    pointer-events: none; 
 }
 
 .modal-header video {
@@ -177,16 +178,53 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: 0; /* מתחת למעבר */
+    z-index: 0; 
 }
 
 /* Modal body */
 .modal-body {
     padding: 20px;
-    background: rgba(0, 0, 0, 0.85); /* רקע כהה */
+    background: rgba(0, 0, 0, 0.85); 
     color: white;
-    z-index: 2; /* מעל המעבר */
+    flex: 1; 
 }
+
+/* Recommended movies section */
+.recommended-movies {
+    margin-top: 20px;
+}
+
+.recommended-list {
+    margin-left: 20px;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px 0;
+}
+
+.recommended-item {
+    margin-left: 20px;
+    flex: 0 0 auto;
+    width: 120px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: white;
+}
+
+.recommended-image {
+    margin-left: 20px;
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+.recommendations {
+    margin-left: -15px; 
+  }
+
+.no-recommendations {
+    color: var(--text-color-secondary);
+    margin-left: 20px;
+  }
 
 /* Modal transition */
 @keyframes fadeIn {
