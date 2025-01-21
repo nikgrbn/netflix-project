@@ -1,5 +1,6 @@
+/* Ensure the parent container has a width */
 .landing-page {
-    position: relative; 
+    position: relative;
     background-image: url('../../public/moviespicture.webp');
     background-size: cover;
     background-position: center;
@@ -9,8 +10,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh; 
+    height: 100vh;
+    width: 100%; /* Add this line */
 }
+
 
 .landing-page::before {
     content: '';
@@ -19,29 +22,19 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--form-background-color); 
-    z-index: 1; 
+    background: linear-gradient(to top, black 0%, transparent 150%);
+    z-index: 1;
 }
 
 .landing-page * {
-    position: relative; 
-    z-index: 2; 
-}
-
-.landing-header h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
-}
-
-.landing-header p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
+    position: relative;
+    z-index: 2;
 }
 
 .username-input {
-    padding: 12px; 
+    padding: 12px;
     margin-bottom: 10px;
-    border: 1px solid var(--input-border-color); 
+    border: 1px solid var(--input-border-color);
     border-radius: 4px;
     font-size: 1rem;
     width: 300px;
@@ -70,69 +63,75 @@
     background-color: var(--button-hover-background-color);
 }
 
-/* .logo {
-    color: var(--link-color);
-    font-size: 3rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-align: center;
-    text-shadow: 2px 2px 4px var(--text-shadow-dark);
-    font-family: 'Arial', sans-serif; 
-    display: inline-block;
-    letter-spacing: 2px; 
-    line-height: 1;
-    transform: scale(1.1) rotateX(15deg); 
-} */
+.language-select {
+    width: 100px;
+    height: 40px;
+    background-color: var(--background-hover-light);
+    color: var(--text-color);
+    border: 1px solid var(--input-border-color);
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: relative;
+    top: -200px;
+    right: -500px;
+
+}
+
+.language-select:hover {
+    background-color: var(--background-hover-light);
+}
+
+.language-select option {
+    background: var(--background-color);
+    color: var(--text-color-secondary);
+}
+
+.header-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Distribute space between logo and buttons */
+    z-index: 100;
+    width: 100%; /* Ensure it takes full width */
+    padding-top: 25px;
+}
+
+.header-container::before {
+    content: "";
+    position: absolute;
+    top: 0px; /* Increase to cover more area above the header */
+    left: 0;
+    right: 0;
+    height: 70px; /* Increase to cover more area above the header */
+    background: linear-gradient(to bottom, var(--background-color), transparent); /* Adjust gradient as needed */
+    z-index: -1; /* Ensure the gradient is behind the header */
+  }
 
 .header-buttons {
     display: flex;
     align-items: center;
-    gap: 15px; 
-}
-
-.language-select {
-    width: 100px; 
-    height: 40px; 
-    background-color: var(--background-hover-light); 
-    color: var(--text-color);
-    border: 1px solid var(--input-border-color); 
-    border-radius: 4px; 
-    padding: 5px 10px; 
-    font-size: 1rem; 
-    cursor: pointer; 
-    transition: background-color 0.3s ease; 
-    position: relative; 
-    top: -200px;
-    right: -500px; 
-    
-}
-
-.language-select:hover {
-    background-color: var(--background-hover-light); 
-}
-
-.language-select option {
-    background: var(--background-color); 
-    color: var(--text-color-secondary);
+    gap: 15px;
 }
 
 .sign-in-button {
-    background-color: var(--button-background-color); 
-    color: var(--button-text-color); 
-    border: none; 
-    border-radius: 4px; 
-    padding: 10px 20px; 
-    font-size: 1rem; 
-    font-weight: bold; 
-    cursor: pointer; 
-    transition: background-color 0.3s ease; 
-    white-space: nowrap; 
-    top: -200px; 
-    right: -500px;
+    margin-right: 100px; /* Adjust as needed */
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
 }
 
 .sign-in-button:hover {
-    background-color: var(--button-hover-background-color); 
+    background-color: var(--button-hover-background-color);
 }
-
-
