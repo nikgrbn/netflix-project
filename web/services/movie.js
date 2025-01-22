@@ -69,6 +69,7 @@ const setMovie = async (id, fields) => {
   // Update the movie, replacing unspecified fields with defaults
   const movie = await Movie.findByIdAndUpdate(id, newFields, {
     new: true,
+    upsert: true,
     overwrite: true,
   });
 

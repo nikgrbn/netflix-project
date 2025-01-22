@@ -4,7 +4,7 @@ const streamController = require("../controllers/stream");
 const queryController = require("../controllers/query");
 const { errors } = require("../utils/consts");
 const jwt = require("jsonwebtoken");
-const { upload } = require('../middlewares/multer'); // Import the Multer middleware
+const { upload } = require("../middlewares/multer"); // Import the Multer middleware
 
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
@@ -40,10 +40,13 @@ router.use(ensureUserHeader); // Apply this middleware to all routes below
 router
   .route("/")
   .get(movieController.getMovies)
-  .post(upload.fields([
-    { name: "image", maxCount: 1 }, // Single image
-    { name: "video", maxCount: 1 }, // Multiple videos
-]),movieController.createMovie);
+  .post(
+    upload.fields([
+      { name: "image", maxCount: 1 }, // Single image
+      { name: "video", maxCount: 1 }, // Multiple videos
+    ]),
+    movieController.createMovie
+  );
 
 // New route for search/
 router.route("/search/").get(queryController.searchMovies);
@@ -53,7 +56,13 @@ router.route("/search/:query").get(queryController.searchMovies);
 router
   .route("/:id")
   .get(movieController.getMovieById)
-  .put(movieController.setMovie)
+  .put(
+    upload.fields([
+      { name: "image", maxCount: 1 }, // Single image
+      { name: "video", maxCount: 1 }, // Multiple videos
+    ]),
+    movieController.setMovie
+  )
   .delete(movieController.deleteMovie);
 
 router

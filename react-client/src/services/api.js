@@ -167,3 +167,19 @@ export const postMovie = async (formData, token) => {
       throw error.response?.data || error.message;
   }
 };
+
+// Post movie
+export const putMovie = async (movieId, formData, token) => {
+  try {
+      const response = await axios.put(`${API_BASE_URL}/movies/${movieId}`, formData, {
+          headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+          },
+      });
+
+      return response.data;
+  } catch (error) {
+      throw error.response?.data || error.message;
+  }
+};
