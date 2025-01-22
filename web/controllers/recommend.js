@@ -62,7 +62,7 @@ const getRecommendations = async (req, res) => {
             // Construct the full movie picture URL
             formattedMovie.image = formattedMovie.image
                 ? `${req.protocol}://${req.get("host")}/${formattedMovie.image}`
-                : `${req.protocol}://${req.get("host")}/uploads/movies/default-picture.png`;
+                : `${req.protocol}://${req.get("host")}/uploads/movies/default-picture.jpg`;
 
             // Remove internal MongoDB fields
             if (formattedMovie.categories) {
