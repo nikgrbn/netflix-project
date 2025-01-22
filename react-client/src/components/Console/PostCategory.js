@@ -25,9 +25,10 @@ const CategoryForm = () => {
   };
   
   return (
-    <div>
+    <div className="container">
       <h3>Post Category</h3>
       <form onSubmit={handleSubmit}>
+        <div>
           <label htmlFor="categoryName">Category Name:</label>
           <input
             type="text"
@@ -37,6 +38,7 @@ const CategoryForm = () => {
             placeholder="Enter category name"
             required
           />
+        </div>
         <div>
           <label htmlFor="promoted">Promoted:</label>
           <select
@@ -51,10 +53,14 @@ const CategoryForm = () => {
         </div>
         <button type="submit">Create Category</button>
       </form>
-      {message && <p style={{ color: "green", fontWeight: "bold" }}>{message}</p>}
+      {message && (
+        <p className={`message ${message.includes("Error") ? "error" : "success"}`}>
+          {message}
+        </p>
+      )}
     </div>
   );
 };
 
-// הוסף את export default מחוץ לבלוק של הפונקציה
+
 export default CategoryForm;

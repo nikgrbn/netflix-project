@@ -26,7 +26,7 @@ const DeleteMovie = () => {
   };
 
   return (
-    <div>
+    <div className="console-section">
       <h3>Delete Movie</h3>
       <form onSubmit={handleDelete}>
         <div>
@@ -43,12 +43,13 @@ const DeleteMovie = () => {
         <button type="submit">Delete Movie</button>
       </form>
       {message && (
-        <p style={{ color: message.includes("Error") ? "red" : "green" }}>
+        <p className={`message ${message.includes("Error") ? "error" : "success"}`}>
           {message}
         </p>
       )}
     </div>
   );
+  
 };
 
 export default DeleteMovie;

@@ -56,78 +56,87 @@ const PostMovie = () => {
   };
 
   return (
-    <div>
+    <div className="console-section">
       <h3>Post Movie</h3>
       <form onSubmit={handleSubmit}>
-        <label>
-          Name:
+        <div>
+          <label htmlFor="name">Name:</label>
           <input
             type="text"
             name="name"
+            id="name"
             value={formData.name}
             onChange={handleChange}
             required
           />
-        </label>
-        <br />
-        <label>
-          Categories (Comma Separated IDs):
+        </div>
+        <div>
+          <label htmlFor="categories">Categories (Comma Separated IDs):</label>
           <input
             type="text"
             name="categories"
+            id="categories"
             value={formData.categories}
             onChange={handleChange}
           />
-        </label>
-        <br />
-        <label>
-          Duration (minutes):
+        </div>
+        <div>
+          <label htmlFor="duration">Duration (minutes):</label>
           <input
             type="number"
             name="duration"
+            id="duration"
             value={formData.duration}
             onChange={handleChange}
           />
-        </label>
-        <br />
-        <label>
-          Image:
-          <input type="file" name="image" onChange={handleChange} />
-        </label>
-        <br />
-        <label>
-          Video:
-          <input type="file" name="video" onChange={handleChange} />
-        </label>
-        <br />
-        <label>
-          Age Limit:
+        </div>
+        <div>
+          <label htmlFor="image">Image:</label>
+          <input
+            type="file"
+            name="image"
+            id="image"
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="video">Video:</label>
+          <input
+            type="file"
+            name="video"
+            id="video"
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="age_limit">Age Limit:</label>
           <input
             type="number"
             name="age_limit"
+            id="age_limit"
             value={formData.age_limit}
             onChange={handleChange}
           />
-        </label>
-        <br />
-        <label>
-          Description:
+        </div>
+        <div>
+          <label htmlFor="description">Description:</label>
           <textarea
             name="description"
+            id="description"
             value={formData.description}
             onChange={handleChange}
           />
-        </label>
-        <br />
+        </div>
         <button type="submit">Submit</button>
       </form>
       {message && (
-        <p style={{ color: message.includes("Failed") ? "red" : "green" }}>
+        <p className={`message ${message.includes("Failed") ? "error" : "success"}`}>
           {message}
         </p>
       )}
     </div>
   );
+  
 };
 
 export default PostMovie;
