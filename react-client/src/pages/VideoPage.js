@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-import { fetchMovieDetails } from "../services/api";
+import { fetchMovieDetails, postWatchedMovie } from "../services/api";
 import "./VideoPage.css";
 import VideoPlayer from "../components/Shared/VideoPlayer";
 
@@ -10,13 +10,16 @@ const VideoPage = () => {
   const navigate = useNavigate(); // Hook to navigate back
 
   // Retrieve data from localStorage
+  const userId = localStorage.getItem("id");
   const token = localStorage.getItem("authToken");
 
   useEffect(() => {
     const fetchMovieData = async () => {
       try {
-        const [movie] = await Promise.all([fetchMovieDetails(id, token)]);
-
+        const [movie, watched] = await Promise.all([
+          fetchMovieDetails(id, token),
+          postWatchedMovie(userId, id, token),
+        ]);
         setMovieDetails(movie);
       } catch (error) {
         console.error("Failed to fetch movie data:", error);
@@ -26,7 +29,8 @@ const VideoPage = () => {
     if (token) {
       fetchMovieData();
     }
-  }, [id, token]);
+
+  }, []);
 
   return (
     <div className="video-page">
