@@ -2,7 +2,7 @@
 .movie-info-page {
     position: relative;
     height: 100vh;
-    color: white;
+    color: var(--text-color);
     font-family: 'Helvetica Neue', Arial, sans-serif;
     overflow: hidden;
 }
@@ -13,7 +13,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8); 
+    background: var(--modal-overlay-color); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,15 +21,15 @@
 }
   
 .modal-content {
-    background: rgba(0, 0, 0, 0.85); 
+    background: var(--modal-content-color); 
     max-width: 900px; 
-    color: white;
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
     border-radius: 8px;
     overflow-y: auto; 
     position: relative;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 8px 30px var(--form-background-color);
     animation: fadeIn 0.5s ease;
     max-height: 90vh;
 }
@@ -44,8 +44,8 @@
 /* Header styling */
 .movie-header {
     padding: 20px;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 1)); 
-    color: white;
+    background: linear-gradient(to bottom, var(--form-background-color), var(--background-color-opacity)); 
+    color: var(--text-color);
     font-family: 'Helvetica Neue', Arial, sans-serif;
     position: relative;
 }
@@ -64,8 +64,8 @@
 }
 
 .detail-item {
-    background: rgba(255, 255, 255, 0.2); 
-    color: white;
+    background: var(--input-border-color); 
+    color: var(--text-color);
     padding: 5px 10px;
     border-radius: 4px;
     font-weight: 600;
@@ -76,7 +76,7 @@
     font-size: 1rem;
     line-height: 1.5;
     margin-top: 10px;
-    color: lightgray;
+    color: var(--text-color-secondary);
 }
 
 /* Actions styling */
@@ -94,36 +94,15 @@
     font-size: 1.2rem;
     cursor: pointer;
     font-weight: bold;
-    background-color: white;
-    color: black;
+    background-color: var(--text-color);
+    color: var(--background-color);
     transition: background-color 0.3s, transform 0.3s;
 }
 
 .play-button-movie:hover {
-    background-color: #e6e6e6;
-    transform: scale(1.05); 
+    background-color: var(--text-color-hover);
 }
 
-.add-button {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.8rem 1.2rem;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    font-weight: bold;
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
-    transition: background-color 0.3s, transform 0.3s;
-    margin-left: 10px;
-}
-
-.add-button:hover {
-    background-color: rgba(255, 255, 255, 0.4);
-    transform: scale(1.05);
-}
 
 /* Close button styling */
 .modal-close {
@@ -132,8 +111,9 @@
     right: 15px;
     width: 35px;
     height: 35px;
-    background: rgba(0, 0, 0, 0.7); 
-    color: white; 
+    padding-bottom: 4px;
+    background: var(--form-background-color); 
+    color: var(--text-color); 
     border: none;
     border-radius: 50%; 
     font-size: 1.5rem;
@@ -147,7 +127,7 @@
 }
 
 .modal-close:hover {
-    background: rgba(0, 0, 0, 0.9); 
+    background: var(--modal-content-color); 
 }
 
 /* Gradient transition under video */
@@ -166,8 +146,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-    z-index: 1; 
+    background: linear-gradient(to top, var(--background-color), rgba(0, 0, 0, 0));
+    z-index: 100; 
     pointer-events: none; 
 }
 
@@ -184,8 +164,8 @@
 /* Modal body */
 .modal-body {
     padding: 20px;
-    background: rgba(0, 0, 0, 0.85); 
-    color: white;
+    background: var(--modal-content-color); 
+    color: var(--text-color);
     flex: 1; 
 }
 
@@ -208,7 +188,7 @@
     width: 120px;
     text-align: center;
     font-size: 0.9rem;
-    color: white;
+    color: var(--text-color);
 }
 
 .recommended-image {
