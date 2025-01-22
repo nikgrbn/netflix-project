@@ -36,6 +36,7 @@ export const signInUser = async (username, password) => {
   }
 };
 
+
 // Fetch movie details by ID
 export const fetchMovieDetails = async (movieId, token) => {
   try {
@@ -156,6 +157,27 @@ export const postWatchedMovie = async (userId, movieId, token) => {
     throw error.response?.data || error.message;
   }
 };
+
+
+// Function to sign in a user
+export const validateToken = async (token) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/movies/validate`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      }
+    );
+
+    return response;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
 
 // Function to fetch categories
 export const fetchCategories = async (token) => {

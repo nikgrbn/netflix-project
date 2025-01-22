@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-import { fetchMovieDetails, postWatchedMovie } from "../services/api";
+import {
+  postWatchedMovie,
+  validateToken,
+} from "../services/api";
 import "./VideoPage.css";
 import VideoPlayer from "../components/Shared/VideoPlayer";
 
 const VideoPage = () => {
   const { id } = useParams(); // Retrieve the movie ID from the URL
-  const [movieDetails, setMovieDetails] = useState(null);
+  const [isTokenValid, setIsTokenValid] = useState(false);
   const navigate = useNavigate(); // Hook to navigate back
 
   // Retrieve data from localStorage
@@ -14,23 +17,39 @@ const VideoPage = () => {
   const token = localStorage.getItem("authToken");
 
   useEffect(() => {
-    const fetchMovieData = async () => {
-      try {
-        const [movie, watched] = await Promise.all([
-          fetchMovieDetails(id, token),
-          postWatchedMovie(userId, id, token),
-        ]);
-        setMovieDetails(movie);
-      } catch (error) {
-        console.error("Failed to fetch movie data:", error);
-      }
-    };
+    validate();
+  }, [token, navigate]);
 
-    if (token) {
+  // Validate the token
+  const validate = async () => {
+    try {
+      const response = await validateToken(token);
+      console.log("Token validation response:", response);
+      if (response.status === 200) {
+        setIsTokenValid(true);
+      } else {
+        throw new Error("Token validation failed");
+      }
+    } catch (error) {
+      console.error("Failed to validate token:", error);
+      navigate("/home");
+    }
+  };
+
+  useEffect(() => {
+    if (isTokenValid) {
       fetchMovieData();
     }
+  }, [isTokenValid]);
 
-  }, []);
+  // Fetch movie data
+  const fetchMovieData = async () => {
+    try {
+      await postWatchedMovie(userId, id, token);
+    } catch (error) {
+      console.error("Failed to fetch movie data:", error);
+    }
+  };
 
   return (
     <div className="video-page">

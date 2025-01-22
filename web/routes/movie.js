@@ -2,6 +2,7 @@ const movieController = require("../controllers/movie");
 const recommendController = require("../controllers/recommend");
 const streamController = require("../controllers/stream");
 const queryController = require("../controllers/query");
+const tokenController = require("../controllers/token");
 const { errors } = require("../utils/consts");
 const jwt = require("jsonwebtoken");
 const { upload } = require("../middlewares/multer"); // Import the Multer middleware
@@ -16,13 +17,13 @@ const ensureUserHeader = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   
   if (!authHeader) {
-    return res.status(401).json({ error: errors.TOKEN_REQUIREDED });
+    return res.status(401).json({ error: errors.TOKEN_REQUIRED });
   }
 
   const token = authHeader.split(" ")[1];
   
   if (!token) {
-    return res.status(401).json({ error: errors.TOKEN_REQUIREDED });
+    return res.status(401).json({ error: errors.TOKEN_REQUIRED });
   }
 
   jwt.verify(token, JWT_SECRET_KEY, (err, content) => {
@@ -44,6 +45,7 @@ const ensureUserHeader = (req, res, next) => {
   next();
 };
 
+router.route("/validate").post(tokenController.validateToken);
 router.route("/:id/video").get(streamController.getStreamById);
 
 router.use(ensureUserHeader); // Apply this middleware to all routes below

@@ -114,6 +114,7 @@ const HomePage = () => {
           <div className="categories-container">
             {categories.map((category) => (
               <HomeMovieCategory
+                key={category.categoryId}
                 title={category.categoryName}
                 movies={category.movies}
               />
