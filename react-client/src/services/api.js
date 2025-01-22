@@ -170,3 +170,17 @@ export const PostCategory = async (categoryData, token) => {
     throw error.response?.data || error.message;
   }
 };
+
+export const deleteCategory = async (categoryId ,token) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/categories/${categoryId}`,  {
+      headers: {
+        Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
