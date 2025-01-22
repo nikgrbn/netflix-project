@@ -5,41 +5,53 @@ const { formatDocument, formatMongoDocument } = require("../utils/helpers");
 const { errors, utils } = require("../utils/consts");
 const { MRSClient, codes } = require("../clients/MRSClient");
 
+
 const createMovie = async (req, res) => {
-  const { name, categories, ...fields } = req.body;
-  // Check if name and categories are provided
-  if (!name) {
-    return res
-      .status(400)
-      .json({ error: errors.MOVIE_NAME_REQUIRED });
-  }
-
   try {
-    // Get the category ID for each provided category name
-    if (categories) {
-      const categoriesIDs = [];
-      for (let name of categories) {
-        const category = await categoryService.getCategoryByName(name);
-        // If the category is not found, return an error
-        if (!category) {
-          return res.status(400).json({ error: errors.CATEGORY_NOT_FOUND });
-        }
-        categoriesIDs.push(category._id);
-      }
-      fields.categories = categoriesIDs; // Add category IDs to the fields
-    }
+      const { name, categories, ...fields } = req.body;
 
-    // Create the movie
-    const movie = await movieService.createMovie(name, fields);
-    if (!movie) {
-      return res.status(400).json({ error: errors.MOVIE_NOT_CREATED });
-    }
-    res.status(201).send();
+      // Access uploaded files
+      const image = req.files?.image?.[0]?.path; // Get image path
+      const video = req.files?.video?.[0]?.path; // Get all video paths
+
+      if (!name) {
+          return res.status(400).json({ error: "Movie name is required" });
+      }
+
+      // Process categories
+      const categoriesIDs = [];
+      if (categories) {
+          const categoriesArray = Array.isArray(categories)
+              ? categories
+              : [categories];
+
+          for (let categoryName of categoriesArray) {
+              const category = await categoryService.getCategoryByName(categoryName);
+              if (!category) {
+                  return res.status(400).json({ error: "Category not found" });
+              }
+              categoriesIDs.push(category._id);
+          }
+      }
+
+      // Include files in fields
+      const movieFields = {
+          ...fields,
+          categories: categoriesIDs,
+          image,
+          video,
+      };
+
+      // Create the movie
+      const movie = await movieService.createMovie(name, movieFields);
+      if (!movie) {
+          return res.status(400).json({ error: "Failed to create movie" });
+      }
+
+      res.status(201).json({ message: "Movie created successfully", movie });
   } catch (error) {
-    if (error.message === CATEGORY_NOT_FOUND) {
-      return res.status(400).json({ error: errors.CATEGORY_NOT_FOUND });
-    }
-    res.status(500).json({ error: errors.MOVIE_ERROR_CREATION });
+      console.error("Error creating movie:", error);
+      res.status(500).json({ error: "An error occurred while creating the movie" });
   }
 };
 

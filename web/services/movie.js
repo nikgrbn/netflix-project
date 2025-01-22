@@ -8,6 +8,8 @@ const createMovie = async (name, fields) => {
   const movie = new Movie({
     _id: movieId,
     name,
+    image: fields.picturePath || 'uploads/movies/default-picture.png',
+    video: fields.picturePath || 'uploads/movies/default-picture.png',
     ...fields,
   });
   return await movie.save();

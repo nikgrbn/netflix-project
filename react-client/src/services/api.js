@@ -151,3 +151,19 @@ export const fetchCategories = async (token) => {
     throw error.response?.data || error.message;
   }
 };
+
+// Post movie
+export const postMovie = async (formData, token) => {
+  try {
+      const response = await axios.post(`${API_BASE_URL}/movies`, formData, {
+          headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+          },
+      });
+
+      return response.data;
+  } catch (error) {
+      throw error.response?.data || error.message;
+  }
+};
