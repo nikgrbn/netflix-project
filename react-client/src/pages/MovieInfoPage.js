@@ -86,7 +86,7 @@ const MovieInfoPage = () => {
         <div className="modal-body" style={{ height: "40%" }}>
           <MovieHeader movieDetails={movieDetails} />
           <div className="movie-actions">
-            <MovieActions />
+            <MovieActions movieId={movieDetails.id} />
           </div>
           {recommendedMovies.length > 0 ? (
             <div className="recommendations">
@@ -105,4 +105,5 @@ const MovieInfoPage = () => {
     </div>
   );
 };
+
 export default MovieInfoPage;
