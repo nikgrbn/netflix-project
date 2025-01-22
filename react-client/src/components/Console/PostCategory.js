@@ -26,9 +26,8 @@ const CategoryForm = () => {
   
   return (
     <div>
-      <h3>Create New Category</h3>
+      <h3>Post Category</h3>
       <form onSubmit={handleSubmit}>
-        <div>
           <label htmlFor="categoryName">Category Name:</label>
           <input
             type="text"
@@ -38,7 +37,6 @@ const CategoryForm = () => {
             placeholder="Enter category name"
             required
           />
-        </div>
         <div>
           <label htmlFor="promoted">Promoted:</label>
           <select
