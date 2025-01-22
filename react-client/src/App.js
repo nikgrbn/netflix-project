@@ -12,6 +12,7 @@ import ProtectedRoute from "./components/Shared/ProtectedRoute";
 import Layout from "./components/Shared/MainHeader/Layout";
 import VideoPage from "./pages/VideoPage";
 import CategoriesPage from "./pages/CategoriesPage";
+import ConsolePage from "./pages/ConsolePage";
 
 function App() {
   return (
@@ -52,6 +53,12 @@ function AppRoutes() {
             path="/categories"
             element={
               <CategoriesPage />
+            }
+          />
+          <Route
+            path="/console"
+            element={
+              <ConsolePage />
             }
           />
         </Route>

@@ -1,0 +1,22 @@
+.console-page {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 16px;
+    padding: 16px;
+    color: var(--text-color);
+    background-color: var(--background-secondary-color);
+    min-height: 100vh;
+  }
+  
+  .console-section {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    background-color: var(--background-primary-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
