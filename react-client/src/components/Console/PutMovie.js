@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { putMovie } from "../../services/api";
 
 const PutMovie = () => {
+  const [message, setMessage] = useState("");
+
   const [formData, setFormData] = useState({
     id: null,
     name: "",
@@ -44,9 +46,9 @@ const PutMovie = () => {
       });
 
       const response = await putMovie(formData.id, preparedFormData, token);
-      alert(`Movie put successfully`);
+      setMessage("Movie put successfully");
     } catch (error) {
-      alert(`Failed to put movie: ${JSON.stringify(error)}`);
+      setMessage(`Failed to put movie:  ${JSON.stringify(error)}`);
     }
   };
 
@@ -127,6 +129,11 @@ const PutMovie = () => {
         <br />
         <button type="submit">Submit</button>
       </form>
+      {message && (
+        <p style={{ color: message.includes("Failed") ? "red" : "green" }}>
+          {message}
+        </p>
+      )}
     </div>
   );
 };
