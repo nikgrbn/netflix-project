@@ -64,6 +64,7 @@ const VideoPage = () => {
           movieId={id}
           token={token}
           controlsMode={true}
+          isMuted={false}
           className="video-player"
         />
       </div>
