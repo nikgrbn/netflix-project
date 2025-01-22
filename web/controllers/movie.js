@@ -97,7 +97,7 @@ const getMovies = async (req, res) => {
           ? `${req.protocol}://${req.get("host")}/${formattedMovie.image}`
           : `${req.protocol}://${req.get(
               "host"
-            )}/uploads/movies/default-picture.png`;
+            )}/uploads/movies/default-picture.jpg`;
 
         for (const movieCategory of formattedMovie.categories) {
           // Remove the _id field from the category document
@@ -127,7 +127,7 @@ const getMovies = async (req, res) => {
           ? `${req.protocol}://${req.get("host")}/${formattedMovie.image}`
           : `${req.protocol}://${req.get(
               "host"
-            )}/uploads/movies/default-picture.png`;
+            )}/uploads/movies/default-picture.jpg`;
 
         return formattedMovie;
       })
@@ -195,7 +195,7 @@ const setMovie = async (req, res) => {
 
     // Access uploaded files
     let image = req.files?.image?.[0]?.path; // Get image path
-    if (!image) image = "/uploads/movies/default-picture.png";
+    if (!image) image = "/uploads/movies/default-picture.jpg";
     let video = req.files?.video?.[0]?.path; // Get all video paths
     if (!video) video = "/uploads/movies/default-video.mp4";
 

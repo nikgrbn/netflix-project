@@ -16,7 +16,7 @@ const searchMovies = async (req, res) => {
     movies.map(movie => {
       movie.image = movie.image
         ? `${req.protocol}://${req.get("host")}/${movie.image}`
-        : `${req.protocol}://${req.get("host")}/uploads/movies/default-picture.png`;
+        : `${req.protocol}://${req.get("host")}/uploads/movies/default-picture.jpg`;
     });
 
     // Return the search results
