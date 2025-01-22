@@ -151,3 +151,22 @@ export const fetchCategories = async (token) => {
     throw error.response?.data || error.message;
   }
 };
+
+export const PostCategory = async (categoryData, token) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/categories`,
+      categoryData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
+        },
+      }
+    );
+    console.log("API call successful:", response.data);
+    return response.data; // Return the created category
+  } catch (error) {
+    console.log("API call failed:", error);
+    throw error.response?.data || error.message;
+  }
+};
