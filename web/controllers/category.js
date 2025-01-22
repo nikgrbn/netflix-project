@@ -59,7 +59,7 @@ const getCategories = async (req, res) => {
           ? `${req.protocol}://${req.get("host")}/${formattedMovie.image}`
           : `${req.protocol}://${req.get(
               "host"
-            )}/uploads/movies/default-picture.png`;
+            )}/uploads/movies/default-picture.jpg`;
 
         for (const movieCategory of formattedMovie.categories) {
           // Remove the _id field from the category document
