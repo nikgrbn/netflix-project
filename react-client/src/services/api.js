@@ -55,9 +55,9 @@ export const fetchMovieDetails = async (movieId, token) => {
 export const fetchMovieVideoStream = async (movieId, token) => {
   const videoUrl = `${API_BASE_URL}/movies/${movieId}/video`;
   const response = await fetch(videoUrl, {
-    method: "HEAD", // Send a HEAD request to verify access and token validity
+    method: "GET",
     headers: {
-      "authorization": `Bearer ${token}`,
+      "authorization": `Bearer ${token}`, // Pass the token as a Bearer token in the Authorization header
     },
   });
 
@@ -65,9 +65,8 @@ export const fetchMovieVideoStream = async (movieId, token) => {
     throw new Error(`Failed to fetch video stream: ${response.statusText}`);
   }
 
-  // If the token and endpoint are valid, return the video URL directly
-  console.log("Video URL:", videoUrl);
-  return videoUrl;
+  const blob = await response.blob(); // Convert response to Blob
+  return URL.createObjectURL(blob); // Create a Blob URL
 };
 
 // Fetch movie by user id
@@ -153,7 +152,58 @@ export const fetchCategories = async (token) => {
   }
 };
 
-// Post movie
+export const PostCategory = async (categoryData, token) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/categories`,
+      categoryData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
+        },
+      }
+    );
+    console.log("API call successful:", response.data);
+    return response.data; // Return the created category
+  } catch (error) {
+    console.log("API call failed:", error);
+    throw error.response?.data || error.message;
+  }
+};
+
+export const deleteCategory = async (categoryId ,token) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/categories/${categoryId}`,  {
+      headers: {
+        Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const patchCategory = async (categoryId, updatedCategory, token) => {
+  try {
+    const response = await axios.patch(
+      `${API_BASE_URL}/categories/${categoryId}`,
+      JSON.stringify(updatedCategory), 
+      {
+        headers: {
+          "Content-Type": "application/json", 
+          Authorization: `Bearer ${token}`, 
+        },
+      }
+    );
+
+    return response.data; 
+  } catch (error) {
+    throw error.response?.data?.error || error.message || "An unknown error occurred";
+  }
+  
+  // Post movie
 export const postMovie = async (formData, token) => {
   try {
       const response = await axios.post(`${API_BASE_URL}/movies`, formData, {
@@ -183,4 +233,3 @@ export const putMovie = async (movieId, formData, token) => {
   } catch (error) {
       throw error.response?.data || error.message;
   }
-};

@@ -25,6 +25,7 @@ const getCategoryById = async (id) => { return await Category.findById(id); };
 const getCategoryByName = async (name) => { return await Category.findOne({ name }); }
 
 const updateCategory = async (id, name, promoted) => {
+    console.log("id:", id , "name:", name, "promoted:", promoted)
     const category = await getCategoryById(id);
     if (!category) return null;
     
