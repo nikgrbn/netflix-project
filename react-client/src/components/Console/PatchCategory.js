@@ -38,8 +38,6 @@ const PatchCategory = () => {
   return (
     <div>
       <h3>Patch Category</h3>
-      {message && <p style={{ color: message.includes("Error") ? "red" : "green" }}>{message}</p>}
-
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="categoryIdToEdit">Category ID to Edit:</label>
@@ -76,6 +74,11 @@ const PatchCategory = () => {
         </div>
         <button type="submit">Update Category</button>
       </form>
+      {message && (
+        <p style={{ color: message.includes("Error") ? "red" : "green" }}>
+          {message}
+        </p>
+      )}
     </div>
   );
 };

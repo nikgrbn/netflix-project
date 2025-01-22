@@ -28,12 +28,6 @@ const DeleteCategory = () => {
   return (
     <div>
       <h3>Delete Category</h3>
-      {message && (
-        <p style={{ color: message.includes("Error") ? "red" : "green" }}>
-          {message}
-        </p>
-      )}
-  
       <form onSubmit={handleDelete}>
         <div>
           <label htmlFor="categoryId">Category ID:</label>
@@ -48,6 +42,11 @@ const DeleteCategory = () => {
         </div>
         <button type="submit">Delete Category</button>
       </form>
+      {message && (
+        <p style={{ color: message.includes("Error") ? "red" : "green" }}>
+          {message}
+        </p>
+      )}
     </div>
   );
 };
