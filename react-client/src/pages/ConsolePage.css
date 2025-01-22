@@ -1,0 +1,13 @@
+.console-page {
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    /* Align at the top */
+    text-align: center;
+    background-color: var(--background-secondary-color);
+    min-height: 100vh;
+  }
+  
+  

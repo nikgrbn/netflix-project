@@ -8,6 +8,9 @@ const MainHeader = ({ username, profilePicture }) => {
   const [opacity, setOpacity] = useState(0);
   const navigate = useNavigate();
 
+  const is_admin = localStorage.getItem("is_admin");
+  console.log("is_admin", is_admin);
+
   useEffect(() => {
     const handleScroll = () => {
       const scrolled = Math.min((window.scrollY / 150), 1);
@@ -57,8 +60,7 @@ const MainHeader = ({ username, profilePicture }) => {
   }
 
   const handleConsoleClick = () => {
-    //TODO: Implement console page
-    console.log("Console page not implemented yet");
+    navigate("/console");
   }
 
   return (
@@ -68,7 +70,9 @@ const MainHeader = ({ username, profilePicture }) => {
         <span className="header-home-label" onClick={handleHomeClick}> Home</span>
         <span className="header-home-label" onClick={handleCategoriesClick}> Categories</span>
         <span className="header-home-label" onClick={handleLogoutClick}> Logout</span>
-        <span className="header-home-label" onClick={handleConsoleClick}> Console</span>
+        {is_admin === "true" && (
+          <span className="header-home-label" onClick={handleConsoleClick}> Console</span>
+        )}
       </div>
       <div className="home-header-right">
         <MainHeaderSearchBar onSearch={handleSearch} clearSearch={clearSearch} />
