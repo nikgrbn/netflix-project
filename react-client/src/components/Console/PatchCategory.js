@@ -31,8 +31,7 @@ const PatchCategory = () => {
       setMessage(`Category with ID "${categoryIdToEdit}" updated successfully!`);
     } catch (error) {
       console.error("Failed to update category:", error);
-      const errorMessage = error.response?.data?.error || error.message || "An unknown error occurred.";
-      setMessage(`Error updating category: ${errorMessage}`);
+      setMessage(`Error updating category: ${JSON.stringify(error)}`);
     }
   };
 

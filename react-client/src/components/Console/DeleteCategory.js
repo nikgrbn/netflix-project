@@ -21,16 +21,19 @@ const DeleteCategory = () => {
       setCategoryId(""); // Clear the input field
     } catch (error) {
       console.error("Failed to delete category:", error);
-      const errorMessage = error.response?.data?.error || error.message || "An unknown error occurred.";
-      setMessage(`Error deleting category: ${errorMessage}`);
+      setMessage(`Error deleting category: ${JSON.stringify(error)}`);
     }
   };
 
   return (
     <div>
       <h3>Delete Category</h3>
-      {message && <p style={{ color: message.includes("Error") ? "red" : "green" }}>{message}</p>}
-
+      {message && (
+        <p style={{ color: message.includes("Error") ? "red" : "green" }}>
+          {message}
+        </p>
+      )}
+  
       <form onSubmit={handleDelete}>
         <div>
           <label htmlFor="categoryId">Category ID:</label>
