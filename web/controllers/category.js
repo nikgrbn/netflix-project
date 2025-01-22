@@ -111,7 +111,7 @@ const updateCategory = async (req, res) => {
       res.status(204).send();
     } else {
       res.status(404).json({ error: errors.CATEGORY_NOT_FOUND });
-    }
+    } 
   } catch (error) {
     if (error.code === 11000) {
       // Duplicate category error

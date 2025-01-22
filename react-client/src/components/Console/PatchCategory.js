@@ -1,108 +1,82 @@
-import React, { useState, useEffect } from "react";
-import { fetchCategories, patchCategory } from "../../services/api";
+import React, { useState } from "react";
+import { patchCategory } from "../../services/api";
 
 const PatchCategory = () => {
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [categoryName, setCategoryName] = useState("");
-  const [promoted, setPromoted] = useState("no");
+  const [categoryIdToEdit, setCategoryIdToEdit] = useState(""); // שדה ה-ID של הקטגוריה
+  const [newCategoryName, setNewCategoryName] = useState("");
+  const [promoted, setPromoted] = useState("");
   const [message, setMessage] = useState("");
-
-  // Fetch categories on component mount
-  useEffect(() => {
-    const loadCategories = async () => {
-      const token = localStorage.getItem("authToken");
-      try {
-        const fetchedCategories = await fetchCategories(token);
-        setCategories(fetchedCategories);
-      } catch (error) {
-        console.error("Failed to fetch categories:", error);
-        setMessage(`Error fetching categories: ${error.message}`);
-      }
-    };
-
-    loadCategories();
-  }, []);
-
-  // Handle category selection
-  const handleCategorySelect = (id) => {
-    const category = categories.find((cat) => cat.id === id);
-    setSelectedCategory(id);
-    setCategoryName(category.name);
-    setPromoted(category.promoted ? "yes" : "no");
-  };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("authToken");
 
-    const updatedCategory = {
-      name: categoryName,
-      promoted: promoted === "yes",
-    };
+    if (!categoryIdToEdit.trim()) {
+      setMessage("Please enter the category ID to edit.");
+      return;
+    }
+
+    // Build the updatedCategory object dynamically
+    const updatedCategory = {};
+    if (newCategoryName.trim()) {
+      updatedCategory.name = newCategoryName;
+    }
+    if (promoted) {
+      updatedCategory.promoted = promoted;
+    }
 
     try {
-      await patchCategory(selectedCategory, updatedCategory, token);
-      setMessage("Category updated successfully!");
-
-      // Refresh categories after update
-      const updatedCategories = await fetchCategories(token);
-      setCategories(updatedCategories);
+      await patchCategory(categoryIdToEdit, updatedCategory, token); 
+      setMessage(`Category with ID "${categoryIdToEdit}" updated successfully!`);
     } catch (error) {
       console.error("Failed to update category:", error);
-      setMessage(`Error updating category: ${error.message}`);
+      const errorMessage = error.response?.data?.error || error.message || "An unknown error occurred.";
+      setMessage(`Error updating category: ${errorMessage}`);
     }
   };
 
   return (
     <div>
-      <h3>Update Category</h3>
+      <h3>Patch Category</h3>
       {message && <p style={{ color: message.includes("Error") ? "red" : "green" }}>{message}</p>}
 
-      <div>
-        <label htmlFor="categorySelect">Select a category:</label>
-        <select
-          id="categorySelect"
-          value={selectedCategory}
-          onChange={(e) => handleCategorySelect(e.target.value)}
-        >
-          <option value="">-- Select a category --</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {selectedCategory && (
-        <form onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
-          <div>
-            <label htmlFor="categoryName">Name:</label>
-            <input
-              type="text"
-              id="categoryName"
-              value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="promoted">Promoted:</label>
-            <select
-              id="promoted"
-              value={promoted}
-              onChange={(e) => setPromoted(e.target.value)}
-              required
-            >
-              <option value="no">No</option>
-              <option value="yes">Yes</option>
-            </select>
-          </div>
-          <button type="submit">Update Category</button>
-        </form>
-      )}
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="categoryIdToEdit">Category ID to Edit:</label>
+          <input
+            type="text"
+            id="categoryIdToEdit"
+            value={categoryIdToEdit}
+            onChange={(e) => setCategoryIdToEdit(e.target.value)}
+            placeholder="Enter the category ID to edit"
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="newCategoryName">New Name:</label>
+          <input
+            type="text"
+            id="newCategoryName"
+            value={newCategoryName}
+            onChange={(e) => setNewCategoryName(e.target.value)}
+            placeholder="Enter new category name (optional)"
+          />
+        </div>
+        <div>
+          <label htmlFor="promoted">Promoted:</label>
+          <select
+            id="promoted"
+            value={promoted}
+            onChange={(e) => setPromoted(e.target.value)}
+          >
+            <option value="">-- Select --</option>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+        <button type="submit">Update Category</button>
+      </form>
     </div>
   );
 };

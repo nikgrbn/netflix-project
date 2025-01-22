@@ -185,16 +185,21 @@ export const deleteCategory = async (categoryId ,token) => {
   }
 };
 
-export const patchCategory = async (categoryId ,token) => {
+export const patchCategory = async (categoryId, updatedCategory, token) => {
   try {
-    const response = await axios.patch(`${API_BASE_URL}/categories/${categoryId}`,  {
-      headers: {
-        Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
-      },
-    });
+    const response = await axios.patch(
+      `${API_BASE_URL}/categories/${categoryId}`,
+      JSON.stringify(updatedCategory), 
+      {
+        headers: {
+          "Content-Type": "application/json", 
+          Authorization: `Bearer ${token}`, 
+        },
+      }
+    );
 
-    return response.data;
+    return response.data; 
   } catch (error) {
-    throw error.response?.data || error.message;
+    throw error.response?.data?.error || error.message || "An unknown error occurred";
   }
 };
