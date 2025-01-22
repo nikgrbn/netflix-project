@@ -202,7 +202,8 @@ export const patchCategory = async (categoryId, updatedCategory, token) => {
   } catch (error) {
     throw error.response?.data?.error || error.message || "An unknown error occurred";
   }
-  
+}
+
   // Post movie
 export const postMovie = async (formData, token) => {
   try {
@@ -233,3 +234,4 @@ export const putMovie = async (movieId, formData, token) => {
   } catch (error) {
       throw error.response?.data || error.message;
   }
+}
