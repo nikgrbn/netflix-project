@@ -70,6 +70,7 @@ const HomeMovieCategory = ({ title, movies }) => {
               onClick={() => handleMovieClick(movie)}
             >
               <img src={movie.image} alt={movie.name} draggable="false" />
+              
               <button
                 className="movie-play-button"
                 onClick={(e) => {
@@ -79,6 +80,7 @@ const HomeMovieCategory = ({ title, movies }) => {
               >
                 <i className="fas fa-play"></i>
               </button>
+              
             </div>
           ))}
         </div>

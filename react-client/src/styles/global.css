@@ -268,16 +268,48 @@ code {
 .movie-item {
   user-select: none;
   flex: 0 0 auto;
+  position: relative; /* Ensure the button is positioned relative to this container */
   width: 150px;
   z-index: 100;
 }
 
 .movie-item:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px var(--header-gradient-min);
 }
 
 .movie-item img {
   width: 100%;
   border-radius: 4px;
+}
+
+/* Updated Play button styling */
+.movie-play-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 40px;
+  height: 40px;
+  padding-left: 8px;
+  background-color: var(--form-background-color); /* Black with opacity */
+  color: var(--text-color);
+  border: none;
+  border-radius: 50%; /* Circular button */
+  font-size: 18px; /* Adjust icon size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10; /* Ensure button is above the image */
+  opacity: 0; /* Hide the button by default */
+  transition: opacity 0.15s ease-in-out; /* Smooth transition for visibility */
+}
+
+.movie-item:hover .movie-play-button {
+  opacity: 1; /* Show the button when the movie item is hovered */
+}
+
+.movie-play-button:hover {
+  background-color: var(--form-background-color-inverted); /* Light background on hover */
+  color: var(--background-color); /* Icon color change on hover */
 }
