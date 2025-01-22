@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./HomePage.css";
 import {
-  fetchMovieVideoStream,
   fetchMovieDetails,
   fetchMoviesByUserID,
 } from "../services/api";
@@ -15,7 +14,6 @@ const HomePage = () => {
 
   const [loading, setLoading] = useState(true);
   const [dataReady, setDataReady] = useState(false); // Tracks when data is ready
-  const [videoUrl, setVideoUrl] = useState(null);
   const [movieDetails, setMovieDetails] = useState(null);
   const [categories, setCategories] = useState([]);
 
@@ -51,12 +49,9 @@ const HomePage = () => {
           const movieId =
             fetchedCategories[randomCategoryIndex].movies[randomMovieIndex].id;
 
-          const [videoBlobUrl, movie] = await Promise.all([
-            fetchMovieVideoStream(movieId, token),
+          const [movie] = await Promise.all([
             fetchMovieDetails(movieId, token),
           ]);
-
-          setVideoUrl(videoBlobUrl);
           setMovieDetails(movie);
         }
 
@@ -104,11 +99,11 @@ const HomePage = () => {
         </div>
       ) : (
         <>
-          {videoUrl && movieDetails ? (
+          {movieDetails ? (
             <HomeBanner
+              id={movieDetails.id}
               title={movieDetails.name}
               description={movieDetails.description}
-              videoUrl={videoUrl}
               onPlay={handlePlay}
               onMoreInfo={handleMoreInfo}
             />
@@ -119,10 +114,8 @@ const HomePage = () => {
           <div className="categories-container">
             {categories.map((category) => (
               <HomeMovieCategory
-                key={category.categoryId}
                 title={category.categoryName}
                 movies={category.movies}
-                bannerMovieId={movieDetails?.id}
               />
             ))}
           </div>

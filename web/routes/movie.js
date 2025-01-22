@@ -13,11 +13,18 @@ var router = express.Router();
 
 // Middleware to ensure User-ID header exists
 const ensureUserHeader = (req, res, next) => {
-  const token = req.headers["authorization"].split(" ")[1];
-  //console.log("Token:", token);
+  const authHeader = req.headers["authorization"];
+  
+  if (!authHeader) {
+    return res.status(401).json({ error: errors.TOKEN_REQUIREDED });
+  }
+
+  const token = authHeader.split(" ")[1];
+  
   if (!token) {
     return res.status(401).json({ error: errors.TOKEN_REQUIREDED });
   }
+
   jwt.verify(token, JWT_SECRET_KEY, (err, content) => {
     if (err) {
       req.jwtContent = undefined;
@@ -25,16 +32,20 @@ const ensureUserHeader = (req, res, next) => {
       req.jwtContent = content;
     }
   });
+
   if (!req.jwtContent) {
     return res.status(401).json({ error: errors.TOKEN_NOT_VALID });
   }
 
-  // Attach user ID to the request if header present
   if (req.headers["user-id"]) {
     req.userId = req.headers["user-id"];
   }
+  
   next();
 };
+
+router.route("/:id/video").get(streamController.getStreamById);
+
 router.use(ensureUserHeader); // Apply this middleware to all routes below
 
 router
@@ -69,7 +80,5 @@ router
   .route("/:id/recommend")
   .get(recommendController.getRecommendations)
   .post(recommendController.addUserWatchedMovie);
-
-router.route("/:id/video").get(streamController.getStreamById);
 
 module.exports = router;
