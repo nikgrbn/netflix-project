@@ -6,40 +6,53 @@ const { errors, utils } = require("../utils/consts");
 const { MRSClient, codes } = require("../clients/MRSClient");
 
 const createMovie = async (req, res) => {
-  const { name, categories, ...fields } = req.body;
-  // Check if name and categories are provided
-  if (!name) {
-    return res
-      .status(400)
-      .json({ error: errors.MOVIE_NAME_REQUIRED });
-  }
-
   try {
-    // Get the category ID for each provided category name
+    const { name, categories, ...fields } = req.body;
+
+    // Access uploaded files
+    const image = req.files?.image?.[0]?.path; // Get image path
+    const video = req.files?.video?.[0]?.path; // Get all video paths
+
+    if (!name) {
+      return res.status(400).json({ error: "Movie name is required" });
+    }
+
+    // Process categories
+    const categoriesIDs = [];
     if (categories) {
-      const categoriesIDs = [];
-      for (let name of categories) {
-        const category = await categoryService.getCategoryByName(name);
-        // If the category is not found, return an error
+      const categoriesArray = Array.isArray(categories)
+        ? categories
+        : [categories];
+
+      for (let categoryName of categoriesArray) {
+        const category = await categoryService.getCategoryByName(categoryName);
         if (!category) {
-          return res.status(400).json({ error: errors.CATEGORY_NOT_FOUND });
+          return res.status(400).json({ error: "Category not found" });
         }
         categoriesIDs.push(category._id);
       }
-      fields.categories = categoriesIDs; // Add category IDs to the fields
     }
 
+    // Include files in fields
+    const movieFields = {
+      ...fields,
+      categories: categoriesIDs,
+      image,
+      video,
+    };
+
     // Create the movie
-    const movie = await movieService.createMovie(name, fields);
+    const movie = await movieService.createMovie(name, movieFields);
     if (!movie) {
-      return res.status(400).json({ error: errors.MOVIE_NOT_CREATED });
+      return res.status(400).json({ error: "Failed to create movie" });
     }
-    res.status(201).send();
+
+    res.status(201).json({ message: "Movie created successfully", movie });
   } catch (error) {
-    if (error.message === CATEGORY_NOT_FOUND) {
-      return res.status(400).json({ error: errors.CATEGORY_NOT_FOUND });
-    }
-    res.status(500).json({ error: errors.MOVIE_ERROR_CREATION });
+    console.error("Error creating movie:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while creating the movie" });
   }
 };
 
@@ -63,15 +76,16 @@ const getMovies = async (req, res) => {
       const movies = await movieService.filterMovies(
         {
           categories: { $in: [category._id] }, // Check if categoryId is in the categories array
-          _id: { $nin: user.watched_movies } // Exclude movies that are in the watched movies list
+          _id: { $nin: user.watched_movies }, // Exclude movies that are in the watched movies list
         },
         utils.MAX_MOVIES,
         {
-          from: 'categories', // Replace the category ID with the category document
-          localField: 'categories',
-          foreignField: '_id',
-          as: 'categories'
-        });
+          from: "categories", // Replace the category ID with the category document
+          localField: "categories",
+          foreignField: "_id",
+          as: "categories",
+        }
+      );
 
       // Format the document
       const formatted = movies.map((movie) => {
@@ -81,7 +95,9 @@ const getMovies = async (req, res) => {
         // Construct the full movie picture URL
         formattedMovie.image = formattedMovie.image
           ? `${req.protocol}://${req.get("host")}/${formattedMovie.image}`
-          : `${req.protocol}://${req.get("host")}/uploads/movies/default-picture.png`;
+          : `${req.protocol}://${req.get(
+              "host"
+            )}/uploads/movies/default-picture.jpg`;
 
         for (const movieCategory of formattedMovie.categories) {
           // Remove the _id field from the category document
@@ -101,17 +117,21 @@ const getMovies = async (req, res) => {
     }
 
     // Fetch all movies under the unique category
-    const uniqueMovies = await Promise.all(user.watched_movies.map(async (movieId) => {
-      const movie = await movieService.getMovieById(movieId);
-      const formattedMovie = formatMongoDocument(movie);
-      
-      // Construct the full movie picture URL
-      formattedMovie.image = formattedMovie.image
-        ? `${req.protocol}://${req.get("host")}/${formattedMovie.image}`
-        : `${req.protocol}://${req.get("host")}/uploads/movies/default-picture.png`;
+    const uniqueMovies = await Promise.all(
+      user.watched_movies.map(async (movieId) => {
+        const movie = await movieService.getMovieById(movieId);
+        const formattedMovie = formatMongoDocument(movie);
 
-      return formattedMovie;
-    }));
+        // Construct the full movie picture URL
+        formattedMovie.image = formattedMovie.image
+          ? `${req.protocol}://${req.get("host")}/${formattedMovie.image}`
+          : `${req.protocol}://${req.get(
+              "host"
+            )}/uploads/movies/default-picture.jpg`;
+
+        return formattedMovie;
+      })
+    );
 
     // Push the unique category and its movies to the result
     result.push({
@@ -119,7 +139,7 @@ const getMovies = async (req, res) => {
       categoryName: utils.UNIQUE_CATEGORY,
       movies: uniqueMovies
         .slice(-utils.MAX_MOVIES)
-        .sort(() => Math.random() - 0.5)
+        .sort(() => Math.random() - 0.5),
     });
 
     // Return the movies to the client
@@ -156,15 +176,13 @@ const setMovie = async (req, res) => {
   }
 
   if (!fields.name) {
-    return res
-      .status(400)
-      .json({ error: errors.MOVIE_NAME_REQUIRED });
+    return res.status(400).json({ error: errors.MOVIE_NAME_REQUIRED });
   }
 
   try {
     // Get the category ID for each provided category name
+    const categoriesIDs = [];
     if (fields.categories) {
-      const categoriesIDs = [];
       for (let name of fields.categories) {
         const category = await categoryService.getCategoryByName(name);
         // If the category is not found, return an error
@@ -173,10 +191,23 @@ const setMovie = async (req, res) => {
         }
         categoriesIDs.push(category._id);
       }
-      fields.categories = categoriesIDs; // Update categories with the IDs
     }
 
-    const movie = await movieService.setMovie(id, fields);
+    // Access uploaded files
+    let image = req.files?.image?.[0]?.path; // Get image path
+    if (!image) image = "/uploads/movies/default-picture.jpg";
+    let video = req.files?.video?.[0]?.path; // Get all video paths
+    if (!video) video = "/uploads/movies/default-video.mp4";
+
+    // Include files in fields
+    const movieFields = {
+      ...fields,
+      categories: categoriesIDs,
+      image,
+      video,
+    };
+
+    const movie = await movieService.setMovie(id, movieFields);
     if (!movie) {
       return res.status(404).json({ error: errors.MOVIE_NOT_FOUND });
     }
@@ -206,7 +237,9 @@ const deleteMovie = async (req, res) => {
       const deleteResponse = await client.sendMessage(deleteMessage);
 
       if (deleteResponse.trim() !== codes.NO_CONTENT) {
-        return res.status(500).json({ error: errors.MOVIE_REMOTE_DELETE_ERROR });
+        return res
+          .status(500)
+          .json({ error: errors.MOVIE_REMOTE_DELETE_ERROR });
       }
     }
 

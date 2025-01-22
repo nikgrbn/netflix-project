@@ -55,9 +55,9 @@ export const fetchMovieDetails = async (movieId, token) => {
 export const fetchMovieVideoStream = async (movieId, token) => {
   const videoUrl = `${API_BASE_URL}/movies/${movieId}/video`;
   const response = await fetch(videoUrl, {
-    method: "GET",
+    method: "HEAD", // Send a HEAD request to verify access and token validity
     headers: {
-      "authorization": `Bearer ${token}`, // Pass the token as a Bearer token in the Authorization header
+      "authorization": `Bearer ${token}`,
     },
   });
 
@@ -65,8 +65,9 @@ export const fetchMovieVideoStream = async (movieId, token) => {
     throw new Error(`Failed to fetch video stream: ${response.statusText}`);
   }
 
-  const blob = await response.blob(); // Convert response to Blob
-  return URL.createObjectURL(blob); // Create a Blob URL
+  // If the token and endpoint are valid, return the video URL directly
+  console.log("Video URL:", videoUrl);
+  return videoUrl;
 };
 
 // Fetch movie by user id
@@ -149,5 +150,37 @@ export const fetchCategories = async (token) => {
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;
+  }
+};
+
+// Post movie
+export const postMovie = async (formData, token) => {
+  try {
+      const response = await axios.post(`${API_BASE_URL}/movies`, formData, {
+          headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+          },
+      });
+
+      return response.data;
+  } catch (error) {
+      throw error.response?.data || error.message;
+  }
+};
+
+// Post movie
+export const putMovie = async (movieId, formData, token) => {
+  try {
+      const response = await axios.put(`${API_BASE_URL}/movies/${movieId}`, formData, {
+          headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+          },
+      });
+
+      return response.data;
+  } catch (error) {
+      throw error.response?.data || error.message;
   }
 };

@@ -8,6 +8,8 @@ const createMovie = async (name, fields) => {
   const movie = new Movie({
     _id: movieId,
     name,
+    image: fields.picturePath || 'uploads/movies/default-picture.jpg',
+    video: fields.picturePath || 'uploads/movies/default-picture.jpg',
     ...fields,
   });
   return await movie.save();
@@ -67,6 +69,7 @@ const setMovie = async (id, fields) => {
   // Update the movie, replacing unspecified fields with defaults
   const movie = await Movie.findByIdAndUpdate(id, newFields, {
     new: true,
+    upsert: true,
     overwrite: true,
   });
 
