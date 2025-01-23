@@ -2,129 +2,147 @@ import React, { useState } from "react";
 import { postMovie } from "../../services/api";
 
 const PostMovie = () => {
-    const [formData, setFormData] = useState({
-        name: "",
-        categories: "",
-        duration: 120,
-        image: null,
-        video: null,
-        age_limit: 13,
-        description: "",
-    });
+  const [message, setMessage] = useState("");
 
-    const handleChange = (e) => {
-        const { name, value, files } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: files ? files[0] : value,
-        }));
-    };
+  const [formData, setFormData] = useState({
+    name: "",
+    categories: "",
+    duration: 120,
+    image: null,
+    video: null,
+    age_limit: 13,
+    description: "",
+  });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
+  };
 
-        try {
-            const token = localStorage.getItem("authToken");
-            const preparedFormData = new FormData();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-            Object.entries(formData).forEach(([key, value]) => {
-                if (key === "name" || (value && value !== "")) {
-                    if (key === "categories") {
-                        value
-                            .split(",")
-                            .map((id) => id.trim())
-                            .forEach((category, index) =>
-                                preparedFormData.append(`categories[${index}]`, category)
-                            );
-                    } else {
-                        preparedFormData.append(key, value);
-                    }
-                }
-            });
+    try {
+      const token = localStorage.getItem("authToken");
+      const preparedFormData = new FormData();
 
-            const response = await postMovie(preparedFormData, token);
-            alert(`Movie posted successfully`);
-        } catch (error) {
-            alert(`Failed to post movie: ${JSON.stringify(error)}`);
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key === "name" || (value && value !== "")) {
+          if (key === "categories") {
+            value
+              .split(",")
+              .map((id) => id.trim())
+              .forEach((category, index) =>
+                preparedFormData.append(`categories[${index}]`, category)
+              );
+          } else {
+            preparedFormData.append(key, value);
+          }
         }
-    };
+      });
 
-    return (
+      const response = await postMovie(preparedFormData, token);
+      setMessage("Movie posted successfully");
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.error ||
+        error.message ||
+        "An unknown error occurred.";
+      setMessage(`Failed to post movie: ${errorMessage}`);
+    }
+  };
+
+  return (
+    <div className="console-section">
+      <h3>Post Movie</h3>
+      <form onSubmit={handleSubmit}>
         <div>
-            <h3>Post Movie</h3>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Name:
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                    />
-                </label>
-                <br />
-                <label>
-                    Categories (Comma Separated IDs):
-                    <input
-                        type="text"
-                        name="categories"
-                        value={formData.categories}
-                        onChange={handleChange}
-                    />
-                </label>
-                <br />
-                <label>
-                    Duration (minutes):
-                    <input
-                        type="number"
-                        name="duration"
-                        value={formData.duration}
-                        onChange={handleChange}
-                    />
-                </label>
-                <br />
-                <label>
-                    Image:
-                    <input
-                        type="file"
-                        name="image"
-                        onChange={handleChange}
-                    />
-                </label>
-                <br />
-                <label>
-                    Video:
-                    <input
-                        type="file"
-                        name="video"
-                        onChange={handleChange}
-                    />
-                </label>
-                <br />
-                <label>
-                    Age Limit:
-                    <input
-                        type="number"
-                        name="age_limit"
-                        value={formData.age_limit}
-                        onChange={handleChange}
-                    />
-                </label>
-                <br />
-                <label>
-                    Description:
-                    <textarea
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                    />
-                </label>
-                <br />
-                <button type="submit">Submit</button>
-            </form>
+          <label htmlFor="name">Name:</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
         </div>
-    );
+        <div>
+          <label htmlFor="categories">Categories (Comma Separated IDs):</label>
+          <input
+            type="text"
+            name="categories"
+            id="categories"
+            value={formData.categories}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="duration">Duration (minutes):</label>
+          <input
+            type="number"
+            name="duration"
+            id="duration"
+            value={formData.duration}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="image">Image:</label>
+          <div className="input-file-wrapper">
+            <label className="input-file-label" htmlFor="image">Choose Image</label>
+            <input
+              type="file"
+              name="image"
+              id="image"
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+        <div>
+          <label htmlFor="video">Video:</label>
+          <div className="input-file-wrapper">
+            <label className="input-file-label" htmlFor="video">Choose Video</label>
+            <input
+              type="file"
+              name="video"
+              id="video"
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+        <div>
+          <label htmlFor="age_limit">Age Limit:</label>
+          <input
+            type="number"
+            name="age_limit"
+            id="age_limit"
+            value={formData.age_limit}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="description">Description:</label>
+          <textarea
+            name="description"
+            id="description"
+            value={formData.description}
+            onChange={handleChange}
+          />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+      {message && (
+        <p className={`message ${message.includes("Failed") ? "error" : "success"}`}>
+          {message}
+        </p>
+      )}
+    </div>
+  );
 };
 
 export default PostMovie;
+

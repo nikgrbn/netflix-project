@@ -36,7 +36,7 @@ const PatchCategory = () => {
   };
 
   return (
-    <div>
+    <div className="console-section">
       <h3>Patch Category</h3>
       <form onSubmit={handleSubmit}>
         <div>
@@ -75,12 +75,13 @@ const PatchCategory = () => {
         <button type="submit">Update Category</button>
       </form>
       {message && (
-        <p style={{ color: message.includes("Error") ? "red" : "green" }}>
+        <p className={`message ${message.includes("Error") ? "error" : "success"}`}>
           {message}
         </p>
       )}
     </div>
   );
+  
 };
 
 export default PatchCategory;

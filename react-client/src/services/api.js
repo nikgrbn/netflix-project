@@ -178,7 +178,6 @@ export const validateToken = async (token) => {
   }
 };
 
-
 // Function to fetch categories
 export const fetchCategories = async (token) => {
   try {
@@ -282,6 +281,20 @@ export const putMovie = async (movieId, formData, token) => {
         },
       }
     );
+
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const deleteMovie = async (movieId, token) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/movies/${movieId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
+      },
+    });
 
     return response.data;
   } catch (error) {

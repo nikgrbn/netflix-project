@@ -26,7 +26,7 @@ const DeleteCategory = () => {
   };
 
   return (
-    <div>
+    <div className="console-section">
       <h3>Delete Category</h3>
       <form onSubmit={handleDelete}>
         <div>
@@ -43,12 +43,13 @@ const DeleteCategory = () => {
         <button type="submit">Delete Category</button>
       </form>
       {message && (
-        <p style={{ color: message.includes("Error") ? "red" : "green" }}>
+        <p className={`message ${message.includes("Error") ? "error" : "success"}`}>
           {message}
         </p>
       )}
     </div>
   );
+  
 };
 
 export default DeleteCategory;
