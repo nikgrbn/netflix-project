@@ -28,6 +28,9 @@ The web server communicates with MongoDB for persistent data storage and integra
 - **Node.js** and **MongoDB**
 
 ## Installation
+
+To run front and backend on the same server, first go to `./react-client` and run `npm run build`. Then go to `./web` and run `node app.js`.
+
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/nikgrbn/netflix-project.git
