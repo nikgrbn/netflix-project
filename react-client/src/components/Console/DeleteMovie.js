@@ -26,12 +26,13 @@ const DeleteMovie = () => {
   };
 
   return (
-    <div className="console-section">
-      <h3>Delete Movie</h3>
-      <form onSubmit={handleDelete}>
+    <div className="section-card">
+      <h3 className="section-title">Delete Movie</h3>
+      <form className="form-container" onSubmit={handleDelete}>
         <div>
-          <label htmlFor="movieId">Movie ID:</label>
+          <label className="label-text" htmlFor="movieId">Movie ID:</label>
           <input
+            className="input-field"
             type="text"
             id="movieId"
             value={movieId}
@@ -40,15 +41,16 @@ const DeleteMovie = () => {
             required
           />
         </div>
-        <button type="submit">Delete Movie</button>
+        <button className="action-button" type="submit">Delete Movie</button>
       </form>
       {message && (
-        <p className={`message ${message.includes("Error") ? "error" : "success"}`}>
+        <p className={`message-paragraph ${message.includes("Error") ? "error" : "success"}`}>
           {message}
         </p>
       )}
     </div>
   );
+
   
 };
 

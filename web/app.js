@@ -33,4 +33,15 @@ app.use('/api/categories', categories);
 const movies = require('./routes/movie');
 app.use('/api/movies', movies);
 
+const site = express.static('../react-client/build/');
+app.use("/", site);
+app.use("/signup", site);
+app.use("/signin", site);
+app.use("/home", site);
+app.use("/search", site);
+app.use("/console", site);
+app.use("/categories", site);
+app.use("/watch/:id", site);
+app.use("/movies/:id", site);
+
 app.listen(process.env.PORT);
