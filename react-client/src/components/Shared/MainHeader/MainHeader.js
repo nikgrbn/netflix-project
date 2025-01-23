@@ -9,7 +9,6 @@ const MainHeader = ({ username, profilePicture }) => {
   const navigate = useNavigate();
 
   const is_admin = localStorage.getItem("is_admin");
-  console.log("is_admin", is_admin);
 
   useEffect(() => {
     const handleScroll = () => {

@@ -6,30 +6,26 @@ import MovieActions from "../components/MovieInfo/MovieActions";
 import HomeMovieCategory from "../components/Home/HomeMovieCategory";
 import {
   fetchMovieDetails,
-  fetchMovieVideoStream,
   fetchRecommendedMovies,
 } from "../services/api";
+import VideoPlayer from "../components/Shared/VideoPlayer";
 
 const MovieInfoPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [movieDetails, setMovieDetails] = useState(null);
-  const [videoUrl, setVideoUrl] = useState(null);
   const [recommendedMovies, setRecommendedMovies] = useState([]);
   const [error, setError] = useState(null);
-
   const token = localStorage.getItem("authToken");
   const userId = localStorage.getItem("id");
 
   useEffect(() => {
     const loadMovieData = async () => {
       try {
-        const [movieData, videoStreamUrl] = await Promise.all([
+        const [movieData] = await Promise.all([
           fetchMovieDetails(id, token),
-          fetchMovieVideoStream(id, token),
         ]);
         setMovieDetails(movieData);
-        setVideoUrl(videoStreamUrl);
       } catch (err) {
         setError(err);
         console.error("Error fetching movie data:", err);
@@ -60,7 +56,7 @@ const MovieInfoPage = () => {
     return <div className="error">Error: {error}</div>;
   }
 
-  if (!movieDetails || !videoUrl) {
+  if (!movieDetails) {
     return <div className="loading">Loading...</div>;
   }
 
@@ -74,14 +70,7 @@ const MovieInfoPage = () => {
           &times;
         </button>
         <div className="modal-header" style={{ height: "60%" }}>
-          <video
-            className="movie-background"
-            src={videoUrl}
-            autoPlay
-            loop
-            muted
-            playsInline
-          ></video>
+        <VideoPlayer movieId={id} token={token} />
         </div>
         <div className="modal-body" style={{ height: "40%" }}>
           <MovieHeader movieDetails={movieDetails} />

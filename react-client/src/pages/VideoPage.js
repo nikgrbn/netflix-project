@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-import { fetchMovieVideoStream, fetchMovieDetails } from "../services/api";
+import {
+  postWatchedMovie,
+  validateToken,
+} from "../services/api";
 import "./VideoPage.css";
+import VideoPlayer from "../components/Shared/VideoPlayer";
 
 const VideoPage = () => {
   const { id } = useParams(); // Retrieve the movie ID from the URL
-  const [videoUrl, setVideoUrl] = useState(null);
-  const [movieDetails, setMovieDetails] = useState(null);
+  const [isTokenValid, setIsTokenValid] = useState(false);
   const navigate = useNavigate(); // Hook to navigate back
 
   // Retrieve data from localStorage
@@ -14,24 +17,39 @@ const VideoPage = () => {
   const token = localStorage.getItem("authToken");
 
   useEffect(() => {
-    const fetchMovieData = async () => {
-      try {
-        const [videoBlobUrl, movie] = await Promise.all([
-          fetchMovieVideoStream(id, token),
-          fetchMovieDetails(id, token),
-        ]);
+    validate();
+  }, [token, navigate]);
 
-        setVideoUrl(videoBlobUrl);
-        setMovieDetails(movie);
-      } catch (error) {
-        console.error("Failed to fetch movie data:", error);
+  // Validate the token
+  const validate = async () => {
+    try {
+      const response = await validateToken(token);
+      console.log("Token validation response:", response);
+      if (response.status === 200) {
+        setIsTokenValid(true);
+      } else {
+        throw new Error("Token validation failed");
       }
-    };
+    } catch (error) {
+      console.error("Failed to validate token:", error);
+      navigate("/home");
+    }
+  };
 
-    if (token) {
+  useEffect(() => {
+    if (isTokenValid) {
       fetchMovieData();
     }
-  }, [id, token]);
+  }, [isTokenValid]);
+
+  // Fetch movie data
+  const fetchMovieData = async () => {
+    try {
+      await postWatchedMovie(userId, id, token);
+    } catch (error) {
+      console.error("Failed to fetch movie data:", error);
+    }
+  };
 
   return (
     <div className="video-page">
@@ -41,9 +59,15 @@ const VideoPage = () => {
       </button>
 
       {/* Video player */}
-      {videoUrl && (
-        <video src={videoUrl} controls autoPlay className="video-player" />
-      )}
+      <div>
+        <VideoPlayer
+          movieId={id}
+          token={token}
+          controlsMode={true}
+          isMuted={false}
+          className="video-player"
+        />
+      </div>
     </div>
   );
 };

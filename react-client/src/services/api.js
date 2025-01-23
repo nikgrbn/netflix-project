@@ -31,18 +31,18 @@ export const signInUser = async (username, password) => {
     });
     return response.data;
   } catch (error) {
-   
     const serverError = error.response?.data?.error || error.message;
     throw new Error(serverError);
   }
 };
+
 
 // Fetch movie details by ID
 export const fetchMovieDetails = async (movieId, token) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/movies/${movieId}`, {
       headers: {
-        "authorization": `Bearer ${token}`, // Pass the token as a Bearer token in the Authorization header
+        authorization: `Bearer ${token}`, // Pass the token as a Bearer token in the Authorization header
       },
     });
     return response.data;
@@ -57,7 +57,7 @@ export const fetchMovieVideoStream = async (movieId, token) => {
   const response = await fetch(videoUrl, {
     method: "GET",
     headers: {
-      "authorization": `Bearer ${token}`, // Pass the token as a Bearer token in the Authorization header
+      authorization: `Bearer ${token}`, // Pass the token as a Bearer token in the Authorization header
     },
   });
 
@@ -97,7 +97,6 @@ export const getUserProfile = async (userId, token) => {
   }
 };
 
-
 // Function to search for movies
 export const fetchSearchResults = async (query, token) => {
   try {
@@ -118,12 +117,15 @@ export const fetchSearchResults = async (query, token) => {
 // Function to fetch recommended movies
 export const fetchRecommendedMovies = async (userId, movieId, token) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/movies/${movieId}/recommend`, {
-      headers: {
-        Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
-        "User-ID": userId, // Pass the userId in the User-ID header
-      },
-    });
+    const response = await axios.get(
+      `${API_BASE_URL}/movies/${movieId}/recommend`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
+          "User-ID": userId, // Pass the userId in the User-ID header
+        },
+      }
+    );
 
     // Ensure the response is an array of movies
     if (!Array.isArray(response.data)) {
@@ -136,11 +138,51 @@ export const fetchRecommendedMovies = async (userId, movieId, token) => {
   }
 };
 
+// Function to sign in a user
+export const postWatchedMovie = async (userId, movieId, token) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/movies/${movieId}/recommend`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "User-ID": userId,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+
+// Function to sign in a user
+export const validateToken = async (token) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/movies/validate`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      }
+    );
+
+    return response;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
 
 // Function to fetch categories
 export const fetchCategories = async (token) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/categories`,  {
+    const response = await axios.get(`${API_BASE_URL}/categories`, {
       headers: {
         Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
       },
@@ -171,13 +213,16 @@ export const PostCategory = async (categoryData, token) => {
   }
 };
 
-export const deleteCategory = async (categoryId ,token) => {
+export const deleteCategory = async (categoryId, token) => {
   try {
-    const response = await axios.delete(`${API_BASE_URL}/categories/${categoryId}`,  {
-      headers: {
-        Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
-      },
-    });
+    const response = await axios.delete(
+      `${API_BASE_URL}/categories/${categoryId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -189,49 +234,57 @@ export const patchCategory = async (categoryId, updatedCategory, token) => {
   try {
     const response = await axios.patch(
       `${API_BASE_URL}/categories/${categoryId}`,
-      JSON.stringify(updatedCategory), 
+      JSON.stringify(updatedCategory),
       {
         headers: {
-          "Content-Type": "application/json", 
-          Authorization: `Bearer ${token}`, 
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       }
     );
 
-    return response.data; 
+    return response.data;
   } catch (error) {
-    throw error.response?.data?.error || error.message || "An unknown error occurred";
+    throw (
+      error.response?.data?.error ||
+      error.message ||
+      "An unknown error occurred"
+    );
   }
-}
+};
 
-  // Post movie
+// Post movie
 export const postMovie = async (formData, token) => {
   try {
-      const response = await axios.post(`${API_BASE_URL}/movies`, formData, {
-          headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
-          },
-      });
+    const response = await axios.post(`${API_BASE_URL}/movies`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      return response.data;
+    return response.data;
   } catch (error) {
-      throw error.response?.data || error.message;
+    throw error.response?.data || error.message;
   }
 };
 
 // Post movie
 export const putMovie = async (movieId, formData, token) => {
   try {
-      const response = await axios.put(`${API_BASE_URL}/movies/${movieId}`, formData, {
-          headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
-          },
-      });
+    const response = await axios.put(
+      `${API_BASE_URL}/movies/${movieId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-      return response.data;
+    return response.data;
   } catch (error) {
-      throw error.response?.data || error.message;
+    throw error.response?.data || error.message;
   }
-}
+};

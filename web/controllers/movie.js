@@ -195,9 +195,9 @@ const setMovie = async (req, res) => {
 
     // Access uploaded files
     let image = req.files?.image?.[0]?.path; // Get image path
-    if (!image) image = "/uploads/movies/default-picture.jpg";
+    if (!image) image = "uploads/movies/default-picture.jpg";
     let video = req.files?.video?.[0]?.path; // Get all video paths
-    if (!video) video = "/uploads/movies/default-video.mp4";
+    if (!video) video = "uploads/movies/default-video.mp4";
 
     // Include files in fields
     const movieFields = {
