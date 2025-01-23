@@ -36,6 +36,7 @@ export const signInUser = async (username, password) => {
   }
 };
 
+
 // Fetch movie details by ID
 export const fetchMovieDetails = async (movieId, token) => {
   try {
@@ -95,6 +96,7 @@ export const getUserProfile = async (userId, token) => {
     throw error.response?.data || error.message;
   }
 };
+
 // Function to search for movies
 export const fetchSearchResults = async (query, token) => {
   try {
@@ -131,6 +133,46 @@ export const fetchRecommendedMovies = async (userId, movieId, token) => {
     }
 
     return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+// Function to sign in a user
+export const postWatchedMovie = async (userId, movieId, token) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/movies/${movieId}/recommend`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "User-ID": userId,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+
+// Function to sign in a user
+export const validateToken = async (token) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/movies/validate`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      }
+    );
+
+    return response;
   } catch (error) {
     throw error.response?.data || error.message;
   }

@@ -8,6 +8,10 @@ const LandingHeader = () => {
     navigate("/signin");
   };
 
+  const handleSignUpClick = () => {
+    navigate("/signup");
+  };
+
   return (
     <header className="header-container">
       <img 
@@ -20,6 +24,10 @@ const LandingHeader = () => {
         <button className="sign-in-button"
           onClick={handleSignInClick}>
           Sign In
+        </button>
+        <button className="sign-in-button"
+          onClick={handleSignUpClick}>
+          Sign Up
         </button>
       </div>
     </header>

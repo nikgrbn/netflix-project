@@ -2,6 +2,7 @@ const movieController = require("../controllers/movie");
 const recommendController = require("../controllers/recommend");
 const streamController = require("../controllers/stream");
 const queryController = require("../controllers/query");
+const tokenController = require("../controllers/token");
 const { errors } = require("../utils/consts");
 const jwt = require("jsonwebtoken");
 const { upload } = require("../middlewares/multer"); // Import the Multer middleware
@@ -13,11 +14,18 @@ var router = express.Router();
 
 // Middleware to ensure User-ID header exists
 const ensureUserHeader = (req, res, next) => {
-  const token = req.headers["authorization"].split(" ")[1];
-  //console.log("Token:", token);
-  if (!token) {
-    return res.status(401).json({ error: errors.TOKEN_REQUIREDED });
+  const authHeader = req.headers["authorization"];
+  
+  if (!authHeader) {
+    return res.status(401).json({ error: errors.TOKEN_REQUIRED });
   }
+
+  const token = authHeader.split(" ")[1];
+  
+  if (!token) {
+    return res.status(401).json({ error: errors.TOKEN_REQUIRED });
+  }
+
   jwt.verify(token, JWT_SECRET_KEY, (err, content) => {
     if (err) {
       req.jwtContent = undefined;
@@ -25,16 +33,21 @@ const ensureUserHeader = (req, res, next) => {
       req.jwtContent = content;
     }
   });
+
   if (!req.jwtContent) {
     return res.status(401).json({ error: errors.TOKEN_NOT_VALID });
   }
 
-  // Attach user ID to the request if header present
   if (req.headers["user-id"]) {
     req.userId = req.headers["user-id"];
   }
+  
   next();
 };
+
+router.route("/validate").post(tokenController.validateToken);
+router.route("/:id/video").get(streamController.getStreamById);
+
 router.use(ensureUserHeader); // Apply this middleware to all routes below
 
 router
@@ -69,7 +82,5 @@ router
   .route("/:id/recommend")
   .get(recommendController.getRecommendations)
   .post(recommendController.addUserWatchedMovie);
-
-router.route("/:id/video").get(streamController.getStreamById);
 
 module.exports = router;

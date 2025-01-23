@@ -1,17 +1,13 @@
 import React from 'react';
+import VideoPlayer from '../Shared/VideoPlayer';
 
-const HomeBanner = ({ title, description, videoUrl, onPlay, onMoreInfo }) => {
+const HomeBanner = ({ id, title, description, onPlay, onMoreInfo }) => {
   return (
     <div className="banner">
       <div className="banner-gradient"></div>
-      <video
-        className="banner-video"
-        src={videoUrl}
-        autoPlay
-        loop
-        muted
-        playsInline
-      />
+      <div>
+       <VideoPlayer movieId={id} className='banner-video'/>
+      </div>
       <div className="banner-content">
         <h1>{title}</h1>
         <p>{description}</p>

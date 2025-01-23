@@ -1,16 +1,18 @@
-/* Fullscreen video page */
+/* Ensure the video occupies the entire viewport */
 .video-page {
   position: fixed;
+  inset: 0; /* shorthand for top: 0; left: 0; right: 0; bottom: 0 */
+  background-color: var(--background-secondary-color);
+  overflow: hidden; /* Prevent scrolling */
+}
+
+.video-player {
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--background-secondary-color);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden; /* Prevent scrolling */
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+  object-fit: cover; /* Maintain aspect ratio, fill viewport */
 }
 
 /* Back button styling */
@@ -30,12 +32,3 @@
 .back-button i {
   font-size: 30px;
 }
-
-/* Video player styling */
-.video-player {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  outline: none;
-}
-

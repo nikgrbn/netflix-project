@@ -66,7 +66,9 @@ function AppRoutes() {
         <Route
           path="/watch/:id"
           element={
-            <VideoPage />
+            <ProtectedRoute>
+              <VideoPage />
+            </ProtectedRoute>
           }
         />
       </Routes>
@@ -77,7 +79,9 @@ function AppRoutes() {
           <Route
             path="/movies/:id"
             element={
-              <MovieInfoPage />
+              <ProtectedRoute>
+                <MovieInfoPage />
+              </ProtectedRoute>
             }
           />
         </Routes>

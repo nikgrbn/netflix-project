@@ -13,7 +13,7 @@ const ensureUserHeader = (req, res, next) => {
   const token = req.headers["authorization"].split(" ")[1];
   //console.log("Token:", token);
   if (!token) {
-    return res.status(401).json({ error: errors.TOKEN_REQUIREDED });
+    return res.status(401).json({ error: errors.TOKEN_REQUIRED });
   }
   jwt.verify(token, JWT_SECRET_KEY, (err, content) => {
     if (err) {

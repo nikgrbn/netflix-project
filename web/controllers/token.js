@@ -12,7 +12,6 @@ const authenticateUser = async (req, res) => {
   }
   console.log(req.body);
 
-
   // Call the authenticateUser function from userServices
   try {
     const user = await userServices.getUserByCredentials(username, password);
@@ -37,14 +36,37 @@ const authenticateUser = async (req, res) => {
         watched_movies: user.watched_movies,
         token,
       });
-
-      
     } catch (error) {
-      return res.status(400).json({ error: error.message  });
+      return res.status(400).json({ error: error.message });
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-module.exports = { authenticateUser };
+const validateToken = async (req, res) => {
+  const authHeader = req.headers["authorization"];
+  if (!authHeader) {
+    return res.status(401).json({ error: errors.TOKEN_REQUIRED });
+  }
+
+  const token = authHeader.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ error: errors.TOKEN_REQUIRED });
+  }
+
+  jwt.verify(token, JWT_SECRET_KEY, (err, content) => {
+    if (err) {
+      req.jwtContent = undefined;
+    } else {
+      req.jwtContent = content;
+    }
+  });
+
+  if (req.jwtContent) {
+    return res.status(200).json({ message: "Token is valid" });
+  }
+  return res.status(401).json({ error: errors.TOKEN_NOT_VALID });
+};
+
+module.exports = { authenticateUser, validateToken };
