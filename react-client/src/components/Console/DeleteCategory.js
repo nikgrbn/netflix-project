@@ -26,7 +26,7 @@ const DeleteCategory = () => {
   };
 
   return (
-    <div className="container">
+    <div className="console-section">
       <h3>Delete Category</h3>
       <form onSubmit={handleDelete}>
         <div>

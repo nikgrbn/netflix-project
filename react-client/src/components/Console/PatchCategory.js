@@ -36,7 +36,7 @@ const PatchCategory = () => {
   };
 
   return (
-    <div className="container">
+    <div className="console-section">
       <h3>Patch Category</h3>
       <form onSubmit={handleSubmit}>
         <div>

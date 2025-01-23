@@ -92,21 +92,27 @@ const PostMovie = () => {
         </div>
         <div>
           <label htmlFor="image">Image:</label>
-          <input
-            type="file"
-            name="image"
-            id="image"
-            onChange={handleChange}
-          />
+          <div className="input-file-wrapper">
+            <label className="input-file-label" htmlFor="image">Choose Image</label>
+            <input
+              type="file"
+              name="image"
+              id="image"
+              onChange={handleChange}
+            />
+          </div>
         </div>
         <div>
           <label htmlFor="video">Video:</label>
-          <input
-            type="file"
-            name="video"
-            id="video"
-            onChange={handleChange}
-          />
+          <div className="input-file-wrapper">
+            <label className="input-file-label" htmlFor="video">Choose Video</label>
+            <input
+              type="file"
+              name="video"
+              id="video"
+              onChange={handleChange}
+            />
+          </div>
         </div>
         <div>
           <label htmlFor="age_limit">Age Limit:</label>
@@ -136,7 +142,7 @@ const PostMovie = () => {
       )}
     </div>
   );
-  
 };
 
 export default PostMovie;
+

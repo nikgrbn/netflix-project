@@ -25,7 +25,7 @@ const CategoryForm = () => {
   };
   
   return (
-    <div className="container">
+    <div className="console-section">
       <h3>Post Category</h3>
       <form onSubmit={handleSubmit}>
         <div>
