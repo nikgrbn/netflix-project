@@ -16,13 +16,9 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
     gap: 60px;
-    /* Adjust the gap to suit your layout */
     width: 100%;
     max-width: 1200px;
-    /* Limit the grid's maximum width */
     justify-items: center;
-    /* Centers the items horizontally */
     align-items: center;
-    /* Centers the items vertically */
     box-sizing: border-box;
 }

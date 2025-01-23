@@ -9,12 +9,11 @@ import HomeMovieCategory from "../components/Home/HomeMovieCategory";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const HomePage = () => {
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [dataReady, setDataReady] = useState(false); // Tracks when data is ready
-  const [movieDetails, setMovieDetails] = useState(null);
+  const [bannerMovieId, setBannerMovieId] = useState(null);
   const [categories, setCategories] = useState([]);
 
   // Retrieve data from localStorage
@@ -48,16 +47,13 @@ const HomePage = () => {
           );
           const movieId =
             fetchedCategories[randomCategoryIndex].movies[randomMovieIndex].id;
-
-          const [movie] = await Promise.all([
-            fetchMovieDetails(movieId, token),
-          ]);
-          setMovieDetails(movie);
+          setBannerMovieId(movieId);
         }
 
         setDataReady(true); // Data is ready
       } catch (error) {
         console.error("Failed to fetch home data:", error);
+        fetchHomeData(); // Retry fetching data
         setDataReady(true); // Mark as ready even if fetching fails
       }
     };
@@ -75,22 +71,6 @@ const HomePage = () => {
     }
   }, [dataReady]);
 
-  const handlePlay = () => {
-    if (movieDetails.id) {
-      navigate(`/watch/${movieDetails.id}`);
-    } else {
-      console.error("Movie is not available.");
-    }
-  };
-
-  const handleMoreInfo = () => {
-    if (movieDetails && movieDetails.id) {
-      navigate(`/movies/${movieDetails.id}`, {state: { backgroundLocation: location }});
-    } else {
-      console.error("Movie ID is not available.");
-    }
-  };
-
   return (
     <div className="home-page">
       {loading ? (
@@ -99,17 +79,9 @@ const HomePage = () => {
         </div>
       ) : (
         <>
-          {movieDetails ? (
             <HomeBanner
-              id={movieDetails.id}
-              title={movieDetails.name}
-              description={movieDetails.description}
-              onPlay={handlePlay}
-              onMoreInfo={handleMoreInfo}
+            bannerMovieId={bannerMovieId}
             />
-          ) : (
-            <p>Loading banner...</p>
-          )}
 
           <div className="categories-container">
             {categories.map((category) => (

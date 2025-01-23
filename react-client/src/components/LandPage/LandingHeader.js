@@ -15,7 +15,7 @@ const LandingHeader = () => {
   return (
     <header className="header-container">
       <img 
-        src="/netflix-logo.png" 
+        src="/netflix-logo.png?cache-bust=true"
         alt="Netflix Logo" 
         className="netflix-logo" 
         onClick={() => navigate("/")} 
