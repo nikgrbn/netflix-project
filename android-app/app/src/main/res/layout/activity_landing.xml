@@ -18,6 +18,7 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:contentDescription="logo"
+            android:layout_gravity="center|start"
             android:src="@drawable/logo" />
 
 
