@@ -36,12 +36,13 @@ const PatchCategory = () => {
   };
 
   return (
-    <div className="console-section">
-      <h3>Patch Category</h3>
-      <form onSubmit={handleSubmit}>
+    <div className="section-card">
+      <h3 className="section-title">Patch Category</h3>
+      <form className="form-container" onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="categoryIdToEdit">Category ID to Edit:</label>
+          <label className="label-text" htmlFor="categoryIdToEdit">Category ID to Edit:</label>
           <input
+            className="input-field"
             type="text"
             id="categoryIdToEdit"
             value={categoryIdToEdit}
@@ -51,8 +52,9 @@ const PatchCategory = () => {
           />
         </div>
         <div>
-          <label htmlFor="newCategoryName">New Name:</label>
+          <label className="label-text" htmlFor="newCategoryName">New Name:</label>
           <input
+            className="input-field"
             type="text"
             id="newCategoryName"
             value={newCategoryName}
@@ -61,8 +63,9 @@ const PatchCategory = () => {
           />
         </div>
         <div>
-          <label htmlFor="promoted">Promoted:</label>
+          <label className="label-text" htmlFor="promoted">Promoted:</label>
           <select
+            className="input-field"
             id="promoted"
             value={promoted}
             onChange={(e) => setPromoted(e.target.value)}
@@ -72,15 +75,16 @@ const PatchCategory = () => {
             <option value="yes">Yes</option>
           </select>
         </div>
-        <button type="submit">Update Category</button>
+        <button className="action-button" type="submit">Update Category</button>
       </form>
       {message && (
-        <p className={`message ${message.includes("Error") ? "error" : "success"}`}>
+        <p className={`message-paragraph ${message.includes("Error") ? "error" : "success"}`}>
           {message}
         </p>
       )}
     </div>
   );
+
   
 };
 
