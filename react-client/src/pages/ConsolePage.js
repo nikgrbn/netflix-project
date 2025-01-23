@@ -12,11 +12,11 @@ const ConsolePage = () => {
   const navigate = useNavigate();
   const is_admin = localStorage.getItem("is_admin");
 
-  // useEffect(() => {
-  //   if (is_admin !== "true") {
-  //     navigate("/");
-  //   }
-  // }, [is_admin, navigate]);
+  useEffect(() => {
+    if (is_admin !== "true") {
+      navigate("/");
+    }
+  }, [is_admin, navigate]);
 
   return (
     <div className="page-grid">

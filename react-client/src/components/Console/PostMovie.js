@@ -47,11 +47,7 @@ const PostMovie = () => {
       const response = await postMovie(preparedFormData, token);
       setMessage("Movie posted successfully");
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.error ||
-        error.message ||
-        "An unknown error occurred.";
-      setMessage(`Failed to post movie: ${errorMessage}`);
+      setMessage(`Failed to put movie:  ${JSON.stringify(error)}`);
     }
   };
 
@@ -73,7 +69,7 @@ const PostMovie = () => {
           />
         </div>
         <div>
-          <label htmlFor="categories" className="label-text">Categories (Comma Separated IDs):</label>
+          <label htmlFor="categories" className="label-text">Categories (Comma Separated):</label>
           <input
             type="text"
             name="categories"
@@ -81,7 +77,7 @@ const PostMovie = () => {
             value={formData.categories}
             onChange={handleChange}
             className="input-field"
-            placeholder="e.g. 1,2,3"
+            placeholder="e.g. Drama,Comedy,Action"
           />
         </div>
         <div>
@@ -96,30 +92,29 @@ const PostMovie = () => {
             placeholder="Enter duration in minutes"
           />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="image" className="label-text">Image:</label>
-          <div className="file-wrapper">
-            <label htmlFor="image" className="file-label">Choose Image</label>
+          <div className="custom-file-wrapper">
+            <label htmlFor="image" className="custom-file-button"></label>
             <input
               type="file"
               name="image"
               id="image"
               onChange={handleChange}
-              className="file-input"
               accept="image/*"
             />
           </div>
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="video" className="label-text">Video:</label>
-          <div className="file-wrapper">
-            <label htmlFor="video" className="file-label">Choose Video</label>
+          <div className="custom-file-wrapper">
+            <label htmlFor="video" className="custom-file-button"></label>
             <input
               type="file"
               name="video"
               id="video"
               onChange={handleChange}
-              className="file-input"
+        
               accept="video/*"
             />
           </div>
@@ -156,6 +151,8 @@ const PostMovie = () => {
       )}
     </div>
   );
+  
+  
   
 };
 
