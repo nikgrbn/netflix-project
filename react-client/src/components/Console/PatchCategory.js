@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { patchCategory } from "../../services/api";
 
 const PatchCategory = () => {
-  const [categoryIdToEdit, setCategoryIdToEdit] = useState(""); // שדה ה-ID של הקטגוריה
+  const [categoryIdToEdit, setCategoryIdToEdit] = useState(""); 
   const [newCategoryName, setNewCategoryName] = useState("");
   const [promoted, setPromoted] = useState("");
   const [message, setMessage] = useState("");
