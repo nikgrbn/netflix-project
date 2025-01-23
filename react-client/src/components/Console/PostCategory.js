@@ -25,12 +25,13 @@ const CategoryForm = () => {
   };
   
   return (
-    <div className="console-section">
-      <h3>Post Category</h3>
-      <form onSubmit={handleSubmit}>
+    <div className="section-card">
+      <h3 className="section-title">Post Category</h3>
+      <form className="form-container" onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="categoryName">Category Name:</label>
+          <label className="label-text" htmlFor="categoryName">Category Name:</label>
           <input
+            className="input-field"
             type="text"
             id="categoryName"
             value={categoryName}
@@ -40,8 +41,9 @@ const CategoryForm = () => {
           />
         </div>
         <div>
-          <label htmlFor="promoted">Promoted:</label>
+          <label className="label-text" htmlFor="promoted">Promoted:</label>
           <select
+            className="input-field"
             id="promoted"
             value={promoted}
             onChange={(e) => setPromoted(e.target.value)}
@@ -51,15 +53,16 @@ const CategoryForm = () => {
             <option value="yes">Yes</option>
           </select>
         </div>
-        <button type="submit">Create Category</button>
+        <button className="action-button" type="submit">Create Category</button>
       </form>
       {message && (
-        <p className={`message ${message.includes("Error") ? "error" : "success"}`}>
+        <p className={`message-paragraph ${message.includes("Error") ? "error" : "success"}`}>
           {message}
         </p>
       )}
     </div>
   );
+
 };
 
 

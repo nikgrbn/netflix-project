@@ -1,4 +1,17 @@
-html, body {
+body {
+  background-color: var(--background-secondary-color);
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+html {
+  background-color: var(--background-secondary-color);
+  min-height: 100%;
+}
+
+.root-html, .root-body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -6,142 +19,151 @@ html, body {
   overflow-x: hidden; 
 }
 
-.console-page {
-    grid-auto-rows: min-content; 
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 0px;
-    padding: 16px;
-    color: var(--text-color);
-    background-color: var(--background-secondary-color);
-    min-height: 100vh;
-    align-items: start; 
-  }
+.page-grid {
+  grid-auto-rows: min-content; 
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 10px;
+  padding: 30px;
+  color: var(--text-color);
+  background-color: var(--background-secondary-color);
+  align-items: start; 
+}
+
+.section-card {
+  border-radius: 8px;
+  padding: 20px; 
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; 
+  max-width: 400px;
+  width: 100%;
+  margin-top: 30px; 
+  margin-left: 40px; 
+  height: auto; 
+  margin-bottom: -210px;
+  margin-top: 20px
   
-  .console-section {
-    border-radius: 8px;
-    padding: 20px; 
-    display: flex;
-    flex-direction: column;
-    align-items: stretch; 
-    max-width: 400px;
-    width: 100%;
-    margin-top: 30px; 
-    margin-left: 40px; 
-    max-height: 200px; 
-    height: auto; 
+}
 
-  }
+.form-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: stretch;
+  margin-right: 20px;
+}
 
-  
-  form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: flex-start;
-    margin-right: 20px;
+.form-container div {
+  display: flex;
+  align-items: center; 
+}
+
+.label-text {
+  font-size: 16px;
+  color: var(--text-color-secondary);
+  margin-right: 10px; 
+  width: 150px;
+  text-align: left;
+}
+
+.input-field[type="text"],
+.input-field[type="number"],
+.text-area,
+.select-box {
+  flex: 1; 
+  padding: 10px;
+  border: 1px solid var(--input-border-color);
+  border-radius: 5px;
+  background-color: var(--input-background-color);
+  color: var(--text-color);
+}
+
+.file-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.file-label {
+  display: inline-block;
+  padding: 10px 15px;
+  color: var(--button-text-color);
+  background-color: var(--button-background-color);
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  margin-left: 10px; 
+}
+
+.file-label:hover {
+  background-color: var(--button-hover-background-color);
+}
+
+.file-input {
+  display: none; 
+}
+
+.custom-file-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.custom-file-button {
+
+  padding:  8px;
 
 }
 
-label {
-    font-size: 16px;
-    color: var(--text-color-secondary);
-    margin-bottom: 8px;
+.action-button {
+  background-color: var(--button-background-color); 
+  color: var(--text-color);
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
 }
 
-input[type="text"],
-input[type="number"],
-textarea,
-select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--input-border-color);
-    border-radius: 5px;
-    background-color: var(--input-background-color);
-    color: var(--text-color);
+.message-paragraph {
+  font-size: 14px;
+  margin-top: 10px;
 }
 
-input[type="file"] {
-    color: var(--text-color-secondary);
+.message-paragraph.success {
+  color: green;
 }
 
-button {
-    padding: 10px 15px;
-    background-color: var(--button-background-color);
-    color: var(--button-text-color);
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    align-self: flex-start;
+.message-paragraph.error {
+  color: red;
 }
 
-button:hover {
-    background-color: var(--button-hover-background-color);
+.section-title {
+  color: var(--header-text-color);
+  font-size: 20px;
+  margin-bottom: 12px;
+  text-align: center;
 }
 
-
-p.message {
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 8px;
-}
-
-p.message.error {
-    color: var(--error-color);
-}
-
-p.message.success {
-    color: var(--button-background-color);
-}
-
-
-h3 {
-    color: var(--header-text-color);
-    font-size: 20px;
-    margin-bottom: 12px;
-    text-align: center;
-}
-footer {
+.footer {
   margin: 0;
   padding: 0;
   background: none; 
   height: 0; 
 }
 
-.input-file-wrapper {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-  margin-left: 10px; /* הזזה ימינה */
-  margin-top: 20px; /* הזזה למטה */
-}
-
-.input-file-wrapper input[type="file"] {
-  font-size: 100px; 
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0; 
-  cursor: pointer;
-}
-
-.input-file-label {
-  display: inline-block;
-  padding: 6px 12px; /* הקטנת הריווח הפנימי */
-  color: var(--button-text-color);
-  background-color: var(--button-background-color);
-  border: none;
+.input-field,
+.text-area {
+  flex: 1; 
+  padding: 10px;
+  border: 1px solid var(--input-border-color);
   border-radius: 5px;
-  font-size: 14px; /* הקטנת גודל הטקסט */
-  font-weight: bold;
-  cursor: pointer;
-  text-align: center;
-}
-
-.input-file-label:hover {
-  background-color: var(--button-hover-background-color);
+  background-color: var(--input-background-color);
+  color: var(--text-color);
+  font-size: 14px; 
+  font-family: inherit; 
+  line-height: 1.5; 
 }

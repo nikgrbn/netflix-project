@@ -12,30 +12,30 @@ const ConsolePage = () => {
   const navigate = useNavigate();
   const is_admin = localStorage.getItem("is_admin");
 
-  // useEffect(() => {
-  //   if (is_admin !== "true") {
-  //     navigate("/");
-  //   }
-  // }, [is_admin, navigate]);
+  useEffect(() => {
+    if (is_admin !== "true") {
+      navigate("/");
+    }
+  }, [is_admin, navigate]);
 
   return (
-    <div className="console-page">
-      <div className="console-section">
+    <div className="page-grid">
+      <div className="section-card">
         <PostCategory />
       </div>
-      <div className="console-section">
+      <div className="section-card">
         <PatchCategory />
       </div>
-      <div className="console-section">
+      <div className="section-card">
         <DeleteCategory />
       </div>
-      <div className="console-section">
+      <div className="section-card">
         <PostMovie />
       </div>
-      <div className="console-section">
+      <div className="section-card">
         <PutMovie />
       </div>
-      <div className="console-section">
+      <div className="section-card">
         <DeleteMovie />
       </div>
     </div>

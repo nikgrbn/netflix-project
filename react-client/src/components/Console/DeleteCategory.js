@@ -26,12 +26,13 @@ const DeleteCategory = () => {
   };
 
   return (
-    <div className="console-section">
-      <h3>Delete Category</h3>
-      <form onSubmit={handleDelete}>
+    <div className="section-card">
+      <h3 className="section-title">Delete Category</h3>
+      <form className="form-container" onSubmit={handleDelete}>
         <div>
-          <label htmlFor="categoryId">Category ID:</label>
+          <label className="label-text" htmlFor="categoryId">Category ID:</label>
           <input
+            className="input-field"
             type="text"
             id="categoryId"
             value={categoryId}
@@ -40,15 +41,16 @@ const DeleteCategory = () => {
             required
           />
         </div>
-        <button type="submit">Delete Category</button>
+        <button className="action-button" type="submit">Delete Category</button>
       </form>
       {message && (
-        <p className={`message ${message.includes("Error") ? "error" : "success"}`}>
+        <p className={`message-paragraph ${message.includes("Error") ? "error" : "success"}`}>
           {message}
         </p>
       )}
     </div>
   );
+
   
 };
 
