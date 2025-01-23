@@ -92,7 +92,7 @@ const PostMovie = () => {
             placeholder="Enter duration in minutes"
           />
         </div>
-        <div className="form-group">
+        <div className="form-group-console">
           <label htmlFor="image" className="label-text">Image:</label>
           <div className="custom-file-wrapper">
             <label htmlFor="image" className="custom-file-button"></label>
