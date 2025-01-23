@@ -20,13 +20,20 @@ const SignInPage = () => {
 
   const handleFormSubmit = async (data) => {
     try {
-      const { id, username, picture, display_name, is_admin, watched_movies, token } =
-        await signInUser(data.username, data.password);
+      const {
+        id,
+        username,
+        picture,
+        display_name,
+        is_admin,
+        watched_movies,
+        token,
+      } = await signInUser(data.username, data.password);
       console.log("User signed in successfully:", username, is_admin, token);
       if (!username || !token) {
         throw new Error("Invalid response from server.");
       }
-      
+
       // Store token and user details in localStorage
       localStorage.setItem("authToken", token);
       localStorage.setItem("id", id);
@@ -45,8 +52,7 @@ const SignInPage = () => {
 
   return (
     <div className="signin-page">
-      {/* <SignInHeader /> */}
-      {/* <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} /> */}
+      <div className="top-gradient"></div>
       <div className="signin-content">
         <SignInForm onSubmit={handleFormSubmit} />
       </div>

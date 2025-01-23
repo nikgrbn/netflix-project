@@ -1,5 +1,5 @@
 .signin-page {
-  background-image: url('../../public/moviespicture.webp');
+  background-image: url('../../public/bg.png');
   background-size: cover;
   background-position: center;
   color: var(--text-color);
@@ -22,19 +22,21 @@
   z-index: 1;
 }
 
+.top-gradient {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px; /* Adjust height as needed */
+  background: linear-gradient(to bottom, var(--background-color), transparent); /* Adjust gradient as needed */
+  z-index: 1; /* Ensure the gradient is above other elements */
+}
+
 .signin-page * {
   position: relative; 
   z-index: 2; 
 }
-
-.signin-header {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  display: flex;
-  align-items: center;
-}
-
 
 .signin-content {
   background: var(--form-background-color);
