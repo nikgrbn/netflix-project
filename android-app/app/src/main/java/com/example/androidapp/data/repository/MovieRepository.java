@@ -10,7 +10,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.androidapp.api.MovieApi;
 import com.example.androidapp.api.RetrofitClient;
 import com.example.androidapp.data.dao.MovieDao;
+import com.example.androidapp.data.dao.UserDao;
 import com.example.androidapp.data.model.entity.Movie;
+import com.example.androidapp.data.model.entity.User;
 import com.example.androidapp.data.model.response.CategoryResponse;
 import com.example.androidapp.db.AppDatabase;
 
@@ -25,6 +27,7 @@ public class MovieRepository {
 
     private final MovieApi movieApi;
     private final MovieDao movieDao;
+    private final UserDao userDao;
 
     MutableLiveData<Movie> bannerMovie = new MutableLiveData<>();
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
@@ -34,8 +37,12 @@ public class MovieRepository {
         // Use the application context
         movieApi = RetrofitClient.getClient().create(MovieApi.class);
         movieDao = AppDatabase.getInstance(application).movieDao();
+        userDao = AppDatabase.getInstance(application).userDao();
     }
 
+    public LiveData<User> getUser() {
+        return userDao.getUser(); // Expose userLiveData from Room
+    }
     public LiveData<Movie> getBannerMovie() {
         return bannerMovie;
     }

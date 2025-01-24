@@ -46,9 +46,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         // Fetch movies by category
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik4iLCJyb2xlIjp0cnVlLCJpYXQiOjE3Mzc1NTQ0ODF9.3gkcA9-bf36aCj1zxCdRnyczpFaV39M1ilpKUx1rNqo";
-        int userId = 1;
-        homeViewModel.fetchMoviesByCategory(token, userId);
+        homeViewModel.fetchMoviesByCategory();
 
         // Observe loading state
         observeViewModel();
