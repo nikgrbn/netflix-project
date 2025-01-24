@@ -3,6 +3,8 @@ package com.example.androidapp.ui.home;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private View bannerFragmentContainer;
     private HomeViewModel homeViewModel;
     private RecyclerView rvCategories;
     private CategoryAdapter categoryAdapter;
@@ -43,6 +46,10 @@ public class HomeActivity extends AppCompatActivity {
         });
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        // Initially hide the banner fragment
+        bannerFragmentContainer = findViewById(R.id.banner_fragment_container);
+        bannerFragmentContainer.setVisibility(View.GONE);
+
         // Initialize the view model
         homeViewModel = new ViewModelProvider(this,
                 new ViewModelFactory(((MyApplication) getApplication()).getMovieRepository())
@@ -53,6 +60,7 @@ public class HomeActivity extends AppCompatActivity {
         // Set up the recycler view
         rvCategories = findViewById(R.id.rvCategories);
         rvCategories.setLayoutManager(new LinearLayoutManager(this));
+        rvCategories.setNestedScrollingEnabled(false);
 
         // Set up the adapter
         categoryAdapter = new CategoryAdapter(new ArrayList<>());
@@ -68,7 +76,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void logoutUser() {
-        AppDatabase.getInstance(getApplicationContext()).userDao().delete();
+        // Clear the database
+        AppDatabase.getInstance(this).clearAllData();
+
         Intent intent = new Intent(HomeActivity.this, LandingActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -95,6 +105,14 @@ public class HomeActivity extends AppCompatActivity {
             } else {
                 // Hide loading spinner
             }
+        });
+    }
+
+    // Callback method to be called when the video playback starts
+    public void onVideoStarted() {
+        runOnUiThread(() -> {
+            // Make the banner fragment visible
+            bannerFragmentContainer.setVisibility(View.VISIBLE);
         });
     }
 }

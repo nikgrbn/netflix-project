@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.androidapp.api.MovieApi;
 import com.example.androidapp.api.RetrofitClient;
+import com.example.androidapp.data.dao.CategoryDao;
 import com.example.androidapp.data.dao.MovieDao;
 import com.example.androidapp.data.dao.UserDao;
 import com.example.androidapp.data.model.entity.Category;
@@ -30,6 +31,7 @@ public class MovieRepository {
     private final MovieApi movieApi;
     private final MovieDao movieDao;
     private final UserDao userDao;
+    private final CategoryDao categoryDao;
 
     MutableLiveData<List<Category>> categoriesLiveData = new MutableLiveData<>();
     MutableLiveData<Movie> bannerMovie = new MutableLiveData<>();
@@ -41,6 +43,7 @@ public class MovieRepository {
         movieApi = RetrofitClient.getClient().create(MovieApi.class);
         movieDao = AppDatabase.getInstance(application).movieDao();
         userDao = AppDatabase.getInstance(application).userDao();
+        categoryDao = AppDatabase.getInstance(application).categoryDao();
     }
 
     public LiveData<User> getUser() {
@@ -74,6 +77,13 @@ public class MovieRepository {
     public void getMoviesByCategory(String token, int userId) {
         isLoading.setValue(true);
 
+        // Load categories from Room
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            List<Category> cachedCategories = loadCategoriesFromRoom();
+            categoriesLiveData.postValue(cachedCategories);
+        });
+
+        // Fetch movies from the API
         movieApi.getMoviesByCategory("Bearer " + token, userId).enqueue(new Callback<List<CategoryResponse>>() {
             @Override
             public void onResponse(Call<List<CategoryResponse>> call, Response<List<CategoryResponse>> response) {
@@ -107,10 +117,12 @@ public class MovieRepository {
                                 List<Movie> movies = movieDao.getMoviesByCategory(category.id);
                                 category.setMovies(movies);
                             }
-
                             categoriesWithMovies.add(category);
                         }
+                        // Save categories to Room
+                        categoryDao.insertCategories(categoriesWithMovies);
 
+                        // Post the value to LiveData
                         categoriesLiveData.postValue(categoriesWithMovies);
                         isLoading.postValue(false);
                     });
@@ -126,5 +138,19 @@ public class MovieRepository {
                 isLoading.setValue(false);
             }
         });
+    }
+
+    private List<Category> loadCategoriesFromRoom() {
+        List<Category> categoriesWithMovies = new ArrayList<>();
+        List<Category> categories = categoryDao.getPromotedCategories();
+
+        for (Category category : categories) {
+            if (!(category.id == 0)) {
+                List<Movie> movies = movieDao.getMoviesByCategory(category.id);
+                category.setMovies(movies);
+                categoriesWithMovies.add(category);
+            }
+        }
+        return categoriesWithMovies;
     }
 }

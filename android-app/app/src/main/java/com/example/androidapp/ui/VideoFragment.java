@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.PlaybackException;
@@ -22,6 +23,7 @@ import android.view.ViewGroup;
 
 import com.example.androidapp.MyApplication;
 import com.example.androidapp.R;
+import com.example.androidapp.ui.home.HomeActivity;
 import com.example.androidapp.viewmodel.VideoViewModel;
 import com.example.androidapp.viewmodel.home.ViewModelFactory;
 
@@ -30,6 +32,7 @@ public class VideoFragment extends Fragment {
     private PlayerView playerView;
     private ExoPlayer exoPlayer;
     private VideoViewModel videoViewModel;
+    private MutableLiveData<Boolean> videoStarted = new MutableLiveData<>(false); // LiveData to track playback state
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -41,6 +44,14 @@ public class VideoFragment extends Fragment {
             int movieId = args.getInt("movieId");
             videoViewModel.fetchVideoUrl(movieId); // Fetch video URL for the movie
         }
+
+        // Observe video playback state and notify the parent activity
+        videoStarted.observe(getViewLifecycleOwner(), started -> {
+            if (started) {
+                // Notify the parent activity or fragment manager
+                ((HomeActivity) requireActivity()).onVideoStarted();
+            }
+        });
     }
 
     @OptIn(markerClass = UnstableApi.class)
@@ -87,8 +98,17 @@ public class VideoFragment extends Fragment {
             // Set the aspect ratio
             exoPlayer.setRepeatMode(Player.REPEAT_MODE_ALL); // Loop video
 
-            // Add a listener to handle playback errors and retries
+            // Add a listener to handle playback state
             exoPlayer.addListener(new Player.Listener() {
+                @Override
+                public void onPlaybackStateChanged(int playbackState) {
+                    if (playbackState == Player.STATE_READY) {
+                        // Video is ready and playback has started
+                        videoStarted.postValue(true);
+                        Log.d("VideoFragment", "Video playback started");
+                    }
+                }
+
                 @Override
                 public void onPlayerError(@NonNull PlaybackException error) {
                     Log.e("VideoFragment", "Playback error: " + error.getMessage());
@@ -107,7 +127,7 @@ public class VideoFragment extends Fragment {
     public void onStop() {
         super.onStop();
         if (exoPlayer != null) {
-            exoPlayer.play();
+            exoPlayer.pause();
         }
     }
 

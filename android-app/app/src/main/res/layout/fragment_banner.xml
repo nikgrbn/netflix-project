@@ -7,7 +7,10 @@
     app:cardCornerRadius="14dp"
     app:cardElevation="12dp"
     app:strokeColor="@color/grey_opacity"
-    app:strokeWidth="1sp">
+    app:strokeWidth="1sp"
+    android:id="@+id/cvMain"
+
+    >
 
     <FrameLayout
         android:layout_width="match_parent"

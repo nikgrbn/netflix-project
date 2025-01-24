@@ -27,6 +27,7 @@ import com.google.android.material.button.MaterialButton;
 
 public class BannerFragment extends Fragment {
 
+    private View view;
     private TextView title, description;
     private MaterialButton playButton, infoButton;
     private BannerViewModel bannerViewModel;
@@ -34,7 +35,7 @@ public class BannerFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_banner, container, false);
+        view = inflater.inflate(R.layout.fragment_banner, container, false);
 
         // Get the shared repository instance
         MovieRepository sharedRepository = ((MyApplication) requireActivity().getApplication()).getMovieRepository();
@@ -91,14 +92,5 @@ public class BannerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // Set button actions
-        playButton.setOnClickListener(v -> {
-            // Play movie logic
-        });
-
-        infoButton.setOnClickListener(v -> {
-            // Show movie info logic
-        });
     }
 }

@@ -107,22 +107,30 @@ public class UserRepository {
 
     public void signUp(String username, String password, String displayName, Uri selectedImageUri) {
         try {
+            MultipartBody.Part body = null; // Initialize the body as null
 
-            InputStream inputStream = context.getContentResolver().openInputStream(selectedImageUri);
-            byte[] imageBytes = getBytesFromInputStream(inputStream);
+            // Check if the image URI is provided
+            if (selectedImageUri != null) {
+                InputStream inputStream = context.getContentResolver().openInputStream(selectedImageUri);
+                byte[] imageBytes = getBytesFromInputStream(inputStream);
 
-
-            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageBytes);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("picture", "profile.jpg", requestFile);
-
+                RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageBytes);
+                body = MultipartBody.Part.createFormData("picture", "profile.jpg", requestFile);
+            }
 
             Map<String, RequestBody> credentials = new HashMap<>();
             credentials.put("username", RequestBody.create(MediaType.parse("text/plain"), username));
             credentials.put("password", RequestBody.create(MediaType.parse("text/plain"), password));
             credentials.put("display_name", RequestBody.create(MediaType.parse("text/plain"), displayName));
 
+            // Make the API call based on whether the picture is provided
+            Call<ResponseBody> call;
+            if (body != null) {
+                call = userApi.signUp(body, credentials);
+            } else {
+                call = userApi.signUp(credentials); // Assuming there's a method for this case
+            }
 
-            Call<ResponseBody> call = userApi.signUp(body, credentials);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
