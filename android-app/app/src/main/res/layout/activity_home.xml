@@ -5,14 +5,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".ui.HomeActivity">
 
-    <TextView
+    <androidx.fragment.app.FragmentContainerView
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/banner_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="HOME ACTIVITY"
-        android:gravity="center"
-        />
+        android:layout_height="wrap_content"
+        android:name="com.example.androidapp.ui.BannerFragment" />
 
     <Button
         android:id="@+id/btnLogout"
