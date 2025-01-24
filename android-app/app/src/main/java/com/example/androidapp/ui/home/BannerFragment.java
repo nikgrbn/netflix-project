@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.androidapp.MyApplication;
@@ -26,6 +27,7 @@ import com.google.android.material.button.MaterialButton;
 
 public class BannerFragment extends Fragment {
 
+    private TextView title, description;
     private MaterialButton playButton, infoButton;
     private BannerViewModel bannerViewModel;
 
@@ -42,6 +44,9 @@ public class BannerFragment extends Fragment {
                 new ViewModelFactory(((MyApplication) requireActivity().getApplication()).getMovieRepository())
         ).get(BannerViewModel.class);
 
+        // Initialize UI components
+        title = view.findViewById(R.id.tvTitle);
+        description = view.findViewById(R.id.tvDescription);
         playButton = view.findViewById(R.id.btnPlay);
         infoButton = view.findViewById(R.id.btnInfo);
 
@@ -55,19 +60,27 @@ public class BannerFragment extends Fragment {
     }
 
     private void updateBannerUI(Movie movie) {
+        // Pass the movie ID to the VideoFragment
+        Bundle args = new Bundle();
+        args.putInt("movieId", movie.getId());
+
+        // Create a new VideoFragment instance
+        VideoFragment videoFragment = new VideoFragment();
+        videoFragment.setArguments(args);
+
+        // Replace the current fragment with the VideoFragment
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_video, videoFragment)
+                .addToBackStack(null) // Add to backstack for proper navigation
+                .commit();
+
+        // Load movie details
+        title.setText(movie.getName());
+        description.setText(movie.getDescription());
+
         playButton.setOnClickListener(v -> {
-            // Pass the movie ID to the VideoFragment
-            Bundle args = new Bundle();
-            args.putInt("movieId", movie.getId());
-
-            VideoFragment videoFragment = new VideoFragment();
-            videoFragment.setArguments(args);
-
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_video, videoFragment)
-                    .addToBackStack(null) // Add to backstack for proper navigation
-                    .commit();
+            // Play movie logic
         });
 
         infoButton.setOnClickListener(v -> {
