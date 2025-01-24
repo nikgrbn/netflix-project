@@ -1,6 +1,8 @@
 package com.example.androidapp.data.repository;
 
 import android.content.Context;
+import android.net.Uri;
+
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -12,8 +14,19 @@ import com.example.androidapp.data.model.entity.User;
 import com.example.androidapp.data.model.response.TokenResponse;
 import com.example.androidapp.db.AppDatabase;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,10 +35,14 @@ public class UserRepository {
 
     private final UserApi userApi;
     private final UserDao userDao;
+    private final Context context;
     MutableLiveData<Boolean> isSignedIn = new MutableLiveData<>();
+
+    MutableLiveData<Boolean> isSignedUp = new MutableLiveData<>();
     MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
     public UserRepository(Context context) {
+        this.context = context;
         // Initialize Retrofit API
         userApi = RetrofitClient.getClient().create(UserApi.class);
 
@@ -37,7 +54,11 @@ public class UserRepository {
         return isSignedIn;
     }
 
-    public LiveData<String> getErrorMessage() {
+    public LiveData<Boolean> getIsSignedUp() {
+        return isSignedUp;
+    }
+
+    public MutableLiveData<String> getErrorMessage() {
         return errorMessage;
     }
 
@@ -50,7 +71,7 @@ public class UserRepository {
                 if (response.isSuccessful() && response.body() != null) {
                     TokenResponse tokenResponse = response.body();
 
-                    // Serialize user object
+                    // Deserialize user object
                     User signedInUser = new User();
                     signedInUser.setId(tokenResponse.getId());
                     signedInUser.setUsername(tokenResponse.getUsername());
@@ -82,5 +103,65 @@ public class UserRepository {
 
     public void saveUser(User user) {
         AppDatabase.databaseWriteExecutor.execute(() -> userDao.insert(user));
+    }
+
+    public void signUp(String username, String password, String displayName, Uri selectedImageUri) {
+        try {
+
+            InputStream inputStream = context.getContentResolver().openInputStream(selectedImageUri);
+            byte[] imageBytes = getBytesFromInputStream(inputStream);
+
+
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageBytes);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("picture", "profile.jpg", requestFile);
+
+
+            Map<String, RequestBody> credentials = new HashMap<>();
+            credentials.put("username", RequestBody.create(MediaType.parse("text/plain"), username));
+            credentials.put("password", RequestBody.create(MediaType.parse("text/plain"), password));
+            credentials.put("display_name", RequestBody.create(MediaType.parse("text/plain"), displayName));
+
+
+            Call<ResponseBody> call = userApi.signUp(body, credentials);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        isSignedUp.postValue(true);
+                    } else {
+                        String error = "Sign up failed with error code: " + response.code();
+                        try {
+                            if (response.errorBody() != null) {
+                                error += " - " + response.errorBody().string();
+                            }
+                        } catch (Exception e) {
+                            error += " - Error reading errorBody.";
+                        }
+                        errorMessage.postValue(error);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    errorMessage.postValue("Failed to connect: " + t.getMessage());
+                }
+            });
+        } catch (FileNotFoundException e) {
+            errorMessage.postValue("Image not found: " + e.getMessage());
+        } catch (IOException e) {
+            errorMessage.postValue("Failed to read image: " + e.getMessage());
+        }
+    }
+
+    private byte[] getBytesFromInputStream(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
     }
 }
