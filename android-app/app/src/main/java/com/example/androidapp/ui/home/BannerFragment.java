@@ -56,7 +56,8 @@ public class BannerFragment extends Fragment {
     }
 
     private void updateBannerUI(Movie movie) {
-        String normalizedUrl = movie.image.replace("\\", "/"); // Replace backslashes with forward slashes
+        String normalizedUrl = movie.video.replace("\\", "/"); // Replace backslashes with forward slashes
+        Log.d("BannerFragment", "Normalized URL: " + normalizedUrl);
 
         Glide.with(requireContext())
                 .load(normalizedUrl)
