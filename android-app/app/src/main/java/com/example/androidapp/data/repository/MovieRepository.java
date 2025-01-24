@@ -46,6 +46,14 @@ public class MovieRepository {
         return errorMessage;
     }
 
+    public String getVideoUrl(int movieId) {
+        // Ensure BASE_URL ends with a slash
+        String baseUrl = RetrofitClient.BASE_URL.endsWith("/") ? RetrofitClient.BASE_URL : RetrofitClient.BASE_URL + "/";
+
+        // Construct the full video URL
+        return baseUrl + "movies/" + movieId + "/video";
+    }
+
     public void getMoviesByCategory(String token, int userId) {
         isLoading.setValue(true);
 
