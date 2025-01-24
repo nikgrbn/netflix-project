@@ -92,14 +92,25 @@
             android:textColorHint="@color/white_gray" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSignIn"
+            android:id="@+id/btnUploadImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:backgroundTint="@color/white_barely"
+            android:text="Upload Image"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:cornerRadius="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:backgroundTint="@color/red"
             android:padding="8dp"
-            android:textStyle="bold"
             android:text="Sign Up"
+            android:textStyle="bold"
             app:cornerRadius="8dp" />
 
     </LinearLayout>
