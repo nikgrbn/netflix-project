@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:19844/api";
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 // Function to sign up a user with file upload
 export const signUpUser = async (userData) => {
@@ -35,7 +35,6 @@ export const signInUser = async (username, password) => {
     throw new Error(serverError);
   }
 };
-
 
 // Fetch movie details by ID
 export const fetchMovieDetails = async (movieId, token) => {
@@ -158,7 +157,6 @@ export const postWatchedMovie = async (userId, movieId, token) => {
   }
 };
 
-
 // Function to sign in a user
 export const validateToken = async (token) => {
   try {
@@ -167,7 +165,7 @@ export const validateToken = async (token) => {
       {},
       {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
       }
     );
