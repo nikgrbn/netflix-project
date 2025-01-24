@@ -14,6 +14,7 @@ import androidx.lifecycle.LiveData;
 import com.example.androidapp.R;
 import com.example.androidapp.data.model.entity.User;
 import com.example.androidapp.db.AppDatabase;
+import com.example.androidapp.ui.home.HomeActivity;
 
 public class LandingActivity extends AppCompatActivity {
 

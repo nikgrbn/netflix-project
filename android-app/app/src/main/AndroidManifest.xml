@@ -19,8 +19,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.HomeActivity"
-            android:exported="false" />
+            android:name=".ui.home.HomeActivity"
+            android:exported="false"
+        />
         <activity
             android:name=".ui.SignUpActivity"
             android:exported="false" />
