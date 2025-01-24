@@ -47,7 +47,9 @@ public class LandingActivity extends AppCompatActivity {
         liveUser.observe(this, user -> {
             if (user != null && user.getToken() != null && !user.getToken().isEmpty()) {
                 // User is signed in, redirect to HomeActivity
-                startActivity(new Intent(LandingActivity.this, HomeActivity.class));
+                Intent intent = new Intent(LandingActivity.this, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 finish();
             }
         });

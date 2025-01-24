@@ -7,4 +7,21 @@
     android:layout_height="match_parent"
     tools:context=".ui.HomeActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="HOME ACTIVITY"
+        android:gravity="center"
+        />
+
+    <Button
+        android:id="@+id/btnLogout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

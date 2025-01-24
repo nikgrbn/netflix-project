@@ -16,4 +16,7 @@ public interface UserDao {
 
     @Query("SELECT * FROM users")
     LiveData<User> get();
+
+    @Query("DELETE FROM users")
+    void delete();
 }
