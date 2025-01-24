@@ -1,32 +1,20 @@
-package com.example.androidapp.data.model;
+package com.example.androidapp.data.model.response;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-@Entity(tableName = "users")
-public class User {
-    @PrimaryKey
-    public int id;
+public class TokenResponse {
+    private int id;
+    private String username;
+    private String picture;
+    private String displayName;
+    private boolean isAdmin;
+    private List<Integer> watchedMovies;
+    @SerializedName("token")
+    private String authToken;
 
-    public String username;
-
-    public String password;
-
-    public String picture = "uploads/users/default-picture.png";
-
-    public String displayName = "";
-
-    public boolean isAdmin = false;
-
-    @TypeConverters(ListConverter.class)
-    public List<Integer> watchedMovies;
-
-    public User() {
-    }
-
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -41,14 +29,6 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getPicture() {
@@ -81,5 +61,13 @@ public class User {
 
     public void setWatchedMovies(List<Integer> watchedMovies) {
         this.watchedMovies = watchedMovies;
+    }
+
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
     }
 }

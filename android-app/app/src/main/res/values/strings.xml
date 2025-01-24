@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Android App</string>
+    <string name="BaseUrl">http://localhost:19844/api/</string>
+    <string name="BaseUrlNikitaPC">http://192.168.1.105:19844/api/</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
