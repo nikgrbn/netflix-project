@@ -4,29 +4,40 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.example.androidapp.data.model.CategoryListConverter;
 import com.example.androidapp.data.model.ListConverter;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 @Entity(tableName = "movies")
 public class Movie {
+
     @PrimaryKey
+    @SerializedName("id")
     public int id;
 
+    @SerializedName("name")
     public String name;
 
-    @TypeConverters(ListConverter.class)
-    public List<Integer> categories;
+    @SerializedName("image")
+    public String image;
 
-    public int duration = 120;
+    @SerializedName("video")
+    public String video;
 
-    public String image = "uploads/movies/default-picture.jpg";
+    @SerializedName("description")
+    public String description;
 
-    public String video = "uploads/movies/default-video.mp4";
+    @SerializedName("age_limit")
+    public int ageLimit;
 
-    public int ageLimit = 13;
+    @SerializedName("duration")
+    public int duration;
 
-    public String description = "No description available for this movie.";
+    @SerializedName("categories")
+    @TypeConverters(CategoryListConverter.class)
+    public List<Category> categories;
 
     public Movie() {
     }
@@ -47,11 +58,11 @@ public class Movie {
         this.name = name;
     }
 
-    public List<Integer> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Integer> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 

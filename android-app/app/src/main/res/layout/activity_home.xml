@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".ui.HomeActivity">
+    tools:context=".ui.home.HomeActivity">
 
     <androidx.fragment.app.FragmentContainerView
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/banner_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:name="com.example.androidapp.ui.BannerFragment" />
+        android:name="com.example.androidapp.ui.home.BannerFragment" />
 
     <Button
         android:id="@+id/btnLogout"
