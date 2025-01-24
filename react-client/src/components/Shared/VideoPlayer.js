@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const VideoPlayer = ({ movieId, controlsMode = false, isMuted = true, className = "" }) => {
   const [error, setError] = useState(null);
 
-  const API_BASE_URL = "http://localhost:19844/api";
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const videoUrl = `${API_BASE_URL}/movies/${movieId}/video`;
 
   const handleCanPlay = (e) => {
