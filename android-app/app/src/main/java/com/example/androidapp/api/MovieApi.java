@@ -6,9 +6,13 @@ import com.example.androidapp.data.model.response.MovieResponse;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface MovieApi {
@@ -29,4 +33,12 @@ public interface MovieApi {
             @Header("Authorization") String token,
             @Path("query") String query
     );
+
+    @DELETE("movies/{id}")
+    Call<ResponseBody> deleteMovie(
+            @Header("Authorization") String token,
+            @Header("User-Id") int userId,
+            @Path("id") int movieId
+    );
+
 }
