@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.androidapp.api.CategoryApi;
 import com.example.androidapp.api.MovieApi;
 import com.example.androidapp.api.RetrofitClient;
 import com.example.androidapp.data.dao.CategoryDao;
@@ -28,11 +29,13 @@ import retrofit2.Response;
 public class MovieRepository {
 
     private final MovieApi movieApi;
+    private final CategoryApi categoryApi;;
     private final MovieDao movieDao;
     private final UserDao userDao;
     private final CategoryDao categoryDao;
 
-    MutableLiveData<List<Category>> categoriesLiveData = new MutableLiveData<>();
+    MutableLiveData<List<Category>> allCategories = new MutableLiveData<>();
+    MutableLiveData<List<Category>> homeCategories = new MutableLiveData<>();
     MutableLiveData<Movie> bannerMovie = new MutableLiveData<>();
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
     MutableLiveData<String> errorMessage = new MutableLiveData<>();
@@ -42,6 +45,8 @@ public class MovieRepository {
     public MovieRepository(Application application) {
         // Use the application context
         movieApi = RetrofitClient.getClient().create(MovieApi.class);
+        categoryApi = RetrofitClient.getClient().create(CategoryApi.class);
+
         movieDao = AppDatabase.getInstance(application).movieDao();
         userDao = AppDatabase.getInstance(application).userDao();
         categoryDao = AppDatabase.getInstance(application).categoryDao();
@@ -54,8 +59,11 @@ public class MovieRepository {
         return movieDao.getMovieById(id);
     }
 
-    public LiveData<List<Category>> getCategories() {
-        return categoriesLiveData;
+    public LiveData<List<Category>> getAllCategories() {
+        return allCategories;
+    }
+    public LiveData<List<Category>> getHomeCategories() {
+        return homeCategories;
     }
     public LiveData<Movie> getBannerMovie() {
         return bannerMovie;
@@ -66,16 +74,12 @@ public class MovieRepository {
     public LiveData<Boolean> getIsLoading() {
         return isLoading;
     }
-
     public LiveData<String> getErrorMessage() {
         return errorMessage;
     }
-
     public LiveData<List<Movie>> getSearchResults() {
         return searchResults;
     }
-
-
 
     public String getVideoUrl(int movieId) {
         // Ensure BASE_URL ends with a slash
@@ -111,13 +115,60 @@ public class MovieRepository {
         });
     }
 
+    public void getAllCategories(String token) {
+        isLoading.setValue(true);
+
+        categoryApi.getCategories("Bearer " + token).enqueue(new Callback<List<CategoryResponse>>() {
+            @Override
+            public void onResponse(Call<List<CategoryResponse>> call, Response<List<CategoryResponse>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    AppDatabase.databaseWriteExecutor.execute(() -> {
+                        List<CategoryResponse> categoryResponses = response.body();
+
+                        // Save movies and categories into the database
+                        for (CategoryResponse categoryResponse : categoryResponses) {
+                            // Save movies
+                            movieDao.insertMovies(categoryResponse.getMovies());
+                        }
+
+                        // Fetch movies grouped by category
+                        List<Category> categoriesWithMovies = new ArrayList<>();
+                        for (CategoryResponse categoryResponse : categoryResponses) {
+                            Category category = new Category();
+                            category.id = categoryResponse.getCategoryId();
+                            category.name = categoryResponse.getCategoryName();
+                            category.promoted = categoryResponse.getPromoted();
+                            category.setMovies(categoryResponse.getMovies());
+                            categoriesWithMovies.add(category);
+                        }
+                        // Save categories to Room
+                        categoryDao.insertCategories(categoriesWithMovies);
+
+                        // Post the value to LiveData
+                        allCategories.postValue(categoriesWithMovies);
+                        isLoading.postValue(false);
+                    });
+                } else {
+                    errorMessage.setValue(response.message());
+                    isLoading.setValue(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoryResponse>> call, Throwable throwable) {
+                errorMessage.setValue(throwable.getMessage());
+                isLoading.setValue(false);
+            }
+        });
+    }
+
     public void getMoviesByCategory(String token, int userId) {
         isLoading.setValue(true);
 
         // Load categories from Room
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            List<Category> cachedCategories = loadCategoriesFromRoom();
-            categoriesLiveData.postValue(cachedCategories);
+            List<Category> cachedCategories = loadPromotedCategoriesFromRoom();
+            homeCategories.postValue(cachedCategories);
         });
 
         // Fetch movies from the API
@@ -160,7 +211,7 @@ public class MovieRepository {
                         categoryDao.insertCategories(categoriesWithMovies);
 
                         // Post the value to LiveData
-                        categoriesLiveData.postValue(categoriesWithMovies);
+                        homeCategories.postValue(categoriesWithMovies);
                         isLoading.postValue(false);
                     });
                 } else {
@@ -177,7 +228,7 @@ public class MovieRepository {
         });
     }
 
-    private List<Category> loadCategoriesFromRoom() {
+    private List<Category> loadPromotedCategoriesFromRoom() {
         List<Category> categoriesWithMovies = new ArrayList<>();
         List<Category> categories = categoryDao.getPromotedCategories();
 

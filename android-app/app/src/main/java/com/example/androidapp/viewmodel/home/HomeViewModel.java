@@ -22,7 +22,8 @@ public class HomeViewModel extends ViewModel {
     private final MovieRepository repository;
 
     private final LiveData<User> userLiveData;
-    private final LiveData<List<Category>> categoriesLiveData;
+    private final LiveData<List<Category>> homeCategories;
+    private final LiveData<List<Category>> allCategories;
     private final LiveData<Boolean> isLoading;
     private final LiveData<String> errorMessage;
     private final LiveData<List<Movie>> searchResults;
@@ -31,7 +32,8 @@ public class HomeViewModel extends ViewModel {
         this.repository = repository;
 
         this.userLiveData = repository.getUser();
-        this.categoriesLiveData = repository.getCategories();
+        this.homeCategories = repository.getHomeCategories();
+        this.allCategories = repository.getAllCategories();
         this.isLoading = repository.getIsLoading();
         this.errorMessage = repository.getErrorMessage();
         this.searchResults = repository.getSearchResults();
@@ -40,8 +42,11 @@ public class HomeViewModel extends ViewModel {
     public LiveData<User> getUser() {
         return userLiveData;
     }
-    public LiveData<List<Category>> getCategories() {
-        return categoriesLiveData;
+    public LiveData<List<Category>> getHomeCategories() {
+        return homeCategories;
+    }
+    public LiveData<List<Category>> getAllCategories() {
+        return allCategories;
     }
     public LiveData<String> getErrorMessage() {
         return errorMessage;
@@ -67,6 +72,15 @@ public class HomeViewModel extends ViewModel {
                 String token = user.getToken();
                 int userId = user.getId();
                 repository.getMoviesByCategory(token, userId);
+            }
+        });
+    }
+
+    public void fetchAllCategories() {
+        userLiveData.observeForever(user -> {
+            if (user != null) {
+                String token = user.getToken();
+                repository.getAllCategories(token);
             }
         });
     }
