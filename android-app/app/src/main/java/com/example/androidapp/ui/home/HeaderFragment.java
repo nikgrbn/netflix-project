@@ -14,8 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -87,6 +89,39 @@ public class HeaderFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {}
         });
+        // Handle profile image click
+        ivProfile.setOnClickListener(v -> {
+            // Inflate the popup layout
+            View popupView = LayoutInflater.from(requireContext()).inflate(R.layout.popup_menu, null);
+
+            // Create the PopupWindow
+            PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+            // Find buttons inside the popup layout
+            Button btnCategories = popupView.findViewById(R.id.btnCategories);
+            Button btnLogout = popupView.findViewById(R.id.btnLogout);
+            Button btnConsole = popupView.findViewById(R.id.btnConsole);
+
+            // Set click listeners for the buttons
+            btnCategories.setOnClickListener(buttonView -> {
+                // Handle Categories button click
+                popupWindow.dismiss();
+            });
+
+            btnLogout.setOnClickListener(buttonView -> {
+                // Handle Logout button click
+                popupWindow.dismiss();
+            });
+
+            btnConsole.setOnClickListener(buttonView -> {
+                // Handle Console button click
+                popupWindow.dismiss();
+            });
+
+            // Show the popup window anchored to the profile image
+            popupWindow.showAsDropDown(ivProfile, -100, 0); // Adjust the offset as needed
+        });
+
 
         return view;
     }
