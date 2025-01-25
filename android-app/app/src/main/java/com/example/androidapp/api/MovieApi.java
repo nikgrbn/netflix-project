@@ -19,7 +19,7 @@ public interface MovieApi {
     );
 
     @GET("movies/{id}")
-    Call<MovieResponse> getMovieById(
+    Call<MovieResponse> getMovieById1(
             @Header("Authorization") String token,
             @Path("id") int movieId
     );

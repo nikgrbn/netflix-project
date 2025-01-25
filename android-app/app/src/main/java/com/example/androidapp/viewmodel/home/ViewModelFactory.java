@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidapp.data.repository.MovieRepository;
+import com.example.androidapp.viewmodel.MovieInfoViewModel;
 import com.example.androidapp.viewmodel.VideoViewModel;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
@@ -23,6 +24,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new BannerViewModel(repository);
         } else if (modelClass.isAssignableFrom(VideoViewModel.class)) {
             return (T) new VideoViewModel(repository);
+        } else if (modelClass.isAssignableFrom(MovieInfoViewModel.class)) {
+            return (T) new MovieInfoViewModel(repository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

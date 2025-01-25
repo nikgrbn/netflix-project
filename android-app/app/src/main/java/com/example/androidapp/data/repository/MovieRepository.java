@@ -191,7 +191,7 @@ public class MovieRepository {
         MutableLiveData<Movie> movieLiveData = new MutableLiveData<>();
         isLoading.setValue(true);
 
-        movieApi.getMovieById("Bearer " + token, movieId).enqueue(new Callback<MovieResponse>() {
+        movieApi.getMovieById1("Bearer " + token, movieId).enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {

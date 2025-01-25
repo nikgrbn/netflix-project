@@ -99,13 +99,13 @@ public class BannerFragment extends Fragment {
             // Create a bundle to pass the movie ID and token
             Bundle infoArgs = new Bundle();
             infoArgs.putInt("movie_id", movie.getId());
-//            infoArgs.putString("token", "your_token_here"); // Replace with actual token if available
+            infoArgs.putString("token", "your_token_here"); // Replace with actual token if available
             movieInfoFragment.setArguments(infoArgs);
 
             // Add the fragment on top of the current fragment (without replacing it)
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.banner_fragment_container, movieInfoFragment) // Add instead of replace
+                    .add(R.id.content_container, movieInfoFragment) // Add instead of replace
                     .addToBackStack(null) // Add to backstack for proper navigation
                     .commit();
         });

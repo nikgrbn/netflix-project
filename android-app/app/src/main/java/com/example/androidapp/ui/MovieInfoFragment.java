@@ -12,9 +12,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.androidapp.MyApplication;
 import com.example.androidapp.R;
 import com.example.androidapp.data.model.entity.Movie;
+import com.example.androidapp.data.repository.MovieRepository;
 import com.example.androidapp.viewmodel.MovieInfoViewModel;
+import com.example.androidapp.viewmodel.home.BannerViewModel;
+import com.example.androidapp.viewmodel.home.ViewModelFactory;
 
 public class MovieInfoFragment extends Fragment {
 
@@ -24,7 +28,6 @@ public class MovieInfoFragment extends Fragment {
     private TextView durationTextView;
     private TextView descriptionTextView;
     private TextView categoriesTextView;
-    private VideoView videoView;
 
     private int movieId; // The ID of the movie to fetch
     private String token; // The token for authentication
@@ -41,7 +44,6 @@ public class MovieInfoFragment extends Fragment {
         durationTextView = view.findViewById(R.id.tvDuration);
         descriptionTextView = view.findViewById(R.id.tvDescription);
         categoriesTextView = view.findViewById(R.id.tvCategories);
-        videoView = view.findViewById(R.id.videoView);
 
         // Retrieve movie ID from arguments
         if (getArguments() != null) {
@@ -49,11 +51,22 @@ public class MovieInfoFragment extends Fragment {
             token = getArguments().getString("token");
         }
 
-        // Initialize ViewModel
-        movieInfoViewModel = new ViewModelProvider(this).get(MovieInfoViewModel.class);
+        // Initialize ViewModel with the Factory
+        movieInfoViewModel = new ViewModelProvider(this,
+                new ViewModelFactory(((MyApplication) requireActivity().getApplication()).getMovieRepository())
+        ).get(MovieInfoViewModel.class);
 
         // Observe the movie data
         movieInfoViewModel.getMovieById(movieId).observe(getViewLifecycleOwner(), this::populateMovieInfo);
+
+        // Pass the movie ID to the VideoFragment
+        Bundle args = new Bundle();
+        args.putInt("movieId", movieId);
+
+        // Create a new VideoFragment instance
+        VideoFragment videoFragment = new VideoFragment();
+        videoFragment.setArguments(args);
+
 
         return view;
     }
@@ -71,8 +84,5 @@ public class MovieInfoFragment extends Fragment {
                 : "No categories available";
 
         categoriesTextView.setText("Categories: " + categories);
-
-        videoView.setVideoPath(movie.getVideo());
-        videoView.setOnPreparedListener(mp -> videoView.start());
     }
 }
