@@ -1,26 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    app:cardCornerRadius="14dp"
+    android:layout_height="wrap_content"
     android:layout_margin="20dp"
+    app:cardCornerRadius="14dp"
     app:cardElevation="12dp"
+    app:strokeColor="@color/grey_opacity"
     app:strokeWidth="1sp"
-    app:strokeColor="@color/grey_opacity">
+    android:id="@+id/cvMain"
+
+    >
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/image_banner"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_video"
+            android:name="com.example.androidapp.ui.VideoFragment"
             android:layout_width="match_parent"
-            android:layout_height="480dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/landing_bg" />
+            android:layout_height="480dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="The Shawshenk Redemption"
+                android:textColor="@color/white"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="12sp"
+                android:text="Benefit pattern be hot economy hand wife truth total culture decade know board song study."
+                android:textColor="@color/white_gray"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

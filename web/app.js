@@ -44,7 +44,6 @@ app.use("/categories", site);
 app.use("/watch/:id", site);
 app.use("/movies/:id", site);
 
-// הגשת index.html לכל שאר הבקשות
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../react-client/build/index.html"));
 });
