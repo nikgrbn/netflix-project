@@ -27,7 +27,8 @@ const authenticateUser = async (req, res) => {
         JWT_SECRET_KEY
       );
 
-      res.status(200).json({
+      // Create the responseUser object
+      const responseUser = {
         id: user._id,
         username: user.username,
         picture: user.picture,
@@ -35,7 +36,15 @@ const authenticateUser = async (req, res) => {
         is_admin: user.is_admin,
         watched_movies: user.watched_movies,
         token,
-      });
+      };
+
+      // Construct the full movie picture URL
+      responseUser.picture = user.picture
+        ? `${req.protocol}://${req.get("host")}/${user.picture}`
+        : `${req.protocol}://${req.get("host")}/uploads/users/default-picture.jpg`;
+
+      // Send the responseUser object in the response
+      res.status(200).json(responseUser);
     } catch (error) {
       return res.status(400).json({ error: error.message });
     }
