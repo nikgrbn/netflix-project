@@ -37,6 +37,7 @@ public class MovieRepository {
     MutableLiveData<Movie> bannerMovie = new MutableLiveData<>();
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
     MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    MutableLiveData<List<Movie>> searchResults = new MutableLiveData<>();
 
     public MovieRepository(Application application) {
         // Use the application context
@@ -53,7 +54,6 @@ public class MovieRepository {
     public LiveData<List<Category>> getCategories() {
         return categoriesLiveData;
     }
-
     public LiveData<Movie> getBannerMovie() {
         return bannerMovie;
     }
@@ -66,6 +66,10 @@ public class MovieRepository {
         return errorMessage;
     }
 
+    public LiveData<List<Movie>> getSearchResults() {
+        return searchResults;
+    }
+
     public LiveData<Movie> getMovieById(int id) {
         return movieDao.getMovieById(id);
 }
@@ -76,6 +80,30 @@ public class MovieRepository {
 
         // Construct the full video URL
         return baseUrl + "movies/" + movieId + "/video";
+    }
+
+    public void searchMovies(String token, String query) {
+        isLoading.setValue(true);
+
+        movieApi.searchMovies("Bearer " + token, query).enqueue(new Callback<List<Movie>>() {
+            @Override
+            public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Movie> movies = response.body();
+                    searchResults.postValue(movies);
+                    isLoading.postValue(false);
+                } else {
+                    errorMessage.setValue(response.message());
+                    isLoading.setValue(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Movie>> call, Throwable throwable) {
+                errorMessage.setValue(throwable.getMessage());
+                isLoading.setValue(false);
+            }
+        });
     }
 
     public void getMoviesByCategory(String token, int userId) {
