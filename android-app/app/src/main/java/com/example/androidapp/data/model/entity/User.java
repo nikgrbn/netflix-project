@@ -20,6 +20,7 @@ public class User {
 
     public String picture = "uploads/users/default-picture.png";
 
+    @SerializedName("display_name")
     public String displayName = "";
 
     public boolean isAdmin = false;
