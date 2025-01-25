@@ -19,7 +19,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_margin="16dp"
-        android:background="@drawable/circle_black"
+        android:background="@drawable/circle_black_opacity"
         android:drawableTint="@android:color/white"
         android:contentDescription="@string/close"
         android:src="@drawable/baseline_close_24"

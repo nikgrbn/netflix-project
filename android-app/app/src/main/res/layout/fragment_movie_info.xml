@@ -24,8 +24,6 @@
             android:paddingBottom="20dp"
             >
 
-
-
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragment_video_info"
                 android:name="com.example.androidapp.ui.VideoFragment"
@@ -38,6 +36,25 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                app:layout_constraintBottom_toBottomOf="@id/fragment_video_info"
+                app:layout_constraintStart_toStartOf="@id/fragment_video_info"
+                android:id="@+id/btnPlay"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:gravity="center"
+                android:text="Play"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/baseline_play_circle_24"
+                app:iconGravity="textStart"
+                app:iconTint="@color/black" />
 
             <TextView
                 android:layout_marginTop="16dp"
@@ -131,7 +148,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_margin="16dp"
-                android:background="@drawable/circle_black"
+                android:background="@drawable/circle_black_opacity"
                 android:drawableTint="@android:color/white"
                 android:contentDescription="@string/close"
                 android:src="@drawable/baseline_close_24"

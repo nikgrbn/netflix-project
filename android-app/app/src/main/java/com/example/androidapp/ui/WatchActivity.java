@@ -24,7 +24,7 @@ public class WatchActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         // Retrieve the movieId from the intent's extras
         int movieId = getIntent().getIntExtra("movieId", -1);

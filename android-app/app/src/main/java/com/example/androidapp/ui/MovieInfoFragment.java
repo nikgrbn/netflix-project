@@ -1,5 +1,6 @@
 package com.example.androidapp.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,16 +23,14 @@ import com.example.androidapp.data.repository.MovieRepository;
 import com.example.androidapp.viewmodel.MovieInfoViewModel;
 import com.example.androidapp.viewmodel.home.BannerViewModel;
 import com.example.androidapp.viewmodel.home.ViewModelFactory;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MovieInfoFragment extends Fragment {
 
     private MovieInfoViewModel movieInfoViewModel;
-    private TextView nameTextView;
-    private TextView ageLimitTextView;
-    private TextView durationTextView;
-    private TextView descriptionTextView;
-    private TextView categoriesTextView;
+    private TextView nameTextView, ageLimitTextView, durationTextView, descriptionTextView, categoriesTextView;
+    private MaterialButton playButton;
 
     private int movieId; // The ID of the movie to fetch
 
@@ -47,7 +46,7 @@ public class MovieInfoFragment extends Fragment {
         descriptionTextView = view.findViewById(R.id.tvDescription);
         categoriesTextView = view.findViewById(R.id.tvCategories);
         ImageButton btnClose = view.findViewById(R.id.btnClose);
-
+        playButton = view.findViewById(R.id.btnPlay);
 
         // Set click listener for close button
         btnClose.setOnClickListener(v -> {
@@ -57,7 +56,6 @@ public class MovieInfoFragment extends Fragment {
                     .remove(this)
                     .commit();
         });
-
 
         // Retrieve movie ID from arguments
         if (getArguments() != null && getArguments().containsKey("movieId")) {
@@ -103,5 +101,16 @@ public class MovieInfoFragment extends Fragment {
                 : "No categories available";
 
         categoriesTextView.setText("Categories: " + categories);
+
+        playButton.setOnClickListener(v -> {
+            // Use requireContext() to create the intent
+            Intent intent = new Intent(requireContext(), WatchActivity.class);
+
+            // Pass the movieId as an extra
+            intent.putExtra("movieId", movie.getId());
+
+            // Start the activity
+            startActivity(intent);
+        });
     }
 }
