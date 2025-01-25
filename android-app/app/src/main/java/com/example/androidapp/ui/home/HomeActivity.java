@@ -96,7 +96,7 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
         // Observe errors
         homeViewModel.getErrorMessage().observe(this, error -> {
             if (error != null) {
-                Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
             }
         });
 

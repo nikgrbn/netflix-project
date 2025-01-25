@@ -2,6 +2,7 @@ package com.example.androidapp.data.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -24,4 +25,9 @@ public interface MovieDao {
   
     @Query("SELECT * FROM movies WHERE categories LIKE '%\"id\":' || :categoryId || ',%' OR categories LIKE '%\"id\":' || :categoryId || ']%'")
     List<Movie> getMoviesByCategory(int categoryId);
+
+    @Query("DELETE FROM movies WHERE id = :movieId")
+    void deleteMovieById(int movieId);
+
+
 }
