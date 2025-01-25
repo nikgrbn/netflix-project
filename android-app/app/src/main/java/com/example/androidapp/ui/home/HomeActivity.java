@@ -135,9 +135,6 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
         categoryAdapter = new CategoryAdapter(new ArrayList<>());
         rvCategories.setAdapter(categoryAdapter);
 
-        // Set up the logout button
-        findViewById(R.id.btnLogout).setOnClickListener(v -> logoutUser());
-
         // Fetch movies by category
         homeViewModel.fetchMoviesByCategory();
     }
@@ -205,13 +202,4 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
         });
     }
 
-    private void logoutUser() {
-        // Clear the database
-        AppDatabase.getInstance(this).clearAllData();
-
-        Intent intent = new Intent(HomeActivity.this, LandingActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
-    }
 }

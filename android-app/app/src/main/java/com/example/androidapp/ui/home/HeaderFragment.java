@@ -1,6 +1,7 @@
 package com.example.androidapp.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,13 +15,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.androidapp.MyApplication;
 import com.example.androidapp.R;
+import com.example.androidapp.db.AppDatabase;
+import com.example.androidapp.ui.LandingActivity;
 import com.example.androidapp.viewmodel.home.BannerViewModel;
 import com.example.androidapp.viewmodel.home.HeaderViewModel;
 import com.example.androidapp.viewmodel.home.ViewModelFactory;
@@ -87,6 +92,48 @@ public class HeaderFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {}
         });
+        // Handle profile image click
+        ivProfile.setOnClickListener(v -> {
+            // Inflate the popup layout
+            View popupView = LayoutInflater.from(requireContext()).inflate(R.layout.popup_menu, null);
+
+            // Create the PopupWindow
+            PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+            // Find buttons inside the popup layout
+            Button btnCategories = popupView.findViewById(R.id.btnCategories);
+            Button btnLogout = popupView.findViewById(R.id.btnLogout);
+            Button btnConsole = popupView.findViewById(R.id.btnConsole);
+
+            // Set click listeners for the buttons
+            btnCategories.setOnClickListener(buttonView -> {
+                // Handle Categories button click
+                popupWindow.dismiss();
+            });
+
+            btnLogout.setOnClickListener(buttonView -> {
+                // Handle Logout button click
+                // Clear the database
+                AppDatabase.getInstance(requireActivity().getApplicationContext()).clearAllData(); // Use requireActivity().getApplicationContext() for context
+
+                // Navigate to LandingActivity
+                Intent intent = new Intent(requireActivity(), LandingActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                // Finish the current activity
+                requireActivity().finish();
+            });
+
+            btnConsole.setOnClickListener(buttonView -> {
+                // Handle Console button click
+                popupWindow.dismiss();
+            });
+
+            // Show the popup window anchored to the profile image
+            popupWindow.showAsDropDown(ivProfile, -100, 0); // Adjust the offset as needed
+        });
+
 
         return view;
     }
