@@ -93,8 +93,8 @@ public class MovieInfoFragment extends Fragment {
         if (movie == null) return;
 
         nameTextView.setText(movie.getName());
-        ageLimitTextView.setText("Age Limit: " + movie.getAgeLimit() + "+");
-        durationTextView.setText("Duration: " + movie.getDuration() + " min");
+        ageLimitTextView.setText( + movie.getAgeLimit() + "+");
+        durationTextView.setText( + movie.getDuration() + " min");
         descriptionTextView.setText(movie.getDescription());
 
         String categories = movie.getCategories() != null ?

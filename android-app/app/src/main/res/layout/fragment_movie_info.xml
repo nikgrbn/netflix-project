@@ -52,26 +52,55 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
 
-            <TextView
-                android:id="@+id/tvAgeLimit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:textColor="@android:color/white"
-                app:layout_constraintTop_toBottomOf="@id/tvName"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                <LinearLayout
+                    android:layout_marginTop="16dp"
+                    android:id="@+id/layoutTags"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/tvName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    >
+                    <com.google.android.material.card.MaterialCardView
+                        android:backgroundTint="@color/dark_gray"
+                        android:background="#000000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="6dp"
+                        >
+                    <TextView
+                        android:padding="4dp"
+                        android:text="18+"
+                        android:id="@+id/tvAgeLimit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        />
+                </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:backgroundTint="@color/dark_gray"
+                        android:background="#000000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="6dp"
+                        >
+                    <TextView
+                        android:text="120 min"
+                        android:padding="4dp"
+                        android:background="@color/dark_gray"
+                        android:id="@+id/tvDuration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp"
+                        android:textColor="@android:color/white" />
+                    </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/tvDuration"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:textColor="@android:color/white"
-                app:layout_constraintTop_toBottomOf="@id/tvAgeLimit"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
 
 
             <TextView
@@ -83,7 +112,7 @@
                 android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvDuration" />
+                app:layout_constraintTop_toBottomOf="@id/layoutTags" />
 
             <TextView
                 android:id="@+id/tvCategories"
