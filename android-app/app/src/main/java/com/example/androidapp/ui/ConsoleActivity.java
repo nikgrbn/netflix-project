@@ -1,5 +1,6 @@
 package com.example.androidapp.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidapp.MyApplication;
 import com.example.androidapp.R;
+import com.example.androidapp.ui.home.HomeActivity;
 import com.example.androidapp.viewmodel.ConsoleViewModel;
 import com.example.androidapp.viewmodel.SignInViewModel;
 import com.example.androidapp.viewmodel.home.BannerViewModel;
@@ -41,12 +43,17 @@ public class ConsoleActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                finish();
+                Intent intent = new Intent(ConsoleActivity.this, HomeActivity.class);
+                // Clear all previous activities and start HomeActivity as a new task
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish(); // Optional, to ensure the current activity is explicitly finished
             }
         });
 
         // Initialize views
         etMovieId = findViewById(R.id.etMovieId);
+        etCategoryId = findViewById(R.id.etCategoryId);
         btnDeleteMovie = findViewById(R.id.btnDeleteMovie);
         btnDeleteCategory = findViewById(R.id.btnDeleteCategory);
         progressBar = findViewById(R.id.progressBar);
@@ -86,16 +93,14 @@ public class ConsoleActivity extends AppCompatActivity {
 
     private void observeViewModel() {
         // Observe deletion status
-        consoleViewModel.isMovieDeleted().observe(this, isDeleted -> {
+        consoleViewModel.isDeleted().observe(this, isDeleted -> {
             if (isDeleted != null) {
                 progressBar.setVisibility(View.GONE);
                 if (isDeleted) {
-                    Toast.makeText(this, "Movie deleted successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Failed to delete movie", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Deleted successfully", Toast.LENGTH_SHORT).show();
                 }
                 // Reset the isDeleted LiveData to prevent future triggers
-                consoleViewModel.resetIsMovieDeleted();
+                consoleViewModel.resetIsDeleted();
             }
         });
 

@@ -18,7 +18,7 @@ public interface CategoryDao {
     @Query("SELECT * FROM categories WHERE promoted = 1")
     List<Category> getPromotedCategories();
 
-//    @DELETE("DELETE FROM categories WHERE id = :categoryId")
-//    void deleteCategoryById(int categoryId);
+    @Query("DELETE FROM categories WHERE id = :categoryId")
+    void deleteCategoryById(int categoryId);
 
 }

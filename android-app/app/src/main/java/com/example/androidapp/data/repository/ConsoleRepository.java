@@ -11,6 +11,7 @@ import com.example.androidapp.api.MovieApi;
 import com.example.androidapp.api.RetrofitClient;
 import com.example.androidapp.data.dao.MovieDao;
 import com.example.androidapp.data.dao.UserDao;
+import com.example.androidapp.data.dao.CategoryDao;
 import com.example.androidapp.data.model.entity.User;
 import com.example.androidapp.db.AppDatabase;
 
@@ -26,6 +27,8 @@ public class ConsoleRepository {
     private final MovieDao movieDao;
     private final UserDao userDao;
 
+    private final CategoryDao categoryDao;
+
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
     MutableLiveData<String> errorMessage = new MutableLiveData<>();
     MutableLiveData<Boolean> isDeleted = new MutableLiveData<>();
@@ -35,6 +38,7 @@ public class ConsoleRepository {
         movieDao = AppDatabase.getInstance(application).movieDao();
         userDao = AppDatabase.getInstance(application).userDao();
         categoryApi = RetrofitClient.getClient().create(CategoryApi.class);
+        categoryDao = AppDatabase.getInstance(application).categoryDao();
     }
 
     public LiveData<User> getUser() {
@@ -63,15 +67,12 @@ public class ConsoleRepository {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 isLoading.postValue(false); // Stop loading state
 
-                if (response.isSuccessful()) {
-                    Log.d("MovieRepository", "Movie deleted successfully");
-                    // Delete the movie from Room database
+                if (response.isSuccessful()) {// Delete the movie from Room database
                     AppDatabase.databaseWriteExecutor.execute(() -> {
                         movieDao.deleteMovieById(movieId); // Call the DAO method to delete from Room
                     });
                     isDeleted.postValue(true); // Update LiveData to indicate success
                 } else {
-                    Log.e("MovieRepository", "Failed to delete movie: " + response.message());
                     errorMessage.postValue("Failed to delete movie: " + response.message());
                     isDeleted.postValue(false);
                 }
@@ -80,7 +81,6 @@ public class ConsoleRepository {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 isLoading.postValue(false); // Stop loading state
-                Log.e("MovieRepository", "Error deleting movie", t);
                 errorMessage.postValue("Error deleting movie: " + t.getMessage());
                 isDeleted.postValue(false);
             }
@@ -92,17 +92,19 @@ public class ConsoleRepository {
     public LiveData<Boolean> deleteCategory(String token, int userId, int categoryId) {
         isLoading.setValue(true); // Set loading state
 
-        // Call the API to delete the movie
+        // Call the API to delete the category
         categoryApi.deleteCategory("Bearer " + token, userId, categoryId).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 isLoading.postValue(false); // Stop loading state
 
                 if (response.isSuccessful()) {
-                    Log.d("CategoryRepository", "Category deleted successfully");
+                    // Delete the category from Room database
+                    AppDatabase.databaseWriteExecutor.execute(() -> {
+                        categoryDao.deleteCategoryById(categoryId); // Call the DAO method to delete from Room
+                    });
                     isDeleted.postValue(true); // Update LiveData to indicate success
                 } else {
-                    Log.e("CategoryRepository", "Failed to delete category: " + response.message());
                     errorMessage.postValue("Failed to delete category: " + response.message());
                     isDeleted.postValue(false);
                 }
@@ -111,14 +113,14 @@ public class ConsoleRepository {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 isLoading.postValue(false); // Stop loading state
-                Log.e("Movie/CategoryRepository", "Error deleting movie/category", t);
-                errorMessage.postValue("Error deleting movie/category: " + t.getMessage());
+                errorMessage.postValue("Error deleting category: " + t.getMessage());
                 isDeleted.postValue(false);
             }
         });
 
         return isDeleted;
     }
+
 
     public void resetIsDeleted() {
         isDeleted.setValue(null);
