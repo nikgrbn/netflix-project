@@ -46,6 +46,10 @@ public class MovieRepository {
         return errorMessage;
     }
 
+    public LiveData<Movie> getMovieById(int id) {
+        return movieDao.getMovieById(id);
+    }
+
     public void getMoviesByCategory(String token, int userId) {
         isLoading.setValue(true);
 

@@ -14,4 +14,9 @@ public interface MovieApi {
             @Header("Authorization") String token,
             @Header("User-Id") int userId
     );
+
+    @GET("movies")
+    Call <ListMoviesResponse> getMovieById(
+            @Header("Authorization") String token
+    );
 }

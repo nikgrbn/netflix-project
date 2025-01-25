@@ -18,4 +18,7 @@ public interface MovieDao {
 
     @Query("SELECT * FROM movies ORDER BY RANDOM() LIMIT 1")
     Movie getRandomMovieSync();
+
+    @Query("SELECT * FROM movies WHERE id = :id")
+    LiveData<Movie> getMovieById(int id);
 }
