@@ -44,6 +44,7 @@ public class HeaderFragment extends Fragment {
 
     public interface HeaderListener {
         void onSearchQueryChanged(String query);
+        void onCategoriesClicked();
     }
 
     @Override
@@ -128,6 +129,10 @@ public class HeaderFragment extends Fragment {
             btnCategories.setOnClickListener(buttonView -> {
                 // Handle Categories button click
                 popupWindow.dismiss();
+
+                if (listener != null) {
+                    listener.onCategoriesClicked();
+                }
             });
 
             btnLogout.setOnClickListener(buttonView -> {
