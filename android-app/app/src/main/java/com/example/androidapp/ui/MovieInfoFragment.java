@@ -62,9 +62,7 @@ public class MovieInfoFragment extends Fragment {
         // Retrieve movie ID from arguments
         if (getArguments() != null && getArguments().containsKey("movieId")) {
             movieId = getArguments().getInt("movieId");
-            Log.d("MovieInfoFragment", "Received Movie ID: " + movieId);
         } else {
-            Log.e("MovieInfoFragment", "No Movie ID passed in arguments!");
             return view;
         }
 

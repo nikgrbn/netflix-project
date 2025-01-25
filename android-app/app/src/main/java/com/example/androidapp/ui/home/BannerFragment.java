@@ -90,7 +90,6 @@ public class BannerFragment extends Fragment {
             // Create a bundle to pass the movie ID and token
             Bundle movieInfoArgs = new Bundle();
             movieInfoArgs.putInt("movieId", movie.getId());
-            Log.d("BannerFragment", "Movie ID: " + movie.getId());
             movieInfoFragment.setArguments(movieInfoArgs);
 
             // Create a new NavigationHelper instance

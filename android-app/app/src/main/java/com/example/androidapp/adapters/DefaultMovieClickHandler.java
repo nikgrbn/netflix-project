@@ -23,7 +23,6 @@ public class DefaultMovieClickHandler implements MovieClickHandler {
 
         // Create a bundle to pass the movie ID and other data
         Bundle args = new Bundle();
-        args.putInt("movieId", movie.getId());
         movieInfoFragment.setArguments(args);
 
         // Navigate to MovieInfoFragment
