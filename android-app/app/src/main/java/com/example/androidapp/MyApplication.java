@@ -29,4 +29,7 @@ public class MyApplication extends Application {
     public MovieRepository getMovieRepository() {
         return movieRepository;
     }
+
+//    public String getToken() {
+//    }
 }
