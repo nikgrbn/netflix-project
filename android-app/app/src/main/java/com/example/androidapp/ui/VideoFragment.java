@@ -121,6 +121,27 @@ public class VideoFragment extends Fragment {
             exoPlayer.prepare();
             exoPlayer.play();
         }
+        else {
+            exoPlayer.stop();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (exoPlayer != null) {
+            exoPlayer.setPlayWhenReady(true);
+        }
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (exoPlayer != null) {
+            exoPlayer.setPlayWhenReady(false);
+            exoPlayer.pause();
+        }
     }
 
     @Override
