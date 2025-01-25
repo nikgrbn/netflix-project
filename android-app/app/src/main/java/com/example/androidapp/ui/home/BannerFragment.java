@@ -1,5 +1,6 @@
 package com.example.androidapp.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import com.example.androidapp.data.repository.MovieRepository;
 import com.example.androidapp.ui.MovieInfoFragment;
 import com.example.androidapp.ui.NavigationHelper;
 import com.example.androidapp.ui.VideoFragment;
+import com.example.androidapp.ui.WatchActivity;
 import com.example.androidapp.viewmodel.home.BannerViewModel;
 
 import com.example.androidapp.viewmodel.home.ViewModelFactory;
@@ -80,7 +82,14 @@ public class BannerFragment extends Fragment {
         description.setText(movie.getDescription());
 
         playButton.setOnClickListener(v -> {
-            // Play movie logic
+            // Use requireContext() to create the intent
+            Intent intent = new Intent(requireContext(), WatchActivity.class);
+
+            // Pass the movieId as an extra
+            intent.putExtra("movieId", movie.getId());
+
+            // Start the activity
+            startActivity(intent);
         });
 
         infoButton.setOnClickListener(v -> {

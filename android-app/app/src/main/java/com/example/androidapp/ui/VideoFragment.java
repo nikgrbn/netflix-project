@@ -33,25 +33,29 @@ public class VideoFragment extends Fragment {
     private ExoPlayer exoPlayer;
     private VideoViewModel videoViewModel;
     private MutableLiveData<Boolean> videoStarted = new MutableLiveData<>(false); // LiveData to track playback state
+    private boolean isFromWatchActivity = false; // Flag to check the source
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Retrieve the movie ID from arguments
+        // Retrieve the movie ID and source flag from arguments
         Bundle args = getArguments();
         if (args != null) {
             int movieId = args.getInt("movieId");
+            isFromWatchActivity = args.getBoolean("isFromWatchActivity", false);
             videoViewModel.fetchVideoUrl(movieId); // Fetch video URL for the movie
         }
 
         // Observe video playback state and notify the parent activity
-        videoStarted.observe(getViewLifecycleOwner(), started -> {
-            if (started) {
-                // Notify the parent activity or fragment manager
-                ((HomeActivity) requireActivity()).onVideoStarted();
-            }
-        });
+        if (!isFromWatchActivity) { // Notify parent only if from HomeActivity
+            videoStarted.observe(getViewLifecycleOwner(), started -> {
+                if (started) {
+                    // Notify the parent activity or fragment manager
+                    ((HomeActivity) requireActivity()).onVideoStarted();
+                }
+            });
+        }
     }
 
     @OptIn(markerClass = UnstableApi.class)
@@ -67,8 +71,16 @@ public class VideoFragment extends Fragment {
 
         // Initialize PlayerView
         playerView = view.findViewById(R.id.player_view);
-        playerView.setUseController(false); // Disable player controls
-        playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM); // Fill height and crop width
+
+        if (isFromWatchActivity) {
+            // Enable player controls for movie watching
+            playerView.setUseController(true);
+            playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT); // Fit screen for movie watching
+        } else {
+            // Disable player controls for banner preview
+            playerView.setUseController(false);
+            playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM); // Fill height and crop width
+        }
 
         // Observe the video URL
         videoViewModel.getVideoUrl().observe(getViewLifecycleOwner(), videoUrl -> {
@@ -89,14 +101,25 @@ public class VideoFragment extends Fragment {
             // Attach the player to the PlayerView
             playerView.setPlayer(exoPlayer);
 
+            // Enable controls for WatchActivity
+            if (isFromWatchActivity) {
+                playerView.setUseController(true);
+            } else {
+                playerView.setUseController(false);
+            }
+
             // Build the MediaItem
             MediaItem mediaItem = MediaItem.fromUri(videoUrl);
 
             // Set the media item to the player
             exoPlayer.setMediaItem(mediaItem);
 
-            // Set the aspect ratio
-            exoPlayer.setRepeatMode(Player.REPEAT_MODE_ALL); // Loop video
+            // Set playback settings
+            if (isFromWatchActivity) {
+                exoPlayer.setRepeatMode(Player.REPEAT_MODE_OFF); // Disable looping for movie watching
+            } else {
+                exoPlayer.setRepeatMode(Player.REPEAT_MODE_ALL); // Loop video for banner preview
+            }
 
             // Add a listener to handle playback state
             exoPlayer.addListener(new Player.Listener() {
@@ -120,11 +143,11 @@ public class VideoFragment extends Fragment {
             // Prepare and play the video
             exoPlayer.prepare();
             exoPlayer.play();
-        }
-        else {
+        } else {
             exoPlayer.stop();
         }
     }
+
 
     @Override
     public void onStart() {
@@ -133,7 +156,6 @@ public class VideoFragment extends Fragment {
             exoPlayer.setPlayWhenReady(true);
         }
     }
-
 
     @Override
     public void onPause() {

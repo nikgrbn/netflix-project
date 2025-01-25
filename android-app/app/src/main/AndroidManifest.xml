@@ -22,6 +22,9 @@
             android:name=".ui.ConsoleActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.WatchActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.home.HomeActivity"
             android:exported="false" />
         <activity
