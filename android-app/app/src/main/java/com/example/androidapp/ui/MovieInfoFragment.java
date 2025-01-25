@@ -19,7 +19,6 @@ import com.example.androidapp.viewmodel.MovieInfoViewModel;
 public class MovieInfoFragment extends Fragment {
 
     private MovieInfoViewModel movieInfoViewModel;
-
     private TextView nameTextView;
     private TextView ageLimitTextView;
     private TextView durationTextView;
@@ -28,6 +27,8 @@ public class MovieInfoFragment extends Fragment {
     private VideoView videoView;
 
     private int movieId; // The ID of the movie to fetch
+    private String token; // The token for authentication
+
 
     @Nullable
     @Override
@@ -45,6 +46,7 @@ public class MovieInfoFragment extends Fragment {
         // Retrieve movie ID from arguments
         if (getArguments() != null) {
             movieId = getArguments().getInt("movie_id");
+            token = getArguments().getString("token");
         }
 
         // Initialize ViewModel
