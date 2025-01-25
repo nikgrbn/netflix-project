@@ -7,6 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import com.example.androidapp.data.dao.CategoryDao;
 import com.example.androidapp.data.dao.MovieDao;
 import com.example.androidapp.data.dao.UserDao;
 import com.example.androidapp.data.model.CategoryListConverter;
@@ -22,6 +23,7 @@ import java.util.concurrent.Executors;
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
     public abstract MovieDao movieDao();
+    public abstract CategoryDao categoryDao();
 
     private static AppDatabase instance;
 
@@ -36,5 +38,11 @@ public abstract class AppDatabase extends RoomDatabase {
                     AppDatabase.class, "app_database").allowMainThreadQueries().build();
         }
         return instance;
+    }
+
+    public void clearAllData() {
+        databaseWriteExecutor.execute(() -> {
+            instance.clearAllTables();
+        });
     }
 }

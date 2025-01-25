@@ -19,4 +19,7 @@ public interface UserDao {
 
     @Query("DELETE FROM users")
     void delete();
+
+    @Query("SELECT * FROM users LIMIT 1")
+    LiveData<User> getUser();
 }

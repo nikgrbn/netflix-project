@@ -26,4 +26,8 @@ public interface UserApi {
             @Part MultipartBody.Part picture,
             @PartMap Map<String, RequestBody> credentials
     );
+
+    @Multipart
+    @POST("users")
+    Call<ResponseBody> signUp(@PartMap Map<String, RequestBody> credentials);
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidapp.data.repository.MovieRepository;
+import com.example.androidapp.viewmodel.VideoViewModel;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
     private final MovieRepository repository;
@@ -20,6 +21,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new HomeViewModel(repository);
         } else if (modelClass.isAssignableFrom(BannerViewModel.class)) {
             return (T) new BannerViewModel(repository);
+        } else if (modelClass.isAssignableFrom(VideoViewModel.class)) {
+            return (T) new VideoViewModel(repository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }
