@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager;
 public class NavigationHelper {
 
     private final FragmentManager fragmentManager;
-    private final int containerId; // ID של ה-container (למשל R.id.content_container)
+    private final int containerId;
 
     public NavigationHelper(FragmentManager fragmentManager, int containerId) {
         this.fragmentManager = fragmentManager;
@@ -30,11 +30,10 @@ public class NavigationHelper {
         transaction.commit();
     }
 
-    public void openMovieInfoFragment(int movieId, String token) {
+    public void openMovieInfoFragment(int movieId) {
         MovieInfoFragment fragment = new MovieInfoFragment();
         Bundle args = new Bundle();
         args.putInt("movie_id", movieId);
-        args.putString("token", token);
 
         openFragment(fragment, args, true);
     }

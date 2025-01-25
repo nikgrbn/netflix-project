@@ -73,7 +73,7 @@ public class MovieRepository {
 
     public LiveData<Movie> getMovieById(int id) {
         return movieDao.getMovieById(id);
-}
+    }
 
     public String getVideoUrl(int movieId) {
         // Ensure BASE_URL ends with a slash

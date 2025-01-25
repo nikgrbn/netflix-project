@@ -20,6 +20,7 @@ import com.example.androidapp.R;
 import com.example.androidapp.data.model.entity.Movie;
 import com.example.androidapp.data.repository.MovieRepository;
 import com.example.androidapp.ui.MovieInfoFragment;
+import com.example.androidapp.ui.NavigationHelper;
 import com.example.androidapp.ui.VideoFragment;
 import com.example.androidapp.viewmodel.home.BannerViewModel;
 
@@ -97,19 +98,20 @@ public class BannerFragment extends Fragment {
             MovieInfoFragment movieInfoFragment = new MovieInfoFragment();
 
             // Create a bundle to pass the movie ID and token
-            Bundle infoArgs = new Bundle();
-            infoArgs.putInt("movie_id", movie.getId());
-            infoArgs.putString("token", "your_token_here"); // Replace with actual token if available
-            movieInfoFragment.setArguments(infoArgs);
+            movieInfoFragment.setArguments(args);
 
-            // Add the fragment on top of the current fragment (without replacing it)
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.content_container, movieInfoFragment) // Add instead of replace
-                    .addToBackStack(null) // Add to backstack for proper navigation
-                    .commit();
+            NavigationHelper navigationHelper = new NavigationHelper(
+                    requireActivity().getSupportFragmentManager(),
+                    R.id.content_container
+            );
+
+            // פתיחת MovieInfoFragment עם movieId ו-token
+            navigationHelper.openMovieInfoFragment(movie.getId());
         });
 
+//        // Create a new MovieInfo instance
+//        MovieInfoFragment infoFragment = new MovieInfoFragment();
+//        infoFragment.setArguments(args);
     }
 
     @Override
