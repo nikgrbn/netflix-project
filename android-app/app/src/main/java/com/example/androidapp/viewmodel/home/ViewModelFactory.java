@@ -26,6 +26,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new VideoViewModel(repository);
         } else if (modelClass.isAssignableFrom(MovieInfoViewModel.class)) {
             return (T) new MovieInfoViewModel(repository);
+        } else if (modelClass.isAssignableFrom(HeaderViewModel.class)) {
+            return (T) new HeaderViewModel(repository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

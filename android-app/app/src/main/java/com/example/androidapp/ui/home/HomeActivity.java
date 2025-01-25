@@ -2,6 +2,7 @@ package com.example.androidapp.ui.home;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +39,7 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
     private View bannerFragmentContainer;
     private HomeViewModel homeViewModel;
     private RecyclerView rvCategories;
+    private RecyclerView searchResultsRecyclerView;
     private CategoryAdapter categoryAdapter;
 
     @Override
@@ -58,20 +60,14 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
                 new ViewModelFactory(((MyApplication) getApplication()).getMovieRepository())
         ).get(HomeViewModel.class);
 
-        // Add the banner fragment
-        addBannerFragment();
+        // Observe LivaData
+        observeViewModel();
 
         // Add the header fragment
         addHeaderFragment();
 
         // Default view setup
         setupDefaultView();
-
-        // Observe LivaData
-        observeViewModel();
-
-        // Fetch movies by category
-        homeViewModel.fetchMoviesByCategory();
     }
 
     private void addHeaderFragment() {
@@ -79,10 +75,6 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
                 .beginTransaction()
                 .replace(R.id.header_fragment_container, new HeaderFragment())
                 .commit();
-    }
-    private void addBannerFragment() {
-        bannerFragmentContainer = findViewById(R.id.banner_fragment_container);
-        bannerFragmentContainer.setVisibility(View.GONE);
     }
 
     private void observeViewModel() {
@@ -118,6 +110,22 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
     }
 
     private void setupDefaultView() {
+        // Show the default layout
+        View nestedScrollView = findViewById(R.id.nestedScrollView);
+        if (nestedScrollView != null) {
+            nestedScrollView.setVisibility(View.VISIBLE);
+        }
+
+        // Remove the existing RecyclerView if it exists
+        if (searchResultsRecyclerView != null) {
+            // Remove the existing RecyclerView
+            contentContainer.removeView(searchResultsRecyclerView);
+        }
+
+        // Add the banner fragment
+        bannerFragmentContainer = findViewById(R.id.banner_fragment_container);
+        bannerFragmentContainer.setVisibility(View.GONE);
+
         // Set up the recycler view
         rvCategories = findViewById(R.id.rvCategories);
         rvCategories.setLayoutManager(new LinearLayoutManager(this));
@@ -129,18 +137,52 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
 
         // Set up the logout button
         findViewById(R.id.btnLogout).setOnClickListener(v -> logoutUser());
+
+        // Fetch movies by category
+        homeViewModel.fetchMoviesByCategory();
     }
 
     private void setupSearchResultsView(List<Movie> movies) {
-        // Create a RecyclerView dynamically to display search results
-        RecyclerView searchResultsRecyclerView = new RecyclerView(this);
-        searchResultsRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        // Hide the default layout
+        View nestedScrollView = findViewById(R.id.nestedScrollView);
+        if (nestedScrollView != null) {
+            nestedScrollView.setVisibility(View.GONE);
+        }
 
+        // Remove the existing RecyclerView if it exists
+        if (searchResultsRecyclerView != null) {
+            // Remove the existing RecyclerView
+            contentContainer.removeView(searchResultsRecyclerView);
+        }
+
+        // Create a RecyclerView dynamically to display search results
+        searchResultsRecyclerView = new RecyclerView(this);
+
+        // Calculate the number of columns based on the screen width
+        int itemWidth = 260; // Desired item width in pixels (adjust as needed)
+        int screenWidth = getResources().getDisplayMetrics().widthPixels;
+        int spanCount = Math.max(1, screenWidth / itemWidth); // At least 1 column
+
+        // Create a GridLayoutManager
+        GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
+
+        // Set the layout manager to RecyclerView
+        searchResultsRecyclerView.setLayoutManager(layoutManager);
+
+        // Set the adapter
         MovieAdapter movieAdapter = new MovieAdapter(movies);
         searchResultsRecyclerView.setAdapter(movieAdapter);
 
+        // Add padding for grid spacing
+        int spacing = 16; // Spacing in pixels
+        searchResultsRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                outRect.set(spacing, spacing, spacing, spacing);
+            }
+        });
+
         // Replace content in the container
-        contentContainer.removeAllViews();
         contentContainer.addView(searchResultsRecyclerView);
     }
 

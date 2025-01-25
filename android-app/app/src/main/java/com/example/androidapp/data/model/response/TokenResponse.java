@@ -8,6 +8,7 @@ public class TokenResponse {
     private int id;
     private String username;
     private String picture;
+    @SerializedName("display_name")
     private String displayName;
     private boolean isAdmin;
     private List<Integer> watchedMovies;

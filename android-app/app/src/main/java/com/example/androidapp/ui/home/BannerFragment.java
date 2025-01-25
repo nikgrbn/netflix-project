@@ -39,9 +39,6 @@ public class BannerFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_banner, container, false);
 
-        // Get the shared repository instance
-        MovieRepository sharedRepository = ((MyApplication) requireActivity().getApplication()).getMovieRepository();
-
         // Initialize ViewModel
         bannerViewModel = new ViewModelProvider(this,
                 new ViewModelFactory(((MyApplication) requireActivity().getApplication()).getMovieRepository())
