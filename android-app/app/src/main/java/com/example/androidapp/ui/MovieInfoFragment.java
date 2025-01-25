@@ -1,6 +1,7 @@
 package com.example.androidapp.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,8 +60,10 @@ public class MovieInfoFragment extends Fragment {
 
 
         // Retrieve movie ID from arguments
-        if (getArguments() != null) {
-            movieId = getArguments().getInt("movie_id");
+        if (getArguments() != null && getArguments().containsKey("movieId")) {
+            movieId = getArguments().getInt("movieId");
+        } else {
+            return view;
         }
 
         // Initialize ViewModel with the Factory
@@ -79,11 +82,9 @@ public class MovieInfoFragment extends Fragment {
         VideoFragment videoFragment = new VideoFragment();
         videoFragment.setArguments(args);
 
-        // Replace the current fragment with the VideoFragment
-        requireActivity().getSupportFragmentManager()
+        getChildFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_video, videoFragment)
-                .addToBackStack(null) // Add to backstack for proper navigation
+                .replace(R.id.fragment_video_info, videoFragment)
                 .commit();
 
         return view;

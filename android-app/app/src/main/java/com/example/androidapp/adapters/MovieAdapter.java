@@ -17,9 +17,11 @@ import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
     private List<Movie> movies;
+    private MovieClickHandler clickHandler;
 
-    public MovieAdapter(List<Movie> movies) {
+    public MovieAdapter(List<Movie> movies, MovieClickHandler clickHandler) {
         this.movies = movies;
+        this.clickHandler = clickHandler;
     }
 
     @NonNull
@@ -36,6 +38,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         Glide.with(holder.ivMoviePoster.getContext())
                 .load(movie.getImage())
                 .into(holder.ivMoviePoster);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (clickHandler != null) {
+                clickHandler.onMovieClicked(movie);
+            }
+        });
     }
 
     @Override

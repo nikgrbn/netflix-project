@@ -84,31 +84,23 @@ public class BannerFragment extends Fragment {
         });
 
         infoButton.setOnClickListener(v -> {
-//            // Get the token from a secure source (e.g., SharedPreferences or ViewModel)
-//            String token = ((MyApplication) requireActivity().getApplication()).getToken();
-//
-//            if (token == null || token.isEmpty()) {
-//                Log.e("BannerFragment", "Token is missing");
-//                return; // Exit if the token is not available
-//            }
             // Create a new instance of MovieInfoFragment
             MovieInfoFragment movieInfoFragment = new MovieInfoFragment();
 
             // Create a bundle to pass the movie ID and token
-            movieInfoFragment.setArguments(args);
+            Bundle movieInfoArgs = new Bundle();
+            movieInfoArgs.putInt("movieId", movie.getId());
+            movieInfoFragment.setArguments(movieInfoArgs);
 
+            // Create a new NavigationHelper instance
             NavigationHelper navigationHelper = new NavigationHelper(
                     requireActivity().getSupportFragmentManager(),
                     R.id.content_container
             );
 
-            // פתיחת MovieInfoFragment עם movieId ו-token
+            // Open the MovieInfoFragment
             navigationHelper.openMovieInfoFragment(movie.getId());
         });
-
-//        // Create a new MovieInfo instance
-//        MovieInfoFragment infoFragment = new MovieInfoFragment();
-//        infoFragment.setArguments(args);
     }
 
     @Override

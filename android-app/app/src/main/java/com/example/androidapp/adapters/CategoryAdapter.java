@@ -15,9 +15,11 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
     private List<Category> categories;
+    private MovieClickHandler clickHandler; // Add the click handler
 
-    public CategoryAdapter(List<Category> categories) {
+    public CategoryAdapter(List<Category> categories, MovieClickHandler clickHandler) {
         this.categories = categories;
+        this.clickHandler = clickHandler;
     }
 
     public void setCategories(List<Category> newCategories) {
@@ -37,10 +39,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category category = categories.get(position);
         holder.tvCategoryName.setText(category.getName());
+
+        // Set up the movie RecyclerView
         holder.rvMovies.setLayoutManager(
                 new LinearLayoutManager(holder.rvMovies.getContext(), LinearLayoutManager.HORIZONTAL, false)
         );
-        holder.rvMovies.setAdapter(new MovieAdapter(category.getMovies()));
+
+        // Pass the click handler to the MovieAdapter
+        MovieAdapter movieAdapter = new MovieAdapter(category.getMovies(), clickHandler);
+        holder.rvMovies.setAdapter(movieAdapter);
     }
 
     @Override

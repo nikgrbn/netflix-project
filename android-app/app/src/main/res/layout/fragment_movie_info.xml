@@ -27,7 +27,7 @@
 
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragment_video"
+                android:id="@+id/fragment_video_info"
                 android:name="com.example.androidapp.ui.VideoFragment"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
@@ -40,6 +40,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:layout_marginTop="16dp"
                 android:id="@+id/tvName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -47,7 +48,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
-                app:layout_constraintTop_toBottomOf="@id/fragment_video"
+                app:layout_constraintTop_toBottomOf="@id/fragment_video_info"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 

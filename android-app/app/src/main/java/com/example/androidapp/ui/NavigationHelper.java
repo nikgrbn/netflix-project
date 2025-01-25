@@ -33,7 +33,7 @@ public class NavigationHelper {
     public void openMovieInfoFragment(int movieId) {
         MovieInfoFragment fragment = new MovieInfoFragment();
         Bundle args = new Bundle();
-        args.putInt("movie_id", movieId);
+        args.putInt("movieId", movieId);
 
         openFragment(fragment, args, true);
     }
