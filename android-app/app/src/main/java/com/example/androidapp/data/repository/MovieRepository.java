@@ -91,6 +91,8 @@ public class MovieRepository {
             public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Movie> movies = response.body();
+                    movieDao.insertMovies(movies);
+
                     searchResults.postValue(movies);
                     isLoading.postValue(false);
                 } else {
@@ -185,42 +187,5 @@ public class MovieRepository {
             }
         }
         return categoriesWithMovies;
-    }
-
-    public LiveData<Movie> getMovieById(String token, int movieId) {
-        MutableLiveData<Movie> movieLiveData = new MutableLiveData<>();
-        isLoading.setValue(true);
-
-        movieApi.getMovieById1("Bearer " + token, movieId).enqueue(new Callback<MovieResponse>() {
-            @Override
-            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    MovieResponse movieResponse = response.body();
-                    Movie movie = new Movie();
-                    movie.setId(movieResponse.getId());
-                    movie.setName(movieResponse.getName());
-                    movie.setImage(movieResponse.getImage());
-                    movie.setVideo(movieResponse.getVideo());
-                    movie.setDescription(movieResponse.getDescription());
-                    movie.setAgeLimit(movieResponse.getAgeLimit());
-                    movie.setDuration(movieResponse.getDuration());
-                    movie.setCategories(movieResponse.getCategories());
-
-                    movieLiveData.postValue(movie);
-                    isLoading.postValue(false);
-                } else {
-                    errorMessage.setValue(response.message());
-                    isLoading.setValue(false);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MovieResponse> call, Throwable throwable) {
-                errorMessage.setValue(throwable.getMessage());
-                isLoading.setValue(false);
-            }
-        });
-
-        return movieLiveData;
     }
 }

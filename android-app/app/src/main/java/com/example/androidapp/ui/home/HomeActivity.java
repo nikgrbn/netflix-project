@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidapp.MyApplication;
 import com.example.androidapp.R;
 import com.example.androidapp.adapters.CategoryAdapter;
+import com.example.androidapp.adapters.DefaultMovieClickHandler;
 import com.example.androidapp.adapters.MovieAdapter;
 import com.example.androidapp.data.model.entity.Movie;
 import com.example.androidapp.db.AppDatabase;
@@ -132,7 +133,10 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
         rvCategories.setNestedScrollingEnabled(false);
 
         // Set up the adapter
-        categoryAdapter = new CategoryAdapter(new ArrayList<>());
+        categoryAdapter = new CategoryAdapter(
+                new ArrayList<>(),
+                new DefaultMovieClickHandler(getSupportFragmentManager(), R.id.content_container)
+        );
         rvCategories.setAdapter(categoryAdapter);
 
         // Set up the logout button
@@ -170,7 +174,10 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
         searchResultsRecyclerView.setLayoutManager(layoutManager);
 
         // Set the adapter
-        MovieAdapter movieAdapter = new MovieAdapter(movies);
+        MovieAdapter movieAdapter = new MovieAdapter(
+                movies,
+                new DefaultMovieClickHandler(getSupportFragmentManager(), R.id.content_container)
+        );
         searchResultsRecyclerView.setAdapter(movieAdapter);
 
         // Add padding for grid spacing
