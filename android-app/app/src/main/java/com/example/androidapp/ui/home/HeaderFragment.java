@@ -44,6 +44,7 @@ public class HeaderFragment extends Fragment {
 
     public interface HeaderListener {
         void onSearchQueryChanged(String query);
+        void onHomeClicked();
         void onCategoriesClicked();
     }
 
@@ -112,20 +113,20 @@ public class HeaderFragment extends Fragment {
             PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
             // Find buttons inside the popup layout
+            Button btnHome = popupView.findViewById(R.id.btnHome);
             Button btnCategories = popupView.findViewById(R.id.btnCategories);
             Button btnLogout = popupView.findViewById(R.id.btnLogout);
             Button btnConsole = popupView.findViewById(R.id.btnConsole);
 
-            // Show or hide the console button based on the user's role
-            if (isAdmin) {
-                // Show the console button
-                btnConsole.setVisibility(View.VISIBLE);
-            } else {
-                // Hide the console button
-                btnConsole.setVisibility(View.GONE);
-            }
+            btnHome.setOnClickListener(buttonView -> {
+                // Handle Home button click
+                popupWindow.dismiss();
 
-            // Set click listeners for the buttons
+                if (listener != null) {
+                    listener.onHomeClicked();
+                }
+            });
+
             btnCategories.setOnClickListener(buttonView -> {
                 // Handle Categories button click
                 popupWindow.dismiss();
@@ -148,6 +149,15 @@ public class HeaderFragment extends Fragment {
                 // Finish the current activity
                 requireActivity().finish();
             });
+
+            // Show or hide the console button based on the user's role
+            if (isAdmin) {
+                // Show the console button
+                btnConsole.setVisibility(View.VISIBLE);
+            } else {
+                // Hide the console button
+                btnConsole.setVisibility(View.GONE);
+            }
 
             btnConsole.setOnClickListener(buttonView -> {
                 // Handle Console button click

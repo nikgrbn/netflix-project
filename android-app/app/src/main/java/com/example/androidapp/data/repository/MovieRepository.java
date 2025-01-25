@@ -138,6 +138,7 @@ public class MovieRepository {
                             category.id = categoryResponse.getCategoryId();
                             category.name = categoryResponse.getCategoryName();
                             category.promoted = categoryResponse.getPromoted();
+                            category.setMovies(categoryResponse.getMovies());
                             categoriesWithMovies.add(category);
                         }
                         // Save categories to Room

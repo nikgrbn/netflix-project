@@ -224,9 +224,23 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
     }
 
     @Override
+    public void onHomeClicked() {
+        // Fetch movies by category
+        homeViewModel.fetchMoviesByCategory();
+
+        // Show the default layout
+        setupDefaultView();
+    }
+
+    @Override
     public void onCategoriesClicked() {
         // Fetch all categories
         homeViewModel.fetchAllCategories();
+
+        // Hide the the banner
+        if (bannerFragmentContainer != null) {
+            bannerFragmentContainer.setVisibility(View.GONE);
+        }
     }
 
     // Callback method to be called when the video playback starts
