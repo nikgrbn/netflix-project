@@ -1,10 +1,13 @@
 package com.example.androidapp.viewmodel.home;
 
+import android.app.Application;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidapp.data.repository.MovieRepository;
+import com.example.androidapp.viewmodel.ConsoleViewModel;
 import com.example.androidapp.viewmodel.MovieInfoViewModel;
 import com.example.androidapp.viewmodel.VideoViewModel;
 
@@ -28,6 +31,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new MovieInfoViewModel(repository);
         } else if (modelClass.isAssignableFrom(HeaderViewModel.class)) {
             return (T) new HeaderViewModel(repository);
+        } else if (modelClass.isAssignableFrom(ConsoleViewModel.class)) {
+            return (T) new ConsoleViewModel(repository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.example.androidapp.MyApplication;
 import com.example.androidapp.R;
 import com.example.androidapp.db.AppDatabase;
+import com.example.androidapp.ui.ConsoleActivity;
 import com.example.androidapp.ui.LandingActivity;
 import com.example.androidapp.viewmodel.home.BannerViewModel;
 import com.example.androidapp.viewmodel.home.HeaderViewModel;
@@ -127,7 +128,9 @@ public class HeaderFragment extends Fragment {
 
             btnConsole.setOnClickListener(buttonView -> {
                 // Handle Console button click
-                popupWindow.dismiss();
+                Intent intent = new Intent(requireActivity(), ConsoleActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             });
 
             // Show the popup window anchored to the profile image
