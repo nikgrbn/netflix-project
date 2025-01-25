@@ -66,6 +66,10 @@ public class MovieRepository {
         return errorMessage;
     }
 
+    public LiveData<Movie> getMovieById(int id) {
+        return movieDao.getMovieById(id);
+}
+
     public String getVideoUrl(int movieId) {
         // Ensure BASE_URL ends with a slash
         String baseUrl = RetrofitClient.BASE_URL.endsWith("/") ? RetrofitClient.BASE_URL : RetrofitClient.BASE_URL + "/";
