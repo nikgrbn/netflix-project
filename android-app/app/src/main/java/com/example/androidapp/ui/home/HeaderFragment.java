@@ -2,6 +2,7 @@ package com.example.androidapp.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,8 +14,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,8 +39,8 @@ public class HeaderFragment extends Fragment {
     private EditText etSearch;
     private ImageView ivProfile;
     private TextView tvUsername;
-
     private HeaderListener listener;
+    private boolean isAdmin;
 
     public interface HeaderListener {
         void onSearchQueryChanged(String query);
@@ -59,7 +62,7 @@ public class HeaderFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_header, container, false);
 
         // Initialize ViewModel
-        HeaderViewModel bannerViewModel = new ViewModelProvider(this,
+        HeaderViewModel headerViewModel = new ViewModelProvider(this,
                 new ViewModelFactory(((MyApplication) requireActivity().getApplication()).getMovieRepository())
         ).get(HeaderViewModel.class);
 
@@ -67,7 +70,10 @@ public class HeaderFragment extends Fragment {
         ivProfile = view.findViewById(R.id.ivProfile);
         tvUsername = view.findViewById(R.id.tvUsername);
 
-        bannerViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+        // Handle clicks outside of EditText to clear focus
+        setGlobalTouchListener(view);
+
+        headerViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
             if (user != null) {
                 // Update the UI with the user's information
                 tvUsername.setText(user.getDisplayName());
@@ -76,6 +82,8 @@ public class HeaderFragment extends Fragment {
                 Glide.with(this)
                         .load(user.getPicture())
                         .into(ivProfile);
+
+                isAdmin = user.isAdmin();
             }
         });
 
@@ -93,6 +101,7 @@ public class HeaderFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {}
         });
+
         // Handle profile image click
         ivProfile.setOnClickListener(v -> {
             // Inflate the popup layout
@@ -105,6 +114,15 @@ public class HeaderFragment extends Fragment {
             Button btnCategories = popupView.findViewById(R.id.btnCategories);
             Button btnLogout = popupView.findViewById(R.id.btnLogout);
             Button btnConsole = popupView.findViewById(R.id.btnConsole);
+
+            // Show or hide the console button based on the user's role
+            if (isAdmin) {
+                // Show the console button
+                btnConsole.setVisibility(View.VISIBLE);
+            } else {
+                // Hide the console button
+                btnConsole.setVisibility(View.GONE);
+            }
 
             // Set click listeners for the buttons
             btnCategories.setOnClickListener(buttonView -> {
@@ -139,5 +157,21 @@ public class HeaderFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void setGlobalTouchListener(View fragmentView) {
+        View decorView = requireActivity().getWindow().getDecorView();
+        decorView.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (etSearch.isFocused()) {
+                    Rect outRect = new Rect();
+                    etSearch.getGlobalVisibleRect(outRect);
+                    if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                        etSearch.clearFocus();
+                    }
+                }
+            }
+            return false;
+        });
     }
 }

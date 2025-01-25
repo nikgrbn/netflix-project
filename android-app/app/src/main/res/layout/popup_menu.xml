@@ -28,12 +28,12 @@
             android:textColor="@android:color/white" />
 
         <com.google.android.material.button.MaterialButton
-            android:layout_marginBottom="-2dp"
+            android:visibility="gone"
             app:cornerRadius="8dp"
-            android:id="@+id/btnLogout"
+            android:id="@+id/btnConsole"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Logout"
+            android:text="Console"
             android:backgroundTint="@color/black"
             app:strokeWidth="2dp"
             app:strokeColor="@color/white"
@@ -42,10 +42,10 @@
         <com.google.android.material.button.MaterialButton
             android:layout_marginBottom="-4dp"
             app:cornerRadius="8dp"
-            android:id="@+id/btnConsole"
+            android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Console"
+            android:text="Logout"
             android:backgroundTint="@color/black"
             app:strokeWidth="2dp"
             app:strokeColor="@color/white"
