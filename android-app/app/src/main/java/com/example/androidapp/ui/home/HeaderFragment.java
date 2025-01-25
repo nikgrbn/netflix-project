@@ -1,6 +1,7 @@
 package com.example.androidapp.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.androidapp.MyApplication;
 import com.example.androidapp.R;
+import com.example.androidapp.db.AppDatabase;
+import com.example.androidapp.ui.LandingActivity;
 import com.example.androidapp.viewmodel.home.BannerViewModel;
 import com.example.androidapp.viewmodel.home.HeaderViewModel;
 import com.example.androidapp.viewmodel.home.ViewModelFactory;
@@ -110,7 +113,16 @@ public class HeaderFragment extends Fragment {
 
             btnLogout.setOnClickListener(buttonView -> {
                 // Handle Logout button click
-                popupWindow.dismiss();
+                // Clear the database
+                AppDatabase.getInstance(requireActivity().getApplicationContext()).clearAllData(); // Use requireActivity().getApplicationContext() for context
+
+                // Navigate to LandingActivity
+                Intent intent = new Intent(requireActivity(), LandingActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                // Finish the current activity
+                requireActivity().finish();
             });
 
             btnConsole.setOnClickListener(buttonView -> {
