@@ -1,5 +1,6 @@
 package com.example.androidapp.api;
 
+import com.example.androidapp.data.model.entity.Movie;
 import com.example.androidapp.data.model.response.CategoryResponse;
 import com.example.androidapp.data.model.response.MovieResponse;
 
@@ -21,6 +22,13 @@ public interface MovieApi {
     Call<MovieResponse> getMovieById(
             @Header("Authorization") String token,
             @Path("id") int movieId
+    );
+  
+    // New method for searching movies
+    @GET("movies/search/{query}")
+    Call<List<Movie>> searchMovies(
+            @Path("query") String query,
+            @Header("Authorization") String token
     );
 
 }
