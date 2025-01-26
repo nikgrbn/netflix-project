@@ -51,7 +51,7 @@ public interface MovieApi {
     @POST("movies")
     Call<ResponseBody> addMovie(
             @Header("Authorization") String token,
-            @Header("User-Id") int userId, // Add the userId as a header
+            @Header("User-Id") int userId,
             @PartMap Map<String, RequestBody> fields,
             @Part MultipartBody.Part image,
             @Part MultipartBody.Part video

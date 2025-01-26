@@ -33,7 +33,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -188,7 +190,7 @@ public class ConsoleRepository {
         return isAdded;
     }
 
-    public void addMovie(String token, int userId, String name, String categories, int duration,
+    public void addMovie(String token, int userId, String name, String[] categoriesArray, int duration,
                          Uri imageUri, Uri videoUri, int ageLimit, String description) {
         try {
             MultipartBody.Part imagePart = null; // Initialize image part as null
@@ -215,10 +217,14 @@ public class ConsoleRepository {
             // Create the map for text fields
             Map<String, RequestBody> fields = new HashMap<>();
             fields.put("name", RequestBody.create(MediaType.parse("text/plain"), name));
-            fields.put("categories", RequestBody.create(MediaType.parse("text/plain"), categories));
             fields.put("duration", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(duration)));
             fields.put("ageLimit", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(ageLimit)));
             fields.put("description", RequestBody.create(MediaType.parse("text/plain"), description));
+
+            for (String category : categoriesArray) {
+                Log.d("ConsoleRepository", "Adding movie: " + category);
+                fields.put("categories[]", RequestBody.create(MediaType.parse("text/plain"), category));
+            }
 
             // Make the API call
             Call<ResponseBody> call = movieApi.addMovie("Bearer " + token, userId, fields, imagePart, videoPart);
