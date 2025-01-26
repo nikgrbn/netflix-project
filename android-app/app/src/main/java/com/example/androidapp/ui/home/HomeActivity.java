@@ -24,6 +24,7 @@ import com.example.androidapp.R;
 import com.example.androidapp.adapters.CategoryAdapter;
 import com.example.androidapp.adapters.DefaultMovieClickHandler;
 import com.example.androidapp.adapters.MovieAdapter;
+import com.example.androidapp.data.model.entity.Category;
 import com.example.androidapp.data.model.entity.Movie;
 import com.example.androidapp.db.AppDatabase;
 import com.example.androidapp.ui.LandingActivity;
@@ -80,7 +81,14 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
 
     private void observeViewModel() {
         // Observe categories
-        homeViewModel.getCategories().observe(this, categories -> {
+        homeViewModel.getHomeCategories().observe(this, categories -> {
+            if (categories != null && !categories.isEmpty()) {
+                categoryAdapter.setCategories(categories);
+            }
+        });
+
+        // Observe all categories
+        homeViewModel.getAllCategories().observe(this, categories -> {
             if (categories != null && !categories.isEmpty()) {
                 categoryAdapter.setCategories(categories);
             }
@@ -143,6 +151,20 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
         homeViewModel.fetchMoviesByCategory();
     }
 
+    private void setupCategoriesView(List<Category> categories) {
+        // Set up the recycler view
+        rvCategories = findViewById(R.id.rvCategories);
+        rvCategories.setLayoutManager(new LinearLayoutManager(this));
+        rvCategories.setNestedScrollingEnabled(false);
+
+        // Set up the adapter
+        categoryAdapter = new CategoryAdapter(
+                categories,
+                new DefaultMovieClickHandler(getSupportFragmentManager(), R.id.content_container)
+        );
+        rvCategories.setAdapter(categoryAdapter);
+    }
+
     private void setupSearchResultsView(List<Movie> movies) {
         // Hide the default layout
         View nestedScrollView = findViewById(R.id.nestedScrollView);
@@ -198,6 +220,26 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
         } else {
             // Fetch search results from ViewModel
             homeViewModel.searchMovies(query);
+        }
+    }
+
+    @Override
+    public void onHomeClicked() {
+        // Fetch movies by category
+        homeViewModel.fetchMoviesByCategory();
+
+        // Show the default layout
+        setupDefaultView();
+    }
+
+    @Override
+    public void onCategoriesClicked() {
+        // Fetch all categories
+        homeViewModel.fetchAllCategories();
+
+        // Hide the the banner
+        if (bannerFragmentContainer != null) {
+            bannerFragmentContainer.setVisibility(View.GONE);
         }
     }
 

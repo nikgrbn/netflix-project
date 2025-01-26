@@ -12,6 +12,9 @@ public class CategoryResponse {
     @SerializedName("categoryName")
     private String categoryName;
 
+    @SerializedName("promoted")
+    private Boolean promoted;
+
     @SerializedName("movies")
     private List<Movie> movies;
 
@@ -29,6 +32,14 @@ public class CategoryResponse {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public Boolean getPromoted() {
+        return promoted;
+    }
+
+    public void setPromoted(Boolean promoted) {
+        this.promoted = promoted;
     }
 
     public List<Movie> getMovies() {

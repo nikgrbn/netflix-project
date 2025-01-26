@@ -74,6 +74,7 @@ const getCategories = async (req, res) => {
       result.push({
         categoryId: category._id,
         categoryName: category.name,
+        promoted: category.promoted,
         movies: formatted,
       });
     }
