@@ -12,6 +12,7 @@ import com.example.androidapp.api.RetrofitClient;
 import com.example.androidapp.data.dao.MovieDao;
 import com.example.androidapp.data.dao.UserDao;
 import com.example.androidapp.data.dao.CategoryDao;
+import com.example.androidapp.data.model.entity.Category;
 import com.example.androidapp.data.model.entity.User;
 import com.example.androidapp.db.AppDatabase;
 
@@ -136,6 +137,14 @@ public class ConsoleRepository {
 
                 if (response.isSuccessful()) {
                     Log.d("ConsoleRepository", "Category added successfully");
+
+                    // Insert the category into Room database
+                    AppDatabase.databaseWriteExecutor.execute(() -> {
+                        Category category = new Category();
+                        category.setName(name);
+                        category.setPromoted(promoted);
+                        categoryDao.insertCategory(category); // Use the DAO to insert into Room
+                    });
                     isAdded.postValue(true); // Indicate success
                 } else {
                     Log.e("ConsoleRepository", "Failed to add category: " + response.message());

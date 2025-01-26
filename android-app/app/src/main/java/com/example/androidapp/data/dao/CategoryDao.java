@@ -15,6 +15,10 @@ import retrofit2.http.DELETE;
 public interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertCategories(List<Category> categories);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertCategory(Category category); // Add a single category
+
     @Query("SELECT * FROM categories WHERE promoted = 1")
     List<Category> getPromotedCategories();
 
