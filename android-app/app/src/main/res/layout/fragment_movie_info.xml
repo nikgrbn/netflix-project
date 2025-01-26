@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="#000000"
-        android:layout_width="300dp"
+        android:layout_width="360dp"
         android:layout_height="wrap_content"
         >
 
@@ -119,9 +119,6 @@
 
             </LinearLayout>
 
-
-
-
             <TextView
                 android:id="@+id/tvDescription"
                 android:layout_width="0dp"
@@ -143,6 +140,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
+            <TextView
+                android:layout_marginTop="16dp"
+                android:id="@+id/tvRecommendations"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:text="Recommendations:"
+                app:layout_constraintTop_toBottomOf="@id/tvCategories"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRecommendations"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/tvRecommendations"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <ImageButton
                 android:id="@+id/btnClose"

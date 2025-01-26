@@ -15,9 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.MyApplication;
 import com.example.androidapp.R;
+import com.example.androidapp.adapters.CategoryAdapter;
+import com.example.androidapp.adapters.DefaultMovieClickHandler;
+import com.example.androidapp.adapters.MovieAdapter;
 import com.example.androidapp.data.model.entity.Movie;
 import com.example.androidapp.data.repository.MovieRepository;
 import com.example.androidapp.viewmodel.MovieInfoViewModel;
@@ -26,11 +31,14 @@ import com.example.androidapp.viewmodel.home.ViewModelFactory;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 public class MovieInfoFragment extends Fragment {
 
     private MovieInfoViewModel movieInfoViewModel;
     private TextView nameTextView, ageLimitTextView, durationTextView, descriptionTextView, categoriesTextView;
     private MaterialButton playButton;
+    private RecyclerView rvRecommendations;
 
     private int movieId; // The ID of the movie to fetch
 
@@ -47,10 +55,11 @@ public class MovieInfoFragment extends Fragment {
         categoriesTextView = view.findViewById(R.id.tvCategories);
         ImageButton btnClose = view.findViewById(R.id.btnClose);
         playButton = view.findViewById(R.id.btnPlay);
+        rvRecommendations = view.findViewById(R.id.rvRecommendations);
 
         // Set click listener for close button
         btnClose.setOnClickListener(v -> {
-            // Close the fragment immediately
+            // Close the fragment
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .remove(this)
@@ -64,13 +73,35 @@ public class MovieInfoFragment extends Fragment {
             return view;
         }
 
-        // Initialize ViewModel with the Factory
+        // Initialize ViewModel with Factory
         movieInfoViewModel = new ViewModelProvider(this,
                 new ViewModelFactory(((MyApplication) requireActivity().getApplication()).getMovieRepository())
         ).get(MovieInfoViewModel.class);
 
-        // Observe the movie data
+        // Set up RecyclerView with LayoutManager
+        rvRecommendations.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        // Initialize the Adapter
+        MovieAdapter movieAdapter = new MovieAdapter(
+                new ArrayList<>(),
+                new DefaultMovieClickHandler(requireActivity().getSupportFragmentManager(), R.id.content_container)
+        );
+        rvRecommendations.setAdapter(movieAdapter);
+
+        // Observe the movie data and update UI
         movieInfoViewModel.getMovieById(movieId).observe(getViewLifecycleOwner(), this::populateMovieInfo);
+
+        // Observe recommendations and update the RecyclerView
+        movieInfoViewModel.getRecommendations().observe(getViewLifecycleOwner(), movies -> {
+            if (movies == null || movies.isEmpty()) {
+                ((TextView) view.findViewById(R.id.tvRecommendations)).setText("No recommendations available");
+            } else {
+                ((TextView) view.findViewById(R.id.tvRecommendations)).setText("Recommendations");
+                movieAdapter.updateMovies(movies); // Update the adapter's data
+
+            }
+        });
+        movieInfoViewModel.fetchRecommendations(movieId);
 
         // Pass the movie ID to the VideoFragment
         Bundle args = new Bundle();
