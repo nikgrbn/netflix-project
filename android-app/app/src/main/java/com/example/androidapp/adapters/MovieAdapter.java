@@ -24,6 +24,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         this.clickHandler = clickHandler;
     }
 
+    public void updateMovies(List<Movie> newMovies) {
+        this.movies = newMovies;
+        notifyDataSetChanged(); // Notify the adapter about the updated data
+    }
+
     @NonNull
     @Override
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

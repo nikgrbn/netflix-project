@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.androidapp.api.CategoryApi;
 import com.example.androidapp.api.MovieApi;
+import com.example.androidapp.api.RecommendApi;
 import com.example.androidapp.api.RetrofitClient;
 import com.example.androidapp.data.dao.CategoryDao;
 import com.example.androidapp.data.dao.MovieDao;
@@ -30,10 +31,12 @@ public class MovieRepository {
 
     private final MovieApi movieApi;
     private final CategoryApi categoryApi;;
+    private final RecommendApi recommendApi;
     private final MovieDao movieDao;
     private final UserDao userDao;
     private final CategoryDao categoryDao;
-  
+
+    MutableLiveData<List<Movie>> recommendations = new MutableLiveData<>();
     MutableLiveData<List<Category>> allCategories = new MutableLiveData<>();
     MutableLiveData<List<Category>> homeCategories = new MutableLiveData<>();
     MutableLiveData<Movie> bannerMovie = new MutableLiveData<>();
@@ -45,10 +48,15 @@ public class MovieRepository {
         // Use the application context
         movieApi = RetrofitClient.getClient().create(MovieApi.class);
         categoryApi = RetrofitClient.getClient().create(CategoryApi.class);
+        recommendApi = RetrofitClient.getClient().create(RecommendApi.class);
 
         movieDao = AppDatabase.getInstance(application).movieDao();
         userDao = AppDatabase.getInstance(application).userDao();
         categoryDao = AppDatabase.getInstance(application).categoryDao();
+    }
+
+    public LiveData<List<Movie>> getRecommendations() {
+        return recommendations;
     }
 
     public LiveData<User> getUser() {
@@ -74,6 +82,29 @@ public class MovieRepository {
     }
     public LiveData<List<Movie>> getSearchResults() {
         return searchResults;
+    }
+
+    public void fetchRecommendations(String token, int userId, int movieId) {
+        recommendApi.getRecommendation("Bearer " + token, userId, movieId).enqueue(new Callback<List<Movie>>() {
+            @Override
+            public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    Log.e("RecommendRepository", "Failed to fetch recommendations: " + response.message());
+                    return;
+                }
+
+                // Save recommendations to Room
+                AppDatabase.databaseWriteExecutor.execute(() -> {
+                    movieDao.insertMovies(response.body());
+                    recommendations.postValue(response.body());
+                });
+            }
+
+            @Override
+            public void onFailure(Call<List<Movie>> call, Throwable throwable) {
+                Log.e("RecommendRepository", "Failed to fetch recommendations", throwable);
+            }
+        });
     }
 
     public String getVideoUrl(int movieId) {
