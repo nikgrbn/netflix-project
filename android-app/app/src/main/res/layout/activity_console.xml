@@ -8,21 +8,25 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
+        <!-- Progress Bar -->
         <ProgressBar
             android:id="@+id/progressBar"
             style="@android:style/Widget.ProgressBar.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:orientation="vertical">
+
 
 
             <!-- Delete Movie Section -->
@@ -87,9 +91,144 @@
                 android:textColor="@android:color/white"
                 android:layout_marginTop="8dp" />
 
+            <!-- Post Category Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Post Category"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="24dp" />
+
+            <EditText
+                android:id="@+id/etCategoryName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Category Name"
+                android:inputType="text"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:background="@android:color/white"
+                android:padding="10dp"
+                android:layout_marginTop="8dp" />
+
+            <CheckBox
+                android:id="@+id/cbPromoted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Promoted"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnPostCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Post Category"
+                android:backgroundTint="@color/red"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp" />
+
+            <!-- Post Movie Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Post Movie"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="24dp" />
+
+            <EditText
+                android:id="@+id/etMovieName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Movie Name (Required)"
+                android:inputType="text"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:background="@android:color/white"
+                android:padding="10dp"
+                android:layout_marginTop="8dp" />
+
+            <EditText
+                android:id="@+id/etCategories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Categories (Comma Separated)"
+                android:inputType="text"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:background="@android:color/white"
+                android:padding="10dp"
+                android:layout_marginTop="8dp" />
+
+            <EditText
+                android:id="@+id/etDuration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Duration (Minutes)"
+                android:inputType="number"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:background="@android:color/white"
+                android:padding="10dp"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnUploadImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Upload Image"
+                android:backgroundTint="@color/red"            android:textColor="@android:color/white"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnUploadVideo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Upload Video"
+                android:backgroundTint="@color/red"            android:textColor="@android:color/white"
+                android:layout_marginTop="8dp" />
+
+            <EditText
+                android:id="@+id/etAgeLimit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Age Limit"
+                android:inputType="number"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:background="@android:color/white"
+                android:padding="10dp"
+                android:layout_marginTop="8dp" />
+
+            <EditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Description"
+                android:inputType="textMultiLine"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:background="@android:color/white"
+                android:padding="10dp"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnPostMovie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Post Movie"
+                android:backgroundTint="@color/red"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp" />
+
         </LinearLayout>
 
-    </FrameLayout>
 
+    </FrameLayout>
 
 </ScrollView>

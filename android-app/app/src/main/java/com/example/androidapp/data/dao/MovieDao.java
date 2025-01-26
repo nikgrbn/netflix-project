@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.example.androidapp.data.model.entity.Category;
 import com.example.androidapp.data.model.entity.Movie;
 
 import java.util.List;
@@ -28,6 +29,11 @@ public interface MovieDao {
 
     @Query("DELETE FROM movies WHERE id = :movieId")
     void deleteMovieById(int movieId);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertMovie(Movie movie); // Add a single movie
+
+
 
 
 }
