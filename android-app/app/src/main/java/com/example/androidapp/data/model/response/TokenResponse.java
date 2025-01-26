@@ -10,6 +10,9 @@ public class TokenResponse {
     private String picture;
     @SerializedName("display_name")
     private String displayName;
+
+    @SerializedName("is_admin")
+
     private boolean isAdmin;
     private List<Integer> watchedMovies;
     @SerializedName("token")

@@ -6,13 +6,10 @@
     android:background="@color/black"
     android:padding="16dp">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:layout_height="match_parent">
 
-        <!-- Progress Bar -->
         <ProgressBar
             android:id="@+id/progressBar"
             style="@android:style/Widget.ProgressBar.Large"
@@ -21,67 +18,78 @@
             android:visibility="gone"
             android:layout_gravity="center" />
 
-        <!-- Delete Movie Section -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete Movie"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="16dp" />
-
-        <EditText
-            android:id="@+id/etMovieId"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Movie ID"
-            android:inputType="number"
-            android:textColor="@android:color/black"
-            android:textColorHint="@android:color/darker_gray"
-            android:background="@android:color/white"
-            android:padding="10dp"
-            android:layout_marginTop="8dp" />
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-        <Button
-            android:id="@+id/btnDeleteMovie"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Delete Movie"
-            android:backgroundTint="@color/red"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="8dp" />
 
-        <!-- Delete Category Section -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete Category"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="24dp" />
+            <!-- Delete Movie Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete Movie"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="16dp" />
 
-        <EditText
-            android:id="@+id/etCategoryId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Category ID"
-            android:inputType="number"
-            android:textColor="@android:color/black"
-            android:textColorHint="@android:color/darker_gray"
-            android:background="@android:color/white"
-            android:padding="10dp"
-            android:layout_marginTop="8dp" />
+            <EditText
+                android:id="@+id/etMovieId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Movie ID"
+                android:inputType="number"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:background="@android:color/white"
+                android:padding="10dp"
+                android:layout_marginTop="8dp" />
 
-        <Button
-            android:id="@+id/btnDeleteCategory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Delete Category"
-            android:backgroundTint="@color/red"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="8dp" />
+            <Button
+                android:id="@+id/btnDeleteMovie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delete Movie"
+                android:backgroundTint="@color/red"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp" />
 
-    </LinearLayout>
+            <!-- Delete Category Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete Category"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="24dp" />
+
+            <EditText
+                android:id="@+id/etCategoryId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Category ID"
+                android:inputType="number"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:background="@android:color/white"
+                android:padding="10dp"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnDeleteCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delete Category"
+                android:backgroundTint="@color/red"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+
 </ScrollView>

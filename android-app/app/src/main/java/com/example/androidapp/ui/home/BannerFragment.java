@@ -71,10 +71,9 @@ public class BannerFragment extends Fragment {
         videoFragment.setArguments(args);
 
         // Replace the current fragment with the VideoFragment
-        requireActivity().getSupportFragmentManager()
+        getChildFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_video, videoFragment)
-                .addToBackStack(null) // Add to backstack for proper navigation
                 .commit();
 
         // Load movie details
