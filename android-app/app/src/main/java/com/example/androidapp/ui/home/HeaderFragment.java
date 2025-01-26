@@ -30,6 +30,7 @@ import com.example.androidapp.R;
 import com.example.androidapp.db.AppDatabase;
 import com.example.androidapp.ui.ConsoleActivity;
 import com.example.androidapp.ui.LandingActivity;
+import com.example.androidapp.viewmodel.WatchViewModel;
 import com.example.androidapp.viewmodel.home.BannerViewModel;
 import com.example.androidapp.viewmodel.home.HeaderViewModel;
 import com.example.androidapp.viewmodel.home.ViewModelFactory;
@@ -137,16 +138,17 @@ public class HeaderFragment extends Fragment {
             });
 
             btnLogout.setOnClickListener(buttonView -> {
-                // Handle Logout button click
-                // Clear the database
-                AppDatabase.getInstance(requireActivity().getApplicationContext()).clearAllData(); // Use requireActivity().getApplicationContext() for context
+                // Clear database and ViewModel state
+                AppDatabase.databaseWriteExecutor.execute(() -> {
+                    AppDatabase.getInstance(requireContext().getApplicationContext()).clearAllData();
+                });
 
                 // Navigate to LandingActivity
                 Intent intent = new Intent(requireActivity(), LandingActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
 
-                // Finish the current activity
+                // Finish current activity
                 requireActivity().finish();
             });
 

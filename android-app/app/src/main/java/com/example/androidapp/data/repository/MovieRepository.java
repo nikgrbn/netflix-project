@@ -57,7 +57,6 @@ public class MovieRepository {
     public LiveData<Movie> getMovieById(int id) {
         return movieDao.getMovieById(id);
     }
-
     public LiveData<List<Category>> getAllCategories() {
         return allCategories;
     }

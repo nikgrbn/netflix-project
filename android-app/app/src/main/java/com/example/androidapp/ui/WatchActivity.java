@@ -1,5 +1,6 @@
 package com.example.androidapp.ui;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
@@ -9,8 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidapp.R;
+import com.example.androidapp.data.repository.RecommendRepository;
+import com.example.androidapp.ui.home.HomeActivity;
+import com.example.androidapp.viewmodel.SignInViewModel;
+import com.example.androidapp.viewmodel.WatchViewModel;
 
 public class WatchActivity extends AppCompatActivity {
 
@@ -34,6 +40,10 @@ public class WatchActivity extends AppCompatActivity {
             finish(); // Close the activity if no valid movieId is passed
         }
 
+        // Add the movie to the user's recommendations
+        WatchViewModel watchViewModel = new ViewModelProvider(this).get(WatchViewModel.class);
+        watchViewModel.addRecommendation(movieId);
+
         // Create a new VideoFragment instance
         VideoFragment videoFragment = new VideoFragment();
 
@@ -49,7 +59,16 @@ public class WatchActivity extends AppCompatActivity {
                 .replace(R.id.video_fragment_container, videoFragment)
                 .commit();
 
-        findViewById(R.id.btnClose).setOnClickListener(v -> finish());
+        findViewById(R.id.btnClose).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WatchActivity.this, HomeActivity.class);
+                // Clear all previous activities and start HomeActivity as a new task
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish(); // Optional, to ensure the current activity is explicitly finished
+            }
+        });
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.androidapp.ui.home;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Rect;
@@ -10,6 +11,8 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -104,7 +107,7 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
         // Observe errors
         homeViewModel.getErrorMessage().observe(this, error -> {
             if (error != null) {
-                //Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -149,20 +152,6 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
 
         // Fetch movies by category
         homeViewModel.fetchMoviesByCategory();
-    }
-
-    private void setupCategoriesView(List<Category> categories) {
-        // Set up the recycler view
-        rvCategories = findViewById(R.id.rvCategories);
-        rvCategories.setLayoutManager(new LinearLayoutManager(this));
-        rvCategories.setNestedScrollingEnabled(false);
-
-        // Set up the adapter
-        categoryAdapter = new CategoryAdapter(
-                categories,
-                new DefaultMovieClickHandler(getSupportFragmentManager(), R.id.content_container)
-        );
-        rvCategories.setAdapter(categoryAdapter);
     }
 
     private void setupSearchResultsView(List<Movie> movies) {

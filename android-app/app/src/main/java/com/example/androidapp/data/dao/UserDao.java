@@ -22,4 +22,7 @@ public interface UserDao {
 
     @Query("SELECT * FROM users LIMIT 1")
     LiveData<User> getUser();
+
+    @Query("DELETE FROM users")
+    void clearAllUsers(); // New method to clear the users table
 }
