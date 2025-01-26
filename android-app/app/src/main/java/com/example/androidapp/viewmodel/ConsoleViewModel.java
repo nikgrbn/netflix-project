@@ -85,6 +85,16 @@ public class ConsoleViewModel extends AndroidViewModel {
             }
         });
     }
+
+    public void addMovie(String name, String categories, int duration, String image, String video, int ageLimit, String description) {
+        userLiveData.observeForever(user -> {
+            if (user != null) {
+                String token = user.getToken();
+                int userId = user.getId();
+                consoleRepository.addMovie(token, userId, name, categories, duration, image, video, ageLimit, description);
+            }
+        });
+    }
     public void resetIsDeleted() {
         consoleRepository.resetIsDeleted();
     }

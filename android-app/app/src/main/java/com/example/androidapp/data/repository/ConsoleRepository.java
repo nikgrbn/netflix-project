@@ -1,8 +1,15 @@
 package com.example.androidapp.data.repository;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+
 import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -13,6 +20,7 @@ import com.example.androidapp.data.dao.MovieDao;
 import com.example.androidapp.data.dao.UserDao;
 import com.example.androidapp.data.dao.CategoryDao;
 import com.example.androidapp.data.model.entity.Category;
+import com.example.androidapp.data.model.entity.Movie;
 import com.example.androidapp.data.model.entity.User;
 import com.example.androidapp.db.AppDatabase;
 
@@ -165,7 +173,57 @@ public class ConsoleRepository {
         return isAdded;
     }
 
+    public LiveData<Boolean> addMovie(String token, int userId, String name, @Nullable String categories,
+                                      int duration, @Nullable String image, @Nullable String video,
+                                      int ageLimit, @Nullable String description) {
+        isLoading.setValue(true);
+        movieApi.addMovie("Bearer " + token, userId, name, categories, duration, image, video, ageLimit, description)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        isLoading.postValue(false);
+                        if (response.isSuccessful()) {
+                            Log.d("ConsoleRepository", "Movie added successfully");
+                            AppDatabase.databaseWriteExecutor.execute(() -> {
+                                Movie movie = new Movie();
+                                movie.setName(name);
+                                if (categories != null) {
+                                    List<Category> categoryList = new ArrayList<>();
+                                    for (String categoryName : categories.split(",")) {
+                                        Category category = new Category();
+                                        category.setName(categoryName.trim());
+                                        categoryList.add(category);
+                                    }
+                                    movie.setCategories(categoryList);
+                                } else {
+                                    movie.setCategories(null);
+                                }
+                                movie.setDuration(duration);
+                                movie.setImage(image);
+                                movie.setVideo(video);
+                                movie.setAgeLimit(ageLimit);
+                                movie.setDescription(description);
+                                movieDao.insertMovie(movie);
+                            });
+                            isAdded.postValue(true);
+                        } else {
+                            Log.e("ConsoleRepository", "Failed to add movie: " + response.message());
+                            errorMessage.postValue("Failed to add movie: " + response.message());
+                            isAdded.postValue(false);
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        isLoading.postValue(false);
+                        Log.e("ConsoleRepository", "Error adding movie", t);
+                        errorMessage.postValue("Error adding movie: " + t.getMessage());
+                        isAdded.postValue(false);
+                    }
+                });
+
+        return isAdded;
+        }
     public void resetIsDeleted() {
         isDeleted.setValue(null);
     }
