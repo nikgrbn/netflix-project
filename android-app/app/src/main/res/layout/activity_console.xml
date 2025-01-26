@@ -24,7 +24,6 @@
             android:orientation="vertical"
             android:gravity="center_horizontal">
 
-
             <!-- Delete Movie Section -->
             <TextView
                 android:layout_width="wrap_content"
@@ -87,9 +86,47 @@
                 android:textColor="@android:color/white"
                 android:layout_marginTop="8dp" />
 
+            <!-- Post Category Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Post Category"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="24dp" />
+
+            <EditText
+                android:id="@+id/etCategoryName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Category Name"
+                android:inputType="text"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:background="@android:color/white"
+                android:padding="10dp"
+                android:layout_marginTop="8dp" />
+
+            <CheckBox
+                android:id="@+id/cbPromoted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Promoted"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnPostCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Post Category"
+                android:backgroundTint="@color/red"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp" />
+
         </LinearLayout>
 
     </FrameLayout>
-
 
 </ScrollView>

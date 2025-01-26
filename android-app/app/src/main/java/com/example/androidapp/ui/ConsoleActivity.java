@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -28,9 +29,14 @@ public class ConsoleActivity extends AppCompatActivity {
     private EditText etMovieId;
 
     private EditText etCategoryId;
+
+    private EditText etCategoryName;
     private Button btnDeleteMovie;
 
     private Button btnDeleteCategory;
+
+    private Button btnPostCategory;
+    private CheckBox cbPromoted;
     private ProgressBar progressBar;
     private ConsoleViewModel consoleViewModel;
 
@@ -54,9 +60,13 @@ public class ConsoleActivity extends AppCompatActivity {
         // Initialize views
         etMovieId = findViewById(R.id.etMovieId);
         etCategoryId = findViewById(R.id.etCategoryId);
+        etCategoryName = findViewById(R.id.etCategoryName);
+        cbPromoted = findViewById(R.id.cbPromoted);
         btnDeleteMovie = findViewById(R.id.btnDeleteMovie);
         btnDeleteCategory = findViewById(R.id.btnDeleteCategory);
+        btnPostCategory = findViewById(R.id.btnPostCategory);
         progressBar = findViewById(R.id.progressBar);
+
 
         // Initialize ViewModel
         consoleViewModel = new ViewModelProvider(this).get(ConsoleViewModel.class);
@@ -89,6 +99,22 @@ public class ConsoleActivity extends AppCompatActivity {
             etCategoryId.setText("");
             etCategoryId.clearFocus();
         });
+
+        // Handle post category button click
+        btnPostCategory.setOnClickListener(v -> {
+            String categoryName = etCategoryName.getText().toString();
+            boolean isPromoted = cbPromoted.isChecked();
+
+            if (categoryName.isEmpty()) {
+                Toast.makeText(this, "Please enter a Category Name", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            consoleViewModel.addCategory(categoryName, isPromoted);
+            etCategoryName.setText("");
+            cbPromoted.setChecked(false);
+            etCategoryName.clearFocus();
+        });
     }
 
     private void observeViewModel() {
@@ -101,6 +127,20 @@ public class ConsoleActivity extends AppCompatActivity {
                 }
                 // Reset the isDeleted LiveData to prevent future triggers
                 consoleViewModel.resetIsDeleted();
+            }
+        });
+
+        // Observe category addition status
+        consoleViewModel.isAdded().observe(this, isAdded -> {
+            if (isAdded != null) {
+                progressBar.setVisibility(View.GONE);
+                if (isAdded) {
+                    Toast.makeText(this, "Category added successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Failed to add category", Toast.LENGTH_SHORT).show();
+                }
+                // Reset the isAdded LiveData to prevent future triggers
+                consoleViewModel.resetIsAdded();
             }
         });
 
@@ -118,5 +158,4 @@ public class ConsoleActivity extends AppCompatActivity {
                 Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
             }
         });
-    }
-}
+    }}

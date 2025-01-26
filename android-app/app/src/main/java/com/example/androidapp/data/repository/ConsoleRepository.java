@@ -33,6 +33,8 @@ public class ConsoleRepository {
     MutableLiveData<String> errorMessage = new MutableLiveData<>();
     MutableLiveData<Boolean> isDeleted = new MutableLiveData<>();
 
+    MutableLiveData<Boolean> isAdded = new MutableLiveData<>();
+
     public ConsoleRepository(Application application) {
         movieApi = RetrofitClient.getClient().create(MovieApi.class);
         movieDao = AppDatabase.getInstance(application).movieDao();
@@ -55,6 +57,10 @@ public class ConsoleRepository {
 
     public LiveData<Boolean> isDeleted() {
         return isDeleted;
+    }
+
+    public LiveData<Boolean> isAdded() {
+        return isAdded;
     }
 
 
@@ -121,8 +127,41 @@ public class ConsoleRepository {
         return isDeleted;
     }
 
+    public LiveData<Boolean> addCategory(String token, int userId, String name, boolean promoted) {
+        isLoading.setValue(true); // Set loading state
+        categoryApi.addCategory("Bearer " + token, userId, name, promoted).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                isLoading.postValue(false); // Stop loading state
+
+                if (response.isSuccessful()) {
+                    Log.d("ConsoleRepository", "Category added successfully");
+                    isAdded.postValue(true); // Indicate success
+                } else {
+                    Log.e("ConsoleRepository", "Failed to add category: " + response.message());
+                    errorMessage.postValue("Failed to add category: " + response.message());
+                    isAdded.postValue(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                isLoading.postValue(false); // Stop loading state
+                Log.e("ConsoleRepository", "Error adding category", t);
+                errorMessage.postValue("Error adding category: " + t.getMessage());
+                isAdded.postValue(false);
+            }
+        });
+
+        return isAdded;
+    }
+
 
     public void resetIsDeleted() {
         isDeleted.setValue(null);
+    }
+
+    public void resetIsAdded() {
+        isAdded.setValue(null);
     }
 }

@@ -21,6 +21,7 @@ public class ConsoleViewModel extends AndroidViewModel {
 
     private final LiveData<User> userLiveData;
     private final LiveData<Boolean> isDeleted;
+    private final LiveData<Boolean> isAdded;
     private final LiveData<Boolean> isLoading;
     private final LiveData<String> errorMessage;
 
@@ -32,6 +33,7 @@ public class ConsoleViewModel extends AndroidViewModel {
         this.isLoading = consoleRepository.getIsLoading();
         this.errorMessage = consoleRepository.getErrorMessage();
         this.isDeleted = consoleRepository.isDeleted();
+        this.isAdded = consoleRepository.isAdded();
     }
 
     public LiveData<User> getUser() {
@@ -48,6 +50,10 @@ public class ConsoleViewModel extends AndroidViewModel {
 
     public LiveData<Boolean> isDeleted() {
         return isDeleted;
+    }
+
+    public LiveData<Boolean> isAdded() {
+        return isAdded;
     }
 
     public void deleteMovie(int movieId) {
@@ -69,8 +75,22 @@ public class ConsoleViewModel extends AndroidViewModel {
             }
         });
     }
+
+    public void addCategory(String name, boolean promoted) {
+        userLiveData.observeForever(user -> {
+            if (user != null) {
+                String token = user.getToken();
+                int userId = user.getId();
+                consoleRepository.addCategory(token, userId, name, promoted);
+            }
+        });
+    }
     public void resetIsDeleted() {
         consoleRepository.resetIsDeleted();
+    }
+
+    public void resetIsAdded() {
+        consoleRepository.resetIsAdded();
     }
 }
 
