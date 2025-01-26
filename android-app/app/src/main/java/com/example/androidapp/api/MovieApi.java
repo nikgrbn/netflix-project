@@ -5,7 +5,10 @@ import com.example.androidapp.data.model.response.CategoryResponse;
 import com.example.androidapp.data.model.response.MovieResponse;
 
 import java.util.List;
+import java.util.Map;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
@@ -15,6 +18,8 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 
 public interface MovieApi {
@@ -42,19 +47,16 @@ public interface MovieApi {
             @Header("User-Id") int userId,
             @Path("id") int movieId
     );
+    @Multipart
     @POST("movies")
-    @FormUrlEncoded
     Call<ResponseBody> addMovie(
             @Header("Authorization") String token,
-            @Header("User-Id") int userId,
-            @Field("name") String name,
-            @Field("categories") String categories, // Comma-separated categories
-            @Field("duration") int duration,       // Duration in minutes
-            @Field("image") String image,          // Image URL or base64
-            @Field("video") String video,          // Video URL or base64
-            @Field("ageLimit") int ageLimit,       // Age limit
-            @Field("description") String description // Movie description
+            @Header("User-Id") int userId, // Add the userId as a header
+            @PartMap Map<String, RequestBody> fields,
+            @Part MultipartBody.Part image,
+            @Part MultipartBody.Part video
     );
+
 
 
 }
