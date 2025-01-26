@@ -33,14 +33,13 @@ public class MovieRepository {
     private final MovieDao movieDao;
     private final UserDao userDao;
     private final CategoryDao categoryDao;
-
+  
     MutableLiveData<List<Category>> allCategories = new MutableLiveData<>();
     MutableLiveData<List<Category>> homeCategories = new MutableLiveData<>();
     MutableLiveData<Movie> bannerMovie = new MutableLiveData<>();
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
     MutableLiveData<String> errorMessage = new MutableLiveData<>();
     MutableLiveData<List<Movie>> searchResults = new MutableLiveData<>();
-    MutableLiveData<Boolean> isDeleted = new MutableLiveData<>();
 
     public MovieRepository(Application application) {
         // Use the application context
@@ -67,9 +66,6 @@ public class MovieRepository {
     }
     public LiveData<Movie> getBannerMovie() {
         return bannerMovie;
-    }
-    public LiveData<Boolean> isDeleted() {
-        return isDeleted;
     }
     public LiveData<Boolean> getIsLoading() {
         return isLoading;
@@ -240,36 +236,5 @@ public class MovieRepository {
             }
         }
         return categoriesWithMovies;
-    }
-
-    public LiveData<Boolean> deleteMovie(String token, int userId, int movieId) {
-        isLoading.setValue(true); // Set loading state
-
-        // Call the API to delete the movie
-        movieApi.deleteMovie("Bearer " + token, userId, movieId).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                isLoading.postValue(false); // Stop loading state
-
-                if (response.isSuccessful()) {
-                    Log.d("MovieRepository", "Movie deleted successfully");
-                    isDeleted.postValue(true); // Update LiveData to indicate success
-                } else {
-                    Log.e("MovieRepository", "Failed to delete movie: " + response.message());
-                    errorMessage.postValue("Failed to delete movie: " + response.message());
-                    isDeleted.postValue(false);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                isLoading.postValue(false); // Stop loading state
-                Log.e("MovieRepository", "Error deleting movie", t);
-                errorMessage.postValue("Error deleting movie: " + t.getMessage());
-                isDeleted.postValue(false);
-            }
-        });
-
-        return isDeleted;
     }
 }
