@@ -98,7 +98,6 @@ public class MovieInfoFragment extends Fragment {
             } else {
                 ((TextView) view.findViewById(R.id.tvRecommendations)).setText("Recommendations");
                 movieAdapter.updateMovies(movies); // Update the adapter's data
-
             }
         });
         movieInfoViewModel.fetchRecommendations(movieId);

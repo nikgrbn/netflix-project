@@ -223,6 +223,30 @@ public class HomeActivity extends AppCompatActivity implements HeaderFragment.He
 
     @Override
     public void onCategoriesClicked() {
+        // Show the default layout
+        View nestedScrollView = findViewById(R.id.nestedScrollView);
+        if (nestedScrollView != null) {
+            nestedScrollView.setVisibility(View.VISIBLE);
+        }
+
+        // Remove the existing RecyclerView if it exists
+        if (searchResultsRecyclerView != null) {
+            // Remove the existing RecyclerView
+            contentContainer.removeView(searchResultsRecyclerView);
+
+            // Set up the recycler view
+            rvCategories = findViewById(R.id.rvCategories);
+            rvCategories.setLayoutManager(new LinearLayoutManager(this));
+            rvCategories.setNestedScrollingEnabled(false);
+
+            // Set up the adapter
+            categoryAdapter = new CategoryAdapter(
+                    new ArrayList<>(),
+                    new DefaultMovieClickHandler(getSupportFragmentManager(), R.id.content_container)
+            );
+            rvCategories.setAdapter(categoryAdapter);
+        }
+
         // Fetch all categories
         homeViewModel.fetchAllCategories();
 
