@@ -30,8 +30,8 @@ import com.example.androidapp.viewmodel.ConsoleViewModel;
 
 public class ConsoleActivity extends AppCompatActivity {
 
-    private EditText etPatchCategoryId, etPatchCategoryName, etMovieId, etCategoryId, etCategoryName, etMovieName, etCategories, etDuration, etAgeLimit, etDescription;
-    private Button btnPatchCategory, btnDeleteMovie, btnDeleteCategory, btnPostCategory, btnAddMovie, btnUploadImage, btnUploadVideo;
+    private EditText etPutMovieId, etPutMovieName, etPutCategories, etPutDuration, etPutAgeLimit, etPutDescription, etPatchCategoryId, etPatchCategoryName, etMovieId, etCategoryId, etCategoryName, etMovieName, etCategories, etDuration, etAgeLimit, etDescription;
+    private Button btnPutMovie, btnPatchCategory, btnDeleteMovie, btnDeleteCategory, btnPostCategory, btnAddMovie, btnUploadImage, btnUploadVideo, btnPutUploadImage, btnPutUploadVideo;
     private CheckBox cbPromoted;
     RadioGroup rgPatchPromoted;
 
@@ -93,6 +93,12 @@ public class ConsoleActivity extends AppCompatActivity {
         etDescription = findViewById(R.id.etDescription);
         etPatchCategoryId = findViewById(R.id.etPatchCategoryId);
         etPatchCategoryName = findViewById(R.id.etPatchCategoryName);
+        etPutMovieId = findViewById(R.id.etPutMovieId);
+        etPutMovieName = findViewById(R.id.etPutMovieName);
+        etPutCategories = findViewById(R.id.etPutCategories);
+        etPutDuration = findViewById(R.id.etPutDuration);
+        etPutAgeLimit = findViewById(R.id.etPutAgeLimit);
+        etPutDescription = findViewById(R.id.etPutDescription);
 
         btnDeleteMovie = findViewById(R.id.btnDeleteMovie);
         btnDeleteCategory = findViewById(R.id.btnDeleteCategory);
@@ -101,6 +107,9 @@ public class ConsoleActivity extends AppCompatActivity {
         btnUploadImage = findViewById(R.id.btnUploadImage);
         btnUploadVideo = findViewById(R.id.btnUploadVideo);
         btnPatchCategory = findViewById(R.id.btnPatchCategory);
+        btnPutMovie = findViewById(R.id.btnPutMovie);
+        btnPutUploadVideo = findViewById(R.id.btnPutUploadVideo);
+        btnPutUploadImage = findViewById(R.id.btnPutUploadImage);
 
         cbPromoted = findViewById(R.id.cbPromoted);
         progressBar = findViewById(R.id.progressBar);
@@ -127,28 +136,65 @@ public class ConsoleActivity extends AppCompatActivity {
             handlePostCategory();
         });
 
-        // Handle image upload
+        // Handle add movie
         btnUploadImage.setOnClickListener(v -> openImagePicker());
-
-        // Handle video upload
         btnUploadVideo.setOnClickListener(v -> openVideoPicker());
-
-        // Handle movie addition
         btnAddMovie.setOnClickListener(v -> handleAddMovie());
 
         // Handle patch category
         btnPatchCategory.setOnClickListener(v -> {
             handlePatchCategory();
         });
+
+        // Handle Put movie
+        btnUploadImage.setOnClickListener(v -> openImagePicker());
+        btnPutUploadVideo.setOnClickListener(v -> openVideoPicker());
+        btnPutMovie.setOnClickListener(v -> {
+            handlePutMovie();
+        });
     }
 
-    private void handlePatchCategory() {
-        String categoryId = etPatchCategoryId.getText().toString();
-        if (categoryId.isEmpty()) {
+    private void handlePutMovie() {
+        String sMovieId = etPutMovieId.getText().toString();
+        if (sMovieId.isEmpty()) {
             Toast.makeText(this, "Please enter a Category ID", Toast.LENGTH_SHORT).show();
             return;
         }
-        int movieId = Integer.parseInt(categoryId);
+
+        int movieId = Integer.parseInt(sMovieId);
+        String movieName = etPutMovieName.getText().toString().trim();
+        String categories = etPutCategories.getText().toString().trim();
+        String durationStr = etPutDuration.getText().toString().trim();
+        String ageLimitStr = etPutAgeLimit.getText().toString().trim();
+        String description = etPutDescription.getText().toString().trim();
+
+        // Convert categories to a string array
+        String[] categoriesArray = categories.trim().isEmpty() ? new String[]{} :
+                categories.trim().split("\\s*,\\s*");
+        ; // Split by comma and remove extra spaces
+
+        int duration = durationStr.isEmpty() ? 0 : Integer.parseInt(durationStr);
+        int ageLimit = ageLimitStr.isEmpty() ? 0 : Integer.parseInt(ageLimitStr);
+
+        consoleViewModel.updateMovie(movieId, movieName, categoriesArray, duration, selectedImageUri, selectedVideoUri, ageLimit, description);
+
+        // Clear fields
+        etMovieName.setText("");
+        etCategories.setText("");
+        etDuration.setText("");
+        etAgeLimit.setText("");
+        etDescription.setText("");
+        selectedImageUri = null;
+        selectedVideoUri = null;
+    }
+
+    private void handlePatchCategory() {
+        String sCategoryId = etPatchCategoryId.getText().toString();
+        if (sCategoryId.isEmpty()) {
+            Toast.makeText(this, "Please enter a Category ID", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int categoryId = Integer.parseInt(sCategoryId);
 
         String categoryName = etPatchCategoryName.getText().toString();
         if (categoryName.isEmpty()) {
@@ -160,13 +206,18 @@ public class ConsoleActivity extends AppCompatActivity {
             RadioButton selectedRadioButton = findViewById(selectedId);
             String selectedText = selectedRadioButton.getText().toString();
             if (selectedText.equals("Promoted")) {
-                consoleViewModel.updateCategory(movieId, categoryName, "true");
+                consoleViewModel.updateCategory(categoryId, categoryName, "true");
             } else if (selectedText.equals("Not Promoted")) {
-                consoleViewModel.updateCategory(movieId, categoryName, "false");
+                consoleViewModel.updateCategory(categoryId, categoryName, "false");
             } else {
-                consoleViewModel.updateCategory(movieId, categoryName, null);
+                consoleViewModel.updateCategory(categoryId, categoryName, null);
             }
         }
+
+        etPatchCategoryId.setText("");
+        etPatchCategoryName.setText("");
+        etPatchCategoryId.clearFocus();
+        etPatchCategoryName.clearFocus();
     }
 
     private void handleDeleteMovie() {

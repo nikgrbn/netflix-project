@@ -233,8 +233,9 @@ public class ConsoleRepository {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
+                        // TODO: Add the movie to Room database
+
                         isAdded.postValue(true);
-                        Log.d("ConsoleRepository", "Movie added successfully");
                     } else {
                         String error = "Failed to add movie with error code: " + response.code();
                         try {
@@ -245,14 +246,12 @@ public class ConsoleRepository {
                             error += " - Error reading errorBody.";
                         }
                         errorMessage.postValue(error);
-                        Log.e("ConsoleRepository", error);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     errorMessage.postValue("Failed to connect: " + t.getMessage());
-                    Log.e("ConsoleRepository", "Error adding movie: " + t.getMessage());
                 }
             });
         } catch (FileNotFoundException e) {
@@ -286,7 +285,7 @@ public class ConsoleRepository {
                         Category category = new Category();
                         category.setId(categoryId);
                         if (name != null)
-                           category.setName(name);
+                            category.setName(name);
                         if (promoted != null)
                             category.setPromoted(promoted.equals("true"));
                         categoryDao.updateCategory(category); // Call the DAO method to update in Room
@@ -307,6 +306,87 @@ public class ConsoleRepository {
         });
     }
 
+    public void putMovie(String token, int movieId, String name, String[] categoriesArray, int duration,
+                         Uri imageUri, Uri videoUri, int ageLimit, String description) {
+        isLoading.setValue(true); // Set loading state
+
+        try {
+            MultipartBody.Part imagePart = null; // Initialize image part as null
+            MultipartBody.Part videoPart = null; // Initialize video part as null
+
+            // Handle image upload
+            if (imageUri != null) {
+                InputStream imageStream = context.getContentResolver().openInputStream(imageUri);
+                byte[] imageBytes = getBytesFromInputStream(imageStream);
+
+                RequestBody imageRequest = RequestBody.create(MediaType.parse("image/*"), imageBytes);
+                imagePart = MultipartBody.Part.createFormData("image", "movie_image.jpg", imageRequest);
+            }
+
+            // Handle video upload
+            if (videoUri != null) {
+                InputStream videoStream = context.getContentResolver().openInputStream(videoUri);
+                byte[] videoBytes = getBytesFromInputStream(videoStream);
+
+                RequestBody videoRequest = RequestBody.create(MediaType.parse("video/*"), videoBytes);
+                videoPart = MultipartBody.Part.createFormData("video", "movie_video.mp4", videoRequest);
+            }
+
+            // Create the map for text fields
+            Map<String, RequestBody> fields = new HashMap<>();
+            fields.put("name", RequestBody.create(MediaType.parse("text/plain"), name));
+            if (duration > 0)
+                fields.put("duration", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(duration)));
+            if (ageLimit > 0)
+                fields.put("ageLimit", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(ageLimit)));
+            if (!description.isEmpty())
+                fields.put("description", RequestBody.create(MediaType.parse("text/plain"), description));
+
+            for (int i = 0; i < categoriesArray.length; i++) {
+                fields.put("categories[" + i + "]",
+                        RequestBody.create(MediaType.parse("text/plain"), categoriesArray[i]));
+            }
+
+            // Make the API call
+            Call<ResponseBody> call = movieApi.putMovie("Bearer " + token, fields, imagePart, videoPart, movieId);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        // TODO: Update the movie in Room database
+
+                        isUpdated.postValue(true);
+                        isLoading.postValue(false);
+                    } else {
+                        String error = "Failed to add movie with error code: " + response.code();
+                        try {
+                            if (response.errorBody() != null) {
+                                error += " - " + response.errorBody().string();
+                            }
+                        } catch (Exception e) {
+                            error += " - Error reading errorBody.";
+                        }
+                        errorMessage.postValue(error);
+                        isLoading.postValue(false);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    errorMessage.postValue("Failed to connect: " + t.getMessage());
+                    isLoading.postValue(false);
+                }
+            });
+        } catch (FileNotFoundException e) {
+            errorMessage.postValue("File not found: " + e.getMessage());
+            isLoading.postValue(false);
+
+        } catch (IOException e) {
+            errorMessage.postValue("Failed to read file: " + e.getMessage());
+            isLoading.postValue(false);
+        }
+    }
+
     private byte[] getBytesFromInputStream(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         int bufferSize = 1024;
@@ -322,12 +402,15 @@ public class ConsoleRepository {
     public void resetErrorMessage() {
         errorMessage.setValue(null);
     }
+
     public void resetIsLoading() {
         isLoading.setValue(false);
     }
+
     public void resetIsUpdated() {
         isUpdated.setValue(null);
     }
+
     public void resetIsDeleted() {
         isDeleted.setValue(null);
     }

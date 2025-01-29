@@ -120,6 +120,22 @@ public class ConsoleViewModel extends AndroidViewModel {
         });
     }
 
+    public void updateMovie(int movieId, String name, String[] categories, int duration, Uri imageUri, Uri videoUri, int ageLimit, String description) {
+        // Validating required fields
+        if (name == null || name.isEmpty()) {
+            errorMessage.postValue("Movie name cannot be empty.");
+            return;
+        }
+
+        // Checking if user data exists
+        userLiveData.observeForever(user -> {
+            if (user != null) {
+                String token = user.getToken();
+                consoleRepository.putMovie(token, movieId, name, categories, duration, imageUri, videoUri, ageLimit, description);
+            }
+        });
+    }
+
     public void resetIsUpdated() {
         consoleRepository.resetIsUpdated();
     }
