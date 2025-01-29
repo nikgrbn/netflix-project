@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.androidapp.data.model.entity.Category;
 
@@ -26,4 +27,6 @@ public interface CategoryDao {
     @Query("DELETE FROM categories WHERE id = :categoryId")
     void deleteCategoryById(int categoryId);
 
+    @Update
+    void updateCategory(Category category); // Add the update method
 }

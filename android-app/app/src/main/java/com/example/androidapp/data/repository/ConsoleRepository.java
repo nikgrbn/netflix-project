@@ -1,8 +1,6 @@
 package com.example.androidapp.data.repository;
 
 
-
-
 import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
@@ -46,7 +44,6 @@ import okhttp3.RequestBody;
 
 public class ConsoleRepository {
     private final MovieApi movieApi;
-
     private final CategoryApi categoryApi;
     private final MovieDao movieDao;
     private final UserDao userDao;
@@ -57,8 +54,8 @@ public class ConsoleRepository {
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
     MutableLiveData<String> errorMessage = new MutableLiveData<>();
     MutableLiveData<Boolean> isDeleted = new MutableLiveData<>();
-
     MutableLiveData<Boolean> isAdded = new MutableLiveData<>();
+    MutableLiveData<Boolean> isUpdated = new MutableLiveData<>();
 
     public ConsoleRepository(Application application) {
         movieApi = RetrofitClient.getClient().create(MovieApi.class);
@@ -87,6 +84,10 @@ public class ConsoleRepository {
 
     public LiveData<Boolean> isAdded() {
         return isAdded;
+    }
+
+    public LiveData<Boolean> isUpdated() {
+        return isUpdated;
     }
 
 
@@ -221,9 +222,9 @@ public class ConsoleRepository {
             fields.put("ageLimit", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(ageLimit)));
             fields.put("description", RequestBody.create(MediaType.parse("text/plain"), description));
 
-            for (String category : categoriesArray) {
-                Log.d("ConsoleRepository", "Adding movie: " + category);
-                fields.put("categories[]", RequestBody.create(MediaType.parse("text/plain"), category));
+            for (int i = 0; i < categoriesArray.length; i++) {
+                fields.put("categories[" + i + "]",
+                        RequestBody.create(MediaType.parse("text/plain"), categoriesArray[i]));
             }
 
             // Make the API call
@@ -232,8 +233,9 @@ public class ConsoleRepository {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
+                        // TODO: Add the movie to Room database
+
                         isAdded.postValue(true);
-                        Log.d("ConsoleRepository", "Movie added successfully");
                     } else {
                         String error = "Failed to add movie with error code: " + response.code();
                         try {
@@ -244,20 +246,144 @@ public class ConsoleRepository {
                             error += " - Error reading errorBody.";
                         }
                         errorMessage.postValue(error);
-                        Log.e("ConsoleRepository", error);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     errorMessage.postValue("Failed to connect: " + t.getMessage());
-                    Log.e("ConsoleRepository", "Error adding movie: " + t.getMessage());
                 }
             });
         } catch (FileNotFoundException e) {
             errorMessage.postValue("File not found: " + e.getMessage());
         } catch (IOException e) {
             errorMessage.postValue("Failed to read file: " + e.getMessage());
+        }
+    }
+
+    public void updateCategory(String token, int categoryId, String name, String promoted) {
+        isLoading.setValue(true); // Set loading state
+
+        // Prepare fields for partial update
+        Map<String, String> fields = new HashMap<>();
+        if (name != null) {
+            fields.put("name", name);
+        }
+        if (promoted != null) {
+            fields.put("promoted", promoted);
+        }
+
+        // Call the API to update the category
+        categoryApi.updateCategory("Bearer " + token, categoryId, fields).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                isLoading.postValue(false); // Stop loading state
+
+                if (response.isSuccessful()) {
+                    // Update the category in Room database
+                    AppDatabase.databaseWriteExecutor.execute(() -> {
+                        Category category = new Category();
+                        category.setId(categoryId);
+                        if (name != null)
+                            category.setName(name);
+                        if (promoted != null)
+                            category.setPromoted(promoted.equals("true"));
+                        categoryDao.updateCategory(category); // Call the DAO method to update in Room
+                    });
+                    isUpdated.postValue(true); // Update LiveData to indicate success
+                } else {
+                    errorMessage.postValue("Failed to update category: " + response.message());
+                    isUpdated.postValue(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                isLoading.postValue(false); // Stop loading state
+                errorMessage.postValue("Error updating category: " + t.getMessage());
+                isUpdated.postValue(false);
+            }
+        });
+    }
+
+    public void putMovie(String token, int movieId, String name, String[] categoriesArray, int duration,
+                         Uri imageUri, Uri videoUri, int ageLimit, String description) {
+        isLoading.setValue(true); // Set loading state
+
+        try {
+            MultipartBody.Part imagePart = null; // Initialize image part as null
+            MultipartBody.Part videoPart = null; // Initialize video part as null
+
+            // Handle image upload
+            if (imageUri != null) {
+                InputStream imageStream = context.getContentResolver().openInputStream(imageUri);
+                byte[] imageBytes = getBytesFromInputStream(imageStream);
+
+                RequestBody imageRequest = RequestBody.create(MediaType.parse("image/*"), imageBytes);
+                imagePart = MultipartBody.Part.createFormData("image", "movie_image.jpg", imageRequest);
+            }
+
+            // Handle video upload
+            if (videoUri != null) {
+                InputStream videoStream = context.getContentResolver().openInputStream(videoUri);
+                byte[] videoBytes = getBytesFromInputStream(videoStream);
+
+                RequestBody videoRequest = RequestBody.create(MediaType.parse("video/*"), videoBytes);
+                videoPart = MultipartBody.Part.createFormData("video", "movie_video.mp4", videoRequest);
+            }
+
+            // Create the map for text fields
+            Map<String, RequestBody> fields = new HashMap<>();
+            fields.put("name", RequestBody.create(MediaType.parse("text/plain"), name));
+            if (duration > 0)
+                fields.put("duration", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(duration)));
+            if (ageLimit > 0)
+                fields.put("ageLimit", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(ageLimit)));
+            if (!description.isEmpty())
+                fields.put("description", RequestBody.create(MediaType.parse("text/plain"), description));
+
+            for (int i = 0; i < categoriesArray.length; i++) {
+                fields.put("categories[" + i + "]",
+                        RequestBody.create(MediaType.parse("text/plain"), categoriesArray[i]));
+            }
+
+            // Make the API call
+            Call<ResponseBody> call = movieApi.putMovie("Bearer " + token, fields, imagePart, videoPart, movieId);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        // TODO: Update the movie in Room database
+
+                        isUpdated.postValue(true);
+                        isLoading.postValue(false);
+                    } else {
+                        String error = "Failed to add movie with error code: " + response.code();
+                        try {
+                            if (response.errorBody() != null) {
+                                error += " - " + response.errorBody().string();
+                            }
+                        } catch (Exception e) {
+                            error += " - Error reading errorBody.";
+                        }
+                        errorMessage.postValue(error);
+                        isLoading.postValue(false);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    errorMessage.postValue("Failed to connect: " + t.getMessage());
+                    isLoading.postValue(false);
+                }
+            });
+        } catch (FileNotFoundException e) {
+            errorMessage.postValue("File not found: " + e.getMessage());
+            isLoading.postValue(false);
+
+        } catch (IOException e) {
+            errorMessage.postValue("Failed to read file: " + e.getMessage());
+            isLoading.postValue(false);
         }
     }
 
@@ -271,6 +397,18 @@ public class ConsoleRepository {
             byteBuffer.write(buffer, 0, len);
         }
         return byteBuffer.toByteArray();
+    }
+
+    public void resetErrorMessage() {
+        errorMessage.setValue(null);
+    }
+
+    public void resetIsLoading() {
+        isLoading.setValue(false);
+    }
+
+    public void resetIsUpdated() {
+        isUpdated.setValue(null);
     }
 
     public void resetIsDeleted() {
