@@ -1,8 +1,6 @@
 package com.example.androidapp.data.repository;
 
 
-
-
 import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
@@ -46,7 +44,6 @@ import okhttp3.RequestBody;
 
 public class ConsoleRepository {
     private final MovieApi movieApi;
-
     private final CategoryApi categoryApi;
     private final MovieDao movieDao;
     private final UserDao userDao;
@@ -57,8 +54,8 @@ public class ConsoleRepository {
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
     MutableLiveData<String> errorMessage = new MutableLiveData<>();
     MutableLiveData<Boolean> isDeleted = new MutableLiveData<>();
-
     MutableLiveData<Boolean> isAdded = new MutableLiveData<>();
+    MutableLiveData<Boolean> isUpdated = new MutableLiveData<>();
 
     public ConsoleRepository(Application application) {
         movieApi = RetrofitClient.getClient().create(MovieApi.class);
@@ -87,6 +84,10 @@ public class ConsoleRepository {
 
     public LiveData<Boolean> isAdded() {
         return isAdded;
+    }
+
+    public LiveData<Boolean> isUpdated() {
+        return isUpdated;
     }
 
 
@@ -261,6 +262,51 @@ public class ConsoleRepository {
         }
     }
 
+    public void updateCategory(String token, int categoryId, String name, String promoted) {
+        isLoading.setValue(true); // Set loading state
+
+        // Prepare fields for partial update
+        Map<String, String> fields = new HashMap<>();
+        if (name != null) {
+            fields.put("name", name);
+        }
+        if (promoted != null) {
+            fields.put("promoted", promoted);
+        }
+
+        // Call the API to update the category
+        categoryApi.updateCategory("Bearer " + token, categoryId, fields).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                isLoading.postValue(false); // Stop loading state
+
+                if (response.isSuccessful()) {
+                    // Update the category in Room database
+                    AppDatabase.databaseWriteExecutor.execute(() -> {
+                        Category category = new Category();
+                        category.setId(categoryId);
+                        if (name != null)
+                           category.setName(name);
+                        if (promoted != null)
+                            category.setPromoted(promoted.equals("true"));
+                        categoryDao.updateCategory(category); // Call the DAO method to update in Room
+                    });
+                    isUpdated.postValue(true); // Update LiveData to indicate success
+                } else {
+                    errorMessage.postValue("Failed to update category: " + response.message());
+                    isUpdated.postValue(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                isLoading.postValue(false); // Stop loading state
+                errorMessage.postValue("Error updating category: " + t.getMessage());
+                isUpdated.postValue(false);
+            }
+        });
+    }
+
     private byte[] getBytesFromInputStream(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         int bufferSize = 1024;
@@ -273,6 +319,15 @@ public class ConsoleRepository {
         return byteBuffer.toByteArray();
     }
 
+    public void resetErrorMessage() {
+        errorMessage.setValue(null);
+    }
+    public void resetIsLoading() {
+        isLoading.setValue(false);
+    }
+    public void resetIsUpdated() {
+        isUpdated.setValue(null);
+    }
     public void resetIsDeleted() {
         isDeleted.setValue(null);
     }

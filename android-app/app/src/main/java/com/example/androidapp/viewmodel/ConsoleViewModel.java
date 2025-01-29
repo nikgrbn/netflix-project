@@ -24,6 +24,8 @@ public class ConsoleViewModel extends AndroidViewModel {
     private final LiveData<Boolean> isDeleted;
     private final LiveData<Boolean> isAdded;
     private final LiveData<Boolean> isLoading;
+    private final LiveData<Boolean> isUpdated;
+
     private final MutableLiveData<String> errorMessage;
 
     public ConsoleViewModel(@NonNull Application application) {
@@ -35,6 +37,7 @@ public class ConsoleViewModel extends AndroidViewModel {
         this.errorMessage = consoleRepository.getErrorMessage();
         this.isDeleted = consoleRepository.isDeleted();
         this.isAdded = consoleRepository.isAdded();
+        this.isUpdated = consoleRepository.isUpdated();
     }
 
     public LiveData<User> getUser() {
@@ -57,6 +60,10 @@ public class ConsoleViewModel extends AndroidViewModel {
         return isAdded;
     }
 
+    public LiveData<Boolean> isUpdated() {
+        return isUpdated;
+    }
+
     public void deleteMovie(int movieId) {
         userLiveData.observeForever(user -> {
             if (user != null) {
@@ -72,7 +79,7 @@ public class ConsoleViewModel extends AndroidViewModel {
             if (user != null) {
                 String token = user.getToken();
                 int userId = user.getId();
-                consoleRepository.deleteCategory(token, userId,categoryId);
+                consoleRepository.deleteCategory(token, userId, categoryId);
             }
         });
     }
@@ -99,15 +106,23 @@ public class ConsoleViewModel extends AndroidViewModel {
             if (user != null) {
                 String token = user.getToken();
                 int userId = user.getId();
-
-                // Calling repository to handle movie addition
                 consoleRepository.addMovie(token, userId, name, categories, duration, imageUri, videoUri, ageLimit, description);
-            } else {
-                errorMessage.postValue("User not found. Please log in.");
             }
         });
     }
 
+    public void updateCategory(int categoryId, String name, String promoted) {
+        userLiveData.observeForever(user -> {
+            if (user != null) {
+                String token = user.getToken();
+                consoleRepository.updateCategory(token, categoryId, name, promoted);
+            }
+        });
+    }
+
+    public void resetIsUpdated() {
+        consoleRepository.resetIsUpdated();
+    }
     public void resetIsDeleted() {
         consoleRepository.resetIsDeleted();
     }
