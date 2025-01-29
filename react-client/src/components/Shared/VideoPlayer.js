@@ -7,7 +7,8 @@ const VideoPlayer = ({ movieId, controlsMode = false, isMuted = true, className 
   const videoUrl = `${API_BASE_URL}/movies/${movieId}/video`;
 
   const handleCanPlay = (e) => {
-    e.target.play();
+    if (!controlsMode)
+      e.target.play();
   };
 
   const handleVideoError = () => {

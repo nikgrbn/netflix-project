@@ -31,7 +31,7 @@ The web server communicates with MongoDB for persistent data storage and integra
 
 ## Installation
 
-To run front and backend on the same server, go to ` ./web`` and run  `npm run build-react`, then run `node app.js`.
+To run front and backend on the same server, go to ` ./web`` and run  `npm run build-react`, then run `npm start`.
 
 ### 1. Clone the repository
 
@@ -63,6 +63,7 @@ MONGO_URI="mongodb://mongo:27017/netflix-db"
 PORT=19844
 MRS_IP="c-server"
 MRS_PORT=19845
+JWT_SECRET_KEY="my-super-secret-key"
 ```
 
 ### 5. Launch Web Server
