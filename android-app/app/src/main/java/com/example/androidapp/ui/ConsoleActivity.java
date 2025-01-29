@@ -165,13 +165,11 @@ public class ConsoleActivity extends AppCompatActivity {
         }
 
         // Convert categories to a string array
-        String[] categoriesArray = categories.isEmpty() ? new String[]{} :
-                categories.split(",\\s*"); // Split by comma and remove extra spaces
+        String[] categoriesArray = categories.trim().isEmpty() ? new String[]{} :
+                categories.trim().split("\\s*,\\s*");; // Split by comma and remove extra spaces
 
         int duration = durationStr.isEmpty() ? 0 : Integer.parseInt(durationStr);
         int ageLimit = ageLimitStr.isEmpty() ? 0 : Integer.parseInt(ageLimitStr);
-        String imagePath = selectedImageUri != null ? selectedImageUri.toString() : null;
-        String videoPath = selectedVideoUri != null ? selectedVideoUri.toString() : null;
 
         consoleViewModel.addMovie(movieName, categoriesArray, duration, selectedImageUri, selectedVideoUri, ageLimit, description);
 

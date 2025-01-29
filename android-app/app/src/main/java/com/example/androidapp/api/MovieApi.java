@@ -29,12 +29,6 @@ public interface MovieApi {
             @Header("User-Id") int userId
     );
 
-    @GET("movies/{id}")
-    Call<MovieResponse> getMovieById1(
-            @Header("Authorization") String token,
-            @Path("id") int movieId
-    );
-
     @GET("movies/search/{query}")
     Call<List<Movie>> searchMovies(
             @Header("Authorization") String token,
@@ -56,7 +50,4 @@ public interface MovieApi {
             @Part MultipartBody.Part image,
             @Part MultipartBody.Part video
     );
-
-
-
 }

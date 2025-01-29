@@ -221,9 +221,9 @@ public class ConsoleRepository {
             fields.put("ageLimit", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(ageLimit)));
             fields.put("description", RequestBody.create(MediaType.parse("text/plain"), description));
 
-            for (String category : categoriesArray) {
-                Log.d("ConsoleRepository", "Adding movie: " + category);
-                fields.put("categories[]", RequestBody.create(MediaType.parse("text/plain"), category));
+            for (int i = 0; i < categoriesArray.length; i++) {
+                fields.put("categories[" + i + "]",
+                        RequestBody.create(MediaType.parse("text/plain"), categoriesArray[i]));
             }
 
             // Make the API call
