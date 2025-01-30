@@ -1,0 +1,22 @@
+.categories-page {
+    color: var(--text-color-secondary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    background-color: var(--background-secondary-color);
+    min-height: 100vh;
+    padding-top: 10%;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 60px;
+    width: 100%;
+    max-width: 1200px;
+    justify-items: center;
+    align-items: center;
+    box-sizing: border-box;
+}

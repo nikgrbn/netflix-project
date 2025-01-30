@@ -1,0 +1,58 @@
+* {
+  transition: all 0.1s ease-in-out;
+}
+
+:root {
+    --background-color: black;
+    --background-color-opacity: rgba(0, 0, 0, 0.1);
+    --background-secondary-color: rgb(20, 20, 20);
+    --background-secondary-color-rgb: 20, 20, 20;
+    --text-color: white;
+    --text-color-hover: rgb(210, 210, 210);
+    --text-color-secondary: rgba(255, 255, 255, 0.6);
+    --form-background-color: rgba(0, 0, 0, 0.7);
+    --form-background-color-inverted: rgba(255, 255, 255, 0.7);
+    --button-secondary-color: #66666670;
+    --button-secondary-hover: #66666640;
+    --button-background-color: #e50914;
+    --button-hover-background-color: #c7131c;
+    --button-text-color: white;
+    --link-color: #f6121d;
+    --link-hover-color: #e50914;
+    --input-background-color: rgba(30, 30, 30, 0.5);
+    --input-border-color: rgba(255, 255, 255, 0.2);
+    --error-color : rgba(255, 62, 62, 0.8);
+    --link-color: #e50914;
+    --link-color-blue: #55a2ff;
+    --header-text-color: #ffffff;
+    --modal-overlay-color: rgba(0, 0, 0, 0.8);
+    --modal-content-color: rgba(0, 0, 0, 0.85);
+    --header-gradient-min: rgba(0, 0, 0, 0.2);
+  }
+  
+  [data-theme="light"] {
+    --background-color: white;
+    --background-color-opacity: rgba(255, 255, 255, 0.1);
+    --background-secondary-color: rgb(211, 211, 211);
+    --background-secondary-color-rgb: 211, 211, 211;
+    --text-color: black;
+    --text-color-hover: rgb(45, 45, 45);
+    --text-color-secondary: rgba(0, 0, 0, 0.6);
+    --form-background-color: rgba(255, 255, 255, 0.7);
+    --form-background-color-inverted: rgba(0, 0, 0, 0.7);
+    --button-secondary-color: #9f9f9f70;
+    --button-secondary-hover: #9f9f9f41;
+    --button-background-color: #e50914;
+    --button-hover-background-color: #c7131c;
+    --button-text-color: white;
+    --link-color: #e50914;
+    --link-hover-color: #f6121d;
+    --input-background-color: rgba(215, 215, 215, 0.5);
+    --input-border-color: rgba(0, 0, 0, 0.3);
+    --error-color : rgba(255, 62, 62, 0.8);
+    --link-color-blue: #55a2ff;
+    --header-text-color: #000000;
+    --modal-overlay-color: rgba(255, 255, 255, 0.8);
+    --modal-content-color: rgba(255, 255, 255, 0.85);
+    --header-gradient-min: rgba(255, 255, 255, 0.1);
+  }
