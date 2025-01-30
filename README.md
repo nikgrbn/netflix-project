@@ -31,7 +31,7 @@ The web server communicates with MongoDB for persistent data storage and integra
 
 ## Installation
 
-To run front and backend on the same server, go to ` ./web`` and run  `npm run build-react`, then run `npm start`.
+To run front and backend on the same server, go to `/web-server/nodejs-server` and run  `npm run build-react`, then run `npm start`.
 
 ### 1. Clone the repository
 
