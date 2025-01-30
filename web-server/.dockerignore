@@ -1,0 +1,17 @@
+nodejs-server/node_modules
+nodejs-server/config
+react-client/node_modules
+react-client/build
+react-client/.env
+
+.git
+.gitignore
+.DS_Store
+.vscode
+.idea
+
+nodejs-server/uploads/users/*
+nodejs-server/uploads/movies/*
+!nodejs-server/uploads/users/default-picture.png
+!nodejs-server/uploads/movies/default-picture.jpg
+!nodejs-server/uploads/movies/default-video.mp4

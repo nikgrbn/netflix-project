@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Android App</string>
+    <string name="app_name">Napflix</string>
     <string name="BaseUrl">http://localhost:19844/api/</string>
     <string name="BaseUrlEmulator">http://10.0.2.2:19844/api/</string>
     <string name="BaseUrlMichalPC">http://192.168.1.152:19844/api/</string>
