@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    public static final String BASE_URL = MyApplication.getContext().getString(R.string.BaseUrlNikitaPC);
+    public static final String BASE_URL = MyApplication.getContext().getString(R.string.BaseUrlEmulator);
 
     private static Retrofit retrofit = null;
 
