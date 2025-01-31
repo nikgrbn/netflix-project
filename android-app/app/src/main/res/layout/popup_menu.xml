@@ -22,10 +22,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Home"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="?attr/colorPrimary"
             app:strokeWidth="2dp"
-            app:strokeColor="@color/white"
-            android:textColor="@android:color/white" />
+            app:strokeColor="?attr/colorPrimaryVariant"
+            android:textColor="?attr/colorPrimaryVariant" />
 
         <com.google.android.material.button.MaterialButton
             app:cornerRadius="8dp"
@@ -33,10 +33,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Categories"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="?attr/colorPrimary"
             app:strokeWidth="2dp"
-            app:strokeColor="@color/white"
-            android:textColor="@android:color/white" />
+            app:strokeColor="?attr/colorPrimaryVariant"
+            android:textColor="?attr/colorPrimaryVariant" />
+
+
+        <com.google.android.material.button.MaterialButton
+            app:cornerRadius="8dp"
+            android:id="@+id/btnSwitchThemes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Theme"
+            android:backgroundTint="?attr/colorPrimary"
+            app:strokeWidth="2dp"
+            app:strokeColor="?attr/colorPrimaryVariant"
+            android:textColor="?attr/colorPrimaryVariant" />
 
         <com.google.android.material.button.MaterialButton
             android:visibility="gone"
@@ -45,10 +57,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Console"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="?attr/colorPrimary"
             app:strokeWidth="2dp"
-            app:strokeColor="@color/white"
-            android:textColor="@android:color/white" />
+            app:strokeColor="?attr/colorPrimaryVariant"
+            android:textColor="?attr/colorPrimaryVariant" />
 
         <com.google.android.material.button.MaterialButton
             android:layout_marginBottom="-4dp"
@@ -57,10 +69,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Logout"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="?attr/colorPrimary"
             app:strokeWidth="2dp"
-            app:strokeColor="@color/white"
-            android:textColor="@android:color/white" />
+            app:strokeColor="?attr/colorPrimaryVariant"
+            android:textColor="?attr/colorPrimaryVariant" />
 
     </LinearLayout>
 
