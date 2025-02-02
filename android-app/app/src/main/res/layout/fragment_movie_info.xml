@@ -9,11 +9,11 @@
     tools:context=".ui.MovieInfoFragment">
 
     <com.google.android.material.card.MaterialCardView
-        android:backgroundTint="@color/black"
+        android:backgroundTint="?attr/colorPrimary"
         app:layout_constraintBaseline_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="#000000"
+        android:background="?attr/colorPrimary"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
         >
@@ -45,16 +45,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="?attr/colorPrimaryVariant"
                 android:gravity="center"
                 android:text="Play"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="8dp"
                 app:icon="@drawable/baseline_play_circle_24"
                 app:iconGravity="textStart"
-                app:iconTint="@color/black" />
+                app:iconTint="?attr/colorPrimary" />
 
             <TextView
                 android:layout_marginTop="16dp"
@@ -64,7 +64,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/white"
+                android:textColor="?attr/colorPrimaryVariant"
                 app:layout_constraintTop_toBottomOf="@id/fragment_video_info"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -81,7 +81,7 @@
                     >
                     <com.google.android.material.card.MaterialCardView
                         android:backgroundTint="@color/dark_gray"
-                        android:background="#000000"
+                        android:background="?attr/colorPrimary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -100,7 +100,7 @@
 
                     <com.google.android.material.card.MaterialCardView
                         android:backgroundTint="@color/dark_gray"
-                        android:background="#000000"
+                        android:background="?attr/colorPrimary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:layout_marginTop="40dp"
-                android:textColor="@android:color/white"
+                android:textColor="?attr/colorPrimaryVariant"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layoutTags" />
@@ -135,7 +135,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:textColor="@android:color/white"
+                android:textColor="?attr/colorPrimaryVariant"
                 app:layout_constraintTop_toBottomOf="@id/tvDescription"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -147,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:textStyle="bold"
-                android:textColor="@android:color/white"
+                android:textColor="?attr/colorPrimaryVariant"
                 android:text="Recommendations:"
                 app:layout_constraintTop_toBottomOf="@id/tvCategories"
                 app:layout_constraintStart_toStartOf="parent"
@@ -169,7 +169,7 @@
                 android:layout_height="48dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/circle_black_opacity"
-                android:drawableTint="@android:color/white"
+                android:drawableTint="?attr/colorPrimaryVariant"
                 android:contentDescription="@string/close"
                 android:src="@drawable/baseline_close_24"
                 android:padding="12dp"

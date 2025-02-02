@@ -1,12 +1,16 @@
 package com.example.androidapp.ui.home;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -116,6 +120,7 @@ public class HeaderFragment extends Fragment {
             // Find buttons inside the popup layout
             Button btnHome = popupView.findViewById(R.id.btnHome);
             Button btnCategories = popupView.findViewById(R.id.btnCategories);
+            Button btnSwitchTheme = popupView.findViewById(R.id.btnSwitchThemes);
             Button btnLogout = popupView.findViewById(R.id.btnLogout);
             Button btnConsole = popupView.findViewById(R.id.btnConsole);
 
@@ -135,6 +140,21 @@ public class HeaderFragment extends Fragment {
                 if (listener != null) {
                     listener.onCategoriesClicked();
                 }
+            });
+
+            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("ThemePrefs", MODE_PRIVATE);
+            btnSwitchTheme.setOnClickListener(buttonView -> {
+                boolean isDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                if (isDarkMode) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    editor.putBoolean("isDarkMode", false);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    editor.putBoolean("isDarkMode", true);
+                }
+                editor.apply();
             });
 
             btnLogout.setOnClickListener(buttonView -> {

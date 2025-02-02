@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/black"
+    android:background="?attr/colorPrimary"
     android:orientation="vertical"
     android:paddingHorizontal="8dp"
     android:paddingVertical="12dp">
@@ -15,7 +15,7 @@
         android:paddingBottom="6dp"
         android:layout_marginStart="2dp"
         android:text="Drama"
-        android:textColor="@android:color/white"
+        android:textColor="?attr/colorPrimaryVariant"
         android:textSize="20sp" />
 
     <androidx.recyclerview.widget.RecyclerView
