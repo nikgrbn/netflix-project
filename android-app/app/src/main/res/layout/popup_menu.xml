@@ -1,0 +1,79 @@
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="@color/black_opacity"
+    app:strokeWidth="0dp"
+    app:cardCornerRadius="8dp"
+    android:layout_margin="2dp"    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        >
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_marginTop="-4dp"
+            app:cornerRadius="8dp"
+            android:id="@+id/btnHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:backgroundTint="?attr/colorPrimary"
+            app:strokeWidth="2dp"
+            app:strokeColor="?attr/colorPrimaryVariant"
+            android:textColor="?attr/colorPrimaryVariant" />
+
+        <com.google.android.material.button.MaterialButton
+            app:cornerRadius="8dp"
+            android:id="@+id/btnCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Categories"
+            android:backgroundTint="?attr/colorPrimary"
+            app:strokeWidth="2dp"
+            app:strokeColor="?attr/colorPrimaryVariant"
+            android:textColor="?attr/colorPrimaryVariant" />
+
+
+        <com.google.android.material.button.MaterialButton
+            app:cornerRadius="8dp"
+            android:id="@+id/btnSwitchThemes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Theme"
+            android:backgroundTint="?attr/colorPrimary"
+            app:strokeWidth="2dp"
+            app:strokeColor="?attr/colorPrimaryVariant"
+            android:textColor="?attr/colorPrimaryVariant" />
+
+        <com.google.android.material.button.MaterialButton
+            android:visibility="gone"
+            app:cornerRadius="8dp"
+            android:id="@+id/btnConsole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Console"
+            android:backgroundTint="?attr/colorPrimary"
+            app:strokeWidth="2dp"
+            app:strokeColor="?attr/colorPrimaryVariant"
+            android:textColor="?attr/colorPrimaryVariant" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_marginBottom="-4dp"
+            app:cornerRadius="8dp"
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:backgroundTint="?attr/colorPrimary"
+            app:strokeWidth="2dp"
+            app:strokeColor="?attr/colorPrimaryVariant"
+            android:textColor="?attr/colorPrimaryVariant" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

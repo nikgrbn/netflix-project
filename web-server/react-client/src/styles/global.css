@@ -1,0 +1,314 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.form-group h1 {
+  text-align: left;
+  font-size: 1.8rem;
+}
+
+.form-group input {
+  margin-bottom: 14px;
+  width: 100%;
+  height: 52px;
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  border-bottom: 1px solid var(--text-color-secondary);
+  background-color: var(--input-background-color);
+  color: var(--text-color);
+  outline: none;
+  border-radius: 0;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.form-group input::placeholder {
+  color: var(--text-color-secondary);
+}
+
+.form-group input:focus {
+  border-bottom: 1px solid var(--text-color);
+  background-color: rgba(60, 70, 100, 0.8);
+}
+
+.form-group input.has-error {
+  margin-bottom: 10px;
+  /* Reduced margin-top when there's an error */
+}
+
+.form-group input:focus {
+  outline: 2px solid var(--text-color);
+  /* Change the outline to white on focus */
+}
+
+.form-group button {
+  background-color: var(--button-background-color);
+  color: var(--button-text-color);
+  border: none;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  width: 100%;
+  padding: 8px;
+}
+
+.form-group button:hover {
+  background-color: var(--button-hover-background-color);
+}
+
+.form-group input,
+.form-group button {
+  box-sizing: border-box;
+  /* Ensure width includes padding and border */
+}
+
+.error-message {
+  color: var(--error-color);
+  font-size: 0.8rem;
+  margin-top: -8px;
+  margin-bottom: 5px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 5px;
+}
+
+.error-message::before {
+  content: "✖";
+  color: var(--error-color);
+  margin-left: 0px;
+}
+
+.form-group input:focus.error {
+  outline: 2px solid var(--error-color);
+  /* Highlight the input field with a red outline */
+}
+
+.form-group input {
+  border: 1px solid var(--input-border-color);
+  /* Ensure default border color */
+  border-radius: 4px;
+}
+
+.form-group input.error {
+  border: 1px solid var(--error-color);
+  /* Change border color if there is an error */
+}
+
+.loading-spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-color);
+  z-index: 1000;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--input-border-color);
+  border-top: 5px solid var(--text-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.home-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  z-index: 1000;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-header::before {
+  content: "";
+  position: absolute;
+  top: -10px; /* Increase to cover more area above the header */
+  left: 0;
+  right: 0;
+  height: 70px; /* Increase to cover more area above the header */
+  background: linear-gradient(to bottom, var(--background-secondary-color), transparent); /* Adjust gradient as needed */
+  z-index: -1; /* Ensure the gradient is behind the header */
+}
+
+.netflix-logo {
+  padding-left: 6%;
+  padding-right: 4%;
+  height: 52px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.home-header.scrolled {
+  z-index: 1000;
+  background-color: var(--background-secondary-color);
+  /* Your semi-transparent background */
+  box-shadow: 0 2px 5px var(--background-secondary-color);
+}
+
+.home-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  /* Spacing between logo and toggle */
+}
+
+.home-header-left .header-home-label {
+  display: flex;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.home-header-left .header-home-label:hover {
+  color: var(--text-color-hover);
+}
+
+.home-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-right: 3.5rem;
+}
+
+.home-header-right .header-username {
+  color: var(--text-color);
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.home-header-right .profile-picture {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid var(--text-color-secondary);
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-right: 2.75rem;
+  height: 35px;
+}
+
+.search-input-wrapper {
+  position: relative;
+  width: 180px;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: var(--text-color);
+  font-size: 1rem;
+  pointer-events: none;
+  /* Prevent icon from blocking input interaction */
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.5rem 0.5rem 0.5rem 2.2rem;
+  /* Add padding for the icon */
+  border: 1px solid var(--input-border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+  outline: none;
+  color: var(--text-color);
+  background-color: var(--input-background-color);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted-color);
+}
+
+.search-input:focus {
+  border-color: var(--input-focus-border-color);
+}
+
+.movie-item {
+  user-select: none;
+  flex: 0 0 auto;
+  position: relative; /* Ensure the button is positioned relative to this container */
+  width: 150px;
+  height: 220px;
+  z-index: 100;
+}
+
+.movie-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 20px var(--header-gradient-min);
+}
+
+.movie-item img {
+  width: 100%;
+  border-radius: 4px;
+}
+
+/* Updated Play button styling */
+.movie-play-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 40px;
+  height: 40px;
+  padding-left: 8px;
+  background-color: var(--form-background-color); /* Black with opacity */
+  color: var(--text-color);
+  border: none;
+  border-radius: 50%; /* Circular button */
+  font-size: 18px; /* Adjust icon size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10; /* Ensure button is above the image */
+  opacity: 0; /* Hide the button by default */
+  transition: opacity 0.15s ease-in-out; /* Smooth transition for visibility */
+}
+
+.movie-item:hover .movie-play-button {
+  opacity: 1; /* Show the button when the movie item is hovered */
+}
+
+.movie-play-button:hover {
+  background-color: var(--form-background-color-inverted); /* Light background on hover */
+  color: var(--background-color); /* Icon color change on hover */
+}

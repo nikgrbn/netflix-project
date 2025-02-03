@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="12dp"
+    app:strokeColor="@color/grey_opacity"
+    app:strokeWidth="1sp"
+    android:id="@+id/cvMain"
+
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_video"
+            android:name="com.example.androidapp.ui.VideoFragment"
+            android:layout_width="match_parent"
+            android:layout_height="480dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="The Shawshenk Redemption"
+                android:textColor="?attr/colorPrimaryVariant"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="12sp"
+                android:text="Benefit pattern be hot economy hand wife truth total culture decade know board song study."
+                android:textColor="@color/white_gray"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPlay"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="?attr/colorPrimaryVariant"
+                android:gravity="center"
+                android:text="Play"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/baseline_play_circle_24"
+                app:iconGravity="textStart"
+                app:iconTint="?attr/colorPrimary" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/dark_gray"
+                android:gravity="center"
+                android:text="Info"
+                android:textColor="?attr/colorPrimaryVariant"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/baseline_info_24"
+                app:iconGravity="textStart" />
+        </LinearLayout>
+    </FrameLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

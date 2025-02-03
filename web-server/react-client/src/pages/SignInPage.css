@@ -1,0 +1,79 @@
+.signin-page {
+  background-image: url('../../public/bg.png');
+  background-size: cover;
+  background-position: center;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.signin-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, black 0%, transparent 150%);
+  z-index: 1;
+}
+
+.top-gradient {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px; /* Adjust height as needed */
+  background: linear-gradient(to bottom, var(--background-color), transparent); /* Adjust gradient as needed */
+  z-index: 1; /* Ensure the gradient is above other elements */
+}
+
+.signin-page * {
+  position: relative; 
+  z-index: 2; 
+}
+
+.signin-content {
+  background: var(--form-background-color);
+  padding: 30px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.theme-toggle-button {
+  background-color: var(--button-background-color);
+  color: var(--button-text-color);
+  border: 1px solid var(--button-border-color, transparent);
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-toggle-button:hover {
+  background-color: var(--button-hover-background-color);
+  color: var(--button-hover-text-color);
+}
+
+
+.form-group .signup-button {
+  margin-top: 18px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  width: 100%;
+  padding: 8px;
+  background-color: var(--button-secondary-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.form-group .signup-button:hover {
+  background-color: var(--button-secondary-hover);
+  color: var(--text-color);
+}
