@@ -16,7 +16,7 @@
 </table>
 
 ## Overview
-**Napflix** is a movie streaming platform developed within *Advanced Programming* course in *Bar-Ilan university*. Platform features user authentication, personalized movie recommendations, and category-based browsing, powered by a C++ Movie Recommendation System (MRS), Node.js backend and React frontend.
+**Napflix** is a movie streaming platform developed within *Advanced Programming* course in *Bar-Ilan university*. Platform features user authentication, personalized movie recommendations, and category-based browsing, powered by a C++ Recommendation System, Node.js backend and React frontend.
 
 Data stored in MongoDB/Room. Docker used for containerized deployment.
 
