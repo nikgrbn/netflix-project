@@ -7,10 +7,10 @@
   </tr>
   <tr>
     <td>
-      <img src="wiki/readme-preview/website-preview.gif" alt="Website" width="400"/>
+      <img src="preview-images/website-preview.gif" alt="Website" width="400"/>
     </td>
     <td>
-      <img src="wiki/readme-preview/android-app-preview.png" alt="Android App" height="300"/>
+      <img src="preview-images/android-app-preview.png" alt="Android App" height="300"/>
     </td>
   </tr>
 </table>
