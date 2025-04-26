@@ -20,6 +20,8 @@
 
 Data stored in MongoDB/Room. Docker used for containerized deployment.
 
-
 ## Tech Stack
 [![](https://skillicons.dev/icons?i=react,androidstudio,nodejs,cpp,java)]()
+
+
+#### [Link to Napflix](http://34.132.58.129:19844/)
