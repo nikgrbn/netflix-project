@@ -11,12 +11,11 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     // Get the port number from the command line arguments
-    int port;
+    int port = 19845;
     try {
         port = stoi(argv[1]);
     } catch (exception& e) {
-        cerr << "Error: Port number needs to be passed in args." << endl;
-        return 1;
+        cerr << "Warning: Using default port 19845" << endl;
     }
 
     // Create an instance of LocalDataManager
