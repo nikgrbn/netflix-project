@@ -1,12 +1,12 @@
 services:
-  cpp-server:
-    build:
-      context: ./cpp-server
-      dockerfile: Dockerfile
-    volumes:
-      - ../data:/usr/src/netflix-project/build/data
-    container_name: netflix_cpp_server_container
-    working_dir: /usr/src/netflix-project/web-server/cpp-server
+#  cpp-server:
+#    build:
+#      context: .
+#      dockerfile: cpp-server/Dockerfile
+#    volumes:
+#      - ../data:/usr/src/netflix-project/build/data
+#    container_name: netflix_cpp_server_container
+#    working_dir: /usr/src/netflix-project/web-server/cpp-server
 
   nodejs-server:
     build:

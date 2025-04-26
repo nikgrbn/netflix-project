@@ -14,17 +14,17 @@ RUN cmake -G Ninja && ninja && cp lib/*.a /usr/lib/
 WORKDIR /usr/src/netflix-project/web-server/cpp-server
 
 # Copy project files
-COPY .. /usr/src/netflix-project/web-server/cpp-server
+COPY cpp-server/ /usr/src/netflix-project/web-server/cpp-server/
 
 # Clean up unnecessary files
 RUN rm -rf build CMakeCache.txt CMakeFiles cmake_install.cmake Makefile
 
 # Create and move into the build directory
-RUN mkdir build
+RUN mkdir -p /usr/src/netflix-project/web-server/cpp-server/build
 WORKDIR /usr/src/netflix-project/web-server/cpp-server/build
 
 # Build project with tests enabled
-RUN cmake -DENABLE_TESTS=ON .. && make && ls -la /usr/src/netflix-project/web-server/cpp-server/build/tests
+RUN cmake .. && make -j4
 
 # Set entrypoint to the built project
 ENTRYPOINT ["/usr/src/netflix-project/web-server/cpp-server/build/NetflixProject"]

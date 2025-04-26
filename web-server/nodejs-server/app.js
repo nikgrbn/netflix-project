@@ -6,8 +6,30 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
-const cors = require("cors");
-app.use(cors());
+const cors = require('cors');
+
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'http://34.132.58.129:19844', // production UI + API
+  'http://34.132.58.129'        // just in case
+];
+
+const corsOptions = {
+  origin: (origin, cb) => {
+    // 1) Same-origin or tools like curl send **no** Origin header → allow them
+    if (!origin) return cb(null, true);
+
+    // 2) Allow explicit hosts in the list
+    if (allowedOrigins.includes(origin)) return cb(null, true);
+
+    // 3) Everything else → block
+    return cb(new Error('Not allowed by CORS'));
+  },
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 
 const customENV = require("custom-env").env;
 customENV(process.env.NODE_ENV, "./config");

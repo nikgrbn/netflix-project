@@ -11,8 +11,7 @@ const envPath = path.resolve(__dirname, `../react-client/${envFileName}`);
 dotenv.config({ path: envPath });
 
 // Default port if undefined
-const port = process.env.PORT || 19844;  // Ensure a default value
-const apiBaseUrl = `http://localhost:${port}/api`;
+const apiBaseUrl = `/api`;
 
 // Path to the React folder
 const reactClientPath = path.resolve(__dirname, '../react-client');
@@ -21,7 +20,7 @@ const reactClientPath = path.resolve(__dirname, '../react-client');
 const envFilePath = path.join(reactClientPath, envFileName);
 
 // Content for the .env file
-const envContent = `REACT_APP_API_BASE_URL=${apiBaseUrl}\nPORT=${port}\n`;
+const envContent = `REACT_APP_API_BASE_URL=${apiBaseUrl}\n`;
 
 // Write the .env file
 fs.writeFile(envFilePath, envContent, (err) => {
